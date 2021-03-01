@@ -1,13 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 const { secret } = require('../Controller/loginController');
-const { createRecipe } = require('../Model/recipesModel');
+const { createRecipe, getAllRecipes } = require('../Model/recipesModel');
 const { findOneUser } = require('../Model/usersModel');
-
-const createNewRecipe = async (data) => createRecipe(data);
 
 const fourHundred = 400;
 const fourHundredOne = 401;
+
+const getRecipes = async () => getAllRecipes();
+const createNewRecipe = async (data) => createRecipe(data);
 
 const validateToken = async (req, res, next) => {
   try {
@@ -40,6 +41,7 @@ const validateRecipe = async (req, res, next) => {
 
 module.exports = {
   createNewRecipe,
+  getRecipes,
   validateRecipe,
   validateToken,
 };
