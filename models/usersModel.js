@@ -23,7 +23,16 @@ const isEmailUnique = async (email) => {
   return true;
 };
 
+const findUserByEmail = async (email) => {
+  const db = await getCollection('users');
+
+  const user = await db.findOne({ email });
+
+  return user;
+};
+
 module.exports = {
   createUser,
   isEmailUnique,
+  findUserByEmail,
 };

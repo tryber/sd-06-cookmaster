@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const usersController = require('./controllers/usersController');
 
+const loginController = require('./controllers/loginController');
+
 const checkRequestBody = require('./middlewares/checkRequestBody');
 
 const app = express();
@@ -16,5 +18,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/users', checkRequestBody, usersController);
+
+app.use('/login', loginController);
 
 app.listen(3000, () => console.log('Server has been started'));

@@ -2,9 +2,9 @@ const { Router } = require('express');
 
 const service = require('../services/usersService');
 
-const router = Router();
+const user = Router();
 
-router.post('/', async (request, response) => {
+user.post('/', async (request, response) => {
   const { name, email, password } = request.body;
 
   const newUser = await service.createUser(name, email, password);
@@ -12,4 +12,4 @@ router.post('/', async (request, response) => {
   response.status(201).json({ user: newUser });
 });
 
-module.exports = router;
+module.exports = user;
