@@ -15,8 +15,8 @@ loginRouter.post('/', validateLogin, userExists, async (request, response) => {
   const { email } = request.body;
   const user = await usersModel.getOneUser(email);
   const { _id } = user;
-  const userPayload = { id: _id, email: user.email, role: user.role };
-  const token = jwt.sign(userPayload, '1234', { algorithm: 'HS256' });
+  const data = { id: _id, email: user.email, role: user.role };
+  const token = jwt.sign({ data }, '1234');
   return response.status(SUCCESS).json({ token });
 });
 
