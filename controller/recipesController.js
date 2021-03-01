@@ -10,7 +10,7 @@ const NOT_FOUND = 404;
 
 recipesController.post('/', verifyToken, Recipes.validate, async (req, res) => {
   const { id } = req.user;
-  const recipe = { ...req.body, id };
+  const recipe = { ...req.body, userId: id };
   await Recipes.create(recipe);
   return res.status(CREATED).json({ recipe });
 });
@@ -25,6 +25,13 @@ recipesController.get('/:id', Recipes.idValidation, async (req, res) => {
   const recipe = await Recipes.getById(id);
   if (!recipe) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
   return res.status(SUCCESS).json(recipe);
+});
+
+recipesController.put('/:id', verifyToken, async (req, res) => {
+  const { id } = req.user;
+  const recipe = { ...req.body, userId: id };
+  await Recipes.update(id, recipe);
+  res.status(SUCCESS).json(recipe);
 });
 
 module.exports = recipesController;

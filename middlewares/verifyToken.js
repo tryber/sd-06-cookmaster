@@ -2,20 +2,21 @@ const jwt = require('jsonwebtoken');
 
 const { getByEmail } = require('../models/usersModel');
 
-const SECRET = 'secret';
+const secret = 'secret';
 
 const ERR = 401;
 
 const MESSAGE = 'jwt malformed';
 
 const verifyToken = async (req, res, next) => {
+  const { authorization } = req.headers;
   try {
-    const { authorization } = req.headers;
-    const decoded = jwt.verify(authorization, SECRET);
+    if (!authorization) return res.status(ERR).json({ message: 'missing auth token' });
+    const decoded = jwt.verify(authorization, secret);
     const user = await getByEmail(decoded.data.email);
-    console.log(user);
+  
     if (!user) return res.status(ERR).json({ message: MESSAGE });
-
+  
     req.user = decoded.data;
   } catch (err) {
     return res.status(ERR).json({ message: MESSAGE });
@@ -23,4 +24,5 @@ const verifyToken = async (req, res, next) => {
 
   next();
 };
+
 module.exports = { verifyToken };

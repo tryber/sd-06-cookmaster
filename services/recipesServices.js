@@ -9,6 +9,8 @@ const create = async (data) => recipesModel.create(data);
 
 const getById = async (id) => recipesModel.getById(id);
 
+const update = async (id, data) => recipesModel.update(id, data);
+
 const ERR = 400;
 
 const validate = async (req, res, next) => {
@@ -32,4 +34,5 @@ module.exports = {
   validate,
   getById,
   idValidation,
+  update,
 };
