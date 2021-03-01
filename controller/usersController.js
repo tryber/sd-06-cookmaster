@@ -5,7 +5,7 @@ const { checkUniqueEmail } = require('../Services/checkUniqueEmail');
 
 const UserRouter = new Router();
 
-const response = 200;
+const response = 201;
 
 UserRouter.get('/', async (req, res) => {
   const allUsers = await getAllUsers();
