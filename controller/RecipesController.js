@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { ObjectId } = require('mongodb');
 const RecipesService = require('../service/RecipesService');
 const validateJWT = require('../auth/validateJWT');
+const validateJWTRecipe = require('../auth/validateJWTRecipe');
 
 const router = Router();
 
@@ -35,6 +36,17 @@ router.get('/recipes/:id', async (req, res) => {
   if (!recipe) return res.status(404).json({ message: 'recipe not found' });
 
   return res.status(200).json(recipe);
+});
+
+router.put('/recipes/:id', validateJWTRecipe, async (req, res) => {
+  const { id } = req.params;  
+  const { name, ingredients, preparation } = req.body;
+
+  await RecipesService.editRecipe(id, name, ingredients, preparation);
+  
+  const result = await RecipesService.getRecipeById(id);
+
+  return res.status(200).json(result);  
 });
 
 module.exports = router;
