@@ -9,6 +9,7 @@ app.get('/', (request, response) => {
 });
 
 const bodyParser = require('body-parser');
+const UserRouter = require('./controller/usersController');
 
 app.use(bodyParser.json());
 
