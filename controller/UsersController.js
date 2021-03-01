@@ -1,5 +1,4 @@
 const { Router } = require('express');
-// const { ObjectId } = require('mongodb');
 const UsersService = require('../service/UsersService');
 const login = require('./login');
 
