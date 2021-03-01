@@ -1,4 +1,4 @@
-const { getByEmail } = require('../models/UsersModel');
+const { findUser } = require('../models/UsersModel');
 
 const STATUS_BAD_REQUEST = 400;
 const STATUS_CONFLICT = 409;
@@ -15,7 +15,7 @@ const UserValidation = async (req, res, next) => {
     if (!name || !email || !password || !validateEmail(email)) {
       return res.status(STATUS_BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
     }
-    if (await getByEmail(email)) {
+    if (await findUser(email)) {
       return res.status(STATUS_CONFLICT).json({ message: 'Email already registered' });
     }
   } catch (err) {
