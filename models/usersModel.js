@@ -6,7 +6,11 @@ const registerUser = (userInfo) => connection()
 const getAllUsers = async () => connection()
   .then((db) => db.collection('users').find().toArray());
 
+const getOneUser = async (email) => connection()
+.then((db) => db.collection('users').findOne({ email }));
+
   module.exports = {
     registerUser,
     getAllUsers,
+    getOneUser,
   };

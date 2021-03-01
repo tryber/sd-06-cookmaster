@@ -37,4 +37,5 @@ module.exports = {
   checkUniqueEmail,
   validateUser,
   registerUser,
+  validateEmail,
 };
