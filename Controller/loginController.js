@@ -21,4 +21,7 @@ LoginRouter.post('/', validateLogin, checkUser, async (req, res) => {
   res.status(200).json({ token });
 });
 
-module.exports = { LoginRouter };
+module.exports = {
+  LoginRouter,
+  secret,
+};
