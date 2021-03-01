@@ -4,16 +4,31 @@ const {
   validateToken,
   validateRecipe,
   createNewRecipe,
-  getRecipes,
+  getAllRecipes,
+  getRecipeById,
+  validateId,
 } = require('../Services/recipesService');
 
 const RecipesRouter = new Router();
 
+const twoHundred = 200;
 const twoHundredOne = 201;
+const fourHundredFour = 404;
 
-RecipesRouter.get('/', async (req, res) => {
-  const allRecipes = await getRecipes();
+RecipesRouter.get('/', async (_req, res) => {
+  const allRecipes = await getAllRecipes();
   return res.status(200).json(allRecipes);
+});
+
+RecipesRouter.get('/:id', validateId, async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getRecipeById(id);
+  if (!recipe) {
+    return res.status(fourHundredFour).json({
+      message: 'recipe not found',
+    });
+  }
+  return res.status(twoHundred).json(recipe);
 });
 
 RecipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
@@ -25,7 +40,7 @@ RecipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
     userId: _id,
   };
   
-  await createNewRecipe(req.body);
+  await createNewRecipe(recipe);
 
   return res.status(twoHundredOne).json({ recipe });
 });
