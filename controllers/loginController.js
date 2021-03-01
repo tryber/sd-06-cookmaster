@@ -2,7 +2,7 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const { findUser, validateLogin, validateData } = require('../services/loginServices');
 
-const secret = 'qualquerCoisa';
+const SECRET = 'qualquerCoisa';
 
 const loginRouter = new Router();
 
@@ -14,9 +14,9 @@ loginRouter.post('/', validateLogin, validateData, async (req, res) => {
    email: user.email,
    role: user.role,
   };
-  const token = jwt.sign({ data }, secret);
+  const token = jwt.sign({ data }, SECRET);
 
   res.status(200).json({ token });
 });
 
-module.exports = { loginRouter };
+module.exports = { loginRouter, SECRET };
