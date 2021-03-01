@@ -6,6 +6,7 @@ const Recipes = require('../services/recipesServices');
 
 const CREATED = 201;
 const SUCCESS = 200;
+const NOT_FOUND = 404;
 
 recipesController.post('/', verifyToken, Recipes.validate, async (req, res) => {
   const { id } = req.user;
@@ -19,9 +20,10 @@ recipesController.get('/', async (_req, res) => {
   return res.status(SUCCESS).json(recipes);
 });
 
-recipesController.get('/:id', async (req, res) => {
+recipesController.get('/:id', Recipes.idValidation, async (req, res) => {
   const { id } = req.params;
   const recipe = await Recipes.getById(id);
+  if (!recipe) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
   return res.status(SUCCESS).json(recipe);
 });
 

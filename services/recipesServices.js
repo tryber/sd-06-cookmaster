@@ -1,4 +1,7 @@
+const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesModel');
+
+const NOT_FOUND = 404;
 
 const getAll = async () => recipesModel.getAll();
 
@@ -17,9 +20,16 @@ if (!name || !ingredients || !preparation) {
 next();
 };
 
+const idValidation = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  next();
+};
+
 module.exports = {
   getAll,
   create,
   validate,
   getById,
+  idValidation,
 };
