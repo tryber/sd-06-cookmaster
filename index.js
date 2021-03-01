@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 
 const port = 3000;
@@ -13,6 +14,6 @@ const { UsersRouter } = require('./Controller/usersController');
 
 app.use(bodyParser.json());
 
-app.use('/users', UsersRouter)
+app.use('/users', UsersRouter);
 
 app.listen(port, () => console.log(`Listening to ${port}`));
