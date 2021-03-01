@@ -5,11 +5,11 @@ const CREATED = 201;
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 
-const uniqueEmail = (email) => {
-  const alreadyExists = connection()
+const uniqueEmail = async (email) => {
+  const alreadyExists = await connection()
     .then((db) => db.collection('users').findOne({ email }));
 
-  if (!alreadyExists) {
+  if (alreadyExists) {
     return false;
   }
 
@@ -23,9 +23,10 @@ const validEmail = (email) => {
 };
 
 const validateInsertData = async (name, email, role = 'user', password) => {
-  if (name && email && password && uniqueEmail(email) && validEmail(email)) {
+  const isUnique = await uniqueEmail(email);
+  if (name && email && password && isUnique && validEmail(email)) {
     return [{
-        user: {
+      user: {
         name,
         email,
         role,
@@ -33,7 +34,7 @@ const validateInsertData = async (name, email, role = 'user', password) => {
       },
     }, CREATED];
   }
-  if (!uniqueEmail(email)) {
+  if (!isUnique) {
     const error = [{ message: 'Email already registered' }, CONFLICT];
     throw error;
   }

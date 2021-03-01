@@ -11,12 +11,11 @@ UsersRouter.post('/', async (req, res) => {
 
   try {
     const validData = await validateInsertData(name, email, role, password);
-    const newUser = await userRegister(validData[0]);
+    const newUser = await userRegister(validData[0].user);
+    console.log(newUser);
 
-    return res.status(newUser[1]).json(newUser[0]);
+    return res.status(validData[1]).json(newUser);
   } catch (error) {
-    console.log(error);
-
     return res.status(error[1]).json(error[0]);
   }
 });
