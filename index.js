@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const userController = require('./Controller/usersController');
+const serviceValidations = require('./Services/serviceValidations');
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,6 @@ app.get('/', (request, response) => {
 });
 
 // users rotas
-app.post('/users', userController.create);
+app.post('/users', serviceValidations.createValidations, userController.create);
 
 app.listen(PORT, () => console.log(`Ouvindo a porta ${PORT}`));
