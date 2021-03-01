@@ -9,7 +9,6 @@ const errEmailStatus = 409;
 
 const createValidations = async (req, res, next) => {
   const { name, email, password } = req.body;
-  
   if (!name) {
     return res.status(errStatus).json(errInvalidEntries);
   }
