@@ -4,7 +4,7 @@ const BadRequest = 400;
 const Conflict = 409;
 
 const getAllUsers = () => users.getAll();
-const createUser = (name, email, password) => users.login(name, email, password);
+const createUser = (name, email, password) => users.setUser(name, email, password);
 
 const validateUser = async (req, res, next) => {
   const { name, email, password } = req.body;

@@ -13,7 +13,7 @@ const findByEmail = async (email) => {
   return found;
 };
 
-const login = async (name, email, password) => {
+const setUser = async (name, email, password) => {
   const user = await connection('users').then((db) => db.insertOne({ name, email, password }));
 
   return {
@@ -29,5 +29,5 @@ const login = async (name, email, password) => {
 module.exports = {
   getAll,
   findByEmail,
-  login,
+  setUser,
 };
