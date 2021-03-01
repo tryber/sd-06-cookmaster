@@ -8,17 +8,6 @@
       "jest": true
   },
   "extends": "trybe-backend",
-  "rules": {
-    "complexity": [
-      true,
-      5,
-      {
-        "ignoredClauses": [
-          "caseClause"
-        ]
-      }
-    ]
-  },
   "parserOptions": { "ecmaVersion": 11 },
   "globals":{
     "db": "writable"
