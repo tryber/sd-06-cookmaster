@@ -8,6 +8,7 @@ const invalidParams = 422;
 const zero = 0;
 const cinco = 5;
 const vinteQuatro = 24;
+const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // const msgError = (code, string) => {
 //   return {
 //     err: {
@@ -39,6 +40,7 @@ module.exports = {
   zero,
   cinco,
   vinteQuatro,
+  regexEmail,
   // nameRefusedMsg,
   // productExistingMsg,
   // quantityGtZero,

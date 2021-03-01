@@ -3,6 +3,7 @@ const {
   created,
   conflict,
   badRequest,
+  regexEmail,
 } = require('../utils/messages');
 
 const createUser = async (req, res) => {
@@ -12,6 +13,10 @@ const createUser = async (req, res) => {
     return res.status(badRequest).json({ message: 'Invalid entries. Try again.' });
    }
   const emailNoExist = await service.emailExist(name, email, password);
+  if (!regexEmail.test(email)) {
+    return res.status(badRequest)
+    .json({ message: 'Invalid entries. Try again.' });
+  }
   if (!emailNoExist) return res.status(conflict).json({ message: 'Email already registered' });
   const newUser = await service.userCreate(name, email, password, role);
   res.status(created).json(newUser);

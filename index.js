@@ -11,6 +11,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.get('/users', controller.createUser);
+app.post('/users', controller.createUser);
 
 app.listen(PORT, () => console.log(`Example app listening on PORT ${PORT}!`));
