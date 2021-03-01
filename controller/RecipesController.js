@@ -5,6 +5,7 @@ const validateJWT = require('../auth/validateJWT');
 const router = Router();
 
 const invalid = 'Invalid entries. Try again.';
+
 router.post('/recipes', validateJWT, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -16,6 +17,11 @@ router.post('/recipes', validateJWT, async (req, res) => {
   const result = await RecipesService.createRecipe(name, ingredients, preparation, userId);
 
   return res.status(201).json({ recipe: result });
+});
+
+router.get('/recipes', async (req, res) => {
+  const allRecipes = await RecipesService.getAllRecipes();
+  return res.status(200).json(allRecipes);
 });
 
 module.exports = router;
