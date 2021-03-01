@@ -10,12 +10,16 @@ const registerNewRecipe = async (name, ingredients, preparation) => {
       name,
       ingredients,
       preparation,
-      userId: 'x',
       _id: insertedId,
     },
   };
 };
 
+const listAllRecipes = async () => connection()
+  .then((db) => db.collection('recipes')
+    .find().toArray());
+
 module.exports = {
   registerNewRecipe,
+  listAllRecipes,
 };
