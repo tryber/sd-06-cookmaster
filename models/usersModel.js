@@ -7,7 +7,11 @@ const getAllUsers = () =>
 const createUser = (data) =>
   connection().then((db) => db.collection('users').insertOne(data));
 
+const findOneUser = (email) =>
+  connection().then((db) => db.collection('users').findOne({ email }));
+
 module.exports = {
   getAllUsers,
   createUser,
+  findOneUser,
 };
