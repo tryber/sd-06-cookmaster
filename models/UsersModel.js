@@ -4,9 +4,9 @@ const connection = require('./connection');
 const getAllUsers = async () => connection()
     .then((database) => database.collection('users').find().toArray());
 
-const createUser = async (name, email) => {
+const createUser = async (name, email, password) => {
   const { insertedId } = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email }));
+    .then((db) => db.collection('users').insertOne({ name, email, password }));
   return {
     _id: insertedId,
   };

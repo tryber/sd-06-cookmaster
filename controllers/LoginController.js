@@ -13,7 +13,7 @@ const jwtConfig = {
 };
 
 routerLogin.post('/', validateLogin, async (req, res) => {
-  const { email, password } = req.body;
+  const { email } = req.body;
   const user = await getByEmail(email);
   const payload = {
     iss: 'Cookmaster',
@@ -21,9 +21,8 @@ routerLogin.post('/', validateLogin, async (req, res) => {
     // sub: user.name,
     userData: user,
   };
-  console.log(password.length, 'senha');
   const token = jwt.sign(payload, secret, jwtConfig);
-  console.log(token);
+  // console.log(token);
   return res.status(SUCCESS).json({ token });
 });
 
