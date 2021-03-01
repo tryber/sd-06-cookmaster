@@ -1,5 +1,4 @@
 const userModels = require('../Models/usersModel');
-const serviceValidations = require('../Services/serviceValidations');
 
 const errInvalidEntries = { message: 'Invalid entries. Try again.' };
 const errEmail = { message: 'Email already registered' };
@@ -9,7 +8,7 @@ const createStatus = 201;
 
 const create = async (req, res) => {
   const { name, email, password } = req.body;
-    
+
   const created = await userModels.create(name, email, password);
 
   res.status(createStatus)
