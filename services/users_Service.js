@@ -1,38 +1,28 @@
 const users = require('../models/users');
 
-const getAllUsers = async () => {
-  return await users.getAll();
-};
+const BadRequest = 400;
+const Conflict = 409;
 
-const loginUser = async (name, email, password) => {
+const getAllUsers = () => users.getAll();
+const createUser = (name, email, password) => users.login(name, email, password);
+
+const validateUser = async (req, res, next) => {
+  const { name, email, password } = req.body;
   const emailValidation = /^[a-z0-9.]+@[a-z0-9]+\.com?$/i;
   const emailExist = await users.findByEmail(email);
-
-  if(!name || !email || !password) {
-    throw {
-      message: 'Invalid entries. Try again.'
-    }
+  if (!name || !email || !password || !emailValidation.test(email)) {
+    return res.status(BadRequest).json({ message: 'Invalid entries. Try again.' });
   }
 
-  if(!emailValidation.test(email)) {
-    throw {
-      message: 'Invalid entries. Try again.'
-    }
+  if (emailExist) {
+    return res.status(Conflict).json({ message: 'Email already registered' });
   }
 
-  if(emailExist) {
-    throw {
-      code: 'Conflict',
-      err: {
-        message: 'Email already registered'
-      }
-    }
-  }
-
-  return await users.login(name, email, password);
+  next();
 };
 
 module.exports = {
   getAllUsers,
-  loginUser,
+  createUser,
+  validateUser,
 };
