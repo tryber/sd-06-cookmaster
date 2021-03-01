@@ -1,10 +1,10 @@
 const userModels = require('../Models/usersModel');
+const jwt = require('jsonwebtoken');
 
-/* const errInvalidEntries = { message: 'Invalid entries. Try again.' };
-const errEmail = { message: 'Email already registered' };
-const errStatus = 400;
-const errEmailStatus = 409; */
 const createStatus = 201;
+const OK = 200;
+
+
 
 const create = async (req, res) => {
   const { name, email, password } = req.body;
@@ -15,6 +15,26 @@ const create = async (req, res) => {
     .json({ user: { _id: created.insertedId, name, email, password, role: 'user' } });
 };
 
+const login = async (req, res) => {
+  const { email } = req.body;
+
+  const getEmail = await userModels.getByEmail(email);
+  const payload = {
+    _id: getEmail._id,
+    email: getEmail.email,
+    role: 'user'
+  };
+  const segredo = 'cabeça';
+  const jwtConfig = {
+    expiresIn: '1d',
+    algorithm: 'HS256'
+  };
+  const token = jwt.sign({data: payload}, segredo, jwtConfig)
+
+  res.status(OK).json({token});
+}
+
 module.exports = {
   create,
+  login,
 };
