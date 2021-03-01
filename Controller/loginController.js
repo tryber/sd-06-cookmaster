@@ -8,7 +8,7 @@ const LoginRouter = new Router();
 
 LoginRouter.get('/', async (req, res) => res.status(200).json('login router'));
 
-LoginRouter.post('/', checkUser, validateLogin, async (req, res) => {
+LoginRouter.post('/', validateLogin, checkUser, async (req, res) => {
   const { email } = req.body;
   const user = await getUserByEmail(email);
   const data = {
