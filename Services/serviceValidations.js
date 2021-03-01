@@ -1,11 +1,11 @@
 const userModels = require('../Models/usersModel');
-const validEmail = require('../Services/validEmail');
+const validEmail = require('./validEmail');
 
 const errInvalidEntries = { message: 'Invalid entries. Try again.' };
 const errEmail = { message: 'Email already registered' };
 const errStatus = 400;
 const errEmailStatus = 409;
-const createStatus = 201;
+/* const createStatus = 201; */
 
 const createValidations = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -16,7 +16,6 @@ const createValidations = async (req, res, next) => {
   if (!password) {
     return res.status(errStatus).json(errInvalidEntries);
   }
-  
   const getEmail = await userModels.getByEmail(email);
   if (validEmail(email) === false) {
     return res.status(errStatus).json(errInvalidEntries);
@@ -28,7 +27,7 @@ const createValidations = async (req, res, next) => {
     return res.status(errEmailStatus).json(errEmail);
   }
   next();
-}
+};
 
 module.exports = {
   createValidations,
