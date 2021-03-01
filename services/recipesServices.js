@@ -44,11 +44,11 @@ const findByEmail = async (email) => {
   return user;
 };
 
-const getProducts = async () => {
+const getRecipes = async () => {
   try {
-    const products = await getAll();
+    const recipes = await getAll();
 
-    return products;
+    return recipes;
   } catch (e) {
     throw new Error(e);
   }
@@ -58,7 +58,7 @@ module.exports = {
   createRecipe,
   findProductById,
   findByEmail,
-  getProducts,
+  getRecipes,
   updateProduct,
   deleteProduct,
 };

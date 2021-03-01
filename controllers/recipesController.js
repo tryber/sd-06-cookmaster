@@ -3,7 +3,7 @@ const { Router } = require('express');
 const {
   createRecipe,
   findProductById,
-  getProducts,
+  getRecipes,
   updateProduct,
   deleteProduct } = require('../services/recipesServices');
 const validateNewUser = require('../middlewares/validateNewUser');
@@ -39,9 +39,9 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (_req, res) => {
   try {
-    const products = await getProducts();
+    const recipes = await getRecipes();
 
-    res.status(SUCCESS).send({ products });
+    res.status(SUCCESS).send(recipes);
   } catch (e) {
     res.status(DFT_ERROR).send({
       err: 'invalid_data',

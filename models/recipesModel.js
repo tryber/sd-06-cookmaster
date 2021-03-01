@@ -26,7 +26,7 @@ const findEmail = async (email) => {
 const getAll = async () => {
   try {
     const result = await connection()
-      .then((db) => db.collection('products').find().toArray());
+      .then((db) => db.collection('recipes').find().toArray());
 
     return result;
   } catch (e) {
