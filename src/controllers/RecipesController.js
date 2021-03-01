@@ -1,5 +1,4 @@
 const rescue = require('express-rescue');
-const { RecipesController } = require('.');
 const { RecipesService } = require('../services');
 
 const SUCCESS = 200;
@@ -23,7 +22,18 @@ const listAllRecipes = rescue(async (_req, res) => {
     .json(allRecipes);
 });
 
+const listRecipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const recipeById = await RecipesService.listRecipeById(id);
+
+  res
+    .status(SUCCESS)
+    .json(recipeById);
+});
+
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
+  listRecipeById,
 };

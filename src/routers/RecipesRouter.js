@@ -5,5 +5,6 @@ const RecipeRouter = Router();
 
 RecipeRouter.post('/', RecipesController.registerNewRecipe);
 RecipeRouter.get('/', RecipesController.listAllRecipes);
+RecipeRouter.get('/:id', RecipesController.listRecipeById);
 
 module.exports = RecipeRouter;
