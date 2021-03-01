@@ -34,8 +34,9 @@ const checkUniqueEmail = async (req, res, next) => {
 };
 
 module.exports = {
-  getUsers,
-  createNewUser,
-  validateUser,
   checkUniqueEmail,
+  createNewUser,
+  getUsers,
+  validateEmail,
+  validateUser,
 };

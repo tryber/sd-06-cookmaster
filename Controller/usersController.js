@@ -13,7 +13,7 @@ const twoHundredOne = 201;
 
 UsersRouter.get('/', async (req, res) => {
   const allUsers = await getUsers();
-  res.status(twoHundred).json(allUsers);
+  res.status(twoHundred).json({ users: allUsers });
 });
 
 UsersRouter.post('/', validateUser, checkUniqueEmail, async (req, res) => {
