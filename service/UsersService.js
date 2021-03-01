@@ -13,8 +13,30 @@ const emailValid = (email) => {
   return regexEmail.test(email);
 };
 
+const validateFieldLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email) return res.status(401).json({ message: 'All fields must be filled' });
+  
+  if (!password) return res.status(401).json({ message: 'All fields must be filled' });
+
+  if (!emailValid(email)) {
+    return res.status(401).json({ message: 'Incorrect username or password' });
+  }
+
+  const user = await findUserByEmail(email);
+
+  if (!user) return res.status(401).json({ message: 'Incorrect username or password' });
+
+  if (user.password !== password) {
+    return res.status(401).json({ message: 'Incorrect username or password' });
+  }
+
+  next();
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
   emailValid,
+  validateFieldLogin,
 };

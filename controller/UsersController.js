@@ -1,6 +1,7 @@
 const { Router } = require('express');
 // const { ObjectId } = require('mongodb');
 const UsersService = require('../service/UsersService');
+const login = require('./login');
 
 const router = Router();
 
@@ -26,5 +27,7 @@ router.post('/users', async (req, res) => {
 
   return res.status(201).json({ user: userCreated });
 });
+
+router.post('/login', UsersService.validateFieldLogin, login);
 
 module.exports = router;
