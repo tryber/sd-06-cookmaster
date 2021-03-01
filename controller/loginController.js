@@ -10,9 +10,9 @@ const loginRouter = new Router();
 
 loginRouter.post('/', Login.validateLogin, Login.userExists, async (req, res) => {
   const { email } = req.body;
-  const user = await Users.getByEmail(email);
-  const payload = { id: user.id, email: user.email, role: user.role };
-  const token = jwt.sign(payload, 'secret', { algorithm: 'HS256' });
+  const { _id, role } = await Users.getByEmail(email);
+  const data = { id: _id, email, role };
+  const token = jwt.sign({ data }, 'secret');
   res.status(SUCCESS).json({ token });
 });
 
