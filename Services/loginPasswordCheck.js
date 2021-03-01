@@ -1,6 +1,6 @@
-const { findOneUser } = require('../Model/usersModel');
+const { findUserByEmail } = require('../Model/usersModel');
 
-const getUserByEmail = async (email) => findOneUser(email);
+const getUserByEmail = async (email) => findUserByEmail(email);
 
 const loginPasswordCheck = async (req, res, next) => {
   const { email, password } = req.body;

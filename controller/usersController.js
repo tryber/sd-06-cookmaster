@@ -19,4 +19,4 @@ UserRouter.post('/', validateUser, checkUniqueEmail, async (req, res) => {
   return res.status(RESPONSE).json({ user });
 });
 
-module.exports = UserRouter;
+module.exports = { UserRouter };

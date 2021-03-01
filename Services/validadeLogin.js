@@ -1,4 +1,4 @@
-const { validateEmail } = require('./validateUser');
+const { validateEmail } = require('./validateEmail');
 
 const validateLogin = async (req, res, next) => {
   const { email, password } = req.body;

@@ -6,11 +6,11 @@ const createUser = async (data) => connection()
 const getAllUsers = async () => connection()
   .then((db) => db.collection('users').find().toArray());
 
-const findUserEmail = async (email) => connection()
+const findUserByEmail = async (email) => connection()
   .then((db) => db.collection('users').findOne({ email }));
 
 module.exports = {
   createUser,
   getAllUsers,
-  findUserEmail,
+  findUserByEmail,
 };
