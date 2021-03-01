@@ -1,5 +1,5 @@
+// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
-const { ObjectId } = require('mongodb');
 
 const getAllUsers = () =>
   connection().then((db) => db.collection('users').find().toArray());
@@ -7,8 +7,7 @@ const getAllUsers = () =>
 const createUser = (data) =>
   connection().then((db) => db.collection('users').insertOne(data));
 
-
 module.exports = {
   getAllUsers,
   createUser,
-}
+};
