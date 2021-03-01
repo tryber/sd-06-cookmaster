@@ -14,6 +14,7 @@ app.get('/', (request, response) => {
 
 app.use(bodyParser.json());
 app.use('/users', usersController);
+app.use('/login');
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
