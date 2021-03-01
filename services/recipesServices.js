@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 const { SECRET } = require('../controllers/loginController');
-const { createRecipe, allRecipes } = require('../models/recipesModel');
+const { createRecipe, allRecipes, oneRecipe } = require('../models/recipesModel');
 const { findOneUser } = require('../models/usersModel');
-const { invalidData, loginError } = require('../variables');
+const { invalidData, loginError, NOTFOUND } = require('../variables');
 
 const recipeCreate = async (data) => createRecipe(data);
 const getAllRecipes = async () => allRecipes();
+const getRecipeById = async (id) => oneRecipe(id);
 
 const validateToken = async (req, res, next) => {
   try {
@@ -35,9 +37,18 @@ const validateRecipe = async (req, res, next) => {
   next();
 };
 
+const validateId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) return res.status(NOTFOUND).json({ message: 'recipe not found' });
+
+  next();
+};
+
 module.exports = {
   validateToken,
   validateRecipe,
   recipeCreate,
   getAllRecipes,
+  getRecipeById,
+  validateId,
 };
