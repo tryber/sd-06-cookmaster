@@ -1,4 +1,8 @@
 const express = require('express');
+const path = require('path');
+
+// path.join(__dirname, 'uploads') é o caminho da pasta onde o multer salva suas imagens ao realizar o upload
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 const app = express();
 
