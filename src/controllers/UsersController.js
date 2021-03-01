@@ -2,12 +2,16 @@ const rescue = require('express-rescue');
 
 const { UsersService } = require('../services');
 
+const CREATED = 201;
+
 const registerNewUser = rescue(async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, password } = req.body;
 
-  const newUser = await UsersService.registerNewUser(name, email);
+  const newUser = await UsersService.registerNewUser(name, email, password);
 
-  res.status(201).json(newUser);
+  res
+    .status(CREATED)
+    .json(newUser);
 });
 
 module.exports = {
