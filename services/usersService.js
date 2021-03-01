@@ -7,6 +7,8 @@ const getAll = async () => usersModel.getAll();
 
 const create = async (data) => usersModel.create(data);
 
+const getByEmail = async (email) => usersModel.getByEmail(email);
+
 const validateEmail = (email) => {
   const pattern = /\S+@\S+.\S+/;
   return pattern.test(email);
@@ -39,4 +41,6 @@ module.exports = {
   create,
   validateUser,
   checkUniqueEmail,
+  validateEmail,
+  getByEmail,
 };

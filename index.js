@@ -4,6 +4,7 @@ const app = express();
 
 const bodyParser = require('body-parser');
 const usersController = require('./controller/usersController');
+const loginController = require('./controller/loginController');
 
 const PORT = 3000;
 
@@ -14,7 +15,7 @@ app.get('/', (request, response) => {
 
 app.use(bodyParser.json());
 app.use('/users', usersController);
-app.use('/login');
+app.use('/login', loginController);
 
 app.listen(PORT, () => {
   console.log(`Server started on ${PORT}`);
