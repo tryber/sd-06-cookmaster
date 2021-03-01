@@ -9,10 +9,11 @@ const loginRouter = new Router();
 loginRouter.post('/', validateLogin, validateData, async (req, res) => {
   const { email } = req.body;
   const user = await findUser(email);
+  const { _id, role } = user;
   const data = {
-   id: user.id,
-   email: user.email,
-   role: user.role,
+   id: _id,
+   email,
+   role,
   };
   const token = jwt.sign({ data }, SECRET);
 

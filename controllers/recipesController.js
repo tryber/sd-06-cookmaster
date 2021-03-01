@@ -1,7 +1,10 @@
 const { Router } = require('express');
-const { validateToken, recipeCreate, validateRecipe } = require('../services/recipesServices');
+const { validateToken,
+  recipeCreate,
+  validateRecipe,
+  getAllRecipes } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
-const { CREATED } = require('../variables');
+const { CREATED, SUCCESS } = require('../variables');
 
 const recipesRouter = new Router();
 
@@ -16,6 +19,12 @@ recipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
   await recipeCreate(req.body);
 
   res.status(CREATED).json({ recipe });
+});
+
+recipesRouter.get('/', async (_req, res) => {
+  const recipes = await getAllRecipes();
+
+  res.status(SUCCESS).json(recipes);
 });
 
 module.exports = { recipesRouter };

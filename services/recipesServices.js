@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 
 const { SECRET } = require('../controllers/loginController');
-const { createRecipe } = require('../models/recipesModel');
+const { createRecipe, allRecipes } = require('../models/recipesModel');
 const { findOneUser } = require('../models/usersModel');
 const { invalidData, loginError } = require('../variables');
 
 const recipeCreate = async (data) => createRecipe(data);
+const getAllRecipes = async () => allRecipes();
 
 const validateToken = async (req, res, next) => {
   try {
@@ -38,4 +39,5 @@ module.exports = {
   validateToken,
   validateRecipe,
   recipeCreate,
+  getAllRecipes,
 };
