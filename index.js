@@ -1,11 +1,12 @@
-const bodyParser = require('body-parser');
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const userController = require('./Controller/usersController');
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json())
+app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
@@ -14,6 +15,5 @@ app.get('/', (request, response) => {
 
 // users rotas
 app.post('/users', userController.create);
-
 
 app.listen(PORT, () => console.log(`Ouvindo a porta ${PORT}`));
