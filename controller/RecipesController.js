@@ -8,6 +8,8 @@ const router = Router();
 
 const invalid = 'Invalid entries. Try again.';
 
+const recipesId = '/recipes/:id';
+
 router.post('/recipes', validateJWT, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -26,7 +28,7 @@ router.get('/recipes', async (req, res) => {
   return res.status(200).json(allRecipes);
 });
 
-router.get('/recipes/:id', async (req, res) => {
+router.get(recipesId, async (req, res) => {
   const { id } = req.params;
 
   if (!ObjectId.isValid(id)) return res.status(404).json({ message: 'recipe not found' });
@@ -38,7 +40,7 @@ router.get('/recipes/:id', async (req, res) => {
   return res.status(200).json(recipe);
 });
 
-router.put('/recipes/:id', validateJWTRecipe, async (req, res) => {
+router.put(recipesId, validateJWTRecipe, async (req, res) => {
   const { id } = req.params;  
   const { name, ingredients, preparation } = req.body;
 
@@ -47,6 +49,14 @@ router.put('/recipes/:id', validateJWTRecipe, async (req, res) => {
   const result = await RecipesService.getRecipeById(id);
 
   return res.status(200).json(result);  
+});
+
+router.delete(recipesId, validateJWTRecipe, async (req, res) => {
+  const { id } = req.params;
+
+  await RecipesService.deleteRecipe(id);
+
+  return res.status(204).end();
 });
 
 module.exports = router;
