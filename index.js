@@ -17,8 +17,10 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+// Requisito 01
 app.use('/users', checkRequestBody, usersController);
 
+// Requisito 02
 app.use('/login', loginController);
 
 app.listen(3000, () => console.log('Server has been started'));
