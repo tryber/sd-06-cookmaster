@@ -12,7 +12,6 @@ UsersRouter.post('/', async (req, res) => {
   try {
     const validData = await validateInsertData(name, email, role, password);
     const newUser = await userRegister(validData[0].user);
-    console.log(newUser);
 
     return res.status(validData[1]).json(newUser);
   } catch (error) {
