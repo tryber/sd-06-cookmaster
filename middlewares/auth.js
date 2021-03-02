@@ -47,7 +47,8 @@ const validateLogin = (req, res, next) => {
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-  return res.status(400).json({ error: 'Token não encontrado ou informado' });
+  console.log('entrou, não é autorizado');
+  return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   }
 
   try {
@@ -55,12 +56,12 @@ const validateJWT = async (req, res, next) => {
     const user = await getByEmail(decoded.userData.email);
  
     if (!user) {
-      return res.status(401).json({ message: 'Erro ao procurar usuário do token.' });
+      return res.status(UNAUTHORIZED).json({ message: 'error to find token user' });
     }
-    req.user = user; // Definindo no .user o usuario logado
+    req.user = user; // Definindo no req.user o usuario logado
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(UNAUTHORIZED).json({ message: err.message });
   }
 };
 
