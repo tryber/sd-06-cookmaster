@@ -8,13 +8,11 @@ const getAllRecipesService = async () => {
 const createRecipeService = async (name, ingredients, preparation, userId) => {
   const { _id } = await RecipesModel.createRecipe(name, ingredients, preparation, userId);
   return ({
-    recipe: {
-      name,
-      ingredients,
-      preparation,
-      userId,
-      _id,
-    },
+    name,
+    ingredients,
+    preparation,
+    userId,
+    _id,
   });
 };
 
