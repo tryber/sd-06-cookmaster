@@ -6,7 +6,7 @@ const verifyToken = require('../schemas/verifyAuthorization');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, calback) => {
-    calback(null, 'uploads');
+    calback(null, 'images');
   },
   filename: (req, _file, calback) => {
     calback(null, `${req.params.id}.jpeg`);
