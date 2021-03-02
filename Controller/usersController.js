@@ -17,9 +17,11 @@ const login = async (req, res) => {
   const { email } = req.body;
   
   const getEmail = await userModels.getByEmail(email);
+  /*eslint-disable */
   const id = getEmail._id;
+  /*eslint-enable */
   const payload = {
-    id: id,
+    id,
     email: getEmail.email,
     role: 'user',
   };
