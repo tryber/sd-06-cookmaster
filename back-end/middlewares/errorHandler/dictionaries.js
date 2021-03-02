@@ -19,6 +19,8 @@ const status = {
 const errorMessages = {
   invalidEntries: 'Invalid entries. Try again.',
   emailIsRegistered: 'Email already registered',
+  unfilledFields: 'All fields must be filled',
+  invalidLogin: 'Incorrect username or password',
 };
 
 module.exports = { status, errorMessages };

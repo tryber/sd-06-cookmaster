@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const usersController = require('../controllers/usersController');
-const { registerUserValidations } = require('../middlewares/validations/validations');
+const { 
+  registerUserValidations,
+  loginValidations,
+} = require('../middlewares/validations/validations');
 
 const recipesRouter = require('./recipesRouter');
 
@@ -12,7 +15,7 @@ mainRouter.use('/recipes', recipesRouter);
 
 mainRouter.post('/users', registerUserValidations, usersController.registerUser);
 
-mainRouter.post('/login', usersController.userLogin);
+mainRouter.post('/login', loginValidations, usersController.userLogin);
 
 // usersRouter.post('/images/', userLogin);
 

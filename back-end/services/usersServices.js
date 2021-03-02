@@ -24,9 +24,4 @@ const registerAdmin = async (_req, _res) => {
   return responsePayload;
 };
 
-const userLogin = async (_req, _res) => {
-  const responsePayload = await usersModel.userLogin();
-  return responsePayload;
-};
-
-module.exports = { registerUser, userLogin, registerAdmin, findUserByEmail };
+module.exports = { registerUser, registerAdmin, findUserByEmail };

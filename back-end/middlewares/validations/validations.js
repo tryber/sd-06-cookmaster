@@ -22,6 +22,31 @@ const registerUserValidations = async (req, res, next) => {
   }
 };
 
+const loginValidationsSwitch = async (email, password) => {
+  if (isFieldInexistent(email) || isFieldInexistent(password)) {
+    throw new ThrowError(status.unauthorized, errorMessages.unfilledFields);
+  }
+  if (!isValidEmail(email)) {
+    throw new ThrowError(status.unauthorized, errorMessages.invalidLogin);
+  }
+  const registeredUser = await userServices.findUserByEmail(email);
+  if (registeredUser && registeredUser.password !== password) {
+    throw new ThrowError(status.unauthorized, errorMessages.invalidLogin);
+  }
+}
+
+const loginValidations = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    await loginValidationsSwitch(email, password);
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerUserValidations,
+  loginValidations,
 };
