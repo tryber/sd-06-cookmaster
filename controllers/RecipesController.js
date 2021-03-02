@@ -47,4 +47,25 @@ routerRecipes.delete('/:id', validateJWT, async (req, res) => {
   res.status(NO_CONTENT).json();
 });
 
+routerRecipes.put('/:id/image', validateJWT, async (req, _res) => {
+  const { id: thisRecipeId } = req.params; 
+  const { user } = req;
+  if (!user.role || user.role === 'user') {
+    const { _id: thisUserId } = user;
+    const idUser = JSON.stringify(thisUserId);
+    const recipe = await getAllRecipes()
+    .filter((e) => JSON.stringify(e.userId) === idUser);
+    console.log(thisRecipeId, recipe);
+    return console.log('usuario logado não é um adm');
+    // funcao que compara o ID do usuario aos userId -> ok
+    // criar e chamar funcao que cadastra a imagem via multer
+    // enviar objeto de receita para funcao que cadastra imagem
+  }
+  if (user.role && user.role === 'admin') {
+    // criar e chamar funcao que cadastra a imagem via multer
+    // enviar objeto de receita para funcao que cadastra imagem (adm não precisa checar id)
+  return console.log('usuario é um adm');
+  }
+});
+
 module.exports = routerRecipes;
