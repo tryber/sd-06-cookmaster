@@ -42,10 +42,14 @@ const updateRecipe = async (req, res, next) => {
   }
 };
 
-const deleteRecipe = (req, res) => {
+const deleteRecipe = async (req, res, next) => {
+  try {
     const { id } = req.params;
-    services.deleteRecipe(id);
+    await services.deleteRecipe(id);
     res.status(NO_CONTENT).end();
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

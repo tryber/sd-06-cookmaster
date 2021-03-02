@@ -25,7 +25,7 @@ const getRecipeById = async (id) => {
 
   const dataBase = await connection(collection);
 
-  return dataBase.findOne(ObjectId(id));
+  return dataBase.findOne({ _id: ObjectId(id) });
 };
 
 const updateRecipe = async (id, recipe) => {
@@ -42,9 +42,10 @@ const updateRecipe = async (id, recipe) => {
 };
 
 const deleteRecipe = async (id) => {
-  const dataBase = await connection(collection);
+  if (!ObjectId.isValid(id)) return null;
 
-  await dataBase.deleteOne(ObjectId(id));
+  const dataBase = await connection(collection);
+  return dataBase.deleteOne({ _id: ObjectId(id) });
 };
 
 module.exports = {
