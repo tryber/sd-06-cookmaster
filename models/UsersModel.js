@@ -4,7 +4,6 @@ const getAllUsers = async () => connection()
     .then((database) => database.collection('users').find().toArray());
 
 const createUser = async (name, email, password) => {
-  console.log(name, email, password);
   const { insertedId } = await connection()
     .then((db) => db.collection('users').insertOne({ name, email, password }));
   return {
