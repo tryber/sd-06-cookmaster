@@ -1,8 +1,11 @@
 const express = require('express');
+const log = require('./middlewares/log');
 
 const app = express();
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 const NOT_FOUND = 404;
+
+app.use(log);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
