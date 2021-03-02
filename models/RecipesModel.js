@@ -7,15 +7,15 @@ const getById = async (id) => connection().then((db) => db.collection('recipes')
 .findOne(ObjectId(id)));
 
 const add = async (name, ingredients, preparation, userId) => {
-  const { insertedId } = connection().then((db) => db.collection('recipes')
+  const { insertedId } = await connection().then((db) => db.collection('recipes')
   .insertOne({ name, ingredients, preparation, userId }));
-  return { 
+  return { recipe: { 
     _id: insertedId,
     name,
     ingredients,
     preparation,
     userId,
-   };
+   } };
 };
 
 const update = async (id, name, ingredients, preparation) => {

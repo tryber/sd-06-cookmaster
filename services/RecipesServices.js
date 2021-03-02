@@ -3,7 +3,11 @@ const Recipes = require('../models/RecipesModel');
 
 const getAll = async () => Recipes.getAll();
 
-const getById = async (id) => Recipes.getById(id);
+const getById = async (id) => {
+  const data = await Recipes.getById(id);
+  if (!data) throw new Error();
+  return data;
+};
 
 const add = async (token, { name, ingredients, preparation }) => {
   const { _id: userId } = await jwt.verify(token, 'secretkey');

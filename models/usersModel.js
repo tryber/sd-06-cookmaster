@@ -1,9 +1,9 @@
 const connection = require('./connection');
 
 const register = async (name, email, password) => {
-  await connection().then((db) => db.collection('users')
+  const { insertedId } = await connection().then((db) => db.collection('users')
     .insertOne({ name, email, password, role: 'user' }));
-  return { user: 'Cadastrado' };
+  return { user: { name, email, password, role: 'user', _id: insertedId } };
 };
 
 const findByEmail = async (email) => connection().then((db) => db

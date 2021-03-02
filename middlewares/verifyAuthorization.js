@@ -2,9 +2,9 @@ const validateToken = require('../Auth/validateToken');
 
 const verifyAuthorization = (req, res, next) => {
   const { authorization } = req.headers;
-
+  if (!authorization) return res.status(401).json({ message: 'missing auth token' });
   const payload = validateToken(authorization);
-  if (!payload) return res.status(200).json({ message: 'Não Autorizado ou não é administrador' });
+  if (!payload) return res.status(401).json({ message: 'jwt malformed' });
 
   next();
 };
