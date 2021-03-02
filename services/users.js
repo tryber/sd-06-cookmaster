@@ -27,7 +27,7 @@ const isEmailUnique = async (email) => {
   return true;
 };
 
-const create = async ({ name, email, password }) => {
+const create = async ({ name, email, password, role }) => {
   if (!name || !email || !password || !isEmailValid(email)) {
     return invalidEntriesError;
   }
@@ -35,13 +35,13 @@ const create = async ({ name, email, password }) => {
   if (!emailIsUnique) {
     return conflictError;
   }
-  const { insertedId } = await users.create({ name, email, password });
+  const { insertedId } = await users.create({ name, email, password, role });
 
   return {
     user: {
       name,
       email,
-      role: 'user',
+      role,
       _id: insertedId,
     },
   };

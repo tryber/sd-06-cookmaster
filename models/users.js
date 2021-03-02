@@ -11,14 +11,14 @@ const connection = require('./connection');
 const findByEmail = async (email) => 
   connection().then((db) => db.collection('users').findOne({ email }));
 
-const create = async ({ name, email, password }) =>
+const create = async ({ name, email, password, role }) =>
   connection()
     .then((db) =>
       db.collection('users').insertOne({
         name,
         email,
         password,
-        role: 'user',
+        role,
       })) 
     .then((result) => result);
 

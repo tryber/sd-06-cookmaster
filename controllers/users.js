@@ -48,8 +48,8 @@ routes.route('/')
     res.status(OK).json({ users: usersArray });
   }))
   .post(rescue(async (req, res, next) => {
-    const { name, email, password } = req.body;
-    const createdUser = await users.create({ name, email, password });
+    const { name, email, password, role = 'user' } = req.body;
+    const createdUser = await users.create({ name, email, password, role });
     
     if (createdUser.err) {
       return next({ ...createdUser.err });
