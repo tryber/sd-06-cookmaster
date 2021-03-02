@@ -7,6 +7,7 @@ const PORT = 3000;
 
 const userController = require('./controllers/userController');
 const login = require('./controllers/login');
+const recipesController = require('./controllers/recipesController');
 
 app.use(bodyParser.json());
 
@@ -17,5 +18,6 @@ app.get('/', (request, response) => {
 
 app.use('/users', userController);
 app.use('/login', login);
+app.use('/recipes', recipesController);
 
 app.listen(PORT, () => console.log('app listening!'));
