@@ -3,6 +3,7 @@ const { RecipesService } = require('../services');
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 const registerNewRecipe = rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -43,9 +44,18 @@ const editRecipe = rescue(async (req, res) => {
     .json(recipeEdited);
 });
 
+const deleteRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  return res
+    .status(NO_CONTENT)
+    .json(await RecipesService.deleteRecipe(id));
+});
+
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
   listRecipeById,
   editRecipe,
+  deleteRecipe,
 };
