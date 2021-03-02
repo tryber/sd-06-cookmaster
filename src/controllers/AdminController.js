@@ -15,11 +15,11 @@ class AdminController {
 
     const adminToCreate = { name, email, password };
 
-    const newProduct = await createAdminService.execute(adminToCreate);
+    const user = await createAdminService.execute(adminToCreate);
 
     const CREATED = 201;
 
-    return response.status(CREATED).json(newProduct);
+    return response.status(CREATED).json({ user });
   }
 }
 

@@ -1,9 +1,10 @@
 const mongodb = require('mongodb');
 const AppError = require('../../errors/AppError.js');
+const { NOT_FOUND } = require('../../errors/status.js');
 
 const connection = require('../index.js');
 
-const errorMsg = 'Invalid entries. Try again.';
+const errorMsg = 'recipe not found';
 
 const collectionName = 'recipes';
 
@@ -42,7 +43,7 @@ class Recipe {
 
     const idIsValid = mongodb.ObjectId.isValid(id);
 
-    if (!idIsValid) throw new AppError(errorMsg);
+    if (!idIsValid) throw new AppError(errorMsg, NOT_FOUND);
 
     const recipe = await db.collection(collectionName).findOne(mongodb.ObjectId(id));
 
@@ -84,7 +85,7 @@ class Recipe {
 
     const idIsValid = mongodb.ObjectId.isValid(recipeId);
 
-    if (!idIsValid) throw new AppError(errorMsg);
+    if (!idIsValid) throw new AppError(errorMsg, NOT_FOUND);
 
     await db.collection(collectionName).deleteOne(
       { _id: mongodb.ObjectId(recipeId) },

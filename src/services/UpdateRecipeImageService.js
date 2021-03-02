@@ -1,3 +1,5 @@
+const uploadConfig = require('../config/upload');
+
 const AppError = require('../errors/AppError');
 const { NOT_FOUND, UNAUTHORIZED } = require('../errors/status');
 
@@ -21,9 +23,10 @@ class UpdateRecipeImageService {
 
     if (recipe.image) await this.StorageProvider.deleteFile(recipe.image);
 
-    const imagePath = await this.StorageProvider.saveFile(image);
+    const imageName = await this.StorageProvider.saveFile(image);
+    const imageFullPath = `${uploadConfig.config.disk.baseURL}/${imageName}`;
 
-    const updatedRecipe = await this.RecipeModel.updateImage({ recipeId, image: imagePath });
+    const updatedRecipe = await this.RecipeModel.updateImage({ recipeId, image: imageFullPath });
 
     return updatedRecipe;
   }
