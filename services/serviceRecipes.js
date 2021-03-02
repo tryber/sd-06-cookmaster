@@ -16,7 +16,7 @@ const createRecipe = async ({ name, ingredients, preparation }) => {
 
 const updateRecipe = async ({ id, ingredients, preparation }) => {
   // eslint-disable-next-line no-restricted-globals
-  const update = await model.updateRecipe({ id, name, ingredients, preparation });
+  const update = await model.updateRecipe({ id, ingredients, preparation });
 
   return update;
 };
