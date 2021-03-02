@@ -23,17 +23,6 @@ const getAll = async () => {
   }
 };
 
-const findEmail = async (email) => {
-  const result = await connection()
-    .then((db) => db.collection('users').findOne({ email }))
-    .catch((err) => {
-      console.error(err);
-      throw new Error(err);
-    });
-
-  return result;
-};
-
 const findId = async (id) => {
   try {
     const validId = ObjectID.isValid(id);
@@ -75,7 +64,6 @@ const remove = async (id) => {
 
 module.exports = {
   create,
-  findEmail,
   findId,
   getAll,
   update,

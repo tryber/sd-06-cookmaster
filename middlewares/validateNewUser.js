@@ -26,6 +26,7 @@ module.exports = async (req, res, next) => {
       message: 'Invalid entries. Try again.',
     });
   }
+  req.body.role = (req.path === '/admin') ? 'admin' : 'user';
 
   next();
 };

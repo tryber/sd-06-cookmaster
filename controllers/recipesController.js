@@ -1,17 +1,11 @@
 const { Router } = require('express');
 const multer = require('multer');
 
-const findRecipe = require('../middlewares/findRecipe');
+const { createRecipe, findRecipeById,
+  getRecipes, updateRecipe, deleteRecipe } = require('../services/recipesServices');
 
-const {
-  createRecipe,
-  findRecipeById,
-  getRecipes,
-  updateRecipe,
-  deleteRecipe } = require('../services/recipesServices');
-const validatePrivilege = require('../middlewares/validatePrivilege');
-const validateToken = require('../middlewares/validateToken');
-const validateRecipe = require('../middlewares/validateRecipe');
+const { validatePrivilege, findRecipe, validateToken,
+  validateRecipe } = require('../middlewares');
 
 const router = Router();
 
@@ -36,19 +30,20 @@ const DFT_ERROR = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE = 422;
 
-router.put('/:id/image', validateToken, findRecipe, upload.single('image'), async (req, res) => {
-  try {
-    const { _id } = req.recipe;
-    const { name, ingredients, preparation } = req.body;
-    const image = 'localhost:3000/'.concat(req.file.path);
-    const newRecipe = await updateRecipe({ name, ingredients, preparation, _id, image });
+router.put('/:id/image', validateToken, validatePrivilege, findRecipe, upload.single('image'),
+  async (req, res) => {
+    try {
+      const { _id } = req.recipe;
+      const { name, ingredients, preparation } = req.body;
+      const image = 'localhost:3000/'.concat(req.file.path);
+      const newRecipe = await updateRecipe({ name, ingredients, preparation, _id, image });
 
-    return res.status(SUCCESS).send(newRecipe);
-  } catch (e) {
-    console.log(e);
-    res.status(DFT_ERROR).send(e);
-  }
-  res.send().status(200);
+      return res.status(SUCCESS).send(newRecipe);
+    } catch (e) {
+      console.log(e);
+      res.status(DFT_ERROR).send(e);
+    }
+    res.send().status(200);
 });
 
 router.get('/:id', async (req, res) => {

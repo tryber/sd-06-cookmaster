@@ -11,8 +11,5 @@ module.exports = async (req, res, next) => {
       message: 'Email already registered',
     });
   }
-
-  req.body.role = 'user';
-
   next();
 };
