@@ -1,5 +1,9 @@
-// const auth = require('./auth');
+const validateFields = require('./validateFields');
+const error = require('./error');
+const auth = require('./auth');
 
-// module.exports = {
-//   auth,
-// };
+module.exports = {
+  validateFields,
+  error,
+  auth,
+};

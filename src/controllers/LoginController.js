@@ -8,7 +8,7 @@ const userLogin = rescue(async (req, res) => {
 
   const generateToken = await LoginService.userLogin(email, password);
 
-  res
+  return res
     .status(SUCCESS)
     .json({ token: generateToken });
 });
