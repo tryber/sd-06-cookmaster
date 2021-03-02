@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const UsersService = require('../service/UsersService');
 const login = require('./login');
+const validateJWTAdmin = require('../auth/validateJWTAdmin');
 
 const router = Router();
 
@@ -28,5 +29,13 @@ router.post('/users', async (req, res) => {
 });
 
 router.post('/login', UsersService.validateFieldLogin, login);
+
+router.post('/users/admin', validateJWTAdmin, async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const userCreated = await UsersService.createUser(name, email, password, 'admin');
+
+  return res.status(201).json({ user: userCreated });
+});
 
 module.exports = router;
