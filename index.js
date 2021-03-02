@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+const path = require('path');
+
 const port = 3000;
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -21,5 +23,7 @@ app.use('/users', UsersRouter);
 app.use('/login', LoginRouter);
 
 app.use('/recipes', RecipesRouter);
+
+app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.listen(port, () => console.log(`Listening to ${port}`));

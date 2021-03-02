@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const multer = require('multer');
 const { getUserByEmail } = require('../Services/loginService');
 const { validateToken } = require('../Auth/validateToken');
 const {
@@ -9,6 +10,7 @@ const {
   validateId,
   putRecipe,
   delRecipe,
+  addImagePath,
 } = require('../Services/recipesService');
 const { validateRecipeToken } = require('../Auth/validateJWTRecipes');
 
@@ -62,10 +64,34 @@ RecipesRouter.put('/:id', validateRecipeToken, async (req, res) => {
 
 RecipesRouter.delete('/:id', validateRecipeToken, async (req, res) => {
   const { id } = req.params;
-  console.log('cheguei aqui', id);
   await delRecipe(id);
   
   return res.status(twoHundredFour).json();
 });
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+RecipesRouter.put('/:id/image', validateId, validateRecipeToken,
+  upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+
+  const imagePath = `localhost:3000/images/${filename}`;
+
+  await addImagePath(id, imagePath);
+
+  const result = await getRecipeById(id);
+
+  return res.status(twoHundred).json(result);
+  });
 
 module.exports = { RecipesRouter };
