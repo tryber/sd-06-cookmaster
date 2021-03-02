@@ -7,7 +7,7 @@ const findAllRecipes = async () => connection()
 const createRecipes = async (data) => connection()
   .then((db) => db.connection('recipes').insertOne(data));
 
-const findRecipes = async (id) => connection()
+const findOneRecipes = async (id) => connection()
   .then((db) => db.connection('recipes').findOne(ObjectId(id)));
 
 const editRecipes = async (id, name, ingr, prep) => connection
@@ -22,7 +22,7 @@ const deleteRecipes = async (id) => connection
 module.exports = {
   findAllRecipes,
   createRecipes,
-  findRecipes,
+  findOneRecipes,
   editRecipes,
   deleteRecipes,
 };
