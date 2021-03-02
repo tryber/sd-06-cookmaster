@@ -3,7 +3,7 @@ const { INVALID_ENTRIES } = require('../errors/messagesErrors');
 const BAD_REQUEST = 400;
 const regexValiditEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
-const validateProduts = async (req, res, next) => {
+const validateCreateUser = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   if (name === undefined || email === undefined || password === undefined) {
@@ -21,4 +21,4 @@ const validateProduts = async (req, res, next) => {
   next();
 };
 
-module.exports = validateProduts;
+module.exports = validateCreateUser;

@@ -1,5 +1,3 @@
-// const connection = require('./dataBase');
-
 const Users = require('./UserSchema');
 
 const createUserDb = async (name, email, password) => {
@@ -8,13 +6,13 @@ const createUserDb = async (name, email, password) => {
   return newUser;
 };
 
-// const createUserDb = async (name, email, password) => {
-//   const newUser = connection().then((db) => 
-//     db.collection('users').insertOne({ name, email, password, role: 'user' }));
+const loginUserDb = async (email) => {
+  const newUser = await Users.findOne({ email });
 
-//     return newUser;
-// };
+  return newUser;
+};
 
 module.exports = {
   createUserDb,
+  loginUserDb,
 };
