@@ -23,4 +23,14 @@ router.get('/', async (req, res) => {
   if (result) res.status(status200).json(result);
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const result = await recipesService.getById(id);
+
+  if (result.err) return res.status(result.err.code).json({ message: result.err.message });
+
+  return res.status(status200).json(result);
+});
+
 module.exports = router;
