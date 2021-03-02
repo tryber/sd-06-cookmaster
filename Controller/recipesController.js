@@ -3,7 +3,20 @@ const recipesModel = require('../Models/recipesModel');
 const usersModel = require('../Models/usersModel');
 
 const created = 201;
+const OK = 200;
 const segredo = 'cabeça';
+
+const getAll = async (req, res) => {
+  const getAllRecipes = await recipesModel.getAll();
+
+  res.status(OK).json(getAllRecipes);
+
+  /* const token = req.headers.authorization;
+  const verify = jwt.verify(token, segredo);
+  if (verify) {
+    return res.status(OK).json(getAllRecipes);
+  } */
+};
 
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -26,5 +39,6 @@ const create = async (req, res) => {
 };
 
 module.exports = {
+  getAll,
   create,
 };

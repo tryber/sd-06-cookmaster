@@ -23,6 +23,7 @@ app.post('/users', serviceValidations.createValidation, userController.create);
 app.post('/login', serviceValidations.loginValidation, userController.login);
 
 // recipes rotas
+app.get('/recipes', recipesController.getAll);
 app.post('/recipes', recipesValidation.createValidation, recipesController.create);
 
 app.listen(PORT, () => console.log(`Ouvindo a porta ${PORT}`));
