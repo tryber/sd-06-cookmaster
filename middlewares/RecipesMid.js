@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 
 const secret = 'senha';
 const BAD_REQ = 400;
@@ -33,7 +34,19 @@ const validateToken = async (req, res, next) => {
   next();
 };
 
+const validateId = async (req, res, next) => {
+  const LIMITID = 24;
+  const { id } = req.params;
+
+  if (id.length < LIMITID) {
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  }
+
+  next();
+};
+
 module.exports = {
   validateRecipe,
   validateToken,
+  validateId,
 };
