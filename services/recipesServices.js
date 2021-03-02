@@ -7,7 +7,7 @@ const { createRecipe,
   oneRecipe,
   updateRecipe,
   deleteRecipe, 
-  updatePhoto} = require('../models/recipesModel');
+  updatePhoto } = require('../models/recipesModel');
 const { findOneUser } = require('../models/usersModel');
 const { invalidData, loginError, NOTFOUND } = require('../variables');
 

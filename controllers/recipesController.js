@@ -8,7 +8,7 @@ const { validateToken,
   validateId, 
   recipeUpdate, 
   recipeDelete, 
-  updateImage} = require('../services/recipesServices');
+  updateImage } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
 const { CREATED, SUCCESS, NOTFOUND, DELETED } = require('../variables');
 
