@@ -1,6 +1,7 @@
+const jwt = require('jsonwebtoken');
 const connection = require('../models/connection');
-// const { ObjectId } = require('mongodb');
 
+const secret = 'theIncredibleSecret';
 const OK = 200;
 const UNAUTHORIZED = 401;
 
@@ -58,6 +59,35 @@ const validateInsertData = async (email, password) => {
   throw error;
 };
 
+const validateJwt = async (email, password) => {
+  const emailExistsResponse = await emailExists(email);
+  const passwordIsCorrect = await correctPassword(password);
+
+  if (emailExistsResponse && passwordIsCorrect) {
+    const { _id: userId } = await connection()
+      .then((db) => db.collection('users').findOne({ email }));
+    return userId;
+  }
+  const error = [{ message: 'jwt malformed' }, UNAUTHORIZED];
+  throw error;
+};
+
+const verifyValidToken = (token) => {
+  try {
+    const [email, password] = jwt.verify(token, secret).data;
+
+    return {
+      email,
+      password,
+    };
+  } catch (err) {
+    const error = [{ message: 'jwt malformed' }, UNAUTHORIZED];
+    throw error;
+  }
+};
+
 module.exports = {
   validateInsertData,
+  validateJwt,
+  verifyValidToken,
 };

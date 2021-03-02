@@ -14,6 +14,7 @@ LoginController.post('/', async (req, res) => {
   try {
     const isValid = await validateInsertData(email, password);
     const token = jwt.sign({ data: [email, password] }, secret, jwtConfig);
+
     return res.status(isValid[1]).json({ token });
   } catch (error) {
     return res.status(error[1]).json(error[0]);
