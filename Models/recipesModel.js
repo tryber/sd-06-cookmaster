@@ -1,9 +1,9 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-  const getAll = await connection().then((db) => db.collection('recipes').find().toArray());
-  return getAll;
-}
+  const getAllRecipes = await connection().then((db) => db.collection('recipes').find().toArray());
+  return getAllRecipes;
+};
 
 const create = async (name, ingredients, preparation) => {
   const creation = await connection()
