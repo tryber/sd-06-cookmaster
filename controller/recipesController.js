@@ -27,10 +27,10 @@ recipesController.get('/:id', Recipes.idValidation, async (req, res) => {
   return res.status(SUCCESS).json(recipe);
 });
 
-recipesController.put('/:id', verifyToken, async (req, res) => {
-  const { id } = req.user;
-  const recipe = { ...req.body, userId: id };
-  await Recipes.update(id, recipe);
+recipesController.put('/:id', verifyToken, Recipes.idValidation, async (req, res) => {
+  const { id } = req.params;
+  const oldRecipe = await Recipes.update(id, req.body);
+  const recipe = { ...oldRecipe, ...req.body };
   res.status(SUCCESS).json(recipe);
 });
 
