@@ -15,7 +15,7 @@ const validateLogin = async (req, res, next) => {
   next();
 };
 
-const userExistence = async (req, res, next) => {
+const tokenCreator = async (req, res, next) => {
   const { email, password } = req.body;
 
   const payload = await findByEmailAndPassword(email, password);
@@ -31,5 +31,5 @@ const userExistence = async (req, res, next) => {
 
 module.exports = {
   validateLogin,
-  userExistence,
+  tokenCreator,
 };

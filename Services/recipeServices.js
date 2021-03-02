@@ -5,7 +5,14 @@ const create = async (id, name, ingredients, preparation) => models
 
 const getAll = async () => models.getAll();
 
+const findById = async (id) => {
+  const recipe = await models.findById(id);
+
+  return recipe;
+};
+
 module.exports = {
   create,
   getAll,
+  findById,
 };

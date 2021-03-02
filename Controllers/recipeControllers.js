@@ -5,7 +5,10 @@ const create = async (id, name, ingredients, preparation) => services
 
 const getAll = async () => services.getAll();
 
+const findById = async (id) => services.findById(id);
+
 module.exports = {
   create,
   getAll,
+  findById,
 };
