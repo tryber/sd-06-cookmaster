@@ -1,4 +1,4 @@
-const validateUser = require('../schemas/Users');
+const { validateUser } = require('../schemas/Users');
 const Users = require('../services/Users');
 
 const createUser = async (req, res) => {

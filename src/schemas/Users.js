@@ -25,4 +25,21 @@ const validateUser = async (name, email, password) => {
   }
 };
 
-module.exports = validateUser;
+const validateLogin = (email, password, user) => {
+  const allFieldsMsg = { code: 401, message: 'All fields must be filled' };
+  const incorrectData = { code: 401, message: 'Incorrect username or password' };
+  const isLoginIncorrect = !user || user.password !== password;
+
+  switch (true) {
+    case isBlank(email): return allFieldsMsg;
+    case isEmailValid(email): return incorrectData;
+    case isBlank(password): return allFieldsMsg;
+    case isLoginIncorrect: return incorrectData;
+
+    default: return {};
+  }
+};
+module.exports = {
+  validateUser,
+  validateLogin,
+};

@@ -17,8 +17,8 @@ const create = async (name, email, password) => {
 
 const getAll = async () => connection().then((db) => db.collection('users').find().toArray());
 
-const findByName = async (name) => connection()
-  .then((db) => db.collection('users').findOne({ name }));
+const findByEmail = async (email) => connection()
+  .then((db) => db.collection('users').findOne({ email }));
 
 const findById = async (id) => connection()
   .then((db) => db.collection('users').findOne(ObjectID(id)));
@@ -41,7 +41,7 @@ const remove = async (id) => connection()
 
 module.exports = {
   create,
-  findByName,
+  findByEmail,
   getAll,
   findById,
   update,
