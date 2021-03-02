@@ -28,3 +28,7 @@ exports.update = async (id, name, ingredients, preparation) => (
     { $set: { name, ingredients, preparation } },
   ))
 );
+
+exports.remove = async (id) => (
+  connection().then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }))
+);

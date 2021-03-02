@@ -11,3 +11,7 @@ exports.create = async (name, ingredients, preparation, userId) => (
 exports.update = async (id, name, ingredients, preparation) => (
   Recipes.update(id, name, ingredients, preparation)
 );
+
+exports.remove = async (id) => (
+  Recipes.remove(id)
+);

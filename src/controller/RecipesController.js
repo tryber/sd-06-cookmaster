@@ -7,6 +7,7 @@ const router = new Router();
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
 
@@ -64,6 +65,14 @@ router.put('/:id', verifyToken, async (req, res) => {
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR).json(INTERNAL_ERROR_MESSAGE);
   }
+});
+
+router.delete('/:id', verifyToken, async (req, res) => {
+  const { id } = req.params;
+
+  await Recipes.remove(id);
+
+  return res.status(NO_CONTENT).end();
 });
 
 module.exports = router;
