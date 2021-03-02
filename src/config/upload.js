@@ -17,11 +17,17 @@ module.exports = {
 
           const [, format] = file.originalname.split('.');
 
-          const fileName = `${recipeId}.${format}`;
+          let curatedFormat = format;
+
+          if (format === 'jpg') curatedFormat = 'jpeg';
+
+          const fileName = `${recipeId}.${curatedFormat}`;
 
           return callback(null, fileName);
         },
       }),
+
+      baseURL: process.env.STATIC_BASE_URL || 'localhost:3000/images',
     },
   },
 };
