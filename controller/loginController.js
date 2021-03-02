@@ -2,7 +2,7 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const { findUserByEmail } = require('../Model/usersModel');
 const { loginPasswordCheck } = require('../Services/loginPasswordCheck');
-const { validateLogin } = require('../Services/validadeLogin');
+const { validateLogin } = require('../Services/validateLogin');
 
 const secret = 'SARTOBOY';
 

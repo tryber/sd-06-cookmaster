@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { findUserByEmail } = require('../Model/usersModel');
-const secret = require('../controller/loginController');
+const { secret } = require('../controller/loginController');
 
 const UNAUTHORIZED = 401;
 
-const validadeToken = async (req, res, next) => {
+const validateToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.headers.authorization, secret);
     const user = await findUserByEmail(decoded.data.email);
@@ -20,4 +20,4 @@ const validadeToken = async (req, res, next) => {
   next();
 };
 
-module.exports = { validadeToken };
+module.exports = { validateToken };
