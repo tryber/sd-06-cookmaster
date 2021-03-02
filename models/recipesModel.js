@@ -26,8 +26,30 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const editRecipeById = async (id, payload, userId) => {
+  const { name, ingredients, preparation } = payload;
+
+  await getCollection('recipes').then((recipes) => recipes.updateOne(
+    { _id: ObjectId(id) },
+    { $set: {
+      name,
+      ingredients,
+      preparation,
+    } },
+  ));
+
+  return {
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipeById,
 };

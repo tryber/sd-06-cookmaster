@@ -5,6 +5,10 @@ const service = require('../services/recipesService');
 
 const recipes = Router();
 
+const MESSAGE_ERROR_NOT_FOUND = {
+  message: 'recipe not found', 
+};
+
 recipes.post('/', validateJWT, async (request, response) => {
   const { name, ingredients, preparation } = request.body;
 
@@ -29,18 +33,32 @@ recipes.get('/', async (_request, response) => {
 recipes.get('/:id', async (request, response) => {
   const { id } = request.params;
 
-  if (!ObjectId.isValid(id)) return response.status(404).json({ message: 'recipe not found' });
+  if (!ObjectId.isValid(id)) return response.status(404).json(MESSAGE_ERROR_NOT_FOUND);
 
   const recipe = await service.getRecipeById(id);
 
-  if (!recipe) return response.status(404).json({ message: 'recipe not found' });
+  if (!recipe) return response.status(404).json(MESSAGE_ERROR_NOT_FOUND);
 
   return response.status(200).json(recipe);
 });
 
 // Requisito 07
 recipes.put('/:id', validateJWT, async (request, response) => {
+  const { id } = request.params;
+
+  if (!ObjectId.isValid(id)) return response.status(404).json(MESSAGE_ERROR_NOT_FOUND);
+
+  const { _id: userId } = request.user;
+
+  const { name, ingredients, preparation } = request.body;
   
+  console.log(request.body);
+
+  const payload = { name, ingredients, preparation };
+
+  const editedRecipe = await service.editRecipeById(id, payload, userId);
+
+  return response.status(200).json(editedRecipe);
 });
 
 module.exports = recipes;
