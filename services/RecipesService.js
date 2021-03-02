@@ -7,7 +7,7 @@ const getAllRecipes = async () => {
 
 const createRecipe = async (userId, name, ingredients, preparation) => {
   const { recipeId } = await RecipesModel.createRecipe(userId, name, ingredients, preparation);
-  console.log(recipeId);
+  // console.log(recipeId);
   return ({
     recipe: {
       name,

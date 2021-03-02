@@ -22,6 +22,14 @@ const validateEmail = async (req, res, next) => {
   next();
 };
 
+const validateRecipe = async (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  if (!name || !ingredients || !preparation) {
+    return res.status(BAD_REQ).json({ message: 'Invalid entries. Try again.' });
+  }
+  next();
+};
+
 const validateLogin = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -61,4 +69,5 @@ module.exports = {
   validateEmail,
   validateLogin,
   validateJWT,
+  validateRecipe,
 };

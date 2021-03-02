@@ -6,7 +6,7 @@ const getAllRecipes = async () => connection()
 const createRecipe = async (id, name, ingredients, preparation) => {
   const { insertedId } = await connection()
     .then((db) => db.collection('recipes').insertOne({ id, name, ingredients, preparation }));
-  console.log('insertedid', insertedId);
+  // console.log('insertedid', insertedId);
     return {
     recipeId: insertedId,
   };
