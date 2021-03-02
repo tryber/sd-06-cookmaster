@@ -1,5 +1,5 @@
 const { createUser, getAllUsers, getByEmail } = require('./UsersModel');
-const { getAllRecipes, createRecipe, getRecipe } = require('./RecipesModel');
+const { getAllRecipes, createRecipe, getRecipeById } = require('./RecipesModel');
 const connection = require('./connection');
 
 module.exports = {
@@ -9,5 +9,5 @@ module.exports = {
   getByEmail,
   getAllRecipes,
   createRecipe,
-  getRecipe,
+  getRecipeById,
 };

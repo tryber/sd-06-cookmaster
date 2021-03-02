@@ -12,14 +12,14 @@ const createRecipe = async (userId, name, ingredients, preparation) => {
   };
 };
 
-const getRecipe = async (something) => {
- const user = await connection()
-    .then((db) => db.collection('recipes').findOne({ something }));
- return user;
+const getRecipeById = async (id) => {
+  const recipe = await connection()
+    .then((db) => db.collection('recipes').findOne(id));
+  return recipe;
 };
 
 module.exports = {
   getAllRecipes,
   createRecipe,
-  getRecipe,
+  getRecipeById,
 };
