@@ -9,7 +9,7 @@ const {
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const STATUS_NO_CONTENT = 204;
-const STATUS_UNAUTHORIZED = 401;
+// const STATUS_UNAUTHORIZED = 401;
 
 const RecipesCreateService = async (req, res, _next) => {
   const { _id } = req.user;
@@ -39,15 +39,15 @@ const RecipeGetByIdService = async (req, res) => {
 const RecipeUpdateService = async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const { _id, role } = req.user;
-  try {
-    if (role === 'admin' || _id === id) {
-      await updateRecipe(id, name, ingredients, preparation);
-    }
-  } catch (e) {
-    res.status(STATUS_UNAUTHORIZED).json({ message: e.message });
-  }
-
+  // const { _id, role } = req.user;
+  // try {
+  //   if (role === 'admin' || _id === id) {
+      
+  //   }
+  // } catch (e) {
+  //   res.status(STATUS_UNAUTHORIZED).json({ message: e.message });
+  // }
+  await updateRecipe(id, name, ingredients, preparation);
   const updatedRecipe = await getByIdRecipe(id);
   return res.status(STATUS_OK).json(updatedRecipe);
 };
