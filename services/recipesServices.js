@@ -18,6 +18,18 @@ const recipeUpdate = async (id, name, ingredients, preparation) =>
   updateRecipe(id, name, ingredients, preparation);
 const recipeDelete = async (id) => deleteRecipe(id);
 
+const canUserEdit = async (id, email) => {
+  const recipe = await getRecipeById(id);
+  const user = await findOneUser(email);
+  const { _id } = user;
+
+  if (_id.toString() !== recipe.userId.toString() && user.role !== 'admin') {
+    return false;
+  }
+
+  return true;
+};
+
 const validateToken = async (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(loginError).json({ message: 'missing auth token' });
@@ -75,4 +87,5 @@ module.exports = {
   recipeUpdate,
   recipeDelete,
   updateImage,
+  canUserEdit,
 };

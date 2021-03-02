@@ -8,9 +8,10 @@ const { validateToken,
   validateId, 
   recipeUpdate, 
   recipeDelete, 
-  updateImage } = require('../services/recipesServices');
+  updateImage, 
+  canUserEdit } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
-const { CREATED, SUCCESS, NOTFOUND, DELETED } = require('../variables');
+const { CREATED, SUCCESS, NOTFOUND, DELETED, NOTADMIN } = require('../variables');
 
 const recipesRouter = new Router();
 
@@ -44,6 +45,13 @@ recipesRouter.get('/:id', validateId, async (req, res) => {
 recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
+  const { email } = req.user;
+
+  const userAuthorization = await canUserEdit(id, email);
+
+  if (!userAuthorization) {
+    return res.status(NOTADMIN).json({ message: `${email} can't edit this recipe` });
+  }
 
   await recipeUpdate(id, name, ingredients, preparation);
   const recipeUpdated = await getRecipeById(id);
@@ -53,7 +61,14 @@ recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
 
 recipesRouter.delete('/:id', validateToken, validateId, async (req, res) => {
   const { id } = req.params;
+  const { email } = req.user;
   const recipe = await getRecipeById(id);
+
+  const userAuthorization = await canUserEdit(id, email);
+
+  if (!userAuthorization) {
+    return res.status(NOTADMIN).json({ message: `${email} can't edit this recipe` });
+  }
 
   if (recipe) {
     await recipeDelete(id);
@@ -77,6 +92,12 @@ const upload = multer({ storage });
 recipesRouter.put('/:id/image', upload.single('image'),
    validateToken, validateId, async (req, res) => {
   const { id } = req.params;
+  const { email } = req.user;
+  const userAuthorization = await canUserEdit(id, email);
+
+  if (!userAuthorization) {
+    return res.status(NOTADMIN).json({ message: `${email} can't edit this recipe` });
+  }
   const path = `localhost:3000/images/${req.file.filename}`;
 
   const recipeUpdated = await updateImage(id, path);

@@ -11,7 +11,12 @@ const { SUCCESS, CREATED } = require('../variables');
 const usersRouter = new Router();
 
 usersRouter.post('/', checkEmail, validateUser, async (req, res) => {
-  const user = { ...req.body, role: 'user' };
+  let user;
+  if (!req.body.role) {
+    user = { ...req.body, role: 'user' };
+  } else {
+    user = req.body;
+  }
 
   await userCreate(user);
 
