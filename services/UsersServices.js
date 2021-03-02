@@ -1,5 +1,4 @@
 const connection = require('../models/connection');
-// const { ObjectId } = require('mongodb');
 
 const CREATED = 201;
 const BAD_REQUEST = 400;
