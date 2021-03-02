@@ -17,8 +17,9 @@ const create = async (req, res) => {
 
 const login = async (req, res) => {
   const { email } = req.body;
-
+  
   const getEmail = await userModels.getByEmail(email);
+  console.log(getEmail);
   const payload = {
     _id: getEmail._id,
     email: getEmail.email,
@@ -32,7 +33,7 @@ const login = async (req, res) => {
   const token = jwt.sign({data: payload}, segredo, jwtConfig)
 
   res.status(OK).json({token});
-}
+};
 
 module.exports = {
   create,

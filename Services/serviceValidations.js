@@ -9,7 +9,7 @@ const errStatus = 400;
 const unauthorized = 401;
 const errEmailStatus = 409;
 
-const createValidations = async (req, res, next) => {
+const createValidation = async (req, res, next) => {
   const { name, email, password } = req.body;
   if (!name) {
     return res.status(errStatus).json(errInvalidEntries);
@@ -32,20 +32,22 @@ const createValidations = async (req, res, next) => {
 
 const loginValidation = async (req, res, next) => {
   const { email, password } = req.body;
+  
   if (!password) {
     return res.status(unauthorized).json(errUnauthorized);
   }
   if (!email) {
     return res.status(unauthorized).json(errUnauthorized);
   }
-  if (validEmail(email) === false) {
-    return res.status(unauthorized).json(errInvalid);
-  }
   const getByEmail = await userModels.getByEmail(email);
   if (email !== getByEmail) {
     return res.status(unauthorized).json(errInvalid);
   }
+  if (validEmail(email) === false) {
+    return res.status(unauthorized).json(errInvalid);
+  }
   const checkPass = getByEmail.password;
+  console.log(checkPass);
   if (password !== checkPass) {
     return res.status(unauthorized).json(errInvalid);
   }
@@ -53,6 +55,6 @@ const loginValidation = async (req, res, next) => {
 };
 
 module.exports = {
-  createValidations,
+  createValidation,
   loginValidation,
 };

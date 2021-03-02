@@ -15,7 +15,7 @@ app.get('/', (request, response) => {
 });
 
 // users rotas
-app.post('/users', serviceValidations.createValidations, userController.create);
+app.post('/users', serviceValidations.createValidation, userController.create);
 app.post('/login', serviceValidations.loginValidation, userController.login);
 
 app.listen(PORT, () => console.log(`Ouvindo a porta ${PORT}`));
