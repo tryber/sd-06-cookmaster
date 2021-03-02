@@ -17,7 +17,7 @@ const checkUser = async (req, res, next) => {
   next();
 };
 const checkLogin = async (req, res, next) => {
-  const zero = 0;
+  const um = 1;
   const unauthorized = 401;
   const { email, password } = req.body;
   const findEmail = await userFindEmail(email);
@@ -26,9 +26,10 @@ const checkLogin = async (req, res, next) => {
     return res.status(unauthorized)
       .json({ message: 'All fields must be filled' });
   }
-  if (findEmail.length < zero || findPassword.length < zero) {
+  if (findEmail.length < um || findPassword.length < um) {
     return res.status(unauthorized).json({ message: 'Incorrect username or password' });
   }
+  // console.log(findPassword.length);
   next();
 };
 module.exports = {

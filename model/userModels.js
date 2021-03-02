@@ -8,7 +8,7 @@ const createUser = async (user) => {
 };
 const userFindEmail = async (email) => {
   const result = await connection().then((db) =>
-    db.collection('users').find({ email: { $eq: email } }).toArray());
+    db.collection('users').find({ email: { $eq: email } }, { _id: 0, email: 1 }).toArray());
   return result;
 };
 const userFindPassword = async (password) => {
