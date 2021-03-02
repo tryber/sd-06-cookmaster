@@ -2,6 +2,8 @@ const { Router } = require('express');
 
 const { CREATED, SUCCESS, NOT_FOUND, NO_CONTENT } = require('../utils');
 
+const message = 'recipe not found';
+
 const {
   getAllRecipes, createRecipe, getRecipeById, updateRecipe, removeRecipe,
 } = require('../services');
@@ -24,7 +26,7 @@ routerRecipes.get('/', async (_req, res) => {
 routerRecipes.get('/:id', async (req, res) => {
   const { id } = req.params;
   const recipe = await getRecipeById(id);
-  if (!recipe) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  if (!recipe) return res.status(NOT_FOUND).json({ message });
   return res.status(SUCCESS).json(recipe);
 });
 
@@ -32,7 +34,7 @@ routerRecipes.put('/:id', validateJWT, validateRecipe, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { id: recipeId } = req.params;
   const recipe = await getRecipeById(recipeId);
-  if (!recipe) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  if (!recipe) return res.status(NOT_FOUND).json({ message });
   const { _id: userId } = req.user;
   const recipeUpdated = await updateRecipe(recipeId, userId, name, ingredients, preparation);
   return res.status(SUCCESS).json(recipeUpdated);
@@ -41,7 +43,7 @@ routerRecipes.put('/:id', validateJWT, validateRecipe, async (req, res) => {
 routerRecipes.delete('/:id', validateJWT, async (req, res) => {
   const { id } = req.params;
   const recipes = await removeRecipe(id);
-  if (!recipes) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  if (!recipes) return res.status(NOT_FOUND).json({ message });
   res.status(NO_CONTENT).json();
 });
 
