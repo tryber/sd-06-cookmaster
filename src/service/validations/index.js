@@ -3,11 +3,11 @@ const { ObjectId } = require('mongodb');
 const UsersModel = require('../../models/Users');
 const RecipesModel = require('../../models/Recipes');
 
-
 const UNAUTHORIZED = 401;
 const CONFLICT = 409;
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
+
 const invalidEntries = {
   payload: { message: 'Invalid entries. Try again.' },
   status: BAD_REQUEST,
