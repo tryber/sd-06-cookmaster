@@ -43,12 +43,10 @@ const update = async (recipe) => {
       : { image };
     const validId = ObjectID.isValid(_id);
     if (validId === false) return validId;
-    console.log(updateRecipe);
-    if (!image) {
-      await connection()
-      .then((db) => db.collection('recipes')
-        .updateOne({ _id: ObjectID(_id) }, { $set: { ...updateRecipe } }));
-      }
+
+    await connection()
+    .then((db) => db.collection('recipes')
+      .updateOne({ _id: ObjectID(_id) }, { $set: { ...updateRecipe } }));
 
     return recipe;
   } catch (e) {
