@@ -1,10 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const path = require('path');
+
 const usersController = require('./controllers/usersController');
 const recipesController = require('./controllers/recipesController');
 const loginController = require('./controllers/loginController');
 
 const app = express();
+
+app.use('/images', express.static(path.join(__dirname, '/images')));
 
 const PORT = 3000;
 

@@ -1,4 +1,7 @@
 const { Router } = require('express');
+const multer = require('multer');
+
+const findRecipe = require('../middlewares/findRecipe');
 
 const {
   createRecipe,
@@ -12,6 +15,20 @@ const validateRecipe = require('../middlewares/validateRecipe');
 
 const router = Router();
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'images');
+  },
+  filename: (req, file, callback) => {
+    console.log('callback', file.name);
+    const fileExtension = file.originalname.split('.').pop();
+    const fileName = req.params.id.concat('.', fileExtension);
+    callback(null, fileName);
+  },
+});
+
+const upload = multer({ storage });
+
 const SUCCESS = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
@@ -19,18 +36,23 @@ const DFT_ERROR = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE = 422;
 
+router.post('/:id/image', validateToken, findRecipe, upload.single('image'), (req, res) => {
+  console.log(req);
+  res.send().status(200);
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const findRecipe = await findRecipeById(id);
+    const recipe = await findRecipeById(id);
 
-    if (findRecipe === false) {
+    if (recipe === false) {
       return res.status(NOT_FOUND).send({
         message: 'recipe not found',
       });
     }
 
-    res.status(SUCCESS).send(findRecipe);
+    res.status(SUCCESS).send(recipe);
   } catch (e) {
     console.log(e);
   }
@@ -78,9 +100,9 @@ router.put('/:id', validateToken, validatePrivilege, validateRecipe, async (req,
 router.delete('/:id', validateToken, validatePrivilege, async (req, res) => {
   try {
     const { id } = req.params;
-    const findRecipe = await findRecipeById(id);
+    const recipe = await findRecipeById(id);
 
-    if (findRecipe === false) {
+    if (recipe === false) {
       return res.status(UNPROCESSABLE).send({
         message: 'recipe not found',
       });

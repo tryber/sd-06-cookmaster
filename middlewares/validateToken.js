@@ -16,6 +16,7 @@ module.exports = async (req, res, next) => {
       return res.status(UNAUTHORIZED).send({ message: 'Erro ao procurar usuário do token.' });
     }
     req.user = user;
+    if (user.role === 'admin') req.admin = true;
     next();
   } catch (e) {
     return res.status(UNAUTHORIZED).send({ message: 'jwt malformed' });
