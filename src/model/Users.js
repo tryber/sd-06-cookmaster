@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 const connection = require('../connection/connection');
 
 // Find All Users
@@ -24,34 +24,8 @@ const create = async (name, email, password) => {
   return { user: { _id: insertedId, name, email, role } };
 };
 
-// Find by Id Users
-// const findById = async (id) => {
-//   await connection()
-//     .then((db) => db.collection('users').findOne(ObjectId(id)))
-//     .catch((err) => console.error(err));
-// };
-
-// // Update user
-// const update = async (id, name, email, passord) => {
-//   await connection().then((db) => db.collection('users').updateOne(
-//     { _id: ObjectId(id) },
-//     { $set: { name, email, passord } }))
-//     .catch((err) => console.error(err));
-//   return { _id: id, name, email, passord };
-// };
-
-// // Remove user
-// const remove = async (id) => {
-//   connection()
-//     .then((db) => db.collection('users').deleteOne({ _id: ObjectId(id) }))
-//     .catch((err) => console.error(err));
-// };
-
 module.exports = {
   getAll,
   create,
   findByEmail,
-  // findById,
-  // update,
-  // remove,
 };
