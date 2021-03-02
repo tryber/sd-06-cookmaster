@@ -40,9 +40,10 @@ const update = async (recipe) => {
   try {
     const { _id, name, ingredients, preparation, image } = recipe;
     const updateRecipe = (!image) ? { name, ingredients, preparation }
-      : { name, ingredients, preparation, image };
+      : { image };
     const validId = ObjectID.isValid(_id);
     if (validId === false) return validId;
+    console.log(updateRecipe);
     if (!image) {
       await connection()
       .then((db) => db.collection('recipes')

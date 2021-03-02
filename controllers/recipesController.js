@@ -34,9 +34,8 @@ router.put('/:id/image', validateToken, validatePrivilege, findRecipe, upload.si
   async (req, res) => {
     try {
       const { _id } = req.recipe;
-      const { name, ingredients, preparation } = req.body;
       const image = 'localhost:3000/'.concat(req.file.path);
-      const newRecipe = await updateRecipe({ name, ingredients, preparation, _id, image });
+      const newRecipe = await updateRecipe({ _id, image });
 
       return res.status(SUCCESS).send(newRecipe);
     } catch (e) {
