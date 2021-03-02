@@ -1,8 +1,8 @@
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const UserService = require('../model/UsersModel');
 
 const UNAUTHORIZED = 401;
-// const secret = 'secretToken';
+const secret = 'secretToken';
 
 const validateFields = async (req, res, next) => {
   const { email, password } = req.body;
@@ -19,28 +19,33 @@ const inputsValidation = async (req, res, next) => {
   const emailIsValid = emailFormat.test(email);
   const passwordIsValid = passwordFormat.test(password);
 
-  const usersData = await UserService.getAll();
-  const emailExist = usersData.every((user) => user.email !== email);
-  if (!emailIsValid || !passwordIsValid || emailExist) {
+  const findUser = await UserService.findUser(email);
+  if (!emailIsValid || !passwordIsValid || !findUser) {
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
   }
+  req.data = findUser;
   next();
 };
 
-/* const validateToken = async (req, res, next) => {
+const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+  }
+
   try {
     const decoded = jwt.verify(token, secret);
-    const user = await model.findUser(decoded.user.email);
-    res.user = user;
+    const user = await UserService.findUser(decoded.data.email);
+    req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'invalid' });
+    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
-}; */
+};
 
 module.exports = {
   validateFields,
   inputsValidation,
-  // validateToken,
+  validateToken,
 };

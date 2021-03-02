@@ -9,13 +9,17 @@ const getById = async (id) => connection().then((db) => db
 const findUser = async (email) => connection().then((db) => db
   .collection('users').findOne({ email }));
 
-const registerUser = async (objData) => {
+const registerUser = async (objData, userType = 'user') => {
+  const newUser = {
+    ...objData,
+    role: userType,
+  };
+
   const { insertedId } = await connection().then((db) => db
-  .collection('users').insertOne(objData));
+  .collection('users').insertOne(newUser));
   return {
     user: {
-      ...objData,
-      role: 'user',
+      ...newUser,
       _id: insertedId,
     },
   };

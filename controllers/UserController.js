@@ -3,7 +3,7 @@ const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
 
 const UserService = require('../service/UserService');
-const { validateField, userExist } = require('../middlewares/validations');
+const { validateField, userExist } = require('../middlewares/userValidations');
 const { validateFields, inputsValidation } = require('../auth/validateJWT');
 
 const router = Router();
@@ -19,12 +19,12 @@ router.post('/users', validateField, userExist, rescue(async (req, res) => {
 router.post('/login', validateFields, inputsValidation, rescue((async (req, res) => {
   const user = req.body;
   const secret = 'secretToken';
-
+  console.log(user);
   const jwtConfig = {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
-
+  console.log(req.data);
   const token = jwt.sign({ data: user }, secret, jwtConfig);
   return res.status(OK).json({ token });
 })));
