@@ -20,7 +20,19 @@ const validateRecipes = async (req, res, next) => {
 
   if (!name || !ingredients || !preparation) {
     return res.status(BAD_REQUEST).json({
-      menssagem: 'Invalid entries. Try again.',
+      message: 'Invalid entries. Try again.',
+    });
+  }
+  next();
+};
+
+const NOT_FOUND = 404;
+
+const validateId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(NOT_FOUND).json({
+      message: 'recipe not found',
     });
   }
   next();
@@ -33,4 +45,5 @@ module.exports = {
   putRecipe,
   delRecipe,
   validateRecipes,
+  validateId,
 };
