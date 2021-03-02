@@ -38,7 +38,6 @@
 //     }
 //   };
 
-
 //   if (id.length !== idMongoLength) return errorObject;
 
 //   const product = await products.findById(id);
