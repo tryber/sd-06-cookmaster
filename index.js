@@ -31,12 +31,12 @@ app.post('/users', async (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) res.status(401).json({ message: 'All fields must be filled' });
-    const { _id, email: emaill, role } = await Users.findByEmail(email, password);
+    const data = await Users.findByEmail(email, password);
+    const { _id, email: emaill, role } = data;
     const token = await createToken({ _id, emaill, role });
     return res.status(200).json({ token });
   } catch (error) {
-    return res.status(401).json({ message: 'Incorrect username or password' });
+    return res.status(401).json({ message: error.message });
   }
 });
 

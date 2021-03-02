@@ -2,7 +2,9 @@ const User = require('../models/usersModel');
 
 const findByEmail = async (email, password) => {
   const user = await User.findByEmail(email);
-  if (user.password !== password) throw new Error();
+  if (!email || !password) throw new Error('All fields must be filled');
+  if (!user) throw new Error('Incorrect username or password');
+  if (user.password !== password) throw new Error('Incorrect username or password');
   return user;
 };
 
