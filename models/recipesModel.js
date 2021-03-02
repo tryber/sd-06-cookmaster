@@ -10,8 +10,13 @@ const allRecipes = () =>
 const oneRecipe = (id) =>
   connection().then((db) => db.collection('recipes').findOne(ObjectId(id)));
 
+const updateRecipe = (id, name, ingredients, preparation) =>
+  connection().then((db) => db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }));
+
 module.exports = {
   createRecipe,
   allRecipes,
   oneRecipe,
+  updateRecipe,
 };

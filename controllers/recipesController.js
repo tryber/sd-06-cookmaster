@@ -4,9 +4,10 @@ const { validateToken,
   validateRecipe,
   getAllRecipes, 
   getRecipeById, 
-  validateId } = require('../services/recipesServices');
+  validateId, 
+  recipeUpdate} = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
-const { CREATED, SUCCESS, NOTFOUND } = require('../variables');
+const { CREATED, SUCCESS, NOTFOUND, loginError } = require('../variables');
 
 const recipesRouter = new Router();
 
@@ -35,6 +36,16 @@ recipesRouter.get('/:id', validateId, async (req, res) => {
   if (!recipe) return res.status(NOTFOUND).json({ message: 'recipe not found' });
 
   res.status(SUCCESS).json(recipe);
+});
+
+recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  await recipeUpdate(id, name, ingredients, preparation);
+  const recipeUpdated = await getRecipeById(id);
+
+  res.status(SUCCESS).json(recipeUpdated);
 });
 
 module.exports = { recipesRouter };
