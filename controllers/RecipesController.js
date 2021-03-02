@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
-const verifyAuthorization = require('../middlewares/verifyAuthorization');
+const { verifyAuthorization, getPayload } = require('../middlewares/verifyAuthorization');
 const Recipes = require('../models/Recipes');
 
 const router = Router();
@@ -47,6 +47,7 @@ router.post('/', verifyAuthorization, async (req, res) => {
     name,
     ingredients,
     preparation,
+    userId: getPayload() && getPayload().userId,
   };
   
   res.status(SUCCESS201).json({ recipe });

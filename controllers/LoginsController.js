@@ -23,11 +23,6 @@ const validation = async (email, password) => {
   if (!password) {
     return smsAllFields;
   } // Será validado que o campo "senha" é obrigatório
-  
-  const user = await Users.getByEmailAndPassword(email, password);
-  if (!user) { 
-    return { message: 'Incorrect username or password' };
-  } // Será validado que não é possível fazer login com um email inválido
 
   return null;
 };
@@ -36,9 +31,16 @@ router.post('/', async (req, res) => {
   const { email, password } = req.body;
   // 
   const err = await validation(email, password);
-  if (err) return res.status(ERRO401).json(err);
+  if (err) return res.status(ERRO401).jsno(err);
   // 
-  const token = createToken({ email });
+
+  const user = await Users.getByEmailAndPassword(email, password);
+  if (!user) { 
+    return res.status(ERRO401).json({ message: 'Incorrect username or password' });
+  } // Será validado que não é possível fazer login com um email inválido
+
+  const { _id } = user;
+  const token = createToken({ userId: _id, email });
   res.status(SUCCESS).json({ token });
 });
 
