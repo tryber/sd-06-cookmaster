@@ -8,6 +8,8 @@ const invalidEmail = (email) => {
   return !dataPattern.test(email);
 };
 
+const invalidPassword = (value) => typeof value !== 'string'; 
+
 const errorCode = 400;
 const duplicatedCode = 409;
 const errorMessage = 'Invalid entries. Try again.';
@@ -18,6 +20,7 @@ const validate = (name, email, password) => {
     case blank(name):
     case blank(email):
     case blank(password):
+    case invalidPassword(password):
     case invalidEmail(email): return { code: errorCode, message: errorMessage };
     default: return {};
   }
