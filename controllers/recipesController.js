@@ -11,16 +11,18 @@ const {
   verifyRecipe,
 } = require('../services/recipesService');
 
+const { getOneUser } = require('../services/usersService');
+
 const recipesRouter = new Router();
 const CREATED = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
 
 recipesRouter.post('/', validateToken, verifyRecipe, async (request, response) => {
-  const { id } = request.user;
-  const { name, ingredients, preparation } = request.body;
-  const recipe = { name, ingredients, preparation, userId: id };
-  await registerRecipe({ recipe });
+  const { email } = request.user;
+  const { _id } = await getOneUser(email);
+  const recipe = { ...request.body, userId: _id };
+  await registerRecipe(recipe);
   response.status(CREATED).json({ recipe });
 });
 

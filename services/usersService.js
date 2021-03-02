@@ -5,6 +5,7 @@ const CONFLICT = 409;
 const BAD_REQUEST = 400;
 
 const registerUser = async (userInfo) => usersModel.registerUser(userInfo);
+const getOneUser = async (info) => usersModel.getOneUser(info);
 
 const validateEmail = (email) => {
   const pattern = /\S+@\S+.\S+/;
@@ -38,4 +39,5 @@ module.exports = {
   validateUser,
   registerUser,
   validateEmail,
+  getOneUser,
 };

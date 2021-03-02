@@ -16,14 +16,12 @@ const validateToken = async (request, response, next) => {
   try {
     const decoded = jwt.verify(request.headers.authorization, '1234');
     const user = await usersModel.getOneUser(decoded.data.email);
-
     if (!user) return response.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
-
     request.user = decoded.data;
   } catch (err) {
     return response.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
-
+  
   next();
 };
 
