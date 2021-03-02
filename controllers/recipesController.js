@@ -5,9 +5,10 @@ const { validateToken,
   getAllRecipes, 
   getRecipeById, 
   validateId, 
-  recipeUpdate } = require('../services/recipesServices');
+  recipeUpdate, 
+  recipeDelete } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
-const { CREATED, SUCCESS, NOTFOUND } = require('../variables');
+const { CREATED, SUCCESS, NOTFOUND, DELETED } = require('../variables');
 
 const recipesRouter = new Router();
 
@@ -46,6 +47,18 @@ recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
   const recipeUpdated = await getRecipeById(id);
 
   res.status(SUCCESS).json(recipeUpdated);
+});
+
+recipesRouter.delete('/:id', validateToken, validateId, async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getRecipeById(id);
+
+  if (recipe) {
+    await recipeDelete(id);
+    res.status(DELETED).send();
+  } else {
+    res.status(NOTFOUND).json({ message: 'recipe not found' });
+  }
 });
 
 module.exports = { recipesRouter };
