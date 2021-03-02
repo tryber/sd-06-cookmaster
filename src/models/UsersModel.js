@@ -9,7 +9,6 @@ const getAllUsers = async () => {
 const findUser = async (email) => {
   const user = await connection()
     .then((db) => db.collection('users').findOne({ email }));
-  console.log(user)
   return user;
 };
 

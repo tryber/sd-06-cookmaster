@@ -12,6 +12,7 @@ UsersController.get('/', async (_req, res) => {
 });
 // ___________________
 
+// Requisito 1
 UsersController.post('/', UserValidation, UsersCreateService);
 
 module.exports = UsersController;

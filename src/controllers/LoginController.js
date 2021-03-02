@@ -4,6 +4,7 @@ const { LoginValidation } = require('../middlewares/LoginValidation');
 
 const LoginController = new Router();
 
+// Requisito 2
 LoginController.post('/', LoginValidation, LoginService);
 
 module.exports = LoginController;
