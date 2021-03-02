@@ -19,4 +19,8 @@ module.exports = {
     code: 'invalid_credentials',
     message: 'jwt malformed',
   },
+  recipeNotFound: {
+    code: 'not_found',
+    message: 'recipe not found',
+  },
 };
