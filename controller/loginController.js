@@ -4,7 +4,7 @@ const { findUserByEmail } = require('../Model/usersModel');
 const { loginPasswordCheck } = require('../Services/loginPasswordCheck');
 const { validateLogin } = require('../Services/validadeLogin');
 
-const secret = 'Possas';
+const secret = 'SARTOBOY';
 
 const LoginRouter = new Router();
 
