@@ -1,9 +1,12 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 const errInexistente = 400;
 const errInvalid = 401;
+const notFound = 404;
 const messageInexistente = { message: 'Invalid entries. Try again.' };
 const messageInvalid = { message: 'jwt malformed' };
+const messageNotFound = { message: 'recipe not found' };
 const segredo = 'cabeça';
 
 const createValidation = async (req, res, next) => {
@@ -24,6 +27,19 @@ const createValidation = async (req, res, next) => {
   next();
 };
 
+const idValidation = async (req, res, next) => {
+  const { id } = req.params;
+  const idValid = ObjectId.isValid(id);
+  if (!idValid) {
+    return res.status(notFound).json(messageNotFound);
+  }
+  if (idValid !== true) {
+    return res.status(notFound).json(messageNotFound);
+  }
+  next();
+};
+
 module.exports = {
   createValidation,
+  idValidation,
 };

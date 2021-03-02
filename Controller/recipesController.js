@@ -18,6 +18,14 @@ const getAll = async (req, res) => {
   } */
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const findId = await recipesModel.getById(id);
+
+  res.status(OK).json(findId);
+};
+
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const token = req.headers.authorization;
@@ -40,5 +48,6 @@ const create = async (req, res) => {
 
 module.exports = {
   getAll,
+  getById,
   create,
 };
