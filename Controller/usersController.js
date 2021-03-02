@@ -25,10 +25,10 @@ UsersRouter.post('/', validateUser, checkUniqueEmail, async (req, res) => {
 
 UsersRouter.post('/admin', validateAdmin, validateUser, checkUniqueEmail, async (req, res) => {
   const newUser = { ...req.body, role: 'admin' };
-
+  console.log(newUser);
   await createNewUser(newUser);
-
-  return res.status(twoHundredOne).json({ newUser });
+  console.log('usuario criado');
+  return res.status(twoHundredOne).json({ user: newUser });
 });
 
 module.exports = { UsersRouter };
