@@ -1,13 +1,15 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
-const secret = 'segredo-aplicacao';
+// const secret = 'segredo-aplicacao';
 
-const validateToken = (token) => {
-  const result = jwt.decode(token, secret);
-  
-  return result;
-};
+// const validateToken = (token) => {
+//   try {
+//     return jwt.decode(token, secret);
+//   } catch (e) {
+//     return null;
+//   }
+// };
 
-module.exports = {
-  validateToken,
-};
+// module.exports = {
+//   validateToken,
+// };
