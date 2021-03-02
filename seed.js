@@ -1,4 +1,4 @@
-const { Db } = require("mongodb")
+const { db } = require('mongodb');
 
 // colocar query do MongoDB 
 db.users.insertOne({
