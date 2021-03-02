@@ -4,6 +4,7 @@ const {
   getAllRecipes,
   findOneRecipe,
   validateId,
+  updateRecipe,
 } = require('../services/recipesService');
 
 const {
@@ -36,6 +37,14 @@ recipesRouter.get('/:id', validateId, async (request, response) => {
   const recipe = await findOneRecipe(id);
   if (!recipe) return response.status(NOT_FOUND).json({ message: 'recipe not found' });
   return response.status(SUCCESS).json(recipe);
+});
+
+recipesRouter.put('/:id', validateToken, validateId, async (request, response) => {
+  const { id } = request.params;
+  const { name, ingredients, preparation } = request.body;
+  const beforeUpdate = await updateRecipe(id, name, ingredients, preparation);
+  const newRecipe = { ...beforeUpdate, name, ingredients, preparation };
+  return response.status(SUCCESS).json(newRecipe);
 });
 
 module.exports = recipesRouter;

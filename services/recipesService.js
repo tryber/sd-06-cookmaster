@@ -10,9 +10,12 @@ const NOT_FOUND = 404;
 
 const registerRecipe = async (recipeInfo) => recipesModel.registerRecipe(recipeInfo);
 const getAllRecipes = async () => recipesModel.getAllRecipes();
-const findOneRecipe = async (id) => recipesModel.findOneRecipe(id); 
+const findOneRecipe = async (id) => recipesModel.findOneRecipe(id);
+const updateRecipe = async (id, recipe) => recipesModel.updateRecipe(id, recipe);
 
 const validateToken = async (request, response, next) => {
+  const token = request.headers.authorization;
+  if (!token) return response.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   try {
     const decoded = jwt.verify(request.headers.authorization, '1234');
     const user = await usersModel.getOneUser(decoded.data.email);
@@ -48,4 +51,5 @@ module.exports = {
   getAllRecipes,
   findOneRecipe,
   validateId,
+  updateRecipe,
 };
