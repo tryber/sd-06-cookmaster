@@ -1,25 +1,23 @@
 const jwt = require('jsonwebtoken');
 const Recipes = require('../models/RecipesModel');
 
-const getAll = async () => {
-  return await Recipes.getAll();
-}
+const getAll = async () => Recipes.getAll();
 
-const getById = async (id) => {
-  return await Recipes.getById(id);
-}
+const getById = async (id) => Recipes.getById(id);
 
 const add = async (token, { name, ingredients, preparation }) => {
-  const { _id: userId } =  await jwt.verify(token ,'secretkey');
-  return await Recipes.add(name, ingredients, preparation, userId);
-}
+  const { _id: userId } = await jwt.verify(token, 'secretkey');
+  return Recipes.add(name, ingredients, preparation, userId);
+};
 
-const update = async (id, name, ingredients, preparation) => {
-  return await Recipes.update(id, name, ingredients, preparation);
-}
+const update = async (id, name, ingredients, preparation) => Recipes
+  .update(id, name, ingredients, preparation);
 
-const remove = async (id) => {
-  return await Recipes.remove(id);
-}
+const remove = async (id) => Recipes.remove(id);
 
-module.exports = { getAll, getById, add, update, remove };
+const addImage = async (id, path) => {
+  const image = `localhost:3000/${path}`;
+  return Recipes.addImage(id, image);
+};
+
+module.exports = { getAll, getById, add, update, remove, addImage };
