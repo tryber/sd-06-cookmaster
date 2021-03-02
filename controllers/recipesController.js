@@ -30,12 +30,17 @@ recipes.get('/:id', async (request, response) => {
   const { id } = request.params;
 
   if (!ObjectId.isValid(id)) return response.status(404).json({ message: 'recipe not found' });
-  
+
   const recipe = await service.getRecipeById(id);
 
   if (!recipe) return response.status(404).json({ message: 'recipe not found' });
 
   return response.status(200).json(recipe);
+});
+
+// Requisito 07
+recipes.put('/:id', validateJWT, async (request, response) => {
+  
 });
 
 module.exports = recipes;
