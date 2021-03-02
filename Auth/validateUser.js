@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const secret = 'secretkey';
-
+/* eslint no-underscore-dangle: 0 */
 const validateUser = async (token, userId) => {
     const payload = await jwt.verify(token, secret);
     if (payload._id !== userId) {
