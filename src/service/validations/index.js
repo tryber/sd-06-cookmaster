@@ -28,6 +28,10 @@ const wrongTokenInfo = {
   payload: { message: 'jwt malformed' },
   status: UNAUTHORIZED,
 };
+const wrongTokenInfo2 = {
+  payload: { message: 'missing auth token' },
+  status: UNAUTHORIZED,
+};
 const recipeNotFound = {
   payload: { message: 'recipe not found' },
   status: NOT_FOUND,
@@ -69,6 +73,7 @@ const loginValidation = async (email, password) => {
 
 const tokenValidation = async (token) => {
   const secret = 'secretToken';
+  if (!token) return wrongTokenInfo2;
   const validationResult = jwt.decode(token, secret);
   if (validationResult) {
     const getEmail = await UsersModel.getByEmail(validationResult.email);
@@ -78,16 +83,31 @@ const tokenValidation = async (token) => {
   return wrongTokenInfo;
 };
 
+// const userTypeValidation = async (token) => {
+//   const secret = 'secretToken';
+
+//   const validationResult = jwt.decode(token, secret);
+//   if (validationResult) {
+//     const getEmail = await UsersModel.getByEmail(validationResult.email);
+//     if (getEmail && getEmail.role === 'admin') {
+
+//     }
+//     return getEmail;
+//   }
+// };
+
 const recipesValidation = (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) return invalidEntries;
 
   return false;
 };
 
-const recipeIdValidation = async (id) => {
+const recipeIdValidation = async (id, type = false) => {
   if (!id || id.length !== 24) return recipeNotFound;
   const result = await RecipesModel.getRecipeById(ObjectId(id));
   if (!result) return recipeNotFound;
+  console.log('entrou aqui');
+  if (type) return false;
   return result;
 };
 

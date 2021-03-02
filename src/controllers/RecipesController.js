@@ -17,6 +17,16 @@ const getRecipeById = async (req, res, next) => {
   return res.status(SUCCESS).json(result);
 };
 
+const editRecipeById = async (req, res, next) => {
+  const { id } = req.params;
+  const { authorization: token } = req.headers;
+  const reqBody = req.body;
+  const result = await RecipesService.editRecipeById(reqBody, id, token);
+  if (result.payload) return next(result);
+
+  return res.status(SUCCESS).json(result);
+};
+
 const createRecipe = async (req, res, next) => {
   const { authorization } = req.headers;
   const { name, ingredients, preparation } = req.body;
@@ -31,4 +41,5 @@ module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipeById,
 };

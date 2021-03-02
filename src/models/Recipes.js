@@ -16,11 +16,29 @@ const getRecipeById = async (id) => {
   return result;
 };
 
+const editRecipeById = async (reqBody, userId, id) => {
+  const { name, ingredients, preparation } = reqBody;
+ await connection().then((db) => db
+  .collection(collection).updateOne({ _id: id }, {
+    $set: { name, ingredients, preparation },
+  }));
+
+  const updatedRecipe = {
+      _id: id.toString(),
+      name,
+      ingredients,
+      preparation,
+      userId: userId.toString(),
+  };
+
+  return updatedRecipe;
+};
+
 const createRecipe = async (name, ingredients, preparation, userId) => {
   const { insertedId } = await connection().then((db) => db
     .collection(collection).insertOne({ name, ingredients, preparation }));
 
-  const newUser = {
+  const newRecipe = {
     recipe: {
       name,
       ingredients,
@@ -30,11 +48,12 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
     },
   };
 
-  return newUser;
+  return newRecipe;
 };
 
 module.exports = {
   getAllRecipes,
   getRecipeById,
   createRecipe,
+  editRecipeById,
 };

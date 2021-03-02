@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const RecipesModel = require('../models/Recipes');
 const Validation = require('./validations');
 
@@ -9,6 +10,24 @@ const getAllRecipes = async () => {
 const getRecipeById = async (id) => {
   const result = await Validation.recipeIdValidation(id);
   if (result.payload) return result;
+  return result;
+};
+
+const editRecipeById = async (reqBody, id, token) => {
+  const { name, ingredients, preparation } = reqBody;
+  const idValidation = await Validation.recipeIdValidation(id);
+  const tokenValidation = await Validation.tokenValidation(token);
+  console.log(tokenValidation);
+  const recipeValidation = Validation.recipesValidation(name, ingredients, preparation);
+
+  if (idValidation.payload) return idValidation;
+  if (recipeValidation.payload) return recipeValidation;
+  if (tokenValidation.payload) return tokenValidation;
+  
+  const { _id: userId } = tokenValidation;
+  
+  const result = await RecipesModel.editRecipeById(reqBody, userId, ObjectId(id));
+
   return result;
 };
 
@@ -28,4 +47,5 @@ module.exports = {
   getAllRecipes,
   createRecipe,
   getRecipeById,
+  editRecipeById,
 };
