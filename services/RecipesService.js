@@ -16,7 +16,13 @@ const createRecipeService = async (name, ingredients, preparation, userId) => {
   });
 };
 
+const getByIdService = async (id) => {
+  const recipe = await RecipesModel.getById(id);
+  return recipe;
+};
+
 module.exports = {
   getAllRecipesService,
   createRecipeService,
+  getByIdService,
 };
