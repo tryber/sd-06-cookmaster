@@ -32,3 +32,10 @@ exports.update = async (id, name, ingredients, preparation) => (
 exports.remove = async (id) => (
   connection().then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }))
 );
+
+exports.uploadImage = async (id, image) => (
+  connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+  ))
+);

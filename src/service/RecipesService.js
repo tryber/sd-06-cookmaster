@@ -15,3 +15,5 @@ exports.update = async (id, name, ingredients, preparation) => (
 exports.remove = async (id) => (
   Recipes.remove(id)
 );
+
+exports.uploadImage = async (id, image) => Recipes.uploadImage(id, image);
