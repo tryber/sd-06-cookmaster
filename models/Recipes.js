@@ -44,8 +44,31 @@ const getRecipeById = async (id) => {
   throw error;
 };
 
+const updateRecipeById = async (name, ingredients, preparation, id) => {
+  const { insertedId } = await connection()
+    .then((db) => db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }));
+
+  return {
+    _id: insertedId,
+    name,
+    ingredients,
+    preparation,
+    status: OK,
+  };
+};
+
+const getRecipeOwnerId = async (id) => {
+  const { userId } = await connection()
+    .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
+
+  return userId;
+};
+
 module.exports = {
   recipeRegister,
   getRecipes,
   getRecipeById,
+  updateRecipeById,
+  getRecipeOwnerId,
 };

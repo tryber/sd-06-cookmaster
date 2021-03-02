@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const connection = require('../models/connection');
 
@@ -64,9 +65,10 @@ const validateJwt = async (email, password) => {
   const passwordIsCorrect = await correctPassword(password);
 
   if (emailExistsResponse && passwordIsCorrect) {
-    const { _id: userId } = await connection()
+    const { _id: currentUserId } = await connection()
       .then((db) => db.collection('users').findOne({ email }));
-    return userId;
+
+    return currentUserId;
   }
   const error = [{ message: 'jwt malformed' }, UNAUTHORIZED];
   throw error;
@@ -86,8 +88,20 @@ const verifyValidToken = (token) => {
   }
 };
 
+const validateUserRole = async (email, recipeOwnerId, currentUserId) => {
+  const { role } = await connection()
+    .then((db) => db.collection('users').findOne({ email }));
+
+  if (role === 'admin' || JSON.stringify(recipeOwnerId) === JSON.stringify(currentUserId)) {
+    return true;
+  }
+  const error = [{ message: 'missing auth token' }, UNAUTHORIZED];
+  throw error;
+};
+
 module.exports = {
   validateInsertData,
   validateJwt,
   verifyValidToken,
+  validateUserRole,
 };
