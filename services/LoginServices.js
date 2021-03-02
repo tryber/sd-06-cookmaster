@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const connection = require('../models/connection');
 

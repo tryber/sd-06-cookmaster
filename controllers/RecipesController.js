@@ -57,7 +57,7 @@ RecipesController.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
   const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'missing auth token'});
+  if (!token) return res.status(401).json({ message: 'missing auth token' });
 
   try {
     const { email, password } = verifyValidToken(token);
