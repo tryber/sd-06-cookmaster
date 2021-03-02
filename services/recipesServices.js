@@ -11,6 +11,8 @@ const getById = async (id) => recipesModel.getById(id);
 
 const update = async (id, data) => recipesModel.update(id, data);
 
+const remove = async (id) => recipesModel.remove(id);
+
 const ERR = 400;
 
 const validate = async (req, res, next) => {
@@ -35,4 +37,5 @@ module.exports = {
   getById,
   idValidation,
   update,
+  remove,
 };

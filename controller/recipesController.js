@@ -7,6 +7,7 @@ const Recipes = require('../services/recipesServices');
 const CREATED = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+const DELETED = 204;
 
 recipesController.post('/', verifyToken, Recipes.validate, async (req, res) => {
   const { id } = req.user;
@@ -32,6 +33,12 @@ recipesController.put('/:id', verifyToken, Recipes.idValidation, async (req, res
   const oldRecipe = await Recipes.update(id, req.body);
   const recipe = { ...oldRecipe, ...req.body };
   res.status(SUCCESS).json(recipe);
+});
+
+recipesController.delete('/:id', verifyToken, Recipes.idValidation, async (req, res) => {
+  const { id } = req.params;
+  await Recipes.remove(id);
+  res.status(DELETED).send();
 });
 
 module.exports = recipesController;
