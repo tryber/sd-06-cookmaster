@@ -18,4 +18,10 @@ recipes.post('/', validateJWT, async (request, response) => {
   return response.status(201).json(recipe);
 });
 
+// Requisito 04
+recipes.get('/', async (_request, response) => {
+  const allRecipes = await service.getAllRecipes();
+  return response.status(200).json(allRecipes);
+});
+
 module.exports = recipes;
