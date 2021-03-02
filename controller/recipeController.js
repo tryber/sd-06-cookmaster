@@ -4,7 +4,7 @@ const {
   createNewRecipe,
   getAllRecipes,
   getRecipesById,
-  // putRecipe,
+  putRecipe,
   // delRecipe,
   validateRecipes,
   validateId,
@@ -41,6 +41,17 @@ RecipeRouter.get('/:id', validateId, async (req, res) => {
     return res.status(RESOLVE).json({ message: 'recipe not found' });
   }
   return res.status(RESOLVE).json(recipe);
+});
+
+RecipeRouter.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const recipe = await putRecipe(id, name, ingredients, preparation);
+
+  const newRecipe = { ...recipe, name, ingredients, preparation };
+
+  return res.status(RESOLVE).json(newRecipe);
 });
 
 module.exports = { RecipeRouter };

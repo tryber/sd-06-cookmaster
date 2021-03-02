@@ -10,8 +10,8 @@ const createRecipes = async (data) => connection()
 const findOneRecipes = async (id) => connection()
   .then((db) => db.collection('recipes').findOne(ObjectId(id)));
 
-const editRecipes = async (id, name, ingr, prep) => connection
-  .then((db) => db.collection('recipes').findAndUpdate(
+const editRecipe = async (id, name, ingr, prep) => connection()
+  .then((db) => db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
     { $set: { name, ingr, prep } },
   ));
@@ -23,6 +23,6 @@ module.exports = {
   findAllRecipes,
   createRecipes,
   findOneRecipes,
-  editRecipes,
+  editRecipe,
   deleteRecipes,
 };

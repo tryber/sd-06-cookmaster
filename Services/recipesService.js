@@ -3,14 +3,14 @@ const {
   createRecipes,
   findAllRecipes,
   findOneRecipes,
-  editRecipes,
+  editRecipe,
   deleteRecipes,
 } = require('../Model/recipeModel');
 
 const createNewRecipe = async (data) => createRecipes(data);
 const getAllRecipes = async () => findAllRecipes();
 const getRecipesById = async (id) => findOneRecipes(id);
-const putRecipe = async (id, name, ingr, prep) => editRecipes(id, name, ingr, prep);
+const putRecipe = async (id, name, ingr, prep) => editRecipe(id, name, ingr, prep);
 const delRecipe = async (id) => deleteRecipes(id);
 
 const BAD_REQUEST = 400;
