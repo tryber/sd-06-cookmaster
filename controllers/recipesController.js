@@ -11,7 +11,7 @@ const router = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './images/');
+    callback(null, 'images');
   },
   filename: (req, file, callback) => {
     // const fileExtension = file.originalname.split('.').pop(); opção que pegaria a extensão original

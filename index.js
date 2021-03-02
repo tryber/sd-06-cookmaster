@@ -9,19 +9,18 @@ const loginController = require('./controllers/loginController');
 
 const app = express();
 
-app.use('/images', express.static(path.join(__dirname, '/images')));
-
 const PORT = 3000;
 
 app.use(bodyParser.json());
-
-app.use('/users', usersController);
-app.use('/recipes', recipesController);
-app.use('/login', loginController);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/users', usersController);
+app.use('/recipes', recipesController);
+app.use('/login', loginController);
 
 app.listen(PORT, () => console.log('Rodando na 3k!'));
