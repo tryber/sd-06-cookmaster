@@ -35,9 +35,11 @@ const checkEmail = async (req, res, next) => {
   next();
 };
 
+const message = 'Only admins can register new admins';
+
 const checkAdmin = async (req, res, next) => {
   if (!req.headers.authorization) {
-    return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+    return res.status(NOTADMIN).json({ message });
   }
 
   try {
@@ -45,12 +47,12 @@ const checkAdmin = async (req, res, next) => {
     const user = await usersModel.findOneUser(decoded.data.email);
     console.log(user);
     if (!user || user.role !== 'admin') {
-      return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+      return res.status(NOTADMIN).json({ message });
     } 
 
     req.user = decoded.data;
   } catch (err) {
-    return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+    return res.status(NOTADMIN).json({ message });
   }
 
   next();

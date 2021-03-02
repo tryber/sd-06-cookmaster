@@ -1,10 +1,10 @@
 const { Router } = require('express');
-// const { ObjectId } = require('mongodb');
+
 const {
   checkEmail,
   getUsers,
   userCreate, 
-  checkAdmin} = require('../services/usersServices');
+  checkAdmin } = require('../services/usersServices');
 const { validateUser } = require('../services/usersServices');
 const { SUCCESS, CREATED } = require('../variables');
 
