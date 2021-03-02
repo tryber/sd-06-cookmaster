@@ -9,8 +9,12 @@ const listAllRecipes = async () => RecipesModel
 const listRecipeById = async (id) => RecipesModel
   .listRecipeById(id);
 
+const editRecipe = async (id, name, ingredients, preparation) => RecipesModel
+  .editRecipe(id, name, ingredients, preparation);
+
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
   listRecipeById,
+  editRecipe,
 };

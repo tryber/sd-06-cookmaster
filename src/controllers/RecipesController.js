@@ -9,7 +9,7 @@ const registerNewRecipe = rescue(async (req, res) => {
 
   const newRecipe = await RecipesService.registerNewRecipe(name, ingredients, preparation);
 
-  res
+  return res
     .status(CREATED)
     .json(newRecipe);
 });
@@ -27,13 +27,25 @@ const listRecipeById = rescue(async (req, res) => {
 
   const recipeById = await RecipesService.listRecipeById(id);
 
-  res
+  return res
     .status(SUCCESS)
     .json(recipeById);
+});
+
+const editRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const recipeEdited = await RecipesService.editRecipe(id, name, ingredients, preparation);
+
+  return res
+    .status(SUCCESS)
+    .json(recipeEdited);
 });
 
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
   listRecipeById,
+  editRecipe,
 };
