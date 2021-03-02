@@ -2,6 +2,8 @@ const { Router } = require('express');
 
 const RecipeRouter = new Router();
 
+const RESOLVE = 200;
+
 RecipeRouter.get('/', async (req, res) => {
-  res.status(200).json('funcionando o recipe router');
+  res.status(RESOLVE).json('funcionando o recipe router');
 });
