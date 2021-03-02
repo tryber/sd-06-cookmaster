@@ -11,9 +11,9 @@ router.post('/', userService.loginValidate, async (req, res) => {
 
     const user = await users.findEmailUser(email);
 
-    const tokenCreated = createToken(user);
+    const token = createToken(user);
 
-    return res.status(200).json({ tokenCreated });
+    return res.status(200).json({ token });
   } catch (e) {
     return res.status(500).json({ message: 'Erro interno', error: e });
   }
