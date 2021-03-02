@@ -7,7 +7,19 @@ const getAll = async () => {
   return users;
 };
 
-// // Return Users by ID
+// Add new Users
+const create = async (name, email, password) => {
+  const user = await userModel.create(name, email, password);
+  return user;
+};
+
+// Return Users by Email
+const findByEmail = async (email) => {
+  const user = await userModel.findByEmail(email);
+  return user;
+};
+
+// Return Users by ID
 // const findById = async (id) => {
 //   console.log('id', id);
 //   console.log(validateId(id));
@@ -18,23 +30,13 @@ const getAll = async () => {
 //   return { status: 'NOK', result: 'Wrong id format' };
 // };
 
-// Add new Users
-const create = async (name, email, password) => {
-  // const validation = await validateuserModel('create', name, quantity);
-  // if (validation === 'OK') {
-    const user = await userModel.create(name, email, password);
-    return user;
-  // } 
-  // return { status: 'NOK', result: validation };
-};
-
 // // Update Users
 // const update = async (id, name, quantity) => {
 //   const validationMessage = await validateuserModel('update', name, quantity);
 //   if (validationMessage === 'OK' && validateId(id)) {
 //     const result = await userModel.update(id, name, quantity);
 //     return { status: 'OK', result };
-//   } 
+//   }
 //   return { status: 'NOK', result: validationMessage };
 // };
 
@@ -69,7 +71,7 @@ const create = async (name, email, password) => {
 // const validateuserModel = async (typeOperation, name, quantity) => {
 //   const nameMaxLength = 5;
 //   const zero = 0;
-  
+
 //   if (!name || name.length < nameMaxLength) {
 //     return '"name" length must be at least 5 characters long';
 //   };
@@ -88,6 +90,7 @@ const create = async (name, email, password) => {
 module.exports = {
   getAll,
   create,
+  findByEmail,
   // findById,
   // update,
   // remove,

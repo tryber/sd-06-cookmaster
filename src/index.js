@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const log = require('./middlewares/log');
 const UserController = require('./controller/UserController');
+const LoginController = require('./controller/LoginController');
 
 const app = express();
 const PORT = parseInt(process.env.PORT, 10) || 3000;
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 app.use(log);
 
 app.use('/users', UserController);
+app.use('/login', LoginController);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

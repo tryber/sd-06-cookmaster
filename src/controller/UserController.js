@@ -13,6 +13,15 @@ UserController.get('/', async (req, res) => {
   res.status(OK).json({ Users: users });
 });
 
+// Create New Product
+UserController.post('/', validateUser, async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const user = await service.create(name, email, password);
+
+  res.status(CREATED).json(user);
+});
+
 // // Find Product by ID
 // UserController.get('/:id', async (req, res) => {
 //   const { id } = req.params;
@@ -22,15 +31,6 @@ UserController.get('/', async (req, res) => {
 //   }
 //   res.status(OK).json(result);
 // });
-
-// Create New Product
-UserController.post('/', validateUser, async (req, res) => {
-  const { name, email, password } = req.body;
-
-  const user = await service.create(name, email, password);
-
-  res.status(CREATED).json(user);
-});
 
 // // Update Product
 // UserController.put('/:id', async (req, res) => {
