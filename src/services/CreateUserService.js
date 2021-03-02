@@ -15,11 +15,11 @@ class CreateUserService {
     if (userWithEmail) throw new AppError(emailError, CONFLICT);
 
     const userRole = role || 'user';
-    const hashedPassword = await this.HashProvider.generateHash(password);
+    // const hashedPassword = await this.HashProvider.generateHash(password);
 
     const userToCreate = {
       email,
-      password: hashedPassword,
+      password,
       role: userRole,
       name,
     };

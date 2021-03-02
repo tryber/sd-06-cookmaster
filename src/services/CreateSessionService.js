@@ -7,9 +7,8 @@ const authConfig = require('../config/auth');
 const emailError = 'Incorrect username or password';
 
 class CreateSessionService {
-  constructor(UserModel, HashProvider) {
+  constructor(UserModel) {
     this.UserModel = UserModel;
-    this.HashProvider = HashProvider;
   }
 
   async execute({ email, password }) {
@@ -17,11 +16,7 @@ class CreateSessionService {
 
     if (!user) throw new AppError(emailError, UNAUTHORIZED);
 
-    const passwordMatch = await this.HashProvider.compareHash(password, user.password);
-    const isAdmin = user.role === 'admin';
-
-    if (!passwordMatch || !isAdmin) throw new AppError(emailError, UNAUTHORIZED);
-    if (isAdmin && user.password !== password) throw new AppError(emailError, UNAUTHORIZED);
+    if (user.password !== password) throw new AppError(emailError, UNAUTHORIZED);
 
     const { _id: id } = user;
     const payload = { email: user.email, id, role: user.role };
