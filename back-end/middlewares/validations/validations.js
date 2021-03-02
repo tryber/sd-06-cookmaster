@@ -33,7 +33,7 @@ const loginValidationsSwitch = async (email, password) => {
   if (registeredUser && registeredUser.password !== password) {
     throw new ThrowError(status.unauthorized, errorMessages.invalidLogin);
   }
-}
+};
 
 const loginValidations = async (req, res, next) => {
   const { email, password } = req.body;
