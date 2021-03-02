@@ -15,12 +15,12 @@ const create = async (req, res) => {
 
 const login = async (req, res) => {
   const { email } = req.body;
-  
   const getEmail = await userModels.getByEmail(email);
-  const { id } = getEmail;
+  const { _id: id } = getEmail;
+
   const payload = {
     id,
-    email: getEmail.email,
+    email,
     role: 'user',
   };
   const segredo = 'cabeça';
