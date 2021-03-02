@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./src/controller/UserController');
+const loginController = require('./src/controller/LoginController');
 
 const app = express();
 
@@ -12,9 +13,10 @@ app.listen(PORT, () => {
   console.log(`Api waiting for requests on port: ${PORT}`);
 });
 
-// não remova esse endpoint, e para o avaliador funcionar
+// não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
 
 app.use('/users', userController);
+app.use('/login', loginController);
