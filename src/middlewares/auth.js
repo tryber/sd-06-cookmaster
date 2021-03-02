@@ -1,17 +1,16 @@
 const Boom = require('@hapi/boom');
+const { validateEmail } = require('../utils');
 
 module.exports = (req, _res, next) => {
   const { email, password } = req.body;
+  
+  const isValidEmail = validateEmail(email);
 
   if (!email || !password) {
     return next(Boom.unauthorized('All fields must be filled'));
   }
 
-  const testEmail = /^[\w-.]+@([a-z-]+\.)+[\w-]{2,4}$/;
-  
-  const validEmail = testEmail.test(email);
-
-  if (!validEmail) {
+  if (!isValidEmail) {
     return next(Boom.unauthorized('Incorrect username or password'));
   }
 
