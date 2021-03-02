@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
         message: 'recipe not found',
       });
     }
+    req.recipe = findRecipe;
     next();
   } catch (e) {
     throw new Error(e);

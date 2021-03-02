@@ -21,8 +21,8 @@ const deleteRecipe = async (id) => {
 
 const updateRecipe = async (recipe) => {
   try {
-    await update(recipe);
-    return recipe;
+    const updatedRecipe = await update(recipe);
+    return updatedRecipe;
   } catch (e) {
     console.log(e);
   }

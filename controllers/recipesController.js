@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    console.log('callback', file.name);
-    const fileExtension = file.originalname.split('.').pop();
+    // const fileExtension = file.originalname.split('.').pop(); opção que pegaria a extensão original
+    const fileExtension = 'jpeg';
     const fileName = req.params.id.concat('.', fileExtension);
     callback(null, fileName);
   },
@@ -36,8 +36,18 @@ const DFT_ERROR = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE = 422;
 
-router.post('/:id/image', validateToken, findRecipe, upload.single('image'), (req, res) => {
-  console.log(req);
+router.put('/:id/image', validateToken, findRecipe, upload.single('image'), async (req, res) => {
+  try {
+    const { _id } = req.recipe;
+    const { name, ingredients, preparation } = req.body;
+    const image = 'localhost:3000/'.concat(req.file.path);
+    const newRecipe = await updateRecipe({ name, ingredients, preparation, _id, image });
+
+    return res.status(SUCCESS).send(newRecipe);
+  } catch (e) {
+    console.log(e);
+    res.status(DFT_ERROR).send(e);
+  }
   res.send().status(200);
 });
 
