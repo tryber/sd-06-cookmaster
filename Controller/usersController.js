@@ -1,10 +1,8 @@
-const userModels = require('../Models/usersModel');
 const jwt = require('jsonwebtoken');
+const userModels = require('../Models/usersModel');
 
 const createStatus = 201;
 const OK = 200;
-
-
 
 const create = async (req, res) => {
   const { name, email, password } = req.body;
@@ -22,12 +20,12 @@ const login = async (req, res) => {
   const payload = {
     _id: getEmail._id,
     email: getEmail.email,
-    role: 'user'
+    role: 'user',
   };
   const segredo = 'cabeça';
   const jwtConfig = {
     expiresIn: '1d',
-    algorithm: 'HS256'
+    algorithm: 'HS256',
   };
   const token = jwt.sign({ data: payload }, segredo, jwtConfig);
 

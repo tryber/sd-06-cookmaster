@@ -28,14 +28,11 @@ const createValidation = async (req, res, next) => {
     return res.status(errEmailStatus).json(errEmail);
   }
   next();
-}
+};
 
 const loginValidation = async (req, res, next) => {
   const { email, password } = req.body;
-  if (!password) {
-    return res.status(unauthorized).json(errUnauthorized);
-  }
-  if (!email) {
+  if (!password || !email) {
     return res.status(unauthorized).json(errUnauthorized);
   }
   if (validEmail(email) === false) {
