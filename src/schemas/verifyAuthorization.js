@@ -7,6 +7,8 @@ module.exports = (req, res, next) => {
   try {
     const { authorization: token } = req.headers;
 
+    if (!token) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+
     const payload = validateToken(token);
 
     if (!payload) res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });

@@ -21,3 +21,10 @@ exports.create = async (name, ingredients, preparation, userId) => {
 
   return result.ops[0];
 };
+
+exports.update = async (id, name, ingredients, preparation) => (
+  connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+  ))
+);

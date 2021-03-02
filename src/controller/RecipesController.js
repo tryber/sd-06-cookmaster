@@ -51,4 +51,19 @@ router.post('/', verifyToken, createValidation, async (req, res) => {
   }
 });
 
+router.put('/:id', verifyToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+
+    await Recipes.update(id, name, ingredients, preparation);
+
+    const modifiedRecipe = await Recipes.findById(id);
+
+    return res.status(OK).json(modifiedRecipe);
+  } catch (err) {
+    return res.status(INTERNAL_SERVER_ERROR).json(INTERNAL_ERROR_MESSAGE);
+  }
+});
+
 module.exports = router;
