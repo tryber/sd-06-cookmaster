@@ -5,7 +5,7 @@ const {
   getAllRecipes,
   getRecipesById,
   putRecipe,
-  // delRecipe,
+  delRecipe,
   validateRecipes,
   validateId,
 } = require('../Services/recipesService');
@@ -15,6 +15,7 @@ const RecipeRouter = new Router();
 
 const RESOLVE = 200;
 const SUCCESS = 201;
+const NO_CONTENT = 204;
 
 RecipeRouter.post('/', validateToken, validateRecipes, async (req, res) => {
   const { email } = req.user;
@@ -52,6 +53,14 @@ RecipeRouter.put('/:id', async (req, res) => {
   const newRecipe = { ...recipe, name, ingredients, preparation };
 
   return res.status(RESOLVE).json(newRecipe);
+});
+
+RecipeRouter.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+
+  await delRecipe(id);
+
+  res.status(NO_CONTENT).send();
 });
 
 module.exports = { RecipeRouter };
