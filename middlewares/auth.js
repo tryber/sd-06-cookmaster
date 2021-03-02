@@ -1,8 +1,7 @@
-const { BAD_REQ, CONFLICT, UNAUTHORIZED } = require('../utils');
-
+const jwt = require('jsonwebtoken');
+const { BAD_REQ, CONFLICT, UNAUTHORIZED, SECRET } = require('../utils');
 const { getByEmail } = require('../models/UsersModel');
 
-// const regexEmail = /[\w]{3,30}@[a-zA-Z]{3,8}.[\w]{2,7}/mg;
 const regexEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/;
 
 const validateUser = (req, res, next) => {
@@ -37,8 +36,29 @@ const validateLogin = (req, res, next) => {
   next();
 };
 
+const validateJWT = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+  return res.status(400).json({ error: 'Token não encontrado ou informado' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    const user = await getByEmail(decoded.userData.email);
+ 
+    if (!user) {
+      return res.status(401).json({ message: 'Erro ao procurar usuário do token.' });
+    }
+    req.user = user; // Definindo no .user o usuario logado
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: err.message });
+  }
+};
+
 module.exports = {
   validateUser,
   validateEmail,
   validateLogin,
+  validateJWT,
 };

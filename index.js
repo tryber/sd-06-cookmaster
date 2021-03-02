@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routerUsers = require('./controllers/UsersController');
-const routerLogin = require('./controllers/LoginController');
+
+const { routerLogin, routerUsers, routerRecipes } = require('./controllers');
 
 const app = express();
 const PORT = 3000;
@@ -14,5 +14,6 @@ app.get('/', (request, response) => {
 app.use(bodyParser.json());
 app.use('/users', routerUsers);
 app.use('/login', routerLogin);
+app.use('/recipes', routerRecipes);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));

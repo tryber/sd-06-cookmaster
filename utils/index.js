@@ -3,6 +3,7 @@ const CREATED = 201;
 const BAD_REQ = 400;
 const UNAUTHORIZED = 401;
 const CONFLICT = 409;
+const SECRET = 'senha';
 
 module.exports = {
   SUCCESS,
@@ -10,4 +11,5 @@ module.exports = {
   BAD_REQ,
   UNAUTHORIZED,
   CONFLICT,
+  SECRET,
 };

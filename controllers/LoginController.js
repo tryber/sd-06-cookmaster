@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const { SUCCESS, UNAUTHORIZED } = require('../utils');
+const { SUCCESS, UNAUTHORIZED, SECRET } = require('../utils');
 const { getByEmail } = require('../models');
 const { validateLogin } = require('../middlewares');
 // require {} => function
 
 const routerLogin = Router();
-const secret = 'senha';
 
 const jwtConfig = {
   expiresIn: '15m',
@@ -16,9 +15,8 @@ const jwtConfig = {
 routerLogin.post('/', validateLogin, async (req, res) => {
   const { email, password } = req.body;
   const user = await getByEmail(email);
-
   if (!user) return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
-  
+
   const { password: passwordOnDataBase, ...userWithouPassword } = user;
 
   if (password !== passwordOnDataBase) {
@@ -30,7 +28,7 @@ routerLogin.post('/', validateLogin, async (req, res) => {
     aud: 'indentity',
     userData: userWithouPassword,
   };
-  const token = jwt.sign(payload, secret, jwtConfig);
+  const token = jwt.sign(payload, SECRET, jwtConfig);
   return res.status(SUCCESS).json({ token });
 });
 
