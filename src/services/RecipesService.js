@@ -6,8 +6,19 @@ const registerNewRecipe = async (name, ingredients, preparation) => RecipesModel
 const listAllRecipes = async () => RecipesModel
   .listAllRecipes();
 
-const listRecipeById = async (id) => RecipesModel
-  .listRecipeById(id);
+const listRecipeById = async (id) => {
+  const recipeById = await RecipesModel
+    .listRecipeById(id);
+  
+  if (!recipeById) {
+    return {
+      error: true,
+      message: 'recipe not found',
+    };
+  }
+
+  return recipeById;
+};
 
 const editRecipe = async (id, name, ingredients, preparation) => RecipesModel
   .editRecipe(id, name, ingredients, preparation);

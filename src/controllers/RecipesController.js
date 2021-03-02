@@ -1,3 +1,4 @@
+const Boom = require('@hapi/boom');
 const rescue = require('express-rescue');
 const { RecipesService } = require('../services');
 
@@ -27,6 +28,10 @@ const listRecipeById = rescue(async (req, res) => {
   const { id } = req.params;
 
   const recipeById = await RecipesService.listRecipeById(id);
+
+  if (recipeById.error) {
+    throw Boom.notFound(recipeById.message);
+  }
 
   return res
     .status(SUCCESS)

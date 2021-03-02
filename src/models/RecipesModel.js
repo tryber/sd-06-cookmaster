@@ -20,9 +20,13 @@ const listAllRecipes = async () => connection()
   .then((db) => db.collection('recipes')
     .find().toArray());
 
-const listRecipeById = async (id) => connection()
+const listRecipeById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
   .then((db) => db.collection('recipes')
     .findOne(ObjectId(id)));
+};
 
 const editRecipe = async (id, name, ingredients, preparation) => {
   const { value } = await connection()
