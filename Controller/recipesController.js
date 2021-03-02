@@ -27,10 +27,11 @@ const getById = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id } = req.params;
+  const recipeId = req.params.id;
   const corpo = req.body;
 
-  const getId = await recipesModel.getById(id);
+  const getId = await recipesModel.getById(recipeId);
+  const { _id: id } = getId;
 
   const updatedRecipe = {
     id,
