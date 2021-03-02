@@ -1,11 +1,23 @@
-// const { LoginService } = require('.');
-// const { LoginModel } = require('../models');
+const jwt = require('jsonwebtoken');
 
-// const userLogin = async (email, password) => {
-//   const login = LoginModel.userLogin(email);
-//   return login;
-// };
+const userLogin = async (email, password) => {
+  const secret = 'mySecretToken';
 
-// module.exports = {
-//   userLogin,
-// };
+  const user = {
+    email,
+    password,
+  };
+
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256',
+  };
+
+  const token = jwt.sign({ data: user }, secret, jwtConfig);
+
+  return token;
+};
+
+module.exports = {
+  userLogin,
+};

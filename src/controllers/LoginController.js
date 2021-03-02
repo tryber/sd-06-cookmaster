@@ -1,26 +1,18 @@
-// const rescue = require('express-rescue');
-// const jwt = require('jsonwebtoken');
-// const { LoginService } = require('../services');
+const rescue = require('express-rescue');
+const { LoginService } = require('../services');
 
-// const SUCCESS = 200;
+const SUCCESS = 200;
 
-// const userLogin = rescue(async (req, res) => {
-//   const { email, password } = req.body;
+const userLogin = rescue(async (req, res) => {
+  const { email, password } = req.body;
 
-//   const login = await LoginService.userLogin(email, password);
+  const generateToken = await LoginService.userLogin(email, password);
 
-//   const jwtConfig = {
-//     expiresIn: '1m',
-//     algorithm: 'HS256',
-//   };
+  res
+    .status(SUCCESS)
+    .json({ token: generateToken });
+});
 
-//   const token = jwt.sign()
-
-//   res
-//     .status(SUCCESS)
-//     .json(login);
-// });
-
-// module.exports = {
-//   userLogin,
-// };
+module.exports = {
+  userLogin,
+};

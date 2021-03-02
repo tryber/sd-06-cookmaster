@@ -1,7 +1,7 @@
 const express = require('express');
 const BodyParser = require('body-parser');
 
-const { UsersRouter, RecipesRouter } = require('./src/routers');
+const { UsersRouter, RecipesRouter, LoginRouter } = require('./src/routers');
 
 const { IS_LOCAL } = process.env;
 const PORT_EVALUATOR = 3000;
@@ -18,7 +18,7 @@ app.get('/', (request, response) => {
 
 app.use(BodyParser.json());
 app.use('/users', UsersRouter);
-// app.use('/login', LoginRouter);
+app.use('/login', LoginRouter);
 app.use('/recipes', RecipesRouter);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
