@@ -1,19 +1,18 @@
 const { Router } = require('express');
 
 const UserController = require('../controllers/UserController');
+const AdminController = require('../controllers/AdminController');
+
 const validateUserData = require('../middlewares/validateUserData');
+const ensureAuth = require('../middlewares/ensureAuth');
+const ensureAdmin = require('../middlewares/ensureAdmin');
 
 const userController = new UserController();
+const adminController = new AdminController();
 
 const userRoutes = Router();
 
-// userRoutes.get('/', productController.list);
-// userRoutes.get('/:id', productController.show);
-
 userRoutes.post('/', validateUserData, userController.create);
-
-// userRoutes.put('/:id', productDataValidator, productController.update);
-
-// userRoutes.delete('/:id', productController.delete);
+userRoutes.post('/admin', validateUserData, ensureAuth, ensureAdmin, adminController.create);
 
 module.exports = userRoutes;
