@@ -8,12 +8,12 @@ const dataValidate = async (name, ingredients, preparation) => {
   return false;
 };
 
-const create = async (name, ingredients, preparation) => {
+const create = async (name, ingredients, preparation, userId) => {
   const errorMessage = await dataValidate(name, ingredients, preparation);
 
   if (errorMessage) return errorMessage;
 
-  const recipeCreated = await recipes.create(name, ingredients, preparation);
+  const recipeCreated = await recipes.create(name, ingredients, preparation, userId);
 
   return recipeCreated;
 };
