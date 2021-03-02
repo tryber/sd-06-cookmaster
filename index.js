@@ -12,6 +12,7 @@ app.get('/', (request, response) => {
 const bodyParser = require('body-parser');
 const { UsersRouter } = require('./controller/usersController');
 const { LoginRouter } = require('./controller/loginController');
+const { RecipesRouter } = require('./controller/recipesController');
 
 app.use(bodyParser.json());
 
@@ -22,5 +23,9 @@ app.use('/users', UsersRouter);
 // 2 - Crie um endpoint para o login de usuários
 // A rota deve ser (/login).
 app.use('/login', LoginRouter);
+
+// 3 - Crie um endpoint para o cadastro de receitas
+// A rota deve ser (/recipes).
+app.use('/recipes', RecipesRouter);
 
 app.listen(port, () => console.log(`Listening to ${port}`));

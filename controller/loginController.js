@@ -12,7 +12,7 @@ LoginRouter.get('/', async (req, res) => res.status(200).json('login router'));
 // A rota deve receber os campos Email e Senha e esses campos devem ser validados no banco de dados.
 // Um token JWT deve ser gerado e retornado caso haja sucesso no login.
 // No seu payload deve estar presente o id, email e role do usuário.
-LoginRouter.post('/', checkUser, validateLogin, async (req, res) => {
+LoginRouter.post('/', validateLogin, checkUser, async (req, res) => {
   const { email } = req.body;
   const user = await getUserByEmail(email);
   const data = {
@@ -25,4 +25,7 @@ LoginRouter.post('/', checkUser, validateLogin, async (req, res) => {
   res.status(200).json({ token });
 });
 
-module.exports = { LoginRouter };
+module.exports = {
+    LoginRouter,
+    secret,
+  };
