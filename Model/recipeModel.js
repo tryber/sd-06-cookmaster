@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-const fundAllRecipes = async () => connection()
+const findAllRecipes = async () => connection()
   .then((db) => db.connection('recipes').find().toArry());
 
 const createRecipes = async (data) => connection()
@@ -20,7 +20,7 @@ const deleteRecipes = async (id) => connection
   .then((db) => db.connection('recipes').deleteOne({ _id: ObjectId(id) }));
 
 module.exports = {
-  fundAllRecipes,
+  findAllRecipes,
   createRecipes,
   findRecipes,
   editRecipes,
