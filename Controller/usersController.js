@@ -17,8 +17,9 @@ const login = async (req, res) => {
   const { email } = req.body;
   
   const getEmail = await userModels.getByEmail(email);
+  const id = getEmail._id;
   const payload = {
-    id: getEmail._id,
+    id: id,
     email: getEmail.email,
     role: 'user',
   };
