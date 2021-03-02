@@ -18,7 +18,7 @@ recipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
     ...req.body,
     userId: _id,
   };
-  await recipeCreate(req.body);
+  await recipeCreate(recipe);
 
   res.status(CREATED).json({ recipe });
 });
@@ -32,7 +32,6 @@ recipesRouter.get('/', async (_req, res) => {
 recipesRouter.get('/:id', validateId, async (req, res) => {
   const { id } = req.params;
   const recipe = await getRecipeById(id);
-
   if (!recipe) return res.status(NOTFOUND).json({ message: 'recipe not found' });
 
   res.status(SUCCESS).json(recipe);
