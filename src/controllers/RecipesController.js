@@ -1,15 +1,26 @@
 const { Router } = require('express');
 const { TokenValidation } = require('../Auth/TokenValidation');
-const { RecipesValidation } = require('../middlewares/RecipesValidation');
-const { RecipesCreateService, RecipesGetAllServices } = require('../services/RecipesService');
+const { 
+  RecipesValidation, 
+  RecipeIdValidation,
+} = require('../middlewares/RecipesValidation');
+const { 
+  RecipesCreateService, 
+  RecipesGetAllService, 
+  RecipeGetByIdService,
+} = require('../services/RecipesService');
 
 const RecipesController = new Router();
 
 // Requisito 3
 RecipesController.post('/', TokenValidation, RecipesValidation, RecipesCreateService);
 
-// Requisição 4
-RecipesController.get('/', RecipesGetAllServices);
-RecipesController.get('/', TokenValidation, RecipesGetAllServices);
+// Requisito 4
+RecipesController.get('/', RecipesGetAllService);
+RecipesController.get('/', TokenValidation, RecipesGetAllService);
+
+// Requisito 5
+RecipesController.get('/:id', RecipeIdValidation, RecipeGetByIdService);
+RecipesController.get('/:id', RecipeIdValidation, TokenValidation, RecipeGetByIdService);
 
 module.exports = RecipesController;

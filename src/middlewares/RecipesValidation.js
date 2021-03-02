@@ -1,6 +1,7 @@
-// const { LoginService } = require('../services/LoginService');
+const { ObjectId } = require('mongodb');
 
 const STATUS_BAD_REQUEST = 400;
+const STATUS_NOT_FOUND = 404;
 const STATUS_INTERNAL_SERVER_ERROR = 500;
 
 const RecipesValidation = async (req, res, next) => {
@@ -15,6 +16,19 @@ const RecipesValidation = async (req, res, next) => {
   next();
 };
 
+const RecipeIdValidation = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    if (!ObjectId.isValid(id)) {
+      return res.status(STATUS_NOT_FOUND).json({ message: 'recipe not found' });
+    }
+  } catch (error) {
+    return res.status(STATUS_INTERNAL_SERVER_ERROR).json({ err: 'Server Internal Error' });
+  }
+  next();
+};
+
 module.exports = {
   RecipesValidation,
+  RecipeIdValidation,
 };

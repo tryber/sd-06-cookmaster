@@ -1,8 +1,9 @@
 const { 
   createRecipe,
 } = require('../models/RecipesModel');
-const { getAllRecipes } = require('../models/RecipesModel');
+const { getAllRecipes, getByIdRecipe } = require('../models/RecipesModel');
 
+const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 
 const RecipesCreateService = async (req, res, _next) => {
@@ -29,12 +30,19 @@ const RecipesCreateService = async (req, res, _next) => {
 //     });
 // };
 
-const RecipesGetAllServices = async (_req, res) => {
+const RecipesGetAllService = async (_req, res) => {
   const recipes = await getAllRecipes();
-  return res.status(200).json(recipes);
+  return res.status(STATUS_OK).json(recipes);
+};
+
+const RecipeGetByIdService = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getByIdRecipe(id);
+  return res.status(STATUS_OK).json(recipe);
 };
 
 module.exports = {
   RecipesCreateService,
-  RecipesGetAllServices,
+  RecipesGetAllService,
+  RecipeGetByIdService,
 };
