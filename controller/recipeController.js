@@ -1,4 +1,13 @@
 const { Router } = require('express');
+const {
+  createNewRecipe,
+  getAllRecipes,
+  getRecipesById,
+  putRecipe,
+  delRecipe,
+  validateRecipes,
+  validateId,
+} = require('../Model/recipeModel');
 
 const RecipeRouter = new Router();
 
