@@ -5,8 +5,14 @@ const {
   getAllRecipesService,
   createRecipeService,
   getByIdService,
+  editRecipeService,
 } = require('../services/RecipesService');
-const { validateRecipe, validateToken, validateId } = require('../middlewares/RecipesMid');
+const {
+  validateRecipe,
+  validateToken,
+  validateId,
+  // validateAuth,
+} = require('../middlewares/RecipesMid');
 
 const routerRecipes = Router();
 const CREATED = 201;
@@ -20,7 +26,11 @@ routerRecipes.post('/', validateRecipe, validateToken, async (req, res) => {
     iss: 'Cookmaster',
     aud: 'identity',
   });
+  const getAll = await getAllRecipesService();
   const { _id: userId } = payload.userData;
+  console.log(getAll[1].userId, 'name');
+  const teste = getAll.filter((el) => el.userId === +userId);
+  console.log(teste, 'teste');
   const recipeCreated = await createRecipeService(name, ingredients, preparation, userId);
   return res.status(CREATED).json({ recipe: recipeCreated });
 });
@@ -34,6 +44,13 @@ routerRecipes.get('/:id', validateId, async (req, res) => {
   const { id } = req.params;
   const recipe = await getByIdService(id);
   return res.status(SUCCESS).json(recipe);
+});
+
+routerRecipes.put('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const recipeEdited = await editRecipeService(id, name, ingredients, preparation);
+  return res.status(SUCCESS).json(recipeEdited);
 });
 
 module.exports = routerRecipes;
