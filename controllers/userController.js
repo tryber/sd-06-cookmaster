@@ -9,7 +9,6 @@ router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
 
   const result = await userService.create(name, email, password);
-  console.log(result);
 
   if (result.err) return res.status(result.err.status).json({ message: result.err.message });
 

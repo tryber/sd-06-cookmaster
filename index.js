@@ -6,6 +6,7 @@ const app = express();
 const PORT = 3000;
 
 const userController = require('./controllers/userController');
+const login = require('./controllers/login');
 
 app.use(bodyParser.json());
 
@@ -15,5 +16,6 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', userController);
+app.use('/login', login);
 
 app.listen(PORT, () => console.log('app listening!'));
