@@ -65,7 +65,7 @@ const storage = multer.diskStorage({
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    callback(null, req.params.id);
+    callback(null, `${req.params.id}.jpeg`);
   },
 });
 
@@ -74,12 +74,13 @@ const upload = multer({ storage });
 router.put('/recipes/:id/image/', validateJWTRecipe, upload.single('image'), async (req, res) => {
   const { id } = req.params;
 
-  const image = `localhost:3000/images/${id}.jpeg`;
+  const { path } = req.file;
 
-  await RecipesService.addImagePath(id, image);
+  const imagePath = `localhost:3000/${path}`;
+
+  await RecipesService.addImagePath(id, imagePath);
 
   const result = await RecipesService.getRecipeById(id);
-  console.log(result)
 
   return res.status(200).json(result);
 });
