@@ -10,7 +10,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (request, response) => {
