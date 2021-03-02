@@ -5,6 +5,7 @@ const {
   findAllRecipes,
   findOneRecipe,
   editRecipe,
+  deleteRecipe,
 } = require('../Model/recipesModel');
 
 const fourHundred = 400;
@@ -13,9 +14,8 @@ const fourHundredFour = 404;
 const createNewRecipe = async (data) => createRecipe(data);
 const getAllRecipes = async () => findAllRecipes();
 const getRecipeById = async (id) => findOneRecipe(id);
-const putRecipe = async (id, name, ingredients, preparation) => {
-  editRecipe(id, name, ingredients, preparation);
-};
+const putRecipe = async (id, name, ingr, prep) => editRecipe(id, name, ingr, prep);
+const delRecipe = async (id) => deleteRecipe(id);
 
 const validateRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -42,6 +42,7 @@ const validateId = (req, res, next) => {
 
 module.exports = {
   createNewRecipe,
+  delRecipe,
   getAllRecipes,
   getRecipeById,
   putRecipe,

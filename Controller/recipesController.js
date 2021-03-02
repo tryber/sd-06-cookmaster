@@ -8,6 +8,7 @@ const {
   getRecipeById,
   validateId,
   putRecipe,
+  delRecipe,
 } = require('../Services/recipesService');
 const { validateRecipeToken } = require('../Auth/validateJWTRecipes');
 
@@ -15,6 +16,7 @@ const RecipesRouter = new Router();
 
 const twoHundred = 200;
 const twoHundredOne = 201;
+const twoHundredFour = 204;
 const fourHundredFour = 404;
 
 RecipesRouter.get('/', async (_req, res) => {
@@ -56,6 +58,14 @@ RecipesRouter.put('/:id', validateRecipeToken, async (req, res) => {
   const editedRecipe = { ...oldRecipe, name, ingredients, preparation };
 
   return res.status(twoHundred).json(editedRecipe);
+});
+
+RecipesRouter.delete('/:id', validateRecipeToken, async (req, res) => {
+  const { id } = req.params;
+  console.log('cheguei aqui', id);
+  await delRecipe(id);
+  
+  return res.status(twoHundredFour).json();
 });
 
 module.exports = { RecipesRouter };
