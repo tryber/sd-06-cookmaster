@@ -5,6 +5,7 @@ const recipesService = require('../services/recipesService');
 const { verifyAuthorization } = require('../auth/verifyAuthotization');
 
 const status201 = 201;
+const status200 = 200;
 
 router.post('/', verifyAuthorization, async (req, res) => {
   const { name, ingredients, preparation, userId } = req.body;
@@ -14,6 +15,12 @@ router.post('/', verifyAuthorization, async (req, res) => {
   if (result.err) return res.status(result.err.status).json({ message: result.err.message });
 
   return res.status(status201).json(result);
+});
+
+router.get('/', async (req, res) => {
+  const result = await recipesService.getAll();
+
+  if (result) res.status(status200).json(result);
 });
 
 module.exports = router;
