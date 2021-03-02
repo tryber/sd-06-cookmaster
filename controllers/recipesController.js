@@ -23,19 +23,19 @@ recipesRouter.post('/', validateToken, verifyRecipe, async (request, response) =
   const { _id } = await getOneUser(email);
   const recipe = { ...request.body, userId: _id };
   await registerRecipe(recipe);
-  response.status(CREATED).json({ recipe });
+  return response.status(CREATED).json({ recipe });
 });
 
 recipesRouter.get('/', async (_request, response) => {
   const recipes = await getAllRecipes();
-  response.status(SUCCESS).json(recipes);
+  return response.status(SUCCESS).json(recipes);
 });
 
 recipesRouter.get('/:id', validateId, async (request, response) => {
   const { id } = request.params;
   const recipe = await findOneRecipe(id);
   if (!recipe) return response.status(NOT_FOUND).json({ message: 'recipe not found' });
-  response.status(SUCCESS).json(recipe);
+  return response.status(SUCCESS).json(recipe);
 });
 
 module.exports = recipesRouter;

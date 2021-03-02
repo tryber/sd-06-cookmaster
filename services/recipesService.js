@@ -28,7 +28,7 @@ const validateToken = async (request, response, next) => {
 const verifyRecipe = async (request, response, next) => {
   const { name, ingredients, preparation } = request.body;
   if (!name || !ingredients || !preparation) {
-    response.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
+    return response.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
   }
   next();
 };
