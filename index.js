@@ -18,7 +18,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/images', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/users', usersController);
 app.use('/recipes', recipesController);
 app.use('/login', loginController);
