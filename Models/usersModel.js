@@ -12,7 +12,12 @@ const getByEmail = async (email) => {
   return getEmail;
 };
 
+/* const createAdmin = async (name, email, password, role) => {
+  await connection().then((db) => db.collection('users').insertOne({ name, email, password, role }))
+}; */
+
 module.exports = {
   create,
   getByEmail,
+  /* createAdmin, */
 };
