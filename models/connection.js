@@ -9,7 +9,7 @@ const connection = () => MongoClient.connect(MONGO_DB_URL_LOCAL, {
   useNewUrlParser: true,
 }).then((con) => con.db(DB_NAME)).catch((err) => {
   console.log(err);
-  process.exit()
+  process.exit(),
 });
 
 module.exports = connection;
