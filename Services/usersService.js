@@ -1,10 +1,11 @@
-const { createUser, getAllUsers } = require('../Model/usersModel');
+const { createUser, getAllUsers, findOneUser } = require('../Model/usersModel');
 
 const fourHundred = 400;
 const fourHundredNine = 409;
 
 const createNewUser = async (data) => createUser(data);
 const getUsers = async () => getAllUsers();
+const findUserByEmail = async (email) => findOneUser(email);
 
 const validateEmail = (email) => {
   const pattern = /\S+@\S+.\S+/;
@@ -36,6 +37,7 @@ const checkUniqueEmail = async (req, res, next) => {
 module.exports = {
   checkUniqueEmail,
   createNewUser,
+  findUserByEmail,
   getUsers,
   validateEmail,
   validateUser,
