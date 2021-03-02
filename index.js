@@ -15,10 +15,5 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// const OK = 200;
-// app.get('/', (_req, res) => {
-//   res.status(OK).json({ ok: true });
-// });
-
 app.use(expectedError);
 app.listen(bell, () => console.log(`For whom the ${bell} tolls!`));

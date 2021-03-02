@@ -23,9 +23,9 @@ const validateEntries = (req, _res, next) => {
     next();
   };
 
-  const emailAlreadyExistsService = (req, _res, next) => {
+  const emailAlreadyExistsService = async (req, _res, next) => {
     const { email } = req.body;
-    const emailExists = emailAlreadyExists(email);
+    const emailExists = await emailAlreadyExists(email);
     if (emailExists) {
  return next({
         status: 409,  

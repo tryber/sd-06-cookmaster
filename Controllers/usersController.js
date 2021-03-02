@@ -5,7 +5,8 @@ const { validateEntries, validateEmail,
 
 const router = Router();
 
-router.post('/', validateEntries, validateEmail, emailAlreadyExistsService,
+router.post('/', validateEntries, validateEmail,
+emailAlreadyExistsService,
  async (req, res) => {
     const { name, email, password } = req.body;  
     const newUser = await usersService.createUserService(name, email, password, 'user');  
