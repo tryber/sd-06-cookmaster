@@ -1,6 +1,10 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./Connection');
 
+exports.getAll = async () => (
+  connection().then((db) => db.collection('recipes').find().toArray())
+);
+
 exports.create = async (name, ingredients, preparation, userId) => {
   const result = await connection().then(
     (db) => db.collection('recipes').insertOne({

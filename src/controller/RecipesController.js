@@ -5,8 +5,19 @@ const verifyToken = require('../schemas/verifyAuthorization');
 
 const router = new Router();
 
+const OK = 200;
 const CREATED = 201;
 const INTERNAL_SERVER_ERROR = 500;
+
+router.get('/', async (_req, res) => {
+  try {
+    const allRecipes = await Recipes.getAll();
+
+    return res.status(OK).json(allRecipes);
+  } catch (err) {
+    return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
+  }
+});
 
 router.post('/', verifyToken, recipesValidation, async (req, res) => {
   try {
