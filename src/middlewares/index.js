@@ -11,6 +11,12 @@ const handleError = (err, _req, res, _next) => {
   return res.status(status).json(payload);
 };
 
+const tokenValidation = (_err, _req, _res, _next) => {
+  const retorno = 'A fazer';
+  return retorno;
+};
+
 module.exports = {
   handleError,
+  tokenValidation,
 };
