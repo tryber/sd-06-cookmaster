@@ -2,11 +2,11 @@ const { Router } = require('express');
 
 const router = Router();
 const recipesService = require('../services/recipesService');
-// const { verifyAuthorization } = require('../auth/verifyAuthotization'); - - verifyAuthorization
+const { verifyAuthorization } = require('../auth/verifyAuthotization');
 
 const status201 = 201;
 
-router.post('/', async (req, res) => {
+router.post('/', verifyAuthorization, async (req, res) => {
   const { name, ingredients, preparation, userId } = req.body;
 
   const result = await recipesService.create(name, ingredients, preparation, userId);
