@@ -73,7 +73,6 @@ const upload = multer({ storage });
 
 router.put('/recipes/:id/image/', validateJWTRecipe, upload.single('image'), async (req, res) => {
   const { id } = req.params;
-
   const { path } = req.file;
 
   const imagePath = `localhost:3000/${path}`;
