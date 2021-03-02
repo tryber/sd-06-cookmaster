@@ -13,7 +13,7 @@ const smsInvalidEntries = { message: 'Invalid entries. Try again.' };
 router.get('/', async (_req, res) => {
   const user = await Recipes.getAll();
 
-  res.status(SUCCESS).json({ user });
+  res.status(SUCCESS).json(user);
 });
 
 const validation = async (name, ingredients, preparation) => {
