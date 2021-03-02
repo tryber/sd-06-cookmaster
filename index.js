@@ -11,11 +11,14 @@ app.get('/', (request, response) => {
 const bodyParser = require('body-parser');
 const { UserRouter } = require('./controller/usersController');
 const { LoginRouter } = require('./controller/loginController');
+const { RecipeRouter } = require('./controller/recipeController');
 
 app.use(bodyParser.json());
 
 app.use('/users', UserRouter);
 
 app.use('/login', LoginRouter);
+
+app.use('/recipes', RecipeRouter);
 
 app.listen(port, () => console.log(`listening to ${port}`));
