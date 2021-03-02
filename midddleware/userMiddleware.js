@@ -1,4 +1,4 @@
-const { userFindEmail } = require('../service/userService');
+const { userFindEmail, userFindPassword } = require('../service/userService');
 
 const checkUser = async (req, res, next) => {
   const badRequest = 400;
@@ -16,7 +16,22 @@ const checkUser = async (req, res, next) => {
   }
   next();
 };
-
+const checkLogin = async (req, res, next) => {
+  const zero = 0;
+  const unauthorized = 401;
+  const { email, password } = req.body;
+  const findEmail = await userFindEmail(email);
+  const findPassword = await userFindPassword(password);
+  if (!email || !password) {
+    return res.status(unauthorized)
+      .json({ message: 'All fields must be filled' });
+  }
+  if (findEmail.length < zero || findPassword.length < zero) {
+    return res.status(unauthorized).json({ message: 'Incorrect username or password' });
+  }
+  next();
+};
 module.exports = {
   checkUser,
+  checkLogin,
 };

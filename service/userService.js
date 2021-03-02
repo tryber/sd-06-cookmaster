@@ -9,8 +9,13 @@ const userFindEmail = async (email) => {
   const emailFind = await User.userFindEmail(email);
   return emailFind;
 };
+const userFindPassword = async (password) => {
+  const passwordFind = await User.userFindPassword(password);
+  return passwordFind;
+};
 
 module.exports = {
   createUser,
   userFindEmail,
+  userFindPassword,
 };

@@ -11,8 +11,14 @@ const userFindEmail = async (email) => {
     db.collection('users').find({ email: { $eq: email } }).toArray());
   return result;
 };
+const userFindPassword = async (password) => {
+  const result = await connection().then((db) =>
+    db.collection('users').find({ password: { $eq: password } }).toArray());
+  return result;
+};
 
 module.exports = {
   createUser,
   userFindEmail,
+  userFindPassword,
 };
