@@ -8,7 +8,6 @@ const serviceValidations = require('./Services/userValidations');
 const recipesController = require('./Controller/recipesController');
 const recipesValidation = require('./Services/recipesValidation');
 
-
 const app = express();
 const PORT = 3000;
 

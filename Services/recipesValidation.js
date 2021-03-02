@@ -26,4 +26,4 @@ const createValidation = async (req, res, next) => {
 
 module.exports = {
   createValidation,
-}
+};

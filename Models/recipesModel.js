@@ -8,4 +8,4 @@ const create = async (name, ingredients, preparation) => {
 
 module.exports = {
   create,
-}
+};
