@@ -11,7 +11,7 @@ const router = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');
+    callback(null, 'uploads');
   },
   filename: (req, file, callback) => {
     // const fileExtension = file.originalname.split('.').pop(); opção que pegaria a extensão original
@@ -34,7 +34,7 @@ router.put('/:id/image', validateToken, validatePrivilege, findRecipe, upload.si
   async (req, res) => {
     try {
       const { _id } = req.recipe;
-      const image = 'localhost:3000/'.concat(req.file.path);
+      const image = `localhost:3000/images/${_id}.jpeg`;
       const newRecipe = await updateRecipe({ _id, image });
 
       return res.status(SUCCESS).send(newRecipe);
