@@ -11,6 +11,8 @@ const emailIsValid = (email) => /\S+@\S+\.\S+/.test(email);
 const register = async ({ name, email, password }) => {
   if (!name || !email || !password 
       || !emailIsValid(email)) throw new Error('Invalid entries. Try again.');
+  const equalsEmail = await User.findByEmail(email);
+  if (equalsEmail) throw new Error('Email already registered');
   return User.register(name, email, password);
 };
 

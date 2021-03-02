@@ -3,8 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Recipes = require('./controllers/RecipesController');
 const Users = require('./services/UserServices');
-const checkEmail = require('./middlewares/checkEmail');
-
 const createToken = require('./Auth/createToken');
 
 const app = express();
@@ -18,12 +16,15 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.post('/users', checkEmail, async (req, res) => {
+app.post('/users', async (req, res) => {
   try {
     const data = await Users.register(req.body);
     res.status(201).json(data);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    if (error.message === 'Email already registered') {
+      return res.status(409).json({ message: error.message });
+    }
+    return res.status(400).json({ message: error.message });
   }
 });
 
