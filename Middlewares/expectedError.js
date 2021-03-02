@@ -1,5 +1,5 @@
 const expectedError = (error, _req, res, _next) => {
-    const { status, err } = error; 
-    return res.status(status).send({ err });
+    const { status, message } = error; 
+    return res.status(status).send({ message });
   };
   module.exports = expectedError;
