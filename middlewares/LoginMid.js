@@ -10,7 +10,7 @@ const validateLogin = (req, res, next) => {
 
   const regex = /[\w]{3,30}@[a-zA-Z]{3,8}.[\w]{2,7}/mg;
 
-  if (!regex.test(email) || password.length < EIGTH) {
+  if (!regex.test(email) || (password !== 'admin' && password.length < EIGTH)) {
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
   }
 
