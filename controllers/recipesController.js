@@ -24,4 +24,15 @@ recipes.get('/', async (_request, response) => {
   return response.status(200).json(allRecipes);
 });
 
+// Requisito 05
+recipes.get('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const recipe = await service.getRecipeById(id);
+
+  if (!recipe) return response.status(404).json({ message: 'recipe not found' });
+
+  return response.status(200).json(recipe);
+});
+
 module.exports = recipes;
