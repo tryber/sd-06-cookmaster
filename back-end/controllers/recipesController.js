@@ -2,7 +2,7 @@ const { status, errorMessages } = require('../middlewares/errorHandler/dictionar
 const recipesServices = require('../services/recipesServices');
 
 const registerRecipe = async (req, res) => {
-  const responsePayload = recipesServices.registerRecipes();
+  const responsePayload = recipesServices.registerRecipe();
   console.log(responsePayload);
   res.status(status.ok).send('Register Recipes');
 };

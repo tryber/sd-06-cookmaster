@@ -7,16 +7,18 @@ const status = {
   paymentRequired: 402,
   forbidden: 403,
   notFound: 404,
+  conflict: 409,
   unprocessableEntity: 422,
 };
 
-const codeTranslator = {
-  404: 'not_found',
-  422: 'invalid_data',
-};
+// const codeTranslator = {
+//   404: 'not_found',
+//   422: 'invalid_data',
+// };
 
 const errorMessages = {
-  smallName: '"name" length must be at least 5 characters long',
+  invalidEntries: 'Invalid entries. Try again.',
+  emailIsRegistered: 'Email already registered',
 };
 
-module.exports = { status, codeTranslator, errorMessages };
+module.exports = { status, errorMessages };

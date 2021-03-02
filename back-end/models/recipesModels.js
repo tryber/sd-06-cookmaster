@@ -15,8 +15,9 @@ const collection = 'recipes';
 //   userId: ObjectId('5f46914677df66035f61a355'),
 // };
 
-const registerRecipe = async () => {
-  const responsePayload = await 'Register Recipe';
+const registerRecipe = async (name, email, password) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).insertOne({ name, email, password }));
   return responsePayload;
 };
 

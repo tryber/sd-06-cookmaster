@@ -17,8 +17,15 @@ const collection = 'users';
 //   role: 'user',
 // };
 
-const registerUser = async () => {
-  const responsePayload = 'users Model - register User';
+const registerUser = async (name, email, password, role) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).insertOne({ name, email, password, role }));
+  return responsePayload;
+};
+
+const findUserByEmail = async (email) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).findOne({ email }));
   return responsePayload;
 };
 
@@ -32,4 +39,4 @@ const userLogin = async () => {
   return responsePayload;
 };
 
-module.exports = { registerUser, userLogin, registerAdmin };
+module.exports = { registerUser, userLogin, registerAdmin, findUserByEmail };

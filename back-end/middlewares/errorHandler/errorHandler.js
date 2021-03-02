@@ -1,6 +1,4 @@
-const { codeTranslator } = require('./dictionaries');
-
-class errorHandler extends Error {
+class ThrowError extends Error {
   constructor(statusCode, message) {
     super();
     this.statusCode = statusCode;
@@ -11,17 +9,14 @@ class errorHandler extends Error {
 const sendError = (err, res) => {
   const { statusCode, message } = err;
 
-  const code = codeTranslator[statusCode];
+  // const code = codeTranslator[statusCode];
 
   res.status(statusCode).json({
-    err: {
-      code,
-      message,
-    },
+    message,
   });
 };
 
 module.exports = {
-  errorHandler,
+  ThrowError,
   sendError,
 };
