@@ -40,9 +40,19 @@ const updateRecipe = async (...params) => {
   });
 };
 
+const removeRecipe = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const recipe = await getRecipeById(ObjectId(id));
+  if (!recipe) return null;
+
+  await RecipesModel.removeRecipe(ObjectId(id));
+  return recipe;
+};
+
 module.exports = {
   getAllRecipes,
   createRecipe,
   getRecipeById,
   updateRecipe,
+  removeRecipe,
 };

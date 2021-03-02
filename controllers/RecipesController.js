@@ -1,8 +1,10 @@
 const { Router } = require('express');
 
-const { CREATED, SUCCESS, NOT_FOUND } = require('../utils');
+const { CREATED, SUCCESS, NOT_FOUND, NO_CONTENT } = require('../utils');
 
-const { getAllRecipes, createRecipe, getRecipeById, updateRecipe } = require('../services');
+const {
+  getAllRecipes, createRecipe, getRecipeById, updateRecipe, removeRecipe,
+} = require('../services');
 const { validateJWT, validateRecipe } = require('../middlewares');
 
 const routerRecipes = Router();
@@ -35,4 +37,12 @@ routerRecipes.put('/:id', validateJWT, validateRecipe, async (req, res) => {
   const recipeUpdated = await updateRecipe(recipeId, userId, name, ingredients, preparation);
   return res.status(SUCCESS).json(recipeUpdated);
 });
+
+routerRecipes.delete('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const recipes = await removeRecipe(id);
+  if (!recipes) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  res.status(NO_CONTENT).json();
+});
+
 module.exports = routerRecipes;
