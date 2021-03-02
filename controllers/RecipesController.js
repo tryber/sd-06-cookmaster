@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { ObjectId } = require('mongodb');
 const verifyAuthorization = require('../middlewares/verifyAuthorization');
 const Recipes = require('../models/Recipes');
 
@@ -7,6 +8,7 @@ const router = Router();
 const SUCCESS = 200;
 const SUCCESS201 = 201;
 const ERRO400 = 400;
+const ERRO404 = 404;
 
 const smsInvalidEntries = { message: 'Invalid entries. Try again.' };
 
@@ -49,5 +51,18 @@ router.post('/', verifyAuthorization, async (req, res) => {
   
   res.status(SUCCESS201).json({ recipe });
 });
+
+// 5
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) { return res.status(ERRO404).json({ message: 'recipe not found' }); }
+  const recipe = await Recipes.getById(id);
+
+  if (!recipe) {
+    return res.status(ERRO404).json({ message: 'recipe not found' }); 
+}
+  return res.status(SUCCESS).json(recipe);
+});
+// 5
 
 module.exports = router;
