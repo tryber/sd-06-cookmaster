@@ -1,6 +1,7 @@
-// const { ObjectId } = require('mongodb');
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('../controllers/loginController');
 const usersModel = require('../models/usersModel');
-const { invalidData, UNIQUE } = require('../variables');
+const { invalidData, UNIQUE, NOTADMIN } = require('../variables');
 
 const getUsers = async () => usersModel.getAllUsers();
 const userCreate = async (data) => usersModel.createUser(data);
@@ -34,9 +35,31 @@ const checkEmail = async (req, res, next) => {
   next();
 };
 
+const checkAdmin = async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+  }
+
+  try {
+    const decoded = jwt.verify(req.headers.authorization, SECRET);
+    const user = await usersModel.findOneUser(decoded.data.email);
+    console.log(user);
+    if (!user || user.role !== 'admin') {
+      return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+    } 
+
+    req.user = decoded.data;
+  } catch (err) {
+    return res.status(NOTADMIN).json({ message: 'Only admins can register new admins' });
+  }
+
+  next();
+};
+
 module.exports = {
   getUsers,
   userCreate,
   validateUser,
   checkEmail,
+  checkAdmin,
 };

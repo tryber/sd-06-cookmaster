@@ -56,13 +56,13 @@ const validateId = (req, res, next) => {
   next();
 };
 
-const updateImage = async (id, file) => {
+const updateImage = async (id, image) => {
   const recipe = await getRecipeById(id);
   // const user = findOneUser(email);
   // const { _id } = user;
 
-  await updatePhoto(id, file);
-  return { ...recipe, image: file };
+  await updatePhoto(id, image);
+  return { ...recipe, image };
 };
 
 module.exports = {

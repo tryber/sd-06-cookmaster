@@ -5,6 +5,7 @@ const UNIQUE = 409;
 const CREATED = 201;
 const NOTFOUND = 404;
 const DELETED = 204;
+const NOTADMIN = 403;
 
 module.exports = {
   SUCCESS,
@@ -14,4 +15,5 @@ module.exports = {
   loginError,
   NOTFOUND,
   DELETED,
+  NOTADMIN,
 };
