@@ -1,5 +1,5 @@
 // const jwt = require('jsonwebtoken');
-// const model = require('../model/UsersModel');
+const UserService = require('../model/UsersModel');
 
 const UNAUTHORIZED = 401;
 // const secret = 'secretToken';
@@ -12,13 +12,16 @@ const validateFields = async (req, res, next) => {
   next();
 };
 
-const inputsFormatValidation = async (req, res, next) => {
+const inputsValidation = async (req, res, next) => {
   const { email, password } = req.body;
   const emailFormat = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/;
   const passwordFormat = /^\d{8,}$/gm;
   const emailIsValid = emailFormat.test(email);
   const passwordIsValid = passwordFormat.test(password);
-  if (!emailIsValid || !passwordIsValid) {
+
+  const usersData = await UserService.getAll();
+  const emailExist = usersData.every((user) => user.email !== email);
+  if (!emailIsValid || !passwordIsValid || emailExist) {
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
   }
   next();
@@ -38,6 +41,6 @@ const inputsFormatValidation = async (req, res, next) => {
 
 module.exports = {
   validateFields,
-  inputsFormatValidation,
+  inputsValidation,
   // validateToken,
 };

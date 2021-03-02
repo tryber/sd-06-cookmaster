@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const UserService = require('../service/UserService');
 const { validateField, userExist } = require('../middlewares/validations');
-const { validateFields, inputsFormatValidation } = require('../auth/validateJWT');
+const { validateFields, inputsValidation } = require('../auth/validateJWT');
 
 const router = Router();
 const CREATED = 201;
@@ -16,7 +16,7 @@ router.post('/users', validateField, userExist, rescue(async (req, res) => {
   return res.status(CREATED).json(insertedId);
 }));
 
-router.post('/login', validateFields, inputsFormatValidation, rescue((async (req, res) => {
+router.post('/login', validateFields, inputsValidation, rescue((async (req, res) => {
   const user = req.body;
   const secret = 'secretToken';
 
