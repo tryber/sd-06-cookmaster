@@ -28,11 +28,11 @@ const updateProduct = async (product) => {
   }
 };
 
-const findProductById = async (id) => {
+const findRecipeById = async (id) => {
   try {
-    const product = await findId(id);
+    const recipe = await findId(id);
 
-    return product;
+    return recipe;
   } catch (e) {
     throw new Error(e);
   }
@@ -56,7 +56,7 @@ const getRecipes = async () => {
 
 module.exports = {
   createRecipe,
-  findProductById,
+  findRecipeById,
   findByEmail,
   getRecipes,
   updateProduct,

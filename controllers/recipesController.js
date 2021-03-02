@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const {
   createRecipe,
-  findProductById,
+  findRecipeById,
   getRecipes,
   updateProduct,
   deleteProduct } = require('../services/recipesServices');
@@ -15,23 +15,21 @@ const router = Router();
 const SUCCESS = 200;
 const CREATED = 201;
 const DFT_ERROR = 400;
+const NOT_FOUND = 404;
 const UNPROCESSABLE = 422;
 
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const findProduct = await findProductById(id);
+    const findRecipe = await findRecipeById(id);
 
-    if (findProduct === false) {
-      return res.status(UNPROCESSABLE).send({
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        },
+    if (findRecipe === false) {
+      return res.status(NOT_FOUND).send({
+        message: 'recipe not found',
       });
     }
 
-    res.status(SUCCESS).send(findProduct);
+    res.status(SUCCESS).send(findRecipe);
   } catch (e) {
     console.log(e);
   }
@@ -79,7 +77,7 @@ router.put('/:id', validateNewUser, async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const findProduct = await findProductById(id);
+    const findProduct = await findRecipeById(id);
 
     if (findProduct === false) {
       return res.status(UNPROCESSABLE).send({

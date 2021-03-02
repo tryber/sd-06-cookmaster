@@ -12,17 +12,6 @@ const create = async (recipe) => {
   return { recipe: { _id: insertedId, ...recipe } };
 };
 
-const findEmail = async (email) => {
-  const result = await connection()
-    .then((db) => db.collection('users').findOne({ email }))
-    .catch((err) => {
-      console.error(err);
-      throw new Error(err);
-    });
-
-  return result;
-};
-
 const getAll = async () => {
   try {
     const result = await connection()
@@ -34,12 +23,23 @@ const getAll = async () => {
   }
 };
 
+const findEmail = async (email) => {
+  const result = await connection()
+    .then((db) => db.collection('users').findOne({ email }))
+    .catch((err) => {
+      console.error(err);
+      throw new Error(err);
+    });
+
+  return result;
+};
+
 const findId = async (id) => {
   try {
     const validId = ObjectID.isValid(id);
     if (validId === false) return validId;
     const result = await connection()
-      .then((db) => db.collection('products').findOne(ObjectID(id)));
+      .then((db) => db.collection('recipes').findOne(ObjectID(id)));
 
     return result;
   } catch (e) {
