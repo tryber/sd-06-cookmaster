@@ -1,60 +1,61 @@
-const sales = require('../services/sales');
-const routes = require('express').Router();
 const rescue = require('express-rescue');
+const routes = require('express').Router();
+const recipes = require('../services/recipes');
 
 const OK = 200;
-// const CREATED = 201;
+const CREATED = 201;
 // const BAD_REQUEST = 400;
-const NOT_FOUND = 404;
+// const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
-
-
 
 routes.route('/:id')
   .get(rescue(async (req, res) => {
     const { id } = req.params;
-    const searchedSale = await sales.findById(id);
+    const searchedProduct = await recipes.findById(id);
 
-    if (searchedSale === null || searchedSale.err)
-      return res.status(NOT_FOUND).json(searchedSale);
+    if (searchedProduct === null || searchedProduct.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(searchedProduct);
+    }
 
-    res.status(OK).json(searchedSale);
+    res.status(OK).json(searchedProduct);
   }))
   .put(rescue(async (req, res) => {
     const { id } = req.params;
-    const updateSale = req.body;
-    const saleToUpdate = await sales.update(id, updateSale);
+    const updateProduct = req.body;
+    const productToUpdate = await recipes.update(id, updateProduct);
 
-    if (saleToUpdate.err) return res.status(UNPROCESSABLE_ENTITY)
-      .json(saleToUpdate);
+    if (productToUpdate.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(productToUpdate);
+    }
 
-    res.status(OK).json(saleToUpdate);
+    res.status(OK).json(productToUpdate);
   }))
   .delete(rescue(async (req, res) => {
     const { id } = req.params;
-    const saleToDelete = await sales.deleteSale(id);
+    const productToDelete = await recipes.deleteProduct(id);
 
-    if (saleToDelete === null || saleToDelete.err)
-      return res.status(UNPROCESSABLE_ENTITY)
-        .json(saleToDelete);
+    if (productToDelete === null || productToDelete.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(productToDelete);
+    }
 
-    res.status(OK).json(saleToDelete);
+    res.status(OK).json(productToDelete);
   }));
 
 routes.route('/')
   .get(rescue(async (_req, res) => {
-    const salesArray = await sales.getAll();
+    const recipesArray = await recipes.getAll();
 
-    res.status(OK).json({ sales: salesArray });
+    res.status(OK).json({ recipes: recipesArray });
   }))
   .post(rescue(async (req, res) => {
-    const sale = req.body;
-    const createdSale = await sales.create(sale);
+    const { name, quantity } = req.body;
+    const createdProduct = await recipes.create(name, quantity);
     
-    if (createdSale.err) return res.status(UNPROCESSABLE_ENTITY)
-      .json(createdSale);
+    if (createdProduct.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(createdProduct);
+    }
 
-    res.status(OK).json(createdSale);
+    res.status(CREATED).json(createdProduct);
   }));
 
 module.exports = routes;

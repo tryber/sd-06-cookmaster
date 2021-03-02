@@ -3,35 +3,36 @@ const { ObjectId } = require('mongodb');
 
 const getAll = async () =>
   connection()
-    .then((db) => db.collection('sales').find().toArray());
+    .then((db) => db.collection('products').find().toArray());
 
 const findById = async (id) =>
-  connection().then((db) => db.collection('sales').findOne(ObjectId(id)));
+  connection().then((db) => db.collection('products').findOne(ObjectId(id)));
 
 const findByName = async(productName) => 
-  connection().then((db) => db.collection('sales').findOne({ name: productName }));
+  connection().then((db) => db.collection('products').findOne({ name: productName }));
 
-const create = async (sale) =>
+const create = async (product) =>
   connection()
     .then((db) =>
-      db.collection('sales').insertOne(sale)
+      db.collection('products').insertOne(product)
     )
     .then((result) => result);
 
-const update = async (id, newSale) =>
+const update = async (id, newName, newQuantity) =>
   connection()
-    .then((db) => db.collection('sales').findOneAndUpdate(
+    .then((db) => db.collection('products').findOneAndUpdate(
       { _id: ObjectId(id) },
       { $set: {
-        itensSold: newSale,
+        name: newName,
+        quantity: newQuantity,
       } },
       { returnOriginal: false },
     ))
     .then((result) => result.value);
 
-const deleteSale = async (id) => 
+const deleteProduct = async (id) => 
   connection()
-    .then((db) => db.collection('sales').findOneAndDelete(
+    .then((db) => db.collection('products').findOneAndDelete(
       { _id: ObjectId(id) },
     ))
     .then((result) => result.value);
@@ -42,5 +43,5 @@ module.exports = {
   findByName,
   create,
   update,
-  deleteSale,
+  deleteProduct,
 };

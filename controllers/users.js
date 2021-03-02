@@ -1,60 +1,61 @@
 const rescue = require('express-rescue');
 const routes = require('express').Router();
-const products = require('../services/products');
+const users = require('../services/users');
 
 const OK = 200;
-const CREATED = 201;
-const BAD_REQUEST = 400;
+// const CREATED = 201;
+// const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
-
-
 
 routes.route('/:id')
   .get(rescue(async (req, res) => {
     const { id } = req.params;
-    const searchedProduct = await products.findById(id);
+    const searchedSale = await users.findById(id);
 
-    if (searchedProduct === null || searchedProduct.err)
-      return res.status(UNPROCESSABLE_ENTITY).json(searchedProduct);
+    if (searchedSale === null || searchedSale.err) {
+      return res.status(NOT_FOUND).json(searchedSale);
+    }
 
-    res.status(OK).json(searchedProduct);
+    res.status(OK).json(searchedSale);
   }))
   .put(rescue(async (req, res) => {
     const { id } = req.params;
-    const updateProduct = req.body;
-    const productToUpdate = await products.update(id, updateProduct);
+    const updateSale = req.body;
+    const saleToUpdate = await users.update(id, updateSale);
 
-    if (productToUpdate.err) return res.status(UNPROCESSABLE_ENTITY)
-      .json(productToUpdate);
+    if (saleToUpdate.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(saleToUpdate);
+    }
 
-    res.status(OK).json(productToUpdate);
+    res.status(OK).json(saleToUpdate);
   }))
   .delete(rescue(async (req, res) => {
     const { id } = req.params;
-    const productToDelete = await products.deleteProduct(id);
+    const saleToDelete = await users.deleteSale(id);
 
-    if (productToDelete === null || productToDelete.err)
-      return res.status(UNPROCESSABLE_ENTITY)
-        .json(productToDelete);
+    if (saleToDelete === null || saleToDelete.err) {
+      return res.status(UNPROCESSABLE_ENTITY).json(saleToDelete);
+    }
 
-    res.status(OK).json(productToDelete);
+    res.status(OK).json(saleToDelete);
   }));
 
 routes.route('/')
   .get(rescue(async (_req, res) => {
-    const productsArray = await products.getAll();
+    const usersArray = await users.getAll();
 
-    res.status(OK).json({ products: productsArray });
+    res.status(OK).json({ users: usersArray });
   }))
-  .post(rescue(async (req, res) => {
-    const { name, quantity } = req.body;
-    const createdProduct = await products.create(name, quantity);
+  .post(rescue(async (req, res, next) => {
+    const { name, email, password } = req.body;
+    const createdUser = await users.create({ name, email, password });
     
-    if (createdProduct.err) return res.status(UNPROCESSABLE_ENTITY)
-      .json(createdProduct);
+    if (createdUser.err) {
+      return next({ ...createdUser.err });
+    }
 
-    res.status(CREATED).json(createdProduct);
+    res.status(OK).json(createdUser);
   }));
 
 module.exports = routes;

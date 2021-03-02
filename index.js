@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const error = require('./middlewares/error');
+const users = require('./controllers/users');
 
 const app = express();
 const port = 3000;
@@ -13,5 +15,11 @@ app.get('/', (request, response) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('/users', users);
+
+app.all('*', (_req, res) => res.status(404).json({ message: 'Rota não encontrada' }));
+
+app.use(error);
 
 app.listen(port, () => console.log(`listening to port ${port}`)); 
