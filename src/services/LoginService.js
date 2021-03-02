@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { findUser } = require('../models/UsersModel');
+const { secret } = require('../Auth/TokenValidation');
 
 const STATUS_OK = 200;
 const STATUS_UNAUTHORIZED = 401;
 const STATUS_INTERNAL_SERVER_ERROR = 500;
-const secret = 'secret';
 
 const LoginService = async (req, res, _next) => {
   try {

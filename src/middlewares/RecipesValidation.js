@@ -1,6 +1,8 @@
 const { ObjectId } = require('mongodb');
+// const { TokenValidation } = require('../Auth/TokenValidation');
 
 const STATUS_BAD_REQUEST = 400;
+// const STATUS_UNAUTHORIZED = 401;
 const STATUS_NOT_FOUND = 404;
 const STATUS_INTERNAL_SERVER_ERROR = 500;
 
@@ -28,7 +30,13 @@ const RecipeIdValidation = async (req, res, next) => {
   next();
 };
 
+const RecipeUpdateValidation = async (req, res, next) => {
+  console.log('Validado!');
+  next();
+};
+
 module.exports = {
   RecipesValidation,
   RecipeIdValidation,
+  RecipeUpdateValidation,
 };
