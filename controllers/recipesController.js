@@ -7,6 +7,7 @@ const { verifyAuthorization } = require('../auth/verifyAuthotization');
 const status201 = 201;
 const status200 = 200;
 const status401 = 401;
+const status204 = 204;
 
 router.post('/', verifyAuthorization, async (req, res) => {
   const { name, ingredients, preparation, userId } = req.body;
@@ -43,6 +44,16 @@ router.put('/:id', verifyAuthorization, async (req, res) => {
   if (result.err) return res.status(status401).json({ message: result.err.message });
 
   return res.status(status200).json(result);
+});
+
+router.delete('/:id', verifyAuthorization, async (req, res) => {
+  const { id } = req.params;
+
+  const result = await recipesService.exclude(id);
+
+  if (result.err) return res.status(result.err.code).json({ message: result.err.message });
+
+  return res.status(status204).json(result);
 });
 
 module.exports = router;
