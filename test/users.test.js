@@ -232,7 +232,7 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
       });
   });
 
-  it('Será validado que é possível fazer login com sucesso', async () => {
+  it.only('Será validado que é possível fazer login com sucesso', async () => {
     await frisby
       .post(`${url}/users/`,
         {
