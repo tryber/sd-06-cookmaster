@@ -47,18 +47,18 @@ const findId = async (id) => {
   }
 };
 
-const update = async (product) => {
+const update = async (recipe) => {
   try {
-    const { id } = product;
-    const validId = ObjectID.isValid(id);
+    const { _id, name, ingredients, preparation } = recipe;
+    const validId = ObjectID.isValid(_id);
     if (validId === false) return validId;
     await connection()
-      .then((db) => db.collection('products')
-        .updateOne({ _id: ObjectID(id) }, { $set: {
-          name: product.name, quantity: product.quantity,
+      .then((db) => db.collection('recipes')
+        .updateOne({ _id: ObjectID(_id) }, { $set: {
+          name, ingredients, preparation,
         } }));
 
-    return product;
+    return recipe;
   } catch (e) {
     throw new Error(e);
   }

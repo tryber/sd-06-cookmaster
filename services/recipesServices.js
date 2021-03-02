@@ -19,10 +19,10 @@ const deleteProduct = async (id) => {
   }
 };
 
-const updateProduct = async (product) => {
+const updateRecipe = async (recipe) => {
   try {
-    await update(product);
-    return product;
+    await update(recipe);
+    return recipe;
   } catch (e) {
     console.log(e);
   }
@@ -59,6 +59,6 @@ module.exports = {
   findRecipeById,
   findByEmail,
   getRecipes,
-  updateProduct,
+  updateRecipe,
   deleteProduct,
 };

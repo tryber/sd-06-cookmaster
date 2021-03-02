@@ -4,9 +4,9 @@ const {
   createRecipe,
   findRecipeById,
   getRecipes,
-  updateProduct,
+  updateRecipe,
   deleteProduct } = require('../services/recipesServices');
-const validateNewUser = require('../middlewares/validateNewUser');
+const validatePrivilege = require('../middlewares/validatePrivilege');
 const validateToken = require('../middlewares/validateToken');
 const validateRecipe = require('../middlewares/validateRecipe');
 
@@ -61,13 +61,13 @@ router.post('/', validateToken, validateRecipe, async (req, res) => {
   }
 });
 
-router.put('/:id', validateNewUser, async (req, res) => {
+router.put('/:id', validateToken, validatePrivilege, validateRecipe, async (req, res) => {
   try {
-    const { name, quantity } = req.body;
-    const { id } = req.params;
-    const updatedProduct = await updateProduct({ name, quantity, id });
+    const { _id } = req.recipe;
+    const { name, ingredients, preparation } = req.body;
+    const newRecipe = await updateRecipe({ name, ingredients, preparation, _id });
 
-    return res.status(SUCCESS).send(updatedProduct);
+    return res.status(SUCCESS).send(newRecipe);
   } catch (e) {
     console.log(e);
     res.status(DFT_ERROR).send(e);
