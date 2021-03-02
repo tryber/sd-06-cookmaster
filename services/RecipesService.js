@@ -1,8 +1,9 @@
 const RecipesModel = require('../models/RecipesModel');
 
 const getAllRecipes = async () => {
-  const allUsers = await RecipesModel.getAllRecipes();
-  return allUsers;
+  const allRecipes = await RecipesModel.getAllRecipes();
+  console.log(allRecipes);
+  return allRecipes;
 };
 
 const createRecipe = async (userId, name, ingredients, preparation) => {

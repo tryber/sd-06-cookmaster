@@ -16,7 +16,7 @@ routerRecipes.post('/', validateJWT, validateRecipe, async (req, res) => {
 
 routerRecipes.get('/', async (_req, res) => {
   const getAll = await getAllRecipes();
-  return res.status(SUCCESS).json({ recipes: getAll });
+  return res.status(SUCCESS).json(getAll);
 });
 
 module.exports = routerRecipes;
