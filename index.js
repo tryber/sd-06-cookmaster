@@ -3,12 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const usersController = require('./controllers/usersController');
-
 const loginController = require('./controllers/loginController');
-
+const recipesController = require('./controllers/recipesController');
 const checkRequestBody = require('./middlewares/checkRequestBody');
 
 const app = express();
+
+const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -23,4 +24,7 @@ app.use('/users', checkRequestBody, usersController);
 // Requisito 02
 app.use('/login', loginController);
 
-app.listen(3000, () => console.log('Server has been started'));
+// Requisito 03
+app.use('/recipes', recipesController);
+
+app.listen(PORT, () => console.log('Server has been started'));
