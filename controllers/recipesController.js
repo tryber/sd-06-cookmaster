@@ -5,7 +5,7 @@ const {
   findRecipeById,
   getRecipes,
   updateRecipe,
-  deleteProduct } = require('../services/recipesServices');
+  deleteRecipe } = require('../services/recipesServices');
 const validatePrivilege = require('../middlewares/validatePrivilege');
 const validateToken = require('../middlewares/validateToken');
 const validateRecipe = require('../middlewares/validateRecipe');
@@ -14,6 +14,7 @@ const router = Router();
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const DFT_ERROR = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE = 422;
@@ -74,21 +75,18 @@ router.put('/:id', validateToken, validatePrivilege, validateRecipe, async (req,
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateToken, validatePrivilege, async (req, res) => {
   try {
     const { id } = req.params;
-    const findProduct = await findRecipeById(id);
+    const findRecipe = await findRecipeById(id);
 
-    if (findProduct === false) {
+    if (findRecipe === false) {
       return res.status(UNPROCESSABLE).send({
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        },
+        message: 'recipe not found',
       });
     }
-    await deleteProduct(id);
-    res.status(SUCCESS).send(findProduct);
+    await deleteRecipe(id);
+    res.status(NO_CONTENT).send();
   } catch (e) {
     console.log(e);
     res.status(DFT_ERROR).send(e);

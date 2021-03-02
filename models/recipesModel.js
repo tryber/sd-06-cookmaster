@@ -67,7 +67,7 @@ const update = async (recipe) => {
 const remove = async (id) => {
   try {
     return await connection()
-      .then((db) => db.collection('products').deleteOne({ _id: ObjectID(id) }));
+      .then((db) => db.collection('recipes').deleteOne({ _id: ObjectID(id) }));
   } catch (e) {
     throw new Error(e);
   }

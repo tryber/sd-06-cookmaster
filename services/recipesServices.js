@@ -11,7 +11,7 @@ const createRecipe = async (recipe) => {
   return newRecipe;
 };
 
-const deleteProduct = async (id) => {
+const deleteRecipe = async (id) => {
   try {
     return await remove(id);
   } catch (e) {
@@ -60,5 +60,5 @@ module.exports = {
   findByEmail,
   getRecipes,
   updateRecipe,
-  deleteProduct,
+  deleteRecipe,
 };
