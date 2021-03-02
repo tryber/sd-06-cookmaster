@@ -4,6 +4,7 @@ const service = require('../services/UserService');
 
 const UsersController = new Router();
 const status201 = 201;
+const status200 = 200;
 
 UsersController.post('/',
   service.validateUser,
@@ -23,5 +24,8 @@ UsersController.post('/',
 
   response.status(status201).json({ user });
 });
+
+UsersController.get('/', async (_request, response) => response
+  .status(status200).json(await users.getAllUsers()));
 
 module.exports = UsersController;
