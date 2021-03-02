@@ -9,8 +9,12 @@ const create = async (name, email, password, role) =>
 const getByEmail = async (email) =>
   connection().then((db) => db.collection('users').findOne({ email }));
 
+const getByEmailAndPassword = async (email, password) =>
+  connection().then((db) => db.collection('users').findOne({ email, password }));
+
 module.exports = {
   getAll,
   create,
   getByEmail,
+  getByEmailAndPassword,
 };
