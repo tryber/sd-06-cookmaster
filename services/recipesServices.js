@@ -6,7 +6,8 @@ const { createRecipe,
   allRecipes,
   oneRecipe,
   updateRecipe,
-  deleteRecipe } = require('../models/recipesModel');
+  deleteRecipe, 
+  updatePhoto} = require('../models/recipesModel');
 const { findOneUser } = require('../models/usersModel');
 const { invalidData, loginError, NOTFOUND } = require('../variables');
 
@@ -20,7 +21,7 @@ const recipeDelete = async (id) => deleteRecipe(id);
 const validateToken = async (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(loginError).json({ message: 'missing auth token' });
-  } 
+  }
 
   try {
     const decoded = jwt.verify(req.headers.authorization, SECRET);
@@ -55,6 +56,15 @@ const validateId = (req, res, next) => {
   next();
 };
 
+const updateImage = async (id, file) => {
+  const recipe = await getRecipeById(id);
+  // const user = findOneUser(email);
+  // const { _id } = user;
+
+  await updatePhoto(id, file);
+  return { ...recipe, image: file };
+};
+
 module.exports = {
   validateToken,
   validateRecipe,
@@ -64,4 +74,5 @@ module.exports = {
   validateId,
   recipeUpdate,
   recipeDelete,
+  updateImage,
 };

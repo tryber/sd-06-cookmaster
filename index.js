@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -18,5 +19,6 @@ app.use(bodyParser.json());
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/recipes', recipesRouter);
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(port, () => console.log(`Listening to port ${port}`));

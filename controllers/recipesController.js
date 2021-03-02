@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const multer = require('multer');
 const { validateToken,
   recipeCreate,
   validateRecipe,
@@ -6,7 +7,8 @@ const { validateToken,
   getRecipeById, 
   validateId, 
   recipeUpdate, 
-  recipeDelete } = require('../services/recipesServices');
+  recipeDelete, 
+  updateImage} = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
 const { CREATED, SUCCESS, NOTFOUND, DELETED } = require('../variables');
 
@@ -59,6 +61,26 @@ recipesRouter.delete('/:id', validateToken, validateId, async (req, res) => {
   } else {
     res.status(NOTFOUND).json({ message: 'recipe not found' });
   }
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+recipesRouter.put('/:id/image', upload.single('image'),
+   validateToken, validateId, async (req, res) => {
+  const { id } = req.params;
+  const path = `localhost:3000/images/${req.file.filename}`;
+
+  const recipeUpdated = await updateImage(id, path);
+  res.status(SUCCESS).json(recipeUpdated);
 });
 
 module.exports = { recipesRouter };
