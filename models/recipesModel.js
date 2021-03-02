@@ -38,14 +38,16 @@ const findId = async (id) => {
 
 const update = async (recipe) => {
   try {
-    const { _id, name, ingredients, preparation } = recipe;
+    const { _id, name, ingredients, preparation, image } = recipe;
+    const updateRecipe = (!image) ? { name, ingredients, preparation }
+      : { name, ingredients, preparation, image };
     const validId = ObjectID.isValid(_id);
     if (validId === false) return validId;
-    await connection()
+    if (!image) {
+      await connection()
       .then((db) => db.collection('recipes')
-        .updateOne({ _id: ObjectID(_id) }, { $set: {
-          name, ingredients, preparation,
-        } }));
+        .updateOne({ _id: ObjectID(_id) }, { $set: { ...updateRecipe } }));
+      }
 
     return recipe;
   } catch (e) {
