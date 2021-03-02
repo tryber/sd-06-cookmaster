@@ -3,7 +3,7 @@ const routes = require('express').Router();
 const users = require('../services/users');
 
 const OK = 200;
-// const CREATED = 201;
+const CREATED = 201;
 // const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
@@ -55,7 +55,7 @@ routes.route('/')
       return next({ ...createdUser.err });
     }
 
-    res.status(OK).json(createdUser);
+    res.status(CREATED).json(createdUser);
   }));
 
 module.exports = routes;

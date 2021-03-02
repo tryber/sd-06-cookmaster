@@ -3,13 +3,13 @@ const users = require('../models/users');
 const invalidEntriesError = {
   err: {
     statusCode: 400,
-    customMessage: 'Invlaid entries. Try again.',
+    customMessage: 'Invalid entries. Try again.',
   },
 };
 
 const conflictError = {
   err: {
-    statusCode: 406,
+    statusCode: 409,
     customMessage: 'Email already registered',
   },
 };
