@@ -28,7 +28,7 @@ const correctPassword = async (password) => {
 };
 
 const validPassword = (password) => {
-  if (password.length > 5) return true;
+  if (password.length > 4) return true;
   return false;
 };
 
