@@ -26,6 +26,23 @@ const getById = async (req, res) => {
   res.status(OK).json(findId);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  const getId = await recipesModel.getById(id);
+
+  const updatedRecipe = {
+    id,
+    name: body.name,
+    ingredients: body.ingredients,
+    preparation: body.preparation,
+    userId: getId.userId,
+  }
+
+  res.status(OK).json(updatedRecipe);
+};
+
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const token = req.headers.authorization;
@@ -49,5 +66,6 @@ const create = async (req, res) => {
 module.exports = {
   getAll,
   getById,
+  update,
   create,
 };

@@ -24,6 +24,7 @@ app.post('/login', serviceValidations.loginValidation, userController.login);
 
 // recipes rotas
 app.get('/recipes/:id', recipesValidation.idValidation, recipesController.getById);
+app.put('/recipes/:id', recipesValidation.updateValidation ,recipesController.update);
 app.get('/recipes', recipesController.getAll);
 app.post('/recipes', recipesValidation.createValidation, recipesController.create);
 

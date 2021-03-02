@@ -7,6 +7,7 @@ const notFound = 404;
 const messageInexistente = { message: 'Invalid entries. Try again.' };
 const messageInvalid = { message: 'jwt malformed' };
 const messageNotFound = { message: 'recipe not found' };
+const missToken = { message: 'missing auth token' };
 const segredo = 'cabeça';
 
 const createValidation = async (req, res, next) => {
@@ -39,7 +40,21 @@ const idValidation = async (req, res, next) => {
   next();
 };
 
+const updateValidation = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(errInvalid).json(missToken);
+  }
+  try {
+    jwt.verify(token, segredo);
+  } catch (error) {
+    return res.status(errInvalid).json(messageInvalid);
+  }
+  next();
+};
+
 module.exports = {
   createValidation,
   idValidation,
+  updateValidation,
 };
