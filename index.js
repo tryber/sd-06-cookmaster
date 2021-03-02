@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
