@@ -39,7 +39,8 @@ const findId = async (id) => {
 const update = async (recipe) => {
   try {
     const { _id, name, ingredients, preparation, image } = recipe;
-    const updateRecipe = (!image) ? { name, ingredients, preparation }
+    const updateRecipe = (!image)
+      ? { name, ingredients, preparation }
       : { image };
     const validId = ObjectID.isValid(_id);
     if (validId === false) return validId;
