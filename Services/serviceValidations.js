@@ -32,22 +32,20 @@ const createValidation = async (req, res, next) => {
 
 const loginValidation = async (req, res, next) => {
   const { email, password } = req.body;
-  
   if (!password) {
     return res.status(unauthorized).json(errUnauthorized);
   }
   if (!email) {
     return res.status(unauthorized).json(errUnauthorized);
   }
-  const getByEmail = await userModels.getByEmail(email);
-  if (email !== getByEmail) {
-    return res.status(unauthorized).json(errInvalid);
-  }
   if (validEmail(email) === false) {
     return res.status(unauthorized).json(errInvalid);
   }
+  const getByEmail = await userModels.getByEmail(email);
+  if (!getByEmail) {
+    return res.status(unauthorized).json(errInvalid);
+  }
   const checkPass = getByEmail.password;
-  console.log(checkPass);
   if (password !== checkPass) {
     return res.status(unauthorized).json(errInvalid);
   }

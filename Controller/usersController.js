@@ -19,7 +19,6 @@ const login = async (req, res) => {
   const { email } = req.body;
   
   const getEmail = await userModels.getByEmail(email);
-  console.log(getEmail);
   const payload = {
     _id: getEmail._id,
     email: getEmail.email,
@@ -30,9 +29,9 @@ const login = async (req, res) => {
     expiresIn: '1d',
     algorithm: 'HS256'
   };
-  const token = jwt.sign({data: payload}, segredo, jwtConfig)
+  const token = jwt.sign({ data: payload }, segredo, jwtConfig);
 
-  res.status(OK).json({token});
+  res.status(OK).json({ token });
 };
 
 module.exports = {
