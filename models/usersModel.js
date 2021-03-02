@@ -19,14 +19,7 @@ const getByEmail = async (email) => {
   return userByEmail.findOne({ email });
 };
 
-const authenticateUser = async (email, password) => {
-  const dataBase = await connection(collection);
-
-  return dataBase.findOne({ email, password });
-};
-
 module.exports = {
   createUser,
   getByEmail,
-  authenticateUser,
 };

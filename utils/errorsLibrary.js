@@ -15,12 +15,16 @@ module.exports = {
     code: 'invalid_credentials',
     message: 'Incorrect username or password',
   },
+  recipeNotFound: {
+    code: 'not_found',
+    message: 'recipe not found',
+  },
   invalidToken: {
     code: 'invalid_credentials',
     message: 'jwt malformed',
   },
-  recipeNotFound: {
-    code: 'not_found',
-    message: 'recipe not found',
+  missingToken: {
+    code: 'invalid_credentials',
+    message: 'missing auth token',
   },
 };

@@ -7,7 +7,7 @@ const authenticateUser = async (userCredentials) => {
   const { email, password } = userCredentials;
   if (!email || !password) throw invalidLoginField;
 
-  const validUser = await model.authenticateUser(email, password);
+  const validUser = await model.getByEmail(email);
   if (!validUser) throw invalidEmailOrPassword;
 
   return generateToken(validUser);

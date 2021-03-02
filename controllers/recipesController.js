@@ -1,14 +1,14 @@
 const services = require('../services/recipesServices');
 
-const { OK } = require('../utils/statusCode');
+const { OK, CREATED, NO_CONTENT } = require('../utils/statusCode');
 
 const createRecipes = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
     const newRecipe = req.body;
-    const recipeCreated = await services.createRecipe(token, newRecipe);
+    const email = req.user;
+    const recipeCreated = await services.createRecipe(email, newRecipe);
 
-    res.status(201).json({ recipe: recipeCreated });
+    res.status(CREATED).json({ recipe: recipeCreated });
   } catch (err) {
     next(err);
   }
@@ -30,8 +30,28 @@ const getRecipeById = async (req, res, next) => {
   }
 };
 
+const updateRecipe = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const recipe = req.body;
+    const recipeById = await services.updateRecipe(id, recipe);
+
+    res.status(OK).json(recipeById);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteRecipe = (req, res) => {
+    const { id } = req.params;
+    services.deleteRecipe(id);
+    res.status(NO_CONTENT).end();
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
+  deleteRecipe,
 };
