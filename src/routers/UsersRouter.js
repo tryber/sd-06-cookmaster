@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const { UsersController } = require('../controllers');
-const { validateFields } = require('../middlewares');
+const { validateUserFields } = require('../middlewares');
 
 const UserRouter = Router();
 
 UserRouter.post('/',
-  validateFields,
+  validateUserFields,
   UsersController.registerNewUser);
 
 module.exports = UserRouter;

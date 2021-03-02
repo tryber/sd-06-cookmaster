@@ -1,9 +1,11 @@
-const validateFields = require('./validateFields');
+const validateRecipeFields = require('./validateRecipeFields');
+const validateUserFields = require('./validateUserFields');
 const error = require('./error');
 const auth = require('./auth');
 
 module.exports = {
-  validateFields,
+  validateRecipeFields,
+  validateUserFields,
   error,
   auth,
 };
