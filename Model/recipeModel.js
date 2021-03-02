@@ -16,9 +16,13 @@ const editRecipes = async (id, name, ingr, prep) => connection
     { $set: { name, ingr, prep } },
   ));
 
+const deleteRecipes = async (id) => connection
+  .then((db) => db.connection('recipes').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   fundAllRecipes,
   createRecipes,
   findRecipes,
   editRecipes,
+  deleteRecipes,
 };
