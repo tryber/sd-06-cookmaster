@@ -14,5 +14,6 @@ const RecipeRouter = new Router();
 const RESOLVE = 200;
 
 RecipeRouter.get('/', async (req, res) => {
-  res.status(RESOLVE).json('funcionando o recipe router');
+  const allRecipes = getAllRecipes;
+  res.status(RESOLVE).json(allRecipes);
 });
