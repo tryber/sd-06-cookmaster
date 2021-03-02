@@ -3,7 +3,9 @@ const connection = require('./connection');
 
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
+const recipeNotFound = 'recipe not found';
 
 const recipeRegister = async (name, ingredients, preparation, userId) => {
   const { insertedId } = await connection()
@@ -40,7 +42,7 @@ const getRecipeById = async (id) => {
     return [recipe, OK];
   }
 
-  const error = [{ message: 'recipe not found' }, NOT_FOUND];
+  const error = [{ message: recipeNotFound }, NOT_FOUND];
   throw error;
 };
 
@@ -59,10 +61,28 @@ const updateRecipeById = async (name, ingredients, preparation, id) => {
 };
 
 const getRecipeOwnerId = async (id) => {
-  const { userId } = await connection()
+  try {
+    const { userId } = await connection()
+    .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
+    
+    return userId;
+  } catch (_err) {
+    const error = [{ message: recipeNotFound }, NOT_FOUND];
+    throw error;
+  }
+};
+
+const deleteRecipe = async (id) => {
+  const recipe = await connection()
     .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
 
-  return userId;
+    if (recipe) {
+      await connection()
+      .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+    return NO_CONTENT;
+  }
+  const error = [{ message: recipeNotFound }, NOT_FOUND];
+  throw error;
 };
 
 module.exports = {
@@ -71,4 +91,5 @@ module.exports = {
   getRecipeById,
   updateRecipeById,
   getRecipeOwnerId,
+  deleteRecipe,
 };

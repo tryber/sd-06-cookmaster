@@ -11,6 +11,7 @@ const {
   getRecipeById,
   updateRecipeById,
   getRecipeOwnerId,
+  deleteRecipe,
 } = require('../models/Recipes');
 
 const RecipesController = new Router();
@@ -69,6 +70,23 @@ RecipesController.put('/:id', async (req, res) => {
     const updatedRecipe = { name, ingredients, preparation, _id: id, userId: currentUserId };
 
     return res.status(status).json(updatedRecipe);
+  } catch (error) {
+    return res.status(error[1]).json(error[0]);
+  }
+});
+
+RecipesController.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: 'missing auth token' });
+
+  try {
+    const { email, password } = verifyValidToken(token);
+    const currentUserId = await validateJwt(email, password);
+    const recipeOwnerId = await getRecipeOwnerId(id);
+    await validateUserRole(email, recipeOwnerId, currentUserId);
+    const result = await deleteRecipe(id);
+    return res.status(result).json();
   } catch (error) {
     return res.status(error[1]).json(error[0]);
   }
