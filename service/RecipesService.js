@@ -20,10 +20,15 @@ const deleteRecipe = async (id) => (
   RecipesModel.deleteRecipe(id)
 );
 
+const addImagePath = async (id, image) => (
+  RecipesModel.addImagePath(id, image)
+);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
   deleteRecipe,
+  addImagePath,
 };

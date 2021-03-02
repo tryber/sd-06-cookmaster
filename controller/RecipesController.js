@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
 const RecipesService = require('../service/RecipesService');
 const validateJWT = require('../auth/validateJWT');
 const validateJWTRecipe = require('../auth/validateJWTRecipe');
@@ -57,6 +58,30 @@ router.delete(recipesId, validateJWTRecipe, async (req, res) => {
   await RecipesService.deleteRecipe(id);
 
   return res.status(204).end();
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'images');
+  },
+  filename: (req, file, callback) => {
+    callback(null, req.params.id);
+  },
+});
+
+const upload = multer({ storage });
+
+router.put('/recipes/:id/image/', validateJWTRecipe, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+
+  const image = `localhost:3000/images/${id}.jpeg`;
+
+  await RecipesService.addImagePath(id, image);
+
+  const result = await RecipesService.getRecipeById(id);
+  console.log(result)
+
+  return res.status(200).json(result);
 });
 
 module.exports = router;
