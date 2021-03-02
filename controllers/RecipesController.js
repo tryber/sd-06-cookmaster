@@ -55,7 +55,7 @@ RecipesRouter.put('/:id', verifyAuthorization, async (req, res) => {
     await validateUser(req.headers.authorization, userId);
     const { name, ingredients, preparation } = req.body;
     const data = await Recipes.update(req.params.id, name, ingredients, preparation);
-    res.status(200).json(data);
+    res.status(200).json({ ...data, userId });
   } catch (error) {
     res.status(404).json({ message: NOT_FOUND });
   }

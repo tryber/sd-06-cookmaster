@@ -1,16 +1,15 @@
 const jwt = require('jsonwebtoken');
 
 const secret = 'secretkey';
-/* eslint no-underscore-dangle: 0 */
 const validateUser = async (token, userId) => {
-    const payload = await jwt.verify(token, secret);
-    if (payload._id !== userId) {
+    const { _id: id, ...payload } = await jwt.verify(token, secret);
+    if (id !== userId) {
       if (payload.role === 'admin') {
-        return payload;
+        return { id, payload, userId };
       }
       throw new Error();
     }
-    return payload;
+    return { id, payload, userId };
 };
 
 module.exports = validateUser;
