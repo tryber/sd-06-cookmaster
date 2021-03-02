@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { ObjectId } = require('mongodb');
 const validateJWT = require('../utils/validateJWT');
 const service = require('../services/recipesService');
 
@@ -28,6 +29,8 @@ recipes.get('/', async (_request, response) => {
 recipes.get('/:id', async (request, response) => {
   const { id } = request.params;
 
+  if (!ObjectId.isValid(id)) return response.status(404).json({ message: 'recipe not found' });
+  
   const recipe = await service.getRecipeById(id);
 
   if (!recipe) return response.status(404).json({ message: 'recipe not found' });
