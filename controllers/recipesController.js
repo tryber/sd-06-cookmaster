@@ -5,9 +5,9 @@ const { validateToken,
   getAllRecipes, 
   getRecipeById, 
   validateId, 
-  recipeUpdate} = require('../services/recipesServices');
+  recipeUpdate } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
-const { CREATED, SUCCESS, NOTFOUND, loginError } = require('../variables');
+const { CREATED, SUCCESS, NOTFOUND } = require('../variables');
 
 const recipesRouter = new Router();
 
