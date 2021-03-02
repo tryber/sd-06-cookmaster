@@ -11,9 +11,9 @@ const checkRequestBody = async (request, response, next) => {
     return response.status(400).json({ message: 'Invalid entries. Try again.' });
   }
 
-  const userEmail = await model.isEmailUnique(request.body.email);
+  const isUnique = await model.isEmailUnique(request.body.email);
 
-  if (userEmail) {
+  if (!isUnique) {
     return response.status(409).json({ message: 'Email already registered' });
   }
 

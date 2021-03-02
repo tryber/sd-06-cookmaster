@@ -18,7 +18,7 @@ const isEmailUnique = async (email) => {
 
   const userEmail = await db.findOne({ email });
 
-  if (!userEmail) return false;
+  if (userEmail) return false;
 
   return true;
 };
