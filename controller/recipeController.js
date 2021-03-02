@@ -7,13 +7,15 @@ const {
   delRecipe,
   validateRecipes,
   validateId,
-} = require('../Model/recipeModel');
+} = require('../Services/recipesService');
 
 const RecipeRouter = new Router();
 
 const RESOLVE = 200;
 
 RecipeRouter.get('/', async (req, res) => {
-  const allRecipes = getAllRecipes;
+  const allRecipes = await getAllRecipes();
   res.status(RESOLVE).json(allRecipes);
 });
+
+module.exports = { RecipeRouter };
