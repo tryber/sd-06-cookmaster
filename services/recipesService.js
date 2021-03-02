@@ -35,8 +35,19 @@ const getById = async (id) => {
   return recipeById;
 };
 
+const update = async (id, name, ingredients, preparation) => {
+  const errorMessage = await dataValidate(name, ingredients, preparation);
+
+  if (errorMessage) return errorMessage;
+
+  const editRecipe = await recipes.update(id, name, ingredients, preparation);
+
+  return editRecipe;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
