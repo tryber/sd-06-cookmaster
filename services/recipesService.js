@@ -12,6 +12,7 @@ const registerRecipe = async (recipeInfo) => recipesModel.registerRecipe(recipeI
 const getAllRecipes = async () => recipesModel.getAllRecipes();
 const findOneRecipe = async (id) => recipesModel.findOneRecipe(id);
 const updateRecipe = async (id, recipe) => recipesModel.updateRecipe(id, recipe);
+const deleteRecipe = async (id) => recipesModel.deleteRecipe(id);
 
 const validateToken = async (request, response, next) => {
   const token = request.headers.authorization;
@@ -52,4 +53,5 @@ module.exports = {
   findOneRecipe,
   validateId,
   updateRecipe,
+  deleteRecipe,
 };

@@ -5,6 +5,7 @@ const {
   findOneRecipe,
   validateId,
   updateRecipe,
+  deleteRecipe,
 } = require('../services/recipesService');
 
 const {
@@ -18,6 +19,7 @@ const recipesRouter = new Router();
 const CREATED = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+const NO_CONTENT = 204;
 
 recipesRouter.post('/', validateToken, verifyRecipe, async (request, response) => {
   const { email } = request.user;
@@ -45,6 +47,12 @@ recipesRouter.put('/:id', validateToken, validateId, async (request, response) =
   const beforeUpdate = await updateRecipe(id, name, ingredients, preparation);
   const newRecipe = { ...beforeUpdate, name, ingredients, preparation };
   return response.status(SUCCESS).json(newRecipe);
+});
+
+recipesRouter.delete('/:id', validateToken, async (request, response) => {
+  const { id } = request.params;
+  await deleteRecipe(id);
+  return response.status(NO_CONTENT).json();
 });
 
 module.exports = recipesRouter;
