@@ -19,4 +19,8 @@ router.put('/:id',
   rescue(RecipesService.verifyFields),
   rescue(RecipesService.updateRecipe));
 
+router.delete('/:id', 
+  rescue(verifyToken),
+  rescue(RecipesService.deleteRecipe));
+
 module.exports = router;

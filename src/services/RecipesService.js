@@ -3,8 +3,9 @@ const { throwThisError } = require('../utils/index');
 
 const NOT_FOUND = 404;
 const BAD_REQUEST = 400;
-const CREATED = 201;
 const OK = 200;
+const CREATED = 201;
+const NO_CONTENT = 204;
 
 const verifyFields = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -52,10 +53,24 @@ const updateRecipe = async (req, res) => {
   res.status(OK).json(value);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await RecipesModel.deleteRecipe(id);
+  } catch (error) {
+    console.log(error.message);
+    throwThisError(500, error.message);
+  }
+
+  res.status(NO_CONTENT).send();
+};
+
 module.exports = {
   insertRecipe,
   verifyFields,
   getAll,
   findById,
   updateRecipe,
+  deleteRecipe,
 };

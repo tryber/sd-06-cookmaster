@@ -19,9 +19,11 @@ const verifyToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, secret);
     const user = await UserModel.findByEmail(decoded.data);
+    console.log(user);
     if (!user) throwThisError(NOT_FOUND, 'Token user not found');
-    const { _id } = user;
+    const { _id, role } = user;
     req.userId = _id;
+    req.userRole = role;
   } catch {
     throwThisError(UNAUTHORIZED, 'jwt malformed');
   }
