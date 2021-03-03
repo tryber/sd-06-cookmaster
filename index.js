@@ -1,5 +1,5 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const bodyParser = require('body-parser');
 const UsersController = require('./src/controllers/UsersController');
 const RecipesController = require('./src/controllers/RecipesController');
@@ -22,8 +22,8 @@ app.use('/login', LoginController);
 
 app.use('/recipes', RecipesController);
 
-// prerequisito multer
-// app.use('/images', express.static(path.join(__dirname, 'uploads')));
+// Requisito 10 (?)
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 // ________________________________________________________
 

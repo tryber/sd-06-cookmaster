@@ -39,15 +39,14 @@ const RecipeGetByIdService = async (req, res) => {
 const RecipeUpdateService = async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
+  const image = 'no image yet';
+  // VALIDAÇÔES DO ADMIN
+  // if (role === 'admin' || _id === id) {
   // const { _id, role } = req.user;
-  // try {
-  //   if (role === 'admin' || _id === id) {
-      
-  //   }
-  // } catch (e) {
-  //   res.status(STATUS_UNAUTHORIZED).json({ message: e.message });
-  // }
-  await updateRecipe(id, name, ingredients, preparation);
+  // Consulta da receita pelo id pra retornar o userID e comparar com o _id;
+  // } 
+  // Senão status.error!
+  await updateRecipe(id, name, ingredients, preparation, image);
   const updatedRecipe = await getByIdRecipe(id);
   return res.status(STATUS_OK).json(updatedRecipe);
 };
@@ -58,10 +57,29 @@ const RecipeDeleteService = async (req, res) => {
   return res.status(STATUS_NO_CONTENT).send();
 };
 
+const UploadImageService = async (req, res) => {
+  const { id } = req.params;
+  // const { userId } = req.user;
+  // console.log(userId);
+  const { filename } = req.file;
+  const image = `localhost:3000/images/${filename}`;
+  const { _id, name, ingredients, preparation } = await getByIdRecipe(id);
+  await updateRecipe(id, name, ingredients, preparation, image);
+  res.status(STATUS_OK).json({ 
+    _id,
+    name, 
+    ingredients, 
+    preparation,
+    // userId, 
+    image,
+  });
+};
+
 module.exports = {
   RecipesCreateService,
   RecipesGetAllService,
   RecipeGetByIdService,
   RecipeUpdateService,
   RecipeDeleteService,
+  UploadImageService,
 };
