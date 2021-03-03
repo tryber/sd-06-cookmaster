@@ -1,13 +1,18 @@
 const jwt = require('jsonwebtoken');
 
 const { secret } = require('../controller/loginController');
-const { createRecipe } = require('../model/recipesModel');
+const { createRecipe, getAllRecipes } = require('../model/recipesModel');
 const { findOneUser } = require('../model/usersModel');
-
-const createNewRecipe = async (data) => createRecipe(data);
 
 const code400 = 400;
 const code401 = 401;
+
+// 4 - Crie um endpoint para a listagem de receitas
+// Será validado que é possível listar todas as receitas sem estar autenticado
+// Será validado que é possível listar todas as receitas estando autenticado
+
+const getRecipes = async () => getAllRecipes();
+const createNewRecipe = async (data) => createRecipe(data);
 
 // 3 - Crie um endpoint para o cadastro de receitas
 
@@ -61,5 +66,6 @@ const validateRecipe = async (req, res, next) => {
 module.exports = {
   createNewRecipe,
   validateRecipe,
+  getRecipes,
   validateToken,
 };
