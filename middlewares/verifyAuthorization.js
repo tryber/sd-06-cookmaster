@@ -3,10 +3,31 @@ const returnedStatusAndMessage = require('../util/validations');
 
 const status401 = 401;
 
-const verifyAuthorization = (request, response, next) => {
+const verifyAuthorizationLogar = (request, response, next) => {
   const { authorization: token } = request.headers;
 
   const payload = validateToken(token);
+  
+  if (!payload) {
+    return returnedStatusAndMessage(response,
+    status401,
+    'jwt malformed');
+  }
+
+  request.user = payload;
+  next();
+};
+
+const verifyAuthorizationEditar = (request, response, next) => {
+  const { authorization: token } = request.headers;
+
+  const payload = validateToken(token);
+  
+  if (!token) {
+    return returnedStatusAndMessage(response,
+    status401,
+    'missing auth token');
+  }
 
   if (!payload) {
     return returnedStatusAndMessage(response,
@@ -15,8 +36,10 @@ const verifyAuthorization = (request, response, next) => {
   }
 
   request.user = payload;
-
   next();
 };
 
-module.exports = verifyAuthorization;
+module.exports = {
+  verifyAuthorizationLogar,
+  verifyAuthorizationEditar,
+};

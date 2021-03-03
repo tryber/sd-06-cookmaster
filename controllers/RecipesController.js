@@ -8,7 +8,7 @@ const status201 = 201;
 const status200 = 200;
 
 RecipesController.post('/',
-  verifyAuthorization,
+  verifyAuthorization.verifyAuthorizationLogar,
   service.validateRecipe,
   async (request, response) => {
     const { body: { name, ingredients, preparation }, user: { _id: id } } = request;
@@ -31,6 +31,29 @@ RecipesController.get('/:id', service.idIsValid, async (request, response) => {
   const recipe = await recipes.findById(id);
 
   return response.status(status200).json(recipe);
+});
+
+RecipesController.put('/:id',
+verifyAuthorization.verifyAuthorizationEditar,
+service.userRole,
+async (request, response) => {
+  const {
+    params: { id },
+    body: { name, ingredients, preparation },
+    user: { _id: userId },
+  } = request;
+
+  await recipes.updateRecipe(id, name, ingredients, preparation);
+
+  const updatedRecipe = {
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+  
+  return response.status(status200).json(updatedRecipe);
 });
 
 RecipesController.get('/', async (_request, response) => response
