@@ -1,6 +1,6 @@
 const BAD_REQUEST = 400;
 
-function checkRequiredFields(request, response, next) {
+function checkNewUserFields(request, response, next) {
   const { name, email, password } = request.body;
   if (!name || !email || !password) {
     next(
@@ -13,4 +13,4 @@ function checkRequiredFields(request, response, next) {
   next();
 }
 
-module.exports = checkRequiredFields;
+module.exports = checkNewUserFields;

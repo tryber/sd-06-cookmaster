@@ -1,9 +1,11 @@
-const checkRequiredFields = require('./checkRequiredFields');
+const checkNewUserFields = require('./checkNewUserFields');
 const checkEmailRepetition = require('./checkEmailRepetition');
 const validateEmail = require('./validateEmail');
+const checkLoginFields = require('./checkLoginFields');
 
 module.exports = {
-  checkRequiredFields,
+  checkNewUserFields,
   checkEmailRepetition,
   validateEmail,
+  checkLoginFields,
 };

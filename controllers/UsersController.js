@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const UsersService = require('../services/UsersService');
 const {
-  checkRequiredFields,
+  checkNewUserFields,
   checkEmailRepetition,
   validateEmail,
 } = require('../middlewares');
@@ -40,7 +40,7 @@ router.put('/:id', async (request, response) => {
 });
 
 router.post('/',
-  checkRequiredFields,
+  checkNewUserFields,
   checkEmailRepetition,
   validateEmail,
   async (request, response) => {
