@@ -54,8 +54,9 @@ const deleteRecipeById = async (id) => {
   return responsePayload;
 };
 
-const addImageToRecipe = async () => {
-  const responsePayload = await 'Add image to recipe';
+const addImageToRecipe = async (id, recipeURL) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).updateOne({ _id: ObjectId(id) }, { $set: { image: recipeURL } }));
   return responsePayload; 
 };
 

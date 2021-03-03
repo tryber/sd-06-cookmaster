@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const multer = require('multer');
+const path = require('path');
 const recipesController = require('../controllers/recipesController');
 const { 
   registerRecipeValidator,
@@ -8,7 +9,7 @@ const {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, '../assets/uploads');
+    callback(null, path.join(__dirname, '..', 'assets/uploads'));
   },
   filename: (req, file, callback) => {
     callback(null, `${req.params.id}.jpeg`);
@@ -23,7 +24,9 @@ recipesRouter.post('/', registerRecipeValidator, recipesController.registerRecip
 
 recipesRouter.get('/', recipesController.getAllRecipes);
 
-recipesRouter.put('/:id/image', upload.single('image'), recipesController.addImageToRecipe);
+recipesRouter.put(
+  '/:id/image', tokenValidator, upload.single('image'), recipesController.addImageToRecipe,
+);
 
 recipesRouter.get('/:id', recipesController.getRecipesById);
 

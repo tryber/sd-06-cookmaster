@@ -10,6 +10,7 @@ const status = {
   notFound: 404,
   conflict: 409,
   unprocessableEntity: 422,
+  test: 500,
 };
 
 // const codeTranslator = {

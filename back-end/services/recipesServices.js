@@ -50,8 +50,20 @@ const deleteRecipeById = async (id) => {
   return responsePayload;
 };
 
-const addImageToRecipe = async (_req, _res) => {
-  const responsePayload = await recipesModels.addImageToRecipe();
+const addImageToRecipe = async ({ id, filename, user: { email } }) => {
+  const recipeURL = `localhost:3000/images/${filename}`;
+  await recipesModels.addImageToRecipe(id, recipeURL);
+  const { _id, name, ingredients, preparation } = await recipesModels.getRecipesById(id);
+  const { _id: userId } = await usersModels.findUserByEmail(email);
+
+  const responsePayload = {
+    _id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+    image: recipeURL,
+  };
   return responsePayload; 
 };
 
