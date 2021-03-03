@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { usersRouter } = require('./controllers/userController');
 const { loginRouter } = require('./controllers/loginController');
+const { recipesRouter } = require('./controllers/recipesController');
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/recipes', recipesRouter);
 
 app.listen(3000, () => console.log('Listening to port 3000'));
