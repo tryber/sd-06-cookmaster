@@ -28,18 +28,21 @@ const getById = async (req, res) => {
 
 const update = async (req, res) => {
   const recipeId = req.params.id;
-  const corpo = req.body;
+  const { name, ingredients, preparation } = req.body;
 
   const getId = await recipesModel.getById(recipeId);
   const { _id: id } = getId;
 
   const updatedRecipe = {
     id,
-    name: corpo.name,
-    ingredients: corpo.ingredients,
-    preparation: corpo.preparation,
+    name,
+    ingredients,
+    preparation,
     userId: getId.userId,
   };
+
+  const updation = await recipesModel
+    .update(id, name, ingredients, preparation);
 
   res.status(OK).json(updatedRecipe);
 };
