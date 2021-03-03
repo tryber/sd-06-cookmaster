@@ -3,12 +3,17 @@ const bodyParser = require('body-parser');
 
 const expectedError = require('./Middlewares/expectedError');
 const usersController = require('./Controllers/usersController');
+const usersLogin = require('./Controllers/usersLogin');
+const { validateEntriesLogin,
+    validateEmailLogin, validatePasswordLogin } = require('./Middlewares/usersValidators');
 
 const app = express();
 const bell = 3000;
 
 app.use(bodyParser.json());
 app.use('/users', usersController);
+app.post('/login', validateEntriesLogin, validateEmailLogin,
+validatePasswordLogin, usersLogin);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

@@ -12,5 +12,5 @@ emailAlreadyExistsService,
     const newUser = await usersService.createUserService(name, email, password, 'user');  
     return res.status(201).json({ user: newUser });
   });
-
+   
 module.exports = router;
