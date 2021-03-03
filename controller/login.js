@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const rescue = require('express-rescue');
+// const rescue = require('express-rescue');
 const models = require('../models');
 
 const STATUS401 = 401;
@@ -26,7 +26,7 @@ login.post('/', async (req, res) => {
     }
     delete usersByEmail.password;
     const payload = {
-      iss: 'post_api', aud: 'identify', user,
+      iss: 'post_api', aud: 'identify', usersByEmail,
     };
     const token = jwt.sign(payload, secretPassword, jwtConfig);
     res.status(STATUS200).json({ token });
