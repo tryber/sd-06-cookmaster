@@ -17,6 +17,7 @@ const dictionary = {
     allFieldsRequired: handleErrorMessage('All fields must be filled', STATUS.unauthorized),
     invalidCredentials: handleErrorMessage('Incorrect username or password', STATUS.unauthorized),
     noAuthToken: handleErrorMessage('Missing authentication token.', STATUS.unauthorized),
+    recipeNotFound: handleErrorMessage('recipe not found', STATUS.notFound),
   },
   validations: {
    
