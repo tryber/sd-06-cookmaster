@@ -1,12 +1,14 @@
-const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
 
-const { secret } = require('../controller/loginController');
-const { createRecipe, findAllRecipes, findOneRecipe } = require('../model/recipesModel');
-const { findOneUser } = require('../model/usersModel');
+const {
+  createRecipe,
+  findAllRecipes,
+  findOneRecipe,
+  editRecipe,
+} = require('../model/recipesModel');
 
 const code400 = 400;
-const code401 = 401;
+// const code401 = 401;
 const code404 = 404;
 
 // 4 - Crie um endpoint para a listagem de receitas
@@ -18,29 +20,6 @@ const createNewRecipe = async (data) => createRecipe(data);
 // A rota pode ser acessada por usuários logados ou não
 const getAllRecipes = async () => findAllRecipes();
 const getRecipeById = async (id) => findOneRecipe(id);
-
-// 3 - Crie um endpoint para o cadastro de receitas
-
-// Será validado que não é possível cadastrar uma receita com token invalido
-// Se a receita não tiver o token válido o resultado retornado deverá ser
-// conforme exibido abaixo, com um status http 401
-
-const validateToken = async (req, res, next) => {
-  try {
-    const decoded = jwt.verify(req.headers.authorization, secret);
-    const user = await findOneUser(decoded.data.email);
-
-    if (!user) {
-      return res.status(code401).json({ message: 'jwt malformed' });
-    }
-
-    req.user = decoded.data;
-  } catch (err) {
-    return res.status(code401).json({ message: 'jwt malformed' });
-  }
-
-  next();
-};
 
 // 5 - Crie um endpoint para visualizar uma receita específica
 const validateId = (req, res, next) => {
@@ -80,11 +59,26 @@ const validateRecipe = async (req, res, next) => {
   next();
 };
 
+// 7 - Crie um endpoint para a edição de uma receita
+
+// A receita só pode ser atualizada caso o usuário esteja logado e o token JWT validado.
+// A receita só pode ser atualizada caso pertença ao usuário logado, ou caso esse usuário seja um admin.
+// O corpo da requisição deve receber o seguinte formato:
+// {
+//   "name": "string",
+//   "ingredients": "string",
+//   "preparation": "string"
+// }
+
+const putRecipe = async (id, name, ingredients, preparation) => {
+  editRecipe(id, name, ingredients, preparation);
+};
+
 module.exports = {
   createNewRecipe,
   validateRecipe,
   getAllRecipes,
   getRecipeById,
-  validateToken,
   validateId,
+  putRecipe,
 };

@@ -1,12 +1,14 @@
 const { Router } = require('express');
 const { getUserByEmail } = require('../services/loginServices');
+const { validateToken } = require('../auth/validateToken');
+const { validateRecipeToken } = require('../auth/validateJWTRecipes');
 const {
-  validateToken,
   validateRecipe,
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   validateId,
+  putRecipe,
 } = require('../services/recipesServices');
 
 const RecipesRouter = new Router();
@@ -59,6 +61,23 @@ RecipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
   await createNewRecipe(recipe);
 
   return res.status(code201).json({ recipe });
+});
+
+// 7 - Crie um endpoint para a edição de uma receita
+// A rota deve ser (/recipes/:id).
+
+// A receita só pode ser atualizada caso o usuário esteja logado e o token JWT validado.
+// A receita só pode ser atualizada caso pertença ao usuário logado, ou caso esse usuário seja um admin.
+
+RecipesRouter.put('/:id', validateRecipeToken, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const oldRecipe = await putRecipe(id, name, ingredients, preparation);
+
+  const editedRecipe = { ...oldRecipe, name, ingredients, preparation };
+
+  return res.status(code200).json(editedRecipe);
 });
 
 module.exports = { RecipesRouter }; 
