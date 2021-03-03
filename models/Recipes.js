@@ -67,7 +67,6 @@ const getRecipeOwnerId = async (id) => {
     
     return userId;
   } catch (_err) {
-    console.warn('getRecipeOwnerId')
     const error = [{ message: recipeNotFound }, NOT_FOUND];
     throw error;
   }
@@ -97,7 +96,6 @@ const addImage = async (id, recipeImage) => {
 
     return [{ _id, name, ingredients, preparation, userId, image: recipeImage }, OK];
   }
-  console.warn('addImage')
   const error = [{ message: recipeNotFound }, NOT_FOUND];
   throw error;
 };
