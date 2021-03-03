@@ -4,6 +4,8 @@ const {
   validateToken,
   recipeCreate,
   getAllRecipes,
+  getRecipeById,
+  validateId,
 } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
 
@@ -26,6 +28,14 @@ recipesRouter.get('/', async (_req, res) => {
   const recipes = await getAllRecipes();
 
   res.status(200).json(recipes);
+});
+
+recipesRouter.get('/:id', validateId, async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getRecipeById(id);
+  if (!recipe) return res.status(404).json({ message: 'recipe not found' });
+
+  res.status(200).json(recipe);
 });
 
 module.exports = { recipesRouter };
