@@ -19,8 +19,10 @@ router.post('/', loginValidationRules(), validateLogin, async (req, res) => {
   const { email, password } = req.body;
 
   const validPass = await UsersServices.findByPassword(password);
-  if (!validPass) return res.status(UNAUTHORIZED)
-    .json({ message: 'Incorrect username or password' });
+  if (!validPass) {
+    return res.status(UNAUTHORIZED)
+      .json({ message: 'Incorrect username or password' });
+  }
 
   const { _id, role } = await UsersServices.findByEmail(email);
 

@@ -6,7 +6,7 @@ const secret = 'just do go ahead';
 const UNAUTHORIZED = 401;
 
 const validateJWT = async (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers.authorization;
   if (!token) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
 
   try {
@@ -18,9 +18,9 @@ const validateJWT = async (req, res, next) => {
     req.user = user;
 
     next();
-  } catch(err) {
+  } catch (err) {
     return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
-  };
+  }
 };
 
 module.exports = validateJWT;
