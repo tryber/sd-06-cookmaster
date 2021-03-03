@@ -12,8 +12,8 @@ const findById = async (id) => {
   return findRecipeById;
 };
 
-const create = async (name, ingredients, preparation) => {
-  const newRecipe = await RecipesModel.create(name, ingredients, preparation);
+const create = async (name, ingredients, preparation, userId) => {
+  const newRecipe = await RecipesModel.create(name, ingredients, preparation, userId);
 
   return newRecipe;
 };

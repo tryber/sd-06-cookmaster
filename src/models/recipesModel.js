@@ -7,9 +7,9 @@ const getAll = async () => {
   return allRecipes;
 };
 
-const create = async (name, ingredients, preparation) => {
+const create = async (name, ingredients, preparation, userId) => {
   const createNewRecipe = await connection()
-    .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation }));
+    .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation, userId }));
 
   return createNewRecipe;
 };
