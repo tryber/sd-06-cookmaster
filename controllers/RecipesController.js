@@ -8,8 +8,10 @@ const router = Router();
 
 const SUCCESS = 200;
 const SUCCESS201 = 201;
+const SUCCESS204 = 204;
 const ERRO400 = 400;
 const ERRO404 = 404;
+const ERRO401 = 401;
 
 const smsInvalidEntries = { message: 'Invalid entries. Try again.' };
 
@@ -77,5 +79,14 @@ router.put('/:id', verifyAuthorization, async (req, res) => {
   return res.status(SUCCESS).json(recipe.value);
 });
 // 7
+
+// 8
+router.delete('/:id', verifyAuthorization, async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.remove(id);
+
+  return res.status(SUCCESS204).json(recipe.value);
+});
+// 8
 
 module.exports = router;

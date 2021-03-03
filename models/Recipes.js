@@ -20,11 +20,20 @@ const update = async (id, name, ingredients, preparation) =>
     { $set: { name, ingredients, preparation } },
     { returnOriginal: false }, // retorna o poduto atualizado após edição
   ));
-// 7 
+// 7
+
+// 8
+const remove = async (id, name, ingredients, preparation) =>
+  connection().then((db) => db.collection('recipes').findOneAndDelete(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+  ));
+// 8
 
 module.exports = {
   getAll,
   create,
   getById,
   update,
+  remove,
 };
