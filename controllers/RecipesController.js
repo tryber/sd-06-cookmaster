@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
 const { verifyAuthorization, getPayload } = require('../middlewares/verifyAuthorization');
 const Recipes = require('../models/Recipes');
-// const { verifyAuthorizationRecipes } = require('../middlewares/verifyAuthorizationRecipes');
 
 const router = Router();
 
@@ -87,5 +87,26 @@ router.delete('/:id', verifyAuthorization, async (req, res) => {
   return res.status(SUCCESS204).json(recipe.value);
 });
 // 8
+
+// 9
+const upload = multer({
+  dest: 'images',
+});
+
+router.put('/:id/image', verifyAuthorization, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+
+  const { name, ingredients, preparation } = req.body;
+  const recipe = {
+    id,
+    name,
+    ingredients,
+    preparation,
+    userId: getPayload() && getPayload().userId,
+    image: `localhost:3000/images/${ObjectId(id)}.jpeg`,
+  };
+  res.status(SUCCESS).json(recipe);
+});
+// 9 
 
 module.exports = router;
