@@ -9,8 +9,8 @@ const status200 = 200;
 LoginController.post('/', service.validateLogin, async (request, response) => {
   const { email } = request.body;
 
-  const user = await users.findUserByEmail(email);
-  const token = createToken(user);
+  const { password, ...userWithoutPassword } = await users.findUserByEmail(email);
+  const token = createToken(userWithoutPassword);
 
   return response.status(status200).json({ token });
 });
