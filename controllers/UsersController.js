@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UsersServices = require('../services/UsersServices');
-const { userValidationRules, validateUser } = require('../validators/UsersValidators');
+const { userValidationRules, validateUser } = require('../middlewares/UsersValidators');
 
 const router = Router();
 
