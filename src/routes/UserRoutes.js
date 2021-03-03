@@ -9,9 +9,10 @@ const RecipesController = require('../controllers/RecipesController');
 
 const appRouters = Router();
 
-appRouters.use('/users', validateCreateUser, UserController.createUser);
-appRouters.use('/login', validateLoginUser, UserController.loginUser);
+appRouters.post('/users', validateCreateUser, UserController.createUser);
+appRouters.post('/login', validateLoginUser, UserController.loginUser);
 
-appRouters.use('/recipes', validateCreateRecipe, RecipesController.createRecipe);
+appRouters.post('/recipes', validateCreateRecipe, RecipesController.createRecipe);
+appRouters.get('/recipes', RecipesController.searchAllRecipes);
 
 module.exports = appRouters;

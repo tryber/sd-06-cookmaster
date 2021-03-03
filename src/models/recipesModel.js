@@ -7,6 +7,13 @@ const createRecipeDb = async (name, ingredients, preparation) => {
   return newRecipe;
 };
 
+const searchAllRecipesDb = async () => {
+  const allRecipes = await Recipes.find();
+
+  return allRecipes;
+};
+
 module.exports = {
   createRecipeDb,
+  searchAllRecipesDb,
 };
