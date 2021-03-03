@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 // const rescue = require('express-rescue');
-const models = require('../models');
+const modelLogin = require('../models');
 
 const STATUS401 = 401;
 const STATUS200 = 200;
@@ -20,7 +20,7 @@ login.post('/', async (req, res) => {
     if (!email || !password) {
       return res.status(STATUS401).json({ message: 'All fields must be filled' });
     }
-    const usersByEmail = await models.users.findByEmail(email);
+    const usersByEmail = await modelLogin.login.findUserByEmail({ email });
     if (!usersByEmail || usersByEmail.password !== password) {
       return res.status(STATUS401).json({ message: 'Incorrect username or password' });
     }

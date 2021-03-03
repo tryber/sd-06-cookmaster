@@ -1,20 +1,36 @@
-const { ObjectId } = require('mongodb');
+const { ObjectID } = require('mongodb');
 const getConnection = require('./connection');
 
-const register = async (name, ingredients, preparation, userId) => {
-  const registerRecipe = await getConnection('recipes')
-    .then((recipes) => recipes.insertOne({ name, ingredients, preparation, userId }));
-  return { recipe: { _id: registerRecipe.insertedId, name, ingredients, preparation, userId } };
-};
+const createRecipes = async (recipe) => getConnection('recipes')
+  .then((recipes) => recipes.insertOne(recipe))
+  .then(() => ({
+    recipe,
+    }
+  ));
 
 const getAllRecipes = async () => getConnection('recipes')
-  .then((recipes) => recipes.find().toArray());
+  .then((recipes) => recipes.find({}).toArray());
 
 const getRecipeById = async (id) => getConnection('recipes')
-  .then((recipes) => recipes.findOne(ObjectId(id)));
+  .then((recipes) => recipes.findOne({ _id: ObjectID(id) }));
+
+const editRecipeById = async (id, recipe, userId) => {
+  const { name, ingredients, preparation, image = '' } = recipe;
+  const recipeToEdit = await getConnection('recipes');
+  await recipeToEdit.updateOne(
+    { _id: ObjectID(id) },
+    { $set: { name, ingredients, preparation, image } },
+  );
+  return { _id: id, name, ingredients, preparation, userId, image };
+};
+
+const deleteRecipe = async (id) => getConnection('recipes')
+  .then((recipes) => recipes.deleteOne({ _id: ObjectID(id) }));
 
 module.exports = {
-  register,
+  createRecipes,
   getAllRecipes,
   getRecipeById,
+  editRecipeById,
+  deleteRecipe,
 };

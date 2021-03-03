@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 // const path = require('path');
-const { users, login, recipes } = require('./controller');
+const { users, login, recipesRouter } = require('./controller');
 const { handleErrors } = require('./middlewares');
 require('dotenv').config();
 
@@ -16,7 +16,7 @@ app.get('/', (request, response) => {
 
 app.use('/users', users);
 app.use('/login', login);
-app.use('/recipes', recipes);
+app.use('/recipes', recipesRouter);
 app.use(handleErrors);
 const PORT = process.env.PORT || 3000;
 
