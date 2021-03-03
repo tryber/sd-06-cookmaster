@@ -33,9 +33,13 @@ recipesRouter.put('/:id', validadeTokenPut, validadeToken, async (req, res) => {
 
   const updated = await RecipesModel.update(name, ingredients, preparation, id);
 
-  // const newRecipe = { recipe: { _id: insertedId, name, ingredients, preparation } };
-
   res.status(200).json(updated);
+});
+
+recipesRouter.delete('/:id', validadeTokenPut, async (req, res) => {
+  const { id } = req.params;
+  await RecipesModel.remove(id);
+  return res.status(204).send();
 });
 
 module.exports = recipesRouter;

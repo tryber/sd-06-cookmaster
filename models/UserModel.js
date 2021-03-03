@@ -16,7 +16,6 @@ const create = async (name, email, password, role) => {
 
 const verifyEmail = async (email) => {
   const verify = await connection().then((db) => db.collection('users').findOne({ email }));
-  console.log(verify);
   if (verify) return true;
   return false;
 };
