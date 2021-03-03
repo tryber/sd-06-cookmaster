@@ -2,15 +2,11 @@ const { findByEmail } = require('../models/mongoDbRequests');
 
 const connectionUsers = 'users';
 
-const objError = (message, status) => ({ message, status });
-// const isString = (parameter) => typeof parameter === 'string';
-// const isEqual = (parameter1, parameter2) => parameter1 === parameter2;
-// const isLessThan = (parameter1, parameter2) => parameter1 < parameter2;
-const isBlank = (parameter) => !parameter;
-const isValidEmail = (email) => {
-  const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-  return !regex.test(email);  
-};
+const {
+  objError,
+  isBlank,
+  isValidEmail,
+} = require('./usefulFuncsValidations');
 
 const validationUsersKeysFormat = (body) => {
   const { name, email, password } = body;

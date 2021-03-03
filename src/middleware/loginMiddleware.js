@@ -1,20 +1,20 @@
 const {
-  validationUsersKeysFormat,
-  validationUsersEmailConflict,
-} = require('../validations/usersValidations');
+  validationLoginKeysExists,
+  validationLoginUserExists,
+} = require('../validations/loginValidations');
 
 const { objMessageError } = require('./usefulFuncsMiddleware');
 
-const validationUsersBody = async (req, res, next) => {
+const loginUserValid = async (req, res, next) => {
   const { body } = req;
 
-  const error = validationUsersKeysFormat(body);
+  const error = validationLoginKeysExists(body);
   if (error) {
     const { message, status } = error;
     return res.status(status).json(objMessageError(message));
   }
-
-  const error2 = await validationUsersEmailConflict(body);
+  
+  const error2 = await validationLoginUserExists(body, res);
   if (error2) {
     const { message, status } = error2;
     return res.status(status).json(objMessageError(message));
@@ -24,5 +24,5 @@ const validationUsersBody = async (req, res, next) => {
 };
 
 module.exports = {
-  validationUsersBody,
+  loginUserValid,
 };

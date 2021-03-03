@@ -11,7 +11,7 @@ const registerUser = async (body) => {
     return { user };
   } catch (err) {
     throw new Error(err.message);
-  }  
+  }
 };
 
 module.exports = {

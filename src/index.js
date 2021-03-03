@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 
 const {
   usersRouter,
+  loginRouter,
+  recipesRouter,
 } = require('./controllers');
 
 const app = express();
@@ -26,6 +28,10 @@ app.use((req, _res, next) => {
 app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
+
+app.use('/login', loginRouter);
+
+app.use('/recipes', recipesRouter);
 
 app.use((err, _req, res, _next) => {
   console.error({ err });
