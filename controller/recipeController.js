@@ -1,8 +1,9 @@
 const Router = require('express');
 
-const { createRecipes, listRecipes } = require('../service/recipeService');
+const { createRecipes, listRecipes, findById } = require('../service/recipeService');
 
 const { checkAuthorization } = require('../midddleware/checkAutorization');
+const checkId = require('../midddleware/chechId');
 
 const validateToken = require('../auth/validateToken');
 
@@ -23,6 +24,12 @@ recipeController.post('/', checkAuthorization, async (req, res) => {
 recipeController.get('/', async (req, res) => {
   const okay = 200;
   const find = await listRecipes();
+  res.status(okay).json(find);
+});
+recipeController.get('/:id', checkId, async (req, res) => {
+  const okay = 200;
+  const { id } = req.params;
+  const find = await findById(id);
   res.status(okay).json(find);
 });
 
