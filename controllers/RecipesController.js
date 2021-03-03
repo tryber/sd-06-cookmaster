@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const multer = require('multer');
+const path = require('path');
 const {
   validateJwt,
   verifyValidToken,
@@ -19,8 +20,9 @@ const {
 const missingAuthToken = 'missing auth token';
 const RecipesController = new Router();
 const storage = multer.diskStorage({
-  destination: (_req, _file, callback) => {
-    callback(null, '../uploads');
+  dest: (_req, _file, callback) => {
+    const fullPath = path.resolve(__dirname, '..', 'uploads');
+    callback(null, fullPath);
   },
   filename: (req, _file, callback) => {
     const extension = '.jpeg';
@@ -105,10 +107,11 @@ RecipesController.delete('/:id', async (req, res) => {
   }
 });
 
-RecipesController.post('/:id/image/', upload.single('image'), async (req, res) => {
+RecipesController.put('/:id/image/', upload.single('image'), async (req, res) => {
   const { id } = req.params;
+  const { filename } = req.file;
   const token = req.headers.authorization;
-  const recipeImage = `localhost:3000/images/${id}.jpeg`;
+  const recipeImage = `localhost:3000/images/${filename}`;
   if (!token) return res.status(401).json({ message: missingAuthToken });
   
   try {
