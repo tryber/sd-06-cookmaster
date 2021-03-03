@@ -4,6 +4,7 @@ const recipeService = require('../services/recipesService');
 const recipesEntriesValidation = require('../middlewares/recipesEntriesValidation');
 const { validateToken } = require('../auth/validateToken');
 const verifyAuthorization = require('../middlewares/verifyAuthorization');
+const IdValidation = require('../middlewares/idValidation');
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get('/', async (_req, res) => {
   res.status(OK).json(recipes);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', IdValidation, async (req, res) => {
   const { id } = req.params;
 
   const recipe = await recipeService.findById(id);

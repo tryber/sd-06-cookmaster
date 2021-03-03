@@ -3,6 +3,7 @@ const userService = require('../services/userService');
 
 const { invalidEntries } = require('../middlewares/invalidEntries');
 const { emailValidation } = require('../middlewares/emailValidation');
+const IdValidation = require('../middlewares/idValidation');
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get('/', async (_req, res) => {
   res.status(OK).json({ users });
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', IdValidation, async (req, res) => {
   const { id } = req.params;
 
   const user = await userService.findById(id);
