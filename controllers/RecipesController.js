@@ -13,7 +13,6 @@ const message = 'recipe not found';
 
 const storage = multer.diskStorage({
   destination: './uploads',
-  
   filename: (req, _file, callback) => {
     callback(null, `${req.params.id}.jpeg`);
   },
