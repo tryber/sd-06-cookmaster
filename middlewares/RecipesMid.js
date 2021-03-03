@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 
-const secret = 'senha';
+const secret = 'shhhh...é segredo';
 const BAD_REQ = 400;
 
 const validateRecipe = (req, res, next) => {

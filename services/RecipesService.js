@@ -22,11 +22,17 @@ const getByIdService = async (id) => {
 };
 
 const editRecipeService = async (id, name, ingredients, preparation) => {
-  await RecipesModel.editById(id, name, ingredients, preparation);
+    await RecipesModel.editById(id, name, ingredients, preparation);
   return { name, ingredients, preparation };
 };
 
-const deleteRecipeService = async (id) => RecipesModel.deleteRecipe(id);
+const deleteRecipeService = async (id) => {
+  await RecipesModel.deleteRecipe(id);
+};
+
+const addImageService = async (id, pathImage) => {
+  await RecipesModel.addImage(id, pathImage);
+};
 
 module.exports = {
   getAllRecipesService,
@@ -34,4 +40,5 @@ module.exports = {
   getByIdService,
   editRecipeService,
   deleteRecipeService,
+  addImageService,
 };

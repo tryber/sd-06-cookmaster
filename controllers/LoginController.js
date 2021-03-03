@@ -5,7 +5,7 @@ const validateLogin = require('../middlewares/LoginMid');
 
 const routerLogin = Router();
 const SUCCESS = 200;
-const secret = 'senha';
+const secret = 'shhhh...é segredo';
 const jwtConfig = {
   expiresIn: '15m',
   algorithm: 'HS256',
