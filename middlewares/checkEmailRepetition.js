@@ -9,7 +9,7 @@ async function checkEmailRepetition(request, response, next) {
     next(
       {
         code: CONFLICT,
-        message: 'Email already registered',
+        errorMessage: { message: 'Email already registered' },
       },
     );
   }

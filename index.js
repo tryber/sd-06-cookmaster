@@ -20,7 +20,7 @@ app.use('/ping', (request, response) => {
 app.use('/users', UsersController);
 
 app.use((error, request, response, _next) => {
-  response.status(error.code).json(error.message);
+  response.status(error.code).json(error.errorMessage);
 });
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`));

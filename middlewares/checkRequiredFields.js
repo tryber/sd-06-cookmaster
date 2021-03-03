@@ -6,7 +6,7 @@ function checkRequiredFields(request, response, next) {
     next(
       {
         code: BAD_REQUEST,
-        message: 'Invalid entries. Try again.',
+        errorMessage: { message: 'Invalid entries. Try again.' },
       },
     );
   }
