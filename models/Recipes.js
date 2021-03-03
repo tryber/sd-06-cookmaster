@@ -67,6 +67,7 @@ const getRecipeOwnerId = async (id) => {
     
     return userId;
   } catch (_err) {
+    console.warn('getRecipeOwnerId')
     const error = [{ message: recipeNotFound }, NOT_FOUND];
     throw error;
   }
@@ -85,6 +86,22 @@ const deleteRecipe = async (id) => {
   throw error;
 };
 
+const addImage = async (id, recipeImage) => {
+  const recipe = await connection()
+    .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
+  if (recipe) {
+    await connection()
+      .then((db) => db.collection('recipes')
+      .updateOne({ _id: ObjectId(id) }, { $set: { image: recipeImage } }));
+    const { _id, name, ingredients, preparation, userId } = recipe;
+
+    return [{ _id, name, ingredients, preparation, userId, image: recipeImage }, OK];
+  }
+  console.warn('addImage')
+  const error = [{ message: recipeNotFound }, NOT_FOUND];
+  throw error;
+};
+
 module.exports = {
   recipeRegister,
   getRecipes,
@@ -92,4 +109,5 @@ module.exports = {
   updateRecipeById,
   getRecipeOwnerId,
   deleteRecipe,
+  addImage,
 };

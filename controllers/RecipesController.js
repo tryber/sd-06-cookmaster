@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const multer = require('multer');
 const {
   validateJwt,
   verifyValidToken,
@@ -12,9 +13,21 @@ const {
   updateRecipeById,
   getRecipeOwnerId,
   deleteRecipe,
+  addImage,
 } = require('../models/Recipes');
 
+const missingAuthToken = 'missing auth token';
 const RecipesController = new Router();
+const storage = multer.diskStorage({
+  destination: (_req, _file, callback) => {
+    callback(null, '../uploads');
+  },
+  filename: (req, _file, callback) => {
+    const extension = '.jpeg';
+    callback(null, req.params.id.concat(extension));
+  },
+});
+const upload = multer({ storage });
 
 RecipesController.post('/', async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -58,7 +71,7 @@ RecipesController.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
   const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'missing auth token' });
+  if (!token) return res.status(401).json({ message: missingAuthToken });
 
   try {
     const { email, password } = verifyValidToken(token);
@@ -78,7 +91,7 @@ RecipesController.put('/:id', async (req, res) => {
 RecipesController.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'missing auth token' });
+  if (!token) return res.status(401).json({ message: missingAuthToken });
 
   try {
     const { email, password } = verifyValidToken(token);
@@ -87,6 +100,24 @@ RecipesController.delete('/:id', async (req, res) => {
     await validateUserRole(email, recipeOwnerId, currentUserId);
     const result = await deleteRecipe(id);
     return res.status(result).json();
+  } catch (error) {
+    return res.status(error[1]).json(error[0]);
+  }
+});
+
+RecipesController.post('/:id/image/', upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  const recipeImage = `localhost:3000/images/${id}.jpeg`;
+  if (!token) return res.status(401).json({ message: missingAuthToken });
+  
+  try {
+    const { email, password } = verifyValidToken(token);
+    const currentUserId = await validateJwt(email, password);
+    const recipeOwnerId = await getRecipeOwnerId(id);
+    await validateUserRole(email, recipeOwnerId, currentUserId);
+    const result = await addImage(id, recipeImage);
+    return res.status(result[1]).json(result[0]);
   } catch (error) {
     return res.status(error[1]).json(error[0]);
   }
