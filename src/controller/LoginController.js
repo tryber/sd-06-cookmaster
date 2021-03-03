@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 
-const { validateUserLogin } = require('../middlewares/UserMiddleware'); 
+const { validateUserLogin } = require('../middlewares/LoginMiddleware'); 
 
-const secret = 'seusecretdetoken';
+const secret = 'mySecretToken';
 
 const LoginController = new Router();
 const OK = 200;
