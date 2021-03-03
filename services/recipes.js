@@ -3,8 +3,8 @@ const recipes = require('../models/recipes');
 // const minNameLength = 5;
 // const nullQuantity = 0;
 const idMongoLength = 24;
-// const nameLengthErrorMessage = '"name" length must be at least 5 characters long';
-// const nameExists = 'Product already exists';
+const notFoundMessage = 'recipe not found';
+// const nameExists = 'Recipe already exists';
 // const quantityErrorMessage = '"quantity" must be larger than or equal to 1';
 // const quantityTypeErrorMessage = '"quantity" must be a number';
 
@@ -23,28 +23,20 @@ const userChecker = async (recipeId, user) => {
   return false;
 };
 
-// const isUnique = async (name) => {
-//   const checkUnique = await products.findByName(name);
-
-//   if (checkUnique) return nameExists;
-
-//   return true;
-// };
-
 const getAll = async () => {
-  const productsArray = await recipes.getAll();
+  const recipesArray = await recipes.getAll();
 
-  return productsArray;
+  return recipesArray;
 };
 
 const findById = async (id) => {
-  if (id.length !== idMongoLength) return errorWriter(404, 'recipe not found');
+  if (id.length !== idMongoLength) return errorWriter(404, notFoundMessage);
 
-  const product = await recipes.findById(id);
+  const recipe = await recipes.findById(id);
 
-  if (!product) return errorWriter(404, 'recipe not found');
+  if (!recipe) return errorWriter(404, notFoundMessage);
   
-  return product;
+  return recipe;
 };
 
 const create = async (name, ingredients, preparation, userId) => {
@@ -62,12 +54,11 @@ const create = async (name, ingredients, preparation, userId) => {
 };
 
 const update = async (id, updateRecipe, loggedUser) => {
+  if (id.length !== idMongoLength) return errorWriter(404, notFoundMessage);
   const { name, ingredients, preparation } = updateRecipe;
   const checkUser = await userChecker(id, loggedUser);
-  console.log('checking user: ', checkUser);
-  console.log('Is admin? ', loggedUser.role);
   if (!checkUser && loggedUser.role !== 'admin') {
-    return errorWriter(401, 'User unauthoried to update recipe');
+    return errorWriter(401, 'User unauthorized to update recipe');
   }
 
   const updatedRecipe = await recipes.update(id, name, ingredients, preparation);
@@ -75,27 +66,22 @@ const update = async (id, updateRecipe, loggedUser) => {
   return updatedRecipe;
 };
 
-// const deleteProduct = async (id) => {
-//   const errorObject = {
-//     err: {
-//       code: 'invalid_data',
-//       message: 'Wrong id format',
-//     }
-//   };
+const deleteRecipe = async (id, loggedUser) => {
+  if (id.length !== idMongoLength) return errorWriter(404, notFoundMessage);
+  const checkUser = await userChecker(id, loggedUser);
+  if (!checkUser && loggedUser.role !== 'admin') {
+    return errorWriter(401, 'User unauthorized to delete recipe');
+  }
+  const result = await recipes.deleteRecipe(id);
+  if (result.deletedCount === 1) return result;
 
-//   if (id.length !== idMongoLength) return errorObject;
-
-//   const deleteProduct = await products.deleteProduct(id);
-  
-//   if (!deleteProduct) return errorObject;
-
-//   return deleteProduct;
-// };
+  return errorWriter(500, 'Couldn´t delete recipe');
+};
 
 module.exports = {
   getAll,
   findById,
   create,
   update,
-//   deleteProduct,
+  deleteRecipe,
 };

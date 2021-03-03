@@ -5,9 +5,10 @@ const validateJWT = require('../auth/validateJWT');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 // const BAD_REQUEST = 400;
 // const NOT_FOUND = 404;
-const UNPROCESSABLE_ENTITY = 422;
+// const UNPROCESSABLE_ENTITY = 422;
 
 routes.route('/:id')
   .get(rescue(async (req, res, next) => {
@@ -23,7 +24,7 @@ routes.route('/:id')
   .put(validateJWT, rescue(async (req, res, next) => {
     const { id } = req.params;
     const updateRecipe = req.body;
-    const loggedUser = req.user;
+    const loggedUser = await req.user;
     const recipeToUpdate = await recipes.update(id, updateRecipe, loggedUser);
 
     if (recipeToUpdate.err) {
@@ -32,15 +33,18 @@ routes.route('/:id')
 
     res.status(OK).json(recipeToUpdate);
   }))
-  .delete(rescue(async (req, res) => {
+  .delete(validateJWT, rescue(async (req, res, next) => {
     const { id } = req.params;
-    const productToDelete = await recipes.deleteProduct(id);
+    const loggedUser = req.user;
+    console.log('tentei deletar');
+    const recipeToDelete = await recipes.deleteRecipe(id, loggedUser);
 
-    if (productToDelete === null || productToDelete.err) {
-      return res.status(UNPROCESSABLE_ENTITY).json(productToDelete);
+    if (recipeToDelete.err) {
+      return next({ ...recipeToDelete.err });
     }
 
-    res.status(OK).json(productToDelete);
+    console.log('tentei deletar de novo');
+    return res.status(NO_CONTENT).send();
   }));
 
 routes.route('/')
