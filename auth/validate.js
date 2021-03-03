@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const users = require('../models/users');
+const usersModels = require('../models');
 
 const STATUS401 = 401;
-const password = 'root';
+const password = 'Root2021';
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
   }
   try {
     const decode = jwt.verify(token, password);
-    const user = await users.findByEmail(decode.userWithoutPassword.email);
+    const user = await usersModels.users.findByEmail(decode.userWithoutPassword.email);
     
     if (!user) {
       return res.status(STATUS401).json({ message: 'jwt malformed' });

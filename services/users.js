@@ -17,4 +17,6 @@ const create = async (name, email, password, role = 'user') => {
   return modelsUsers.users.create(name, email, password, role);
 };
 
-module.exports = create;
+module.exports = {
+  create,
+};

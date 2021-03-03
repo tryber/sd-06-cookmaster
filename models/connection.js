@@ -4,7 +4,7 @@ require('dotenv').config();
 const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
 const DB_NAME = process.env.DB_NAME || 'Cookmaster';
 
-let connection = null;
+let connection;
 
 const getConnection = async (collectionName) => {
   connection = connection || await MongoClient.connect(MONGO_DB_URL, {
