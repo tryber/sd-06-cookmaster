@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const getAll = async () =>
   connection()
-    .then((db) => db.collection('products').find().toArray());
+    .then((db) => db.collection('recipes').find().toArray());
 
 // const findById = async (id) =>
 //   connection().then((db) => db.collection('products').findOne(ObjectId(id)));
@@ -14,7 +14,7 @@ const getAll = async () =>
 const create = async ({ name, ingredients, preparation, userId }) =>
   connection()
     .then((db) =>
-      db.collection('products').insertOne({ name, ingredients, preparation, userId }))
+      db.collection('recipes').insertOne({ name, ingredients, preparation, userId }))
     .then((result) => result);
 
 // const update = async (id, newName, newQuantity) =>
