@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const {
   uploadDB,
   getAll,
+  findById,
 } = require('../models/mongoDbRequests');
 
 const connectionRecipes = 'recipes';
@@ -13,6 +14,17 @@ const getAllRecipes = async () => {
     return recipes;
   } catch (err) {
     throw new Error(err.message);
+  }
+};
+
+const getRecipeById = async (id) => {
+  try {
+    const recipe = await findById(connectionRecipes, id);
+    console.log('recipe', recipe);
+    if (!recipe) return null;
+    return recipe;
+  } catch (err) {
+    return null;
   }
 };
 
@@ -33,4 +45,5 @@ const registerRecipe = async (body, headers) => {
 module.exports = {
   registerRecipe,
   getAllRecipes,
+  getRecipeById,
 };

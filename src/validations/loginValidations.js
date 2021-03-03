@@ -5,8 +5,10 @@ const typeError = 401;
 
 const {
   objError,
+} = require('../useful/funcsObjUseful');
+const {
   isBlank,
-} = require('./usefulFuncsValidations');
+} = require('../useful/funcsBollQuestions');
 
 const validationLoginKeysExists = (body) => {
   const { email, password } = body;

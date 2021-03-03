@@ -2,7 +2,9 @@ const {
   validationRecipesKeysExists,
 } = require('../validations/recipesValidatios');
 
-const { objMessageError } = require('./usefulFuncsMiddleware');
+const {
+  objMessageError,
+} = require('../useful/funcsObjUseful');
 
 const validationRecipesBody = async (req, res, next) => {
   const { body } = req;

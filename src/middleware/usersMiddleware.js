@@ -3,7 +3,9 @@ const {
   validationUsersEmailConflict,
 } = require('../validations/usersValidations');
 
-const { objMessageError } = require('./usefulFuncsMiddleware');
+const {
+  objMessageError,
+} = require('../useful/funcsObjUseful');
 
 const validationUsersBody = async (req, res, next) => {
   const { body } = req;

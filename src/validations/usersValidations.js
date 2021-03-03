@@ -4,9 +4,12 @@ const connectionUsers = 'users';
 
 const {
   objError,
+} = require('../useful/funcsObjUseful');
+
+const {
   isBlank,
   isValidEmail,
-} = require('./usefulFuncsValidations');
+} = require('../useful/funcsBollQuestions');
 
 const validationUsersKeysFormat = (body) => {
   const { name, email, password } = body;

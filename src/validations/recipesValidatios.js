@@ -2,8 +2,11 @@ const typeError = 400;
 
 const {
   objError,
+} = require('../useful/funcsObjUseful');
+
+const {
   isBlank,
-} = require('./usefulFuncsValidations');
+} = require('../useful/funcsBollQuestions');
 
 const validationRecipesKeysExists = (body) => {
   const { name, ingredients, preparation } = body;

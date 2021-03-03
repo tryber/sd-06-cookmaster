@@ -3,7 +3,9 @@ const {
   validationLoginUserExists,
 } = require('../validations/loginValidations');
 
-const { objMessageError } = require('./usefulFuncsMiddleware');
+const {
+  objMessageError,
+} = require('../useful/funcsObjUseful');
 
 const loginUserValid = async (req, res, next) => {
   const { body } = req;

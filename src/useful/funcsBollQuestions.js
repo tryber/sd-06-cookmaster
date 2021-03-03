@@ -1,4 +1,3 @@
-const objError = (message, status) => ({ message, status });
 // const isString = (parameter) => typeof parameter === 'string';
 // const isEqual = (parameter1, parameter2) => parameter1 === parameter2;
 // const isLessThan = (parameter1, parameter2) => parameter1 < parameter2;
@@ -9,7 +8,6 @@ const isValidEmail = (email) => {
 };
 
 module.exports = {
-  objError,
   isBlank,
   isValidEmail,
 };
