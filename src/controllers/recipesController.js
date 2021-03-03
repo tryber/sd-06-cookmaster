@@ -45,28 +45,25 @@ router.post('/', verifyAuthorization, recipesEntriesValidation, async (req, res)
   res.status(201).json({ recipe });
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyAuthorization, async (req, res) => {
   const { id } = req.params;
-  const { user } = req.body;
+  const { name, ingredients, preparation } = req.body;
 
-  await recipeService.update(id, user);
+  await recipeService.update(id, name, ingredients, preparation);
   
-  const editedUser = {
-    _id: id,
-    itensSold: req.body,
-  };
+  const editedRecipe = await recipeService.findById(id);
 
-  res.status(OK).json(editedUser);
+  res.status(OK).json(editedRecipe);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyAuthorization, async (req, res) => {
   const { id } = req.params;
 
-  const deletedUser = await recipeService.findById(id);
+  const recipeToDelete = await recipeService.findById(id);
 
   await recipeService.remove(id);
 
-  res.status(OK).json(deletedUser);
+  res.status(204).json(recipeToDelete);
 });
 
 module.exports = router;

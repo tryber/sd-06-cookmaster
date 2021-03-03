@@ -39,28 +39,4 @@ router.post('/', invalidEntries, emailValidation, async (req, res) => {
   res.status(CREATED).json({ user });
 });
 
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { user } = req.body;
-
-  await userService.update(id, user);
-  
-  const editedUser = {
-    _id: id,
-    itensSold: req.body,
-  };
-
-  res.status(OK).json(editedUser);
-});
-
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-
-  const deletedUser = await userService.findById(id);
-
-  await userService.remove(id);
-
-  res.status(OK).json(deletedUser);
-});
-
 module.exports = router;

@@ -6,12 +6,17 @@ const verifyAuthorization = async (req, res, next) => {
   // console.log(authorization);
   const payload = await validateToken(token);
 
+  // console.log(payload);
+  // const { role } = payload;
+  // console.log(role);
+  if (!token) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
+
   if (!payload) {
     return res.status(401).json({ message: 'jwt malformed' });
   }
-  // console.log(payload);
-  // const { _id } = payload;
-  // console.log(_id);
+  
   next();
 };
 

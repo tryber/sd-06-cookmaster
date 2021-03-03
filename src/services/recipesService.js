@@ -18,8 +18,8 @@ const create = async (name, ingredients, preparation, userId) => {
   return newRecipe;
 };
 
-const update = async (id, user) => {
-  const updateRecipe = await RecipesModel.update(id, user);
+const update = async (id, name, ingredients, preparation) => {
+  const updateRecipe = await RecipesModel.update(id, name, ingredients, preparation);
 
   return updateRecipe;
 };
