@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const UserService = require('./src/services/UserService');
+const LoginService = require('./src/services/LoginService');
 
 const app = express();
 const PORT = 3000;
@@ -15,8 +16,9 @@ app.get('/', (request, response) => {
 
 app.post('/users', 
   rescue(UserService.validateRequestFields), 
-  // rescue(UserService.thisEmailExists),
   rescue(UserService.insertUser));
+
+app.post('/login', rescue(LoginService.checkEmailAndPassword));
 
 app.use((err, req, res, _next) => {
   const codeStatus = (err.codeStatus) ? err.codeStatus : 500;

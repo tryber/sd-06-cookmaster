@@ -4,14 +4,6 @@ const { throwThisError } = require('../utils/index');
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 
-// const thisEmailExists = async (req, res, next) => {
-//   const { email } = req.body;
-//   const exists = await UserModel.findByEmail(email);
-//   console.log(email + exists.email);
-//   if (exists.email === email) throwThisError(CONFLICT, 'Email already exists');
-//   next();
-// };
-
 const validateRequestFields = async (req, res, next) => {
     const { name, email, password } = req.body;
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
@@ -47,5 +39,4 @@ const insertUser = async (req, res) => {
 module.exports = {
   insertUser,
   validateRequestFields,
-  // thisEmailExists,
 };
