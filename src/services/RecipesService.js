@@ -1,6 +1,7 @@
 const RecipesModel = require('../models/RecipesModel');
 const { throwThisError } = require('../utils/index');
 
+const NOT_FOUND = 404;
 const BAD_REQUEST = 400;
 const CREATED = 201;
 const OK = 200;
@@ -31,8 +32,21 @@ const getAll = async (req, res) => {
   res.status(OK).json(allRecipes);
 };
 
+const findById = async (req, res) => {
+  const { id } = req.params;
+  let recipe;
+  try {
+    recipe = await RecipesModel.findById(id);
+    if (!recipe) throwThisError(NOT_FOUND, 'recipe not found');
+  } catch {
+    throwThisError(NOT_FOUND, 'recipe not found');
+  }
+  return res.status(OK).json(recipe);
+};
+
 module.exports = {
   insertRecipe,
   verifyFields,
   getAll,
+  findById,
 };

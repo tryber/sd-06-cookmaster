@@ -10,6 +10,8 @@ router.post('/',
   rescue(RecipesService.verifyFields),
   rescue(RecipesService.insertRecipe));
 
-router.get('/', RecipesService.getAll);
+router.get('/', rescue(RecipesService.getAll));
+
+router.get('/:id', rescue(RecipesService.findById));
 
 module.exports = router;
