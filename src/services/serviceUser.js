@@ -13,7 +13,13 @@ const emailExist = async (_name, email, _password) => {
   return true;
 };
 
+const findByEmail = async (email) => {
+  const emailFound = model.findByEmail(email);
+  return emailFound;
+};
+
 module.exports = {
   userCreate,
   emailExist,
+  findByEmail,
 };

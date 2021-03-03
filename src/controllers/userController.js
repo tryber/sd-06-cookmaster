@@ -1,9 +1,18 @@
+const jwt = require('jsonwebtoken');
+
+const secret = 'segredo';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 const service = require('../services/serviceUser');
 const {
   created,
   conflict,
   badRequest,
   regexEmail,
+  unauthorized,
+  OK,
 } = require('../utils/messages');
 
 const createUser = async (req, res) => {
@@ -22,6 +31,28 @@ const createUser = async (req, res) => {
   res.status(created).json(newUser);
 };
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(unauthorized).json({ message: 'All fields must be filled' });
+  }
+
+  if (typeof password !== 'string') {
+  return res.status(unauthorized).json({ message: 'Incorrect username or password' });
+  }
+  const emailFounded = await service.findByEmail(email);
+  console.log(emailFounded);
+  if (!emailFounded || emailFounded.password !== password) {
+    return res.status(unauthorized).json({ message: 'Incorrect username or password' });
+  }
+  // o "_" serve para evitar conflito com o password do body
+  const { password: _, ...userWithoutPassword } = emailFounded;
+  const payload = userWithoutPassword;
+  const token = jwt.sign(payload, secret, jwtConfig);
+  return res.status(OK).json({ token });
+};
+
 module.exports = {
   createUser,
+  loginUser,
 };
