@@ -11,7 +11,6 @@ const SUCCESS201 = 201;
 const SUCCESS204 = 204;
 const ERRO400 = 400;
 const ERRO404 = 404;
-const ERRO401 = 401;
 
 const smsInvalidEntries = { message: 'Invalid entries. Try again.' };
 
