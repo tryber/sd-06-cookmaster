@@ -7,8 +7,12 @@ const getAll = async () => services.getAll();
 
 const findById = async (id) => services.findById(id);
 
+const updateById = async (id, name, ingredients, preparation) => services
+  .updateById(id, name, ingredients, preparation);
+
 module.exports = {
   create,
   getAll,
   findById,
+  updateById,
 };

@@ -4,6 +4,7 @@ const validateRecipe = require('../Middlewares/validateRecipe');
 const validateToken = require('../Middlewares/validateToken');
 const withOrWithoutToken = require('../Middlewares/withOrWithoutToken');
 const validateRecipeId = require('../Middlewares/validateRecipeId');
+const checkRecipeOwner = require('../Middlewares/checkRecipeOwner');
 const verifyToken = require('../auth/verifyToken');
 
 const router = new Router();
@@ -31,6 +32,16 @@ router.get('/:id', withOrWithoutToken, validateRecipeId, async (req, res) => {
   const recipe = await controllers.findById(id);
 
   return res.status(200).send(recipe);
+});
+
+router.put('/:id', validateRecipeId,
+  validateToken, validateRecipe, checkRecipeOwner, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const updatedRecipe = await controllers.updateById(id, name, ingredients, preparation);
+
+  return res.status(200).send(updatedRecipe);
 });
 
 module.exports = router;

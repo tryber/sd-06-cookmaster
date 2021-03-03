@@ -11,8 +11,12 @@ const findById = async (id) => {
   return recipe;
 };
 
+const updateById = async (id, name, ingredients, preparation) => models
+  .updateById(id, name, ingredients, preparation);
+
 module.exports = {
   create,
   getAll,
   findById,
+  updateById,
 };
