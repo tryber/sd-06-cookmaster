@@ -6,6 +6,7 @@ const verifyAuthorization = require('../middlewares/verifyAuthorization');
 const RecipesController = new Router();
 const status201 = 201;
 const status200 = 200;
+const status204 = 204;
 
 RecipesController.post('/',
   verifyAuthorization.verifyAuthorizationLogar,
@@ -54,6 +55,16 @@ async (request, response) => {
   };
   
   return response.status(status200).json(updatedRecipe);
+});
+
+RecipesController.delete('/:id',
+verifyAuthorization.verifyAuthorizationEditar,
+service.userRole,
+async (request, response) => {
+  const { id } = request.params;
+  await recipes.removeRecipe(id);
+
+  return response.status(status204).end();
 });
 
 RecipesController.get('/', async (_request, response) => response
