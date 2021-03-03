@@ -15,14 +15,15 @@ const collection = 'recipes';
 //   userId: ObjectId('5f46914677df66035f61a355'),
 // };
 
-const registerRecipe = async (name, email, password) => {
+const registerRecipe = async ({ name, ingredients, preparation }) => {
   const responsePayload = await connection().then((db) => 
-    db.collection(collection).insertOne({ name, email, password }));
+    db.collection(collection).insertOne({ name, ingredients, preparation }));
   return responsePayload;
 };
 
 const getAllRecipes = async () => {
-  const responsePayload = await 'Get All Recipes';
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).find().toArray());
   return responsePayload;
 };
 

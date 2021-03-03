@@ -18,7 +18,7 @@ const registerRecipe = async (requestPayload) => {
   return responsePayload;
 };
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async () => {
   const responsePayload = await recipesModels.getAllRecipes();
   return responsePayload;
 };
