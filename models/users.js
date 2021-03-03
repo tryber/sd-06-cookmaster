@@ -1,12 +1,12 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 // const getAll = async () =>
 //   connection()
 //     .then((db) => db.collection('sales').find().toArray());
 
-// const findById = async (id) =>
-//   connection().then((db) => db.collection('sales').findOne(ObjectId(id)));
+const findById = async (id) =>
+  connection().then((db) => db.collection('users').findOne(ObjectId(id)));
 
 const findByEmail = async (email) => 
   connection().then((db) => db.collection('users').findOne({ email }));
@@ -42,7 +42,7 @@ const create = async ({ name, email, password, role }) =>
 
 module.exports = {
   // getAll,
-  // findById,
+  findById,
   // findByName,
   create,
   findByEmail,

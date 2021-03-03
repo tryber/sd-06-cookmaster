@@ -1,4 +1,4 @@
-// const products = require('../models/products');
+const recipes = require('../models/recipes');
 
 // const minNameLength = 5;
 // const nullQuantity = 0;
@@ -7,6 +7,13 @@
 // const nameExists = 'Product already exists';
 // const quantityErrorMessage = '"quantity" must be larger than or equal to 1';
 // const quantityTypeErrorMessage = '"quantity" must be a number';
+
+const errorWriter = (code, message) => ({
+    err: {
+    statusCode: code,
+    customMessage: message,
+  },
+});
 
 // const isValid = (name, quantity) => {
 //   if (name.length < minNameLength) return nameLengthErrorMessage;
@@ -47,31 +54,19 @@
 //   return product;
 // };
 
-// const create = async (productName, quantity) => {
-//   const validOrErrorMessage = isValid(productName, quantity);
-//   const isUniqueOrError = await isUnique(productName);
-//   if (validOrErrorMessage !== true) return {
-//     err: {
-//       code: 'invalid_data',
-//       message: validOrErrorMessage,
-//     }
-//   };
-
-//   if (isUniqueOrError !== true) return {
-//     err: {
-//       code: 'invalid_data',
-//       message: isUniqueOrError,
-//     }
-//   };
-
-//   const { insertedId } = await products.create({ name: productName, quantity });
-
-//   return {
-//     _id: insertedId,
-//     name: productName,
-//     quantity
-//   };
-// };
+const create = async ({ name, ingredients, preparation, userId }) => {
+  if (!name || !ingredients || !preparation) {
+    return errorWriter(400, 'Invalid entries. Try again.');
+  }
+  const { insertedId } = await recipes.create({ name, ingredients, preparation, userId });
+  return {
+    name,
+    ingredients,
+    preparation,
+    userId,
+    _id: insertedId,
+  };
+};
 
 // const update = async (id, updateProduct) => {
 //   const { name, quantity } = updateProduct;
@@ -114,10 +109,10 @@
 //   return deleteProduct;
 // };
 
-// module.exports = {
+module.exports = {
 //   getAll,
 //   findById,
-//   create,
+  create,
 //   update,
 //   deleteProduct,
-// };
+};

@@ -1,18 +1,11 @@
 const users = require('../models/users');
 
-const invalidEntriesError = {
+const errorWriter = (code, message) => ({
   err: {
-    statusCode: 400,
-    customMessage: 'Invalid entries. Try again.',
-  },
-};
-
-const conflictError = {
-  err: {
-    statusCode: 409,
-    customMessage: 'Email already registered',
-  },
-};
+  statusCode: code,
+  customMessage: message,
+},
+});
 
 const isEmailValid = (email) => {
   const comparison = /[\w]{3,30}@[a-zA-Z]{3,8}.[\w]{2,7}/mg;
@@ -27,13 +20,21 @@ const isEmailUnique = async (email) => {
   return true;
 };
 
+const findById = async ({ id }) => {
+  const user = await users.findById({ id });
+  if (!user) {
+    return errorWriter(400, 'Couldn´t find user');
+  }
+  return user;
+};
+
 const create = async ({ name, email, password, role }) => {
   if (!name || !email || !password || !isEmailValid(email)) {
-    return invalidEntriesError;
+    return errorWriter(400, 'Invalid entries. Try again.');
   }
   const emailIsUnique = await isEmailUnique(email);
   if (!emailIsUnique) {
-    return conflictError;
+    return errorWriter(409, 'Email already registered');
   }
   const { insertedId } = await users.create({ name, email, password, role });
 
@@ -49,4 +50,5 @@ const create = async ({ name, email, password, role }) => {
 
 module.exports = {
   create,
+  findById,
 };
