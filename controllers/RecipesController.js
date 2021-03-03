@@ -6,6 +6,7 @@ const {
   createRecipeService,
   getByIdService,
   editRecipeService,
+  deleteRecipeService,
 } = require('../services/RecipesService');
 const {
   validateRecipe,
@@ -17,6 +18,7 @@ const {
 const routerRecipes = Router();
 const CREATED = 201;
 const SUCCESS = 200;
+const NO_CONTENT = 204;
 const secret = 'shhhh...é segredo';
 
 routerRecipes.post('/', validateRecipe, validateToken, async (req, res) => {
@@ -47,6 +49,12 @@ routerRecipes.put('/:id', validateToken, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const recipeEdited = await editRecipeService(id, name, ingredients, preparation);
   return res.status(SUCCESS).json(recipeEdited);
+});
+
+routerRecipes.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteRecipeService(id);
+  return res.status(NO_CONTENT).end();
 });
 
 module.exports = routerRecipes;
