@@ -34,8 +34,8 @@ const registerUserValidations = async (req, res, next) => {
 };
 
 const loginValidationsSwitch = async (email, password) => {
-  const minPasswordLength = 8;
-  if (!isValidEmail(email) || !isLongEnough(password, minPasswordLength)) {
+  // const minPasswordLength = 8;
+  if (!isValidEmail(email)) {
     throw new ThrowError(status.unauthorized, errorMessages.invalidLogin);
   }
   const registeredUser = await userServices.findUserByEmail(email);

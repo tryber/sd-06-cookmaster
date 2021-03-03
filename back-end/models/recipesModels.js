@@ -1,4 +1,8 @@
+const { ObjectId } = require('mongodb');
+
 const connection = require('./connection');
+const { status, errorMessages } = require('../middlewares/errorHandler/dictionaries');
+const { ThrowError } = require('../middlewares/errorHandler/errorHandler');
 
 const collection = 'recipes';
 
@@ -27,8 +31,12 @@ const getAllRecipes = async () => {
   return responsePayload;
 };
 
-const getRecipesById = async () => {
-  const responsePayload = await 'Get recipe by ID';
+const getRecipesById = async (id) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).findOne({ _id: ObjectId(id) }))
+      .catch((_error) => {
+        throw new ThrowError(status.notFound, errorMessages.recipeNotFound);
+      });
   return responsePayload;
 };
 

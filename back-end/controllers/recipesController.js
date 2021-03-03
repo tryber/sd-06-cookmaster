@@ -15,10 +15,14 @@ const getAllRecipes = async (req, res) => {
   res.status(status.ok).json(responsePayload);
 };
 
-const getRecipesById = async (req, res) => {
-  const responsePayload = recipesServices.getRecipesById();
-  console.log(responsePayload);
-  res.status(status.ok).send('Get recipes by id');
+const getRecipesById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const responsePayload = await recipesServices.getRecipesById(id);
+    res.status(status.ok).json(responsePayload);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const deleteRecipeById = async (req, res) => {

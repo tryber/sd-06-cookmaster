@@ -23,8 +23,8 @@ const getAllRecipes = async () => {
   return responsePayload;
 };
 
-const getRecipesById = async (req, res) => {
-  const responsePayload = await recipesModels.getRecipesById();
+const getRecipesById = async (id) => {
+  const responsePayload = await recipesModels.getRecipesById(id);
   return responsePayload;
 };
 
