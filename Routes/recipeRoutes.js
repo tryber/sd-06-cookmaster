@@ -6,6 +6,7 @@ const withOrWithoutToken = require('../Middlewares/withOrWithoutToken');
 const validateRecipeId = require('../Middlewares/validateRecipeId');
 const checkRecipeOwner = require('../Middlewares/checkRecipeOwner');
 const verifyToken = require('../auth/verifyToken');
+const uploadRecipeImage = require('../Multer/multer');
 
 const router = new Router();
 
@@ -52,5 +53,8 @@ router.delete('/:id', validateRecipeId,
 
     return res.status(204).send();
   });
+
+router.put('/:id/image', validateRecipeId,
+validateToken, checkRecipeOwner, uploadRecipeImage);
 
 module.exports = router;

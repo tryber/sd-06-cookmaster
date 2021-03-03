@@ -12,10 +12,13 @@ const updateById = async (id, name, ingredients, preparation) => services
 
 const deleteById = async (id) => services.deleteById(id);
 
+const updatePath = async (id, path) => services.updatePath(id, path);
+
 module.exports = {
   create,
   getAll,
   findById,
   updateById,
   deleteById,
+  updatePath,
 };

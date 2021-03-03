@@ -16,10 +16,13 @@ const updateById = async (id, name, ingredients, preparation) => models
 
 const deleteById = async (id) => models.deleteById(id);
 
+const updatePath = async (id, path) => models.updatePath(id, path);
+
 module.exports = {
   create,
   getAll,
   findById,
   updateById,
   deleteById,
+  updatePath,
 };

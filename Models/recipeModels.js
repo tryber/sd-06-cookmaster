@@ -52,10 +52,17 @@ const updateById = async (id, name, ingredients, preparation) => {
 const deleteById = async (id) => connection().then((db) => db.collection('recipes')
   .deleteOne({ _id: ObjectId(id) }));
 
+const updatePath = async (id, path) => connection().then((db) => db.collection('recipes')
+  .updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: `localhost:3000/${path}.jpeg` } },
+  ));
+
 module.exports = {
   create,
   getAll,
   findById,
   updateById,
   deleteById,
+  updatePath,
 };
