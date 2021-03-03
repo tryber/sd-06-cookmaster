@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
 const validateJWT = require('../auth/validate');
 const recipesModels = require('../models');
 const recipesServices = require('../services');
@@ -7,6 +8,7 @@ const recipesServices = require('../services');
 const STATUS200 = 200;
 const STATUS201 = 201;
 const STATUS400 = 400;
+const STATUS404 = 404;
 
 const recipes = Router();
 
@@ -30,7 +32,7 @@ recipes.get('/:id', rescue(async (req, res) => {
   const { id } = req.params;
   const recipe = await recipesServices.recipes.getRecipeById(id);
   if (!recipe) {
-    return res.status(STATUS400).json({ message: 'recipe not found' });
+    return res.status(STATUS404).json({ message: 'recipe not found' });
   }
   return res.status(STATUS200).json(recipe);
 }));
