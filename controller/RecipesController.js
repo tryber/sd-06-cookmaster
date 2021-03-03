@@ -10,6 +10,12 @@ recipesRouter.get('/', async (_req, res) => {
   res.status(200).json(allRecipes);
 });
 
+recipesRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const recipeId = await RecipesModel.getById(id);
+  res.status(200).json(recipeId);
+});
+
 recipesRouter.post('/', validadeToken, validateRecipe, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
 
