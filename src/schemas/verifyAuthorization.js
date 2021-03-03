@@ -13,7 +13,10 @@ module.exports = (req, res, next) => {
 
     if (!payload) res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
 
-    req.user = payload.id;
+    req.user = {
+      id: payload.id,
+      role: payload.role,
+    };
 
     next();
   } catch (err) {

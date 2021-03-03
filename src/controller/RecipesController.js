@@ -54,7 +54,7 @@ router.get('/:id', findByIdValidation, async (req, res) => {
 router.post('/', verifyToken, createValidation, async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
-    const id = req.user;
+    const { id } = req.user;
 
     const newPost = await Recipes.create(name, ingredients, preparation, id);
 
