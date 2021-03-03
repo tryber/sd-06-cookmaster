@@ -1,8 +1,9 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 const Err = require('../errors/Err');
 
 const collectionName = 'recipes';
-
+const errorMessage = 'Something went wrong';
 class Recipe {
   async create({ name, ingredients, preparation, userId }) {
     const db = connection();
@@ -19,7 +20,7 @@ class Recipe {
         userId,
       });
     } catch (err) {
-      throw new Err({ message: 'Something went wrong' });
+      throw new Err({ message: errorMessage });
     }
   }
 
@@ -30,7 +31,18 @@ class Recipe {
       const recipes = await db.collection(collectionName).find().toArray();
       return recipes;
     } catch (err) {
-      throw new Err({ message: 'Something went wrong' });
+      throw new Err({ message: errorMessage });
+    }
+  }
+
+  async findById(id) {
+    const db = connection();
+    console.log(this);
+    try {
+      const recipe = await db.collection(collectionName).findOne(ObjectId(id));
+      return recipe;
+    } catch (err) {
+      throw new Err({ message: errorMessage });
     }
   }
 }
