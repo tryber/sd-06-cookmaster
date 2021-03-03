@@ -50,8 +50,8 @@ routes.route('/')
   }))
   .post(validateJWT, rescue(async (req, res, next) => {
     const { name, ingredients, preparation } = req.body;
-    const userId = req.user._id;
-    const createdRecipe = await recipes.create({ name, ingredients, preparation, userId });
+    const { _id } = req.user;
+    const createdRecipe = await recipes.create({ name, ingredients, preparation, _id });
     
     if (createdRecipe.err) {
       return next({ ...createdRecipe.err });

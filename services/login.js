@@ -25,7 +25,8 @@ const login = async ({ email, password }) => {
   if (!user || user.password !== password) {
     return incorrectEntryError;
   }
-  const payload = { id: user._id, email: user.email, role: user.role };
+  const { _id } = user;
+  const payload = { id: _id, email: user.email, role: user.role };
   const jwtConfig = {
     expiresIn: '7d',
     algorithm: 'HS256',
