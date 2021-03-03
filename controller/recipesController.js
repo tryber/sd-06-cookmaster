@@ -9,12 +9,14 @@ const {
   getRecipeById,
   validateId,
   putRecipe,
+  delRecipe,
 } = require('../services/recipesServices');
 
 const RecipesRouter = new Router();
 
 const code200 = 200;
 const code201 = 201;
+const code204 = 204;
 const code404 = 404;
 
 // 4 - Crie um endpoint para a listagem de receitas
@@ -61,6 +63,20 @@ RecipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
   await createNewRecipe(recipe);
 
   return res.status(code201).json({ recipe });
+});
+
+// 8 - Crie um endpoint para a exclusão de uma receita
+// A rota deve ser (/recipes/:id).
+
+// A receita só pode ser excluída caso o usuário esteja logado e o token JWT validado.
+// A receita só pode ser excluída caso pertença ao usuário logado, ou caso o usuário logado seja um admin.
+
+RecipesRouter.delete('/:id', validateRecipeToken, async (req, res) => {
+  const { id } = req.params;
+  console.log('cheguei aqui', id);
+  await delRecipe(id);
+
+  return res.status(code204).json();
 });
 
 // 7 - Crie um endpoint para a edição de uma receita

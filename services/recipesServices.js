@@ -5,6 +5,7 @@ const {
   findAllRecipes,
   findOneRecipe,
   editRecipe,
+  deleteRecipe,
 } = require('../model/recipesModel');
 
 const code400 = 400;
@@ -74,6 +75,12 @@ const putRecipe = async (id, name, ingredients, preparation) => {
   editRecipe(id, name, ingredients, preparation);
 };
 
+// 8 - Crie um endpoint para a exclusão de uma receita
+// A receita só pode ser excluída caso o usuário esteja logado e o token JWT validado.
+// A receita só pode ser excluída caso pertença ao usuário logado, ou caso o usuário logado seja um admin.
+
+const delRecipe = async (id) => deleteRecipe(id);
+
 module.exports = {
   createNewRecipe,
   validateRecipe,
@@ -81,4 +88,5 @@ module.exports = {
   getRecipeById,
   validateId,
   putRecipe,
+  delRecipe,
 };
