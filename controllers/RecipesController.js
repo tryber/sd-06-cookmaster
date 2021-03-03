@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { ObjectId } = require('mongodb');
 const { verifyAuthorization, getPayload } = require('../middlewares/verifyAuthorization');
 const Recipes = require('../models/Recipes');
+// const { verifyAuthorizationRecipes } = require('../middlewares/verifyAuthorizationRecipes');
 
 const router = Router();
 
@@ -65,5 +66,16 @@ router.get('/:id', async (req, res) => {
   return res.status(SUCCESS).json(recipe);
 });
 // 5
+
+// 7
+router.put('/:id', verifyAuthorization, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  
+  const recipe = await Recipes.update(id, name, ingredients, preparation);
+  
+  return res.status(SUCCESS).json(recipe.value);
+});
+// 7
 
 module.exports = router;

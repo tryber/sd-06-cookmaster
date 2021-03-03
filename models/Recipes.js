@@ -12,8 +12,19 @@ const getById = async (id) => connection().then((db) =>
     db.collection('recipes').findOne({ _id: ObjectId(id) }));
 // 5
 
+// 7
+const update = async (id, name, ingredients, preparation) => 
+  // updateOne para findOneAndUpdate para conseguir retornar o produto atualizado após edição
+  connection().then((db) => db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+    { returnOriginal: false }, // retorna o poduto atualizado após edição
+  ));
+// 7 
+
 module.exports = {
   getAll,
   create,
-  getById,  
+  getById,
+  update,
 };
