@@ -10,15 +10,15 @@ const CREATED = 201;
 const UNPROCESSABLE_ENTITY = 422;
 
 routes.route('/:id')
-  .get(rescue(async (req, res) => {
+  .get(rescue(async (req, res, next) => {
     const { id } = req.params;
-    const searchedProduct = await recipes.findById(id);
+    const searchedRecipe = await recipes.findById(id);
 
-    if (searchedProduct === null || searchedProduct.err) {
-      return res.status(UNPROCESSABLE_ENTITY).json(searchedProduct);
+    if (searchedRecipe.err) {
+      return next({ ...searchedRecipe.err });
     }
 
-    res.status(OK).json(searchedProduct);
+    res.status(OK).json(searchedRecipe);
   }))
   .put(rescue(async (req, res) => {
     const { id } = req.params;

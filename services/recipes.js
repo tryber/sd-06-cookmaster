@@ -2,7 +2,7 @@ const recipes = require('../models/recipes');
 
 // const minNameLength = 5;
 // const nullQuantity = 0;
-// const idMongoLength = 24;
+const idMongoLength = 24;
 // const nameLengthErrorMessage = '"name" length must be at least 5 characters long';
 // const nameExists = 'Product already exists';
 // const quantityErrorMessage = '"quantity" must be larger than or equal to 1';
@@ -37,22 +37,15 @@ const getAll = async () => {
   return productsArray;
 };
 
-// const findById = async (id) => {
-//   const errorObject = {
-//     err: {
-//       code: 'invalid_data',
-//       message: 'Wrong id format',
-//     }
-//   };
+const findById = async (id) => {
+  if (id.length !== idMongoLength) return errorWriter(404, 'recipe not found');
 
-//   if (id.length !== idMongoLength) return errorObject;
+  const product = await recipes.findById(id);
 
-//   const product = await products.findById(id);
-
-//   if (!product) return errorObject;
+  if (!product) return errorWriter(404, 'recipe not found');
   
-//   return product;
-// };
+  return product;
+};
 
 const create = async ({ name, ingredients, preparation, userId }) => {
   if (!name || !ingredients || !preparation) {
@@ -111,7 +104,7 @@ const create = async ({ name, ingredients, preparation, userId }) => {
 
 module.exports = {
   getAll,
-//   findById,
+  findById,
   create,
 //   update,
 //   deleteProduct,
