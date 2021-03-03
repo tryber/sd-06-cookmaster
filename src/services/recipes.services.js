@@ -13,7 +13,16 @@ const getRecipes = async (id) => {
   return recipesList;
 };
 
+const editRecipe = async (recipeId, userId, data) => {
+  const user = await utils.queryFromDb('users', userId);
+  const recipe = await utils.queryFromDb('recipes', recipeId);
+  if (userId !== recipe.userId && user.role !== 'admin') throw new Error(error.notAuthorized);
+  const updatedRecipe = { ...recipe, ...data };
+  return utils.updateDb('recipes', recipeId, updatedRecipe);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
+  editRecipe,
 };
