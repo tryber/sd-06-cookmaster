@@ -1,12 +1,34 @@
-const { Router } = require('express');
+const express = require('express');
 const jwt = require('jsonwebtoken');
-const { getAllRecipes, createRecipe, findRecipeById, editRecipeById, validateCreateRecipe,
-  validateFindById, validateUpdateById } = require('../services/recipes_Service');
+const multer = require('multer');
+const {
+  getAllRecipes,
+  createRecipe,
+  findRecipeById,
+  editRecipeById,
+  deleteRecipeById,
+  uploadRecipeImage,
+  validateCreateRecipe,
+  validateFindById,
+  validateAuth,
+} = require('../services/recipes_Service');
 
-const router = Router();
+const router = express.Router();
 
 const OK = 200;
 const Created = 201;
+const NoContent = 204;
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, callback) => {
+    callback(null, 'uploads');
+  },
+  filename: (req, _file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 router.get('/', async (_req, res) => {
   const recipe = await getAllRecipes();
@@ -32,13 +54,28 @@ router.get('/:id', validateFindById, async (req, res) => {
   res.status(OK).json(foundRecipe);
 });
 
-router.put('/:id', validateUpdateById, async (req, res) => {
+router.put('/:id', validateAuth, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
   await editRecipeById(id, name, ingredients, preparation);
   const editedRecipe = await findRecipeById(id);
 
   res.status(OK).json(editedRecipe);
+});
+
+router.delete('/:id', validateAuth, async (req, res) => {
+  const { id } = req.params;
+  await deleteRecipeById(id);
+  
+  res.status(NoContent).send();
+});
+
+router.put('/:id/image', upload.single('image'), validateAuth, async (req, res) => {
+  const { id } = req.params;
+
+  const result = await uploadRecipeImage(id);
+  
+  res.status(OK).json(result);
 });
 
 module.exports = router;

@@ -34,9 +34,27 @@ const editById = async (id, name, ingredients, preparation) => {
   return recipe;
 };
 
+const deleteById = async (id) => {
+  const recipe = await connection('recipes').then((db) => db.deleteOne({ _id: ObjectId(id) }));
+  return recipe;
+};
+
+const uploadImage = async (id) => {
+  const image = `localhost:3000/images/${id}.jpeg`;
+  await connection('recipes').then((db) => db.updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+  ));
+  const recipe = await findById(id);
+
+  return { ...recipe, image };
+};
+
 module.exports = {
   getAll,
   setRecipe,
   findById,
   editById,
+  deleteById,
+  uploadImage,
 };

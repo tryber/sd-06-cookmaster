@@ -14,6 +14,10 @@ const findRecipeById = (id) => recipes.findById(id);
 const editRecipeById = (id, name, ingredients, preparation) =>
   recipes.editById(id, name, ingredients, preparation);
 
+const deleteRecipeById = (id) => recipes.deleteById(id);
+
+const uploadRecipeImage = (id) => recipes.uploadImage(id);
+
 const validateCreateRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
   const { authorization } = req.headers;
@@ -39,7 +43,7 @@ const validateFindById = async (req, res, next) => {
   next();
 };
 
-const validateUpdateById = async (req, res, next) => {
+const validateAuth = async (req, res, next) => {
   const { authorization } = req.headers;
   const authorizationVerify = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
 
@@ -59,7 +63,9 @@ module.exports = {
   createRecipe,
   findRecipeById,
   editRecipeById,
+  deleteRecipeById,
+  uploadRecipeImage,
   validateCreateRecipe,
   validateFindById,
-  validateUpdateById,
+  validateAuth,
 };
