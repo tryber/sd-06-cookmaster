@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { error } = require('./middlewares');
-const { UsersController, LoginController } = require('./controllers');
+const { UsersController, LoginController, RecipesController } = require('./controllers');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 
 app.use('/users', UsersController);
 app.use('/login', LoginController);
+app.use('/recipes', RecipesController);
 
 app.use(error);
 
