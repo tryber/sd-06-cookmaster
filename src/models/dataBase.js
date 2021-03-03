@@ -1,5 +1,5 @@
-// const SERVIDOR = 'localhost';
-const SERVIDOR = 'mongodb';
+const SERVIDOR = 'localhost';
+// const SERVIDOR = 'mongodb';
 
 const mongoose = require('mongoose');
 
