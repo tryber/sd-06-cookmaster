@@ -5,6 +5,11 @@ const { validadeToken } = require('../middlewares/validateToken');
 
 const recipesRouter = express.Router();
 
+recipesRouter.get('/', async (_req, res) => {
+  const allRecipes = await RecipesModel.getAll();
+  res.status(200).json(allRecipes);
+});
+
 recipesRouter.post('/', validadeToken, validateRecipe, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
 
