@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { Router } = require('express');
 const { getAllRecipesService,
-  createRecipeService, getByIdService, editRecipeService } = require('../services/RecipesService');
+  createRecipeService, getByIdService,
+  editRecipeService, deleteRecipeService } = require('../services/RecipesService');
 const { validateRecipe, validateToken,
   validateId } = require('../middlewares/RecipesMid');
 
@@ -9,6 +10,7 @@ const routerRecipes = Router();
 
 const CREATED = 201;
 const SUCCESS = 200;
+const NO_CONTENT = 204;
 
 const secret = 'senha';
 
@@ -43,6 +45,12 @@ routerRecipes.put('/:id', validateToken, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const recipeEdited = await editRecipeService(id, name, ingredients, preparation);
   return res.status(SUCCESS).json(recipeEdited);
+});
+
+routerRecipes.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteRecipeService(id);
+  return res.status(NO_CONTENT).end();
 });
 
 module.exports = routerRecipes;

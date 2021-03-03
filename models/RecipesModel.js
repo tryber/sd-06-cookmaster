@@ -22,9 +22,17 @@ const editById = async (id1, name1, ingredients1, preparation1) => connection()
         { $set: { name: name1, ingredients: ingredients1, preparation: preparation1 } },
       ));
 
+const deleteRecipe = async (id) => {
+  const { value } = await connection()
+    .then((db) => db.collection('recipes')
+      .findOneAndDelete({ _id: ObjectId(id) }));
+  return value;
+};
+
 module.exports = {
   getAllRecipes,
   createRecipe,
   getById,
   editById,
+  deleteRecipe,
 };
