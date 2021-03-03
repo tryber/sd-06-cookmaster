@@ -15,7 +15,7 @@ recipes.post('/', validateJWT, rescue(async (req, res) => {
   const { _id: userId } = req.user;
 
   if (!name || !ingredients || !preparation) {
-    return res.status(STATUS400).json({ message: 'Invalid entries. Try again' });
+    return res.status(STATUS400).json({ message: 'Invalid entries. Try again.' });
   }
   const recipe = await recipesModels.recipes.register(name, ingredients, preparation, userId);
   return res.status(STATUS201).json(recipe);
