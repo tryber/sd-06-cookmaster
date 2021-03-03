@@ -1,6 +1,6 @@
 const express = require('express');
 const RecipesModel = require('../models/RecipesModel');
-const { validateRecipe } = require('../middlewares/validateRecipe');
+const { validateRecipe, validateRecipeId } = require('../middlewares/validateRecipe');
 const { validadeToken } = require('../middlewares/validateToken');
 
 const recipesRouter = express.Router();
@@ -10,9 +10,10 @@ recipesRouter.get('/', async (_req, res) => {
   res.status(200).json(allRecipes);
 });
 
-recipesRouter.get('/:id', async (req, res) => {
+recipesRouter.get('/:id', validateRecipeId, async (req, res) => {
   const { id } = req.params;
   const recipeId = await RecipesModel.getById(id);
+
   res.status(200).json(recipeId);
 });
 
