@@ -30,10 +30,15 @@ const deleteRecipeService = async (id) => {
   await RecipesModel.deleteRecipe(id);
 };
 
+const addImageService = async (id, pathImage) => {
+  await RecipesModel.addImage(id, pathImage);
+};
+
 module.exports = {
   getAllRecipesService,
   createRecipeService,
   getByIdService,
   editRecipeService,
   deleteRecipeService,
+  addImageService,
 };
