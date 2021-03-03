@@ -14,5 +14,6 @@ appRouters.post('/login', validateLoginUser, UserController.loginUser);
 
 appRouters.post('/recipes', validateCreateRecipe, RecipesController.createRecipe);
 appRouters.get('/recipes', RecipesController.searchAllRecipes);
+appRouters.get('/recipes/:id', RecipesController.searchRecipeById);
 
 module.exports = appRouters;
