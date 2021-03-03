@@ -48,8 +48,9 @@ const updateRecipe = async (id, { name, ingredients, preparation }) => {
   return responsePayload;
 };
 
-const deleteRecipeById = async () => {
-  const responsePayload = await 'Delete recipe by id ';
+const deleteRecipeById = async (id) => {
+  const responsePayload = await connection().then((db) => 
+    db.collection(collection).deleteOne({ _id: ObjectId(id) }));
   return responsePayload;
 };
 

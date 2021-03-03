@@ -45,8 +45,8 @@ const updateRecipe = async ({ id, user, body }) => {
   return responsePayload;
 };
 
-const deleteRecipeById = async (_req, _res) => {
-  const responsePayload = await recipesModels.deleteRecipeById();
+const deleteRecipeById = async (id) => {
+  const responsePayload = await recipesModels.deleteRecipeById(id);
   return responsePayload;
 };
 

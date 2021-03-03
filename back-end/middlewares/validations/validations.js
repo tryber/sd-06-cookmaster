@@ -83,13 +83,19 @@ try {
 }
 };
 
-const updateRecipeValidator = async (req, res, next) => {
+const generalTokenValidation = async (token) => {
+  if (!token) throw new ThrowError(status.unauthorized, errorMessages.missingAuth);
+  const user = await validateToken(token);
+  if (!user) throw new ThrowError(status.unauthorized, errorMessages.invalidToken);
+
+  return user;
+};
+
+const tokenValidator = async (req, res, next) => {
   const token = req.headers.authorization;
 
   try {
-    if (!token) throw new ThrowError(status.unauthorized, errorMessages.missingAuth);
-    const user = await validateToken(token);
-    if (!user) throw new ThrowError(status.unauthorized, errorMessages.invalidToken);
+    const user = await generalTokenValidation(token);
     req.user = user;
     next();
   } catch (error) {
@@ -101,5 +107,5 @@ module.exports = {
   registerUserValidations,
   loginValidations,
   registerRecipeValidator,
-  updateRecipeValidator,
+  tokenValidator,
 };

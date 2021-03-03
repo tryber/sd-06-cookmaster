@@ -2,7 +2,7 @@ const { Router } = require('express');
 const recipesController = require('../controllers/recipesController');
 const { 
   registerRecipeValidator,
-  updateRecipeValidator,
+  tokenValidator,
 } = require('../middlewares/validations/validations');
 
 const recipesRouter = new Router();
@@ -13,9 +13,9 @@ recipesRouter.get('/', recipesController.getAllRecipes);
 
 recipesRouter.get('/:id', recipesController.getRecipesById);
 
-recipesRouter.put('/:id', updateRecipeValidator, recipesController.updateRecipe);
+recipesRouter.put('/:id', tokenValidator, recipesController.updateRecipe);
 
-recipesRouter.delete('/:id', recipesController.deleteRecipeById);
+recipesRouter.delete('/:id', tokenValidator, recipesController.deleteRecipeById);
 
 recipesRouter.put('/:id/image', recipesController.addImageToRecipe);
 

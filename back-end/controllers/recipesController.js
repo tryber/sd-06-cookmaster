@@ -38,9 +38,9 @@ const updateRecipe = async (req, res) => {
 };
 
 const deleteRecipeById = async (req, res) => {
-  const responsePayload = recipesServices.deleteRecipeById();
-  console.log(responsePayload);
-  res.status(status.ok).send('Delete recipes by id');
+  const { id } = req.params;
+  const responsePayload = await recipesServices.deleteRecipeById(id);
+  res.status(status.noContent).send('');
 };
 
 const addImageToRecipe = async (req, res) => {
