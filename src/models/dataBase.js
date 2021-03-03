@@ -1,9 +1,9 @@
-const SERVIDOR = 'localhost';
-// const SERVIDOR = 'mongodb';
-
 const mongoose = require('mongoose');
 
-mongoose.connect(`mongodb://${SERVIDOR}/Cookmaster`, { 
+// const SERVIDOR = 'localhost';
+const SERVIDOR = 'mongodb';
+
+mongoose.connect(`mongodb://${SERVIDOR}:27017/Cookmaster`, { 
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
