@@ -44,4 +44,13 @@ router.put('/:id', validateRecipeId,
   return res.status(200).send(updatedRecipe);
 });
 
+router.delete('/:id', validateRecipeId,
+  validateToken, checkRecipeOwner, async (req, res) => {
+    const { id } = req.params;
+
+    await controllers.deleteById(id);
+
+    return res.status(204).send();
+  });
+
 module.exports = router;

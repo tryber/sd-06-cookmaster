@@ -14,9 +14,12 @@ const findById = async (id) => {
 const updateById = async (id, name, ingredients, preparation) => models
   .updateById(id, name, ingredients, preparation);
 
+const deleteById = async (id) => models.deleteById(id);
+
 module.exports = {
   create,
   getAll,
   findById,
   updateById,
+  deleteById,
 };
