@@ -20,7 +20,7 @@ const {
 const missingAuthToken = 'missing auth token';
 const RecipesController = new Router();
 const storage = multer.diskStorage({
-  dest: (_req, _file, callback) => {
+  destination: (_req, _file, callback) => {
     const fullPath = path.resolve(__dirname, '..', 'uploads');
     callback(null, fullPath);
   },
