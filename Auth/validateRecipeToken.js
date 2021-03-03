@@ -7,12 +7,10 @@ const secret = 'SARTOBOY';
 const validateRecipeToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (!token) return res.status(UNAUTHORIZED).json({
-    message:'missing auth token'
-  });
+  if (!token) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   try {
     const decode = jwt.verify(token, secret);
-    const user = await findUserByEmail(decoded.data.email);
+    const user = await findUserByEmail(decode.data.email);
 
     if (!user) return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
 
@@ -23,3 +21,5 @@ const validateRecipeToken = async (req, res, next) => {
     return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
 };
+
+module.exports = { validateRecipeToken };
