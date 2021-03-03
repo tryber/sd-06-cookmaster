@@ -9,6 +9,11 @@ const createUser = async (req, res) => {
   res.status(201).json(user);
 };
 
+const getAllUsers = async (req, res) => {
+  const users = await Users.getAllUsers();
+  res.status(200).json(users);
+};
+
 const userValidation = async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -27,4 +32,5 @@ const userValidation = async (req, res, next) => {
 module.exports = {
   createUser,
   userValidation,
+  getAllUsers,
 };

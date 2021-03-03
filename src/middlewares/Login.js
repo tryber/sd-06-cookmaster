@@ -16,12 +16,12 @@ const userLogin = async (req, res, next) => {
     }); 
   }
 
-  const jwtConfig = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
+  const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
 
-  const token = jwt.sign({ data: user }, secret, jwtConfig);
+  const { _id, role } = user;
+
+  const token = jwt
+    .sign({ data: { _id, email: user.email, role } }, secret, jwtConfig);
   res.status(200).json({ token });
 };
 

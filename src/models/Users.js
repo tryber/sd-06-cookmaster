@@ -1,9 +1,9 @@
 const { ObjectID } = require('mongodb');
 const connection = require('./connections');
 
-const create = async (name, email, password) => {
+const createUser = async (name, email, password) => {
   const role = 'user';
-  const { insertedId } = connection()
+  const { insertedId } = await connection()
     .then((db) => db.collection('users').insertOne({ name, email, password, role }));
   return {
     user: {
@@ -15,15 +15,15 @@ const create = async (name, email, password) => {
   };
 };
 
-const getAll = async () => connection().then((db) => db.collection('users').find().toArray());
+const getAllUsers = async () => connection().then((db) => db.collection('users').find().toArray());
 
-const findByEmail = async (email) => connection()
+const findUserByEmail = async (email) => connection()
   .then((db) => db.collection('users').findOne({ email }));
 
-const findById = async (id) => connection()
+const findUserById = async (id) => connection()
   .then((db) => db.collection('users').findOne(ObjectID(id)));
 
-const update = async (id, name, quantity) => {
+const updateUser = async (id, name, quantity) => {
   connection().then((db) => db.collection('users').updateOne(
     { _id: ObjectID(id) },
     { $set: { name, quantity } },
@@ -36,14 +36,14 @@ const update = async (id, name, quantity) => {
   };
 };
 
-const remove = async (id) => connection()
+const removeUser = async (id) => connection()
     .then((db) => db.collection('products').deleteOne({ _id: ObjectID(id) }));
 
 module.exports = {
-  create,
-  findByEmail,
-  getAll,
-  findById,
-  update,
-  remove,
+  createUser,
+  findUserByEmail,
+  getAllUsers,
+  findUserById,
+  updateUser,
+  removeUser,
 }; 

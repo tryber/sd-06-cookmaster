@@ -1,10 +1,10 @@
-// const { Router } = require('express');
-// const Recipes = require('../services/Users');
+const { Router } = require('express');
+const { createRecipe, getAllRecipes, recipeValidation } = require('../middlewares/Recipes');
+const validateJWT = require('../middlewares/auth/validateJWT');
 
-// const recipesRouter = new Router();
+const recipesRouter = new Router();
 
-// recipesRouter.post('/', (req, res) => {
-//   res.send('POST request to the homepage');
-// });
+recipesRouter.post('/', validateJWT, recipeValidation, createRecipe);
+recipesRouter.get('/', getAllRecipes);
 
-// module.exports = recipesRouter;
+module.exports = recipesRouter;
