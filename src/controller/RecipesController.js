@@ -6,7 +6,7 @@ const verifyToken = require('../schemas/verifyAuthorization');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, calback) => {
-    calback(null, 'images');
+    calback(null, 'uploads');
   },
   filename: (req, _file, calback) => {
     calback(null, `${req.params.id}.jpeg`);
@@ -92,7 +92,7 @@ router.put('/:id/image', verifyToken, upload.single('image'), async (req, res) =
     const { id } = req.params;
     const { path } = req.file;
 
-    const imagePath = `localhost:3000/${path}`;
+    const imagePath = `localhost:3000/images/${id}.jpeg`;
 
     await Recipes.uploadImage(id, imagePath);
 
