@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const expectedError = require('./Middlewares/expectedError');
 const usersController = require('./Controllers/usersController');
+const recipesController = require('./Controllers/recipesController');
 const usersLogin = require('./Controllers/usersLogin');
 const { validateEntriesLogin,
     validateEmailLogin, validatePasswordLogin } = require('./Middlewares/usersValidators');
@@ -17,6 +18,8 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', usersController);
+app.use('/recipes', recipesController);
+// Requisito-2
 app.post('/login', validateEntriesLogin, validateEmailLogin,
 validatePasswordLogin, usersLogin);
 

@@ -10,8 +10,8 @@ const usersLogin = async (req, res) => {
     const userPayload = await emailAlreadyExists(email);
 
     const header = {
-      expiresIn: '7d',
       algorithm: 'HS256',
+      expiresIn: '7d',
     };
 
     const token = jwt.sign(userPayload, mySecretKey, header);

@@ -5,6 +5,7 @@ const { validateEntries, validateEmail,
 
 const router = Router();
 
+// Requisito-1
 router.post('/', validateEntries, validateEmail,
 emailAlreadyExistsService,
  async (req, res) => {
