@@ -12,7 +12,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use(usersRouter);
+app.use('/users', usersRouter);
 
 app.use(handleError);
 
