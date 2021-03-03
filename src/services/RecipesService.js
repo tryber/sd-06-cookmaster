@@ -3,6 +3,7 @@ const { throwThisError } = require('../utils/index');
 
 const BAD_REQUEST = 400;
 const CREATED = 201;
+const OK = 200;
 
 const verifyFields = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -25,7 +26,13 @@ const insertRecipe = async (req, res) => {
   res.status(CREATED).json({ recipe });
 };
 
+const getAll = async (req, res) => {
+  const allRecipes = await RecipesModel.getAll();
+  res.status(OK).json(allRecipes);
+};
+
 module.exports = {
   insertRecipe,
   verifyFields,
+  getAll,
 };

@@ -4,7 +4,7 @@ const rescue = require('express-rescue');
 const UserService = require('./src/services/UserService');
 const LoginService = require('./src/services/LoginService');
 const { verifyToken } = require('./src/utils');
-const RecipesService = require('./src/services/RecipesService');
+const RecipesController = require('./src/controllers/RecipesController');
 
 const app = express();
 const PORT = 3000;
@@ -22,10 +22,7 @@ app.post('/users',
 
 app.post('/login', rescue(LoginService.checkEmailAndPassword));
 
-app.post('/recipes', 
-  rescue(verifyToken), 
-  rescue(RecipesService.verifyFields),
-  rescue(RecipesService.insertRecipe));
+app.use('/recipes', RecipesController);
 
 app.use((err, req, res, _next) => {
   const codeStatus = (err.codeStatus) ? err.codeStatus : 500;
