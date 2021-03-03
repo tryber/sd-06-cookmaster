@@ -46,7 +46,7 @@ const RecipeUpdateService = async (req, res) => {
   // Consulta da receita pelo id pra retornar o userID e comparar com o _id;
   // } 
   // Senão status.error!
-  await updateRecipe(id, name, ingredients, preparation, image);
+  await updateRecipe({ id, name, ingredients, preparation, image });
   const updatedRecipe = await getByIdRecipe(id);
   return res.status(STATUS_OK).json(updatedRecipe);
 };

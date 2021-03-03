@@ -22,8 +22,7 @@ const createRecipe = async (name, ingredients, preparation) => {
   return insertedId;
 };
 
-// eslint-disable-next-line max-params
-const updateRecipe = async (id, name, ingredients, preparation, image) => {
+const updateRecipe = async ({ id, name, ingredients, preparation, image }) => {
   const recipe = await connection()
     .then((db) => db.collection('recipes')
     .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, image } }));
