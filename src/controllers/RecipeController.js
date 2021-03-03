@@ -55,12 +55,12 @@ const addImage = async (request, response, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 
 const remove = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const recipe = await recipeService.remove(id);
+    await recipeService.remove(id);
     return response.status(NO_CONTENT).send();
   } catch (err) {
     next(err);

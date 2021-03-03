@@ -23,7 +23,7 @@ const update = async (id, name, ingredients, preparation) => {
 const addImage = async (id, image) => {
   const recipe = await Recipes.addImage(id, image);
   return recipe;
-}
+};
 
 const remove = async (id) => {
   const recipe = await Recipes.remove(id);
