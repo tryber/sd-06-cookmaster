@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
   const { email, password } = req.body;
   // 
   const err = await validation(email, password);
-  if (err) return res.status(ERRO401).jsno(err);
+  if (err) return res.status(ERRO401).json(err);
   // 
 
   const user = await Users.getByEmailAndPassword(email, password);
