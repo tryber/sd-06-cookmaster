@@ -26,11 +26,7 @@ routerRecipes.post('/', validateRecipe, validateToken, async (req, res) => {
     iss: 'Cookmaster',
     aud: 'identity',
   });
-  const getAll = await getAllRecipesService();
   const { _id: userId } = payload.userData;
-  console.log(getAll[1].userId, 'name');
-  const teste = getAll.filter((el) => el.userId === +userId);
-  console.log(teste, 'teste');
   const recipeCreated = await createRecipeService(name, ingredients, preparation, userId);
   return res.status(CREATED).json({ recipe: recipeCreated });
 });
