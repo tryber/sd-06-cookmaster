@@ -7,11 +7,15 @@ const getAll = async () => Recipes.getAll();
 
 const getById = async (id) => Recipes.getById(id);
 
-const updateRecipe = async (id, recipeData) =>
-  Recipes.updateRecipe(id, recipeData);
+const getUserId = async (userId) => Recipes.getUserId(userId);
+
+const updateRecipe = async (id, recipeData) => Recipes.updateRecipe(id, recipeData);
 
 const deleteRecipe = async (id) =>
   Recipes.deleteRecipe(id);
+
+  const addImage = async (id, path) => 
+  Recipes.addImage(id, path);
 
   module.exports = {
     createRecipe,
@@ -19,4 +23,6 @@ const deleteRecipe = async (id) =>
     getById,
     updateRecipe,
     deleteRecipe,
+    addImage,
+    getUserId,
   };

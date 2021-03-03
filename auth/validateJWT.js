@@ -15,12 +15,12 @@ const validateFields = async (req, res, next) => {
 const inputsValidation = async (req, res, next) => {
   const { email, password } = req.body;
   const emailFormat = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/;
-  const passwordFormat = /^\d{8,}$/gm;
   const emailIsValid = emailFormat.test(email);
-  const passwordIsValid = passwordFormat.test(password);
+  const passwordIsValid = (pass) => pass.length > 3;
 
   const findUser = await UserService.findUser(email);
-  if (!emailIsValid || !passwordIsValid || !findUser) {
+  // console.log(!emailIsValid, !passwordIsValid(password), !findUser);
+  if (!emailIsValid || !passwordIsValid(password) || !findUser) {
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
   }
   req.data = findUser;

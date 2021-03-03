@@ -18,8 +18,9 @@ router.post('/users', validateField, userExist, rescue(async (req, res) => {
 
 router.post('/login', validateFields, inputsValidation, rescue((async (req, res) => {
   const user = req.body;
+  console.log(req.data);
   const secret = 'secretToken';
-  console.log(user);
+  // console.log('usar na rota login', user);
   const jwtConfig = {
     expiresIn: '7d',
     algorithm: 'HS256',

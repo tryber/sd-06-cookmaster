@@ -22,17 +22,18 @@ const getAll = async () => connection().then((db) => db.collection('recipes').fi
 const getById = async (id) => connection().then((db) => db
   .collection('recipes').findOne(ObjectId(id)));
 
+const getUserId = async (userId) => connection().then((db) => db
+  .collection('recipes').findOne(userId));
+
 const updateRecipe = async (id, objData) => {
-  const { insertedId } = await connection().then((db) => db
+  await connection().then((db) => db
   .collection('recipes').updateOne(
     { _id: ObjectId(id) },
     { $set: objData },
   ));
   return {
-    recipe: {
       ...objData,
-      _id: insertedId,
-    },
+      _id: id,
   };
 };
 
@@ -60,6 +61,7 @@ module.exports = {
   getAll,
   getById,
   updateRecipe,
+  getUserId,
   deleteRecipe,
   addImage,
 };
