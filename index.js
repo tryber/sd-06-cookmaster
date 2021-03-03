@@ -20,6 +20,5 @@ app.use('/users', usersController);
 app.post('/login', validateEntriesLogin, validateEmailLogin,
 validatePasswordLogin, usersLogin);
 
-
 app.use(expectedError);
 app.listen(bell, () => console.log(`For whom the ${bell} tolls!`));
