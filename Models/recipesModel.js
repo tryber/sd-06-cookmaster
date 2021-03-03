@@ -11,10 +11,10 @@ const getById = async (id) => {
   return getId;
 };
 
-const update = async (id, name, ingredients, preparation, image) => {
+const update = async (id, name, ingredients, preparation) => {
   await connection()
     .then((db) => db.collection('recipes')
-      .updateOne({_id: ObjectId(id)}, { $set: {name, ingredients, preparation, image } }));
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }));
 };
 
 const create = async (name, ingredients, preparation) => {

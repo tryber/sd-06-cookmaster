@@ -41,8 +41,7 @@ const update = async (req, res) => {
     userId: getId.userId,
   };
 
-  const updation = await recipesModel
-    .update(id, name, ingredients, preparation);
+  await recipesModel.update(id, name, ingredients, preparation);
 
   res.status(OK).json(updatedRecipe);
 };
