@@ -29,8 +29,19 @@ const recipeValidation = async (req, res, next) => {
   next();
 };
 
+const getRecipeById = async (req, res, next) => {
+  const { id } = req.params;
+
+  const recipe = await Recipes.getRecipeById(id);
+
+  if (recipe.customMessage) return next(recipe);
+  
+  res.status(200).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   recipeValidation,
+  getRecipeById,
 };
