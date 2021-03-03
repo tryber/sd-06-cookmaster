@@ -1,12 +1,12 @@
-const express = require('express');
+const Router = require('express');
 
-const { createRecipes } = require('../service/recipeService');
+const { createRecipes, listRecipes } = require('../service/recipeService');
 
 const { checkAuthorization } = require('../midddleware/checkAutorization');
 
 const validateToken = require('../auth/validateToken');
 
-const recipeController = express.Router();
+const recipeController = new Router();
 
 recipeController.post('/', checkAuthorization, async (req, res) => {
   const okay = 201;
@@ -19,6 +19,11 @@ recipeController.post('/', checkAuthorization, async (req, res) => {
   const { ops } = create;
   ops[0].userId = _id;
   res.status(okay).json({ recipes: ops[0] });
+});
+recipeController.get('/', async (req, res) => {
+  const okay = 200;
+  const find = await listRecipes();
+  res.status(okay).json(find);
 });
 
 module.exports = recipeController;
