@@ -8,7 +8,7 @@ const { validateLogin } = require('../middlewares');
 const routerLogin = Router();
 
 const jwtConfig = {
-  expiresIn: '60m', // alterar pra 15m dnv
+  expiresIn: '15m',
   algorithm: 'HS256',
 };
 

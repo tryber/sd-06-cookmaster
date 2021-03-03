@@ -17,7 +17,20 @@ const createUser = async (name, email, password) => {
   });
 };
 
+const createAdmin = async (name, email, password) => {
+  const { _id } = await UsersModel.createUser(name, email, password);
+  return ({
+    user: {
+      name,
+      email,
+      role: 'admin',
+      _id,
+    },
+  });
+};
+
 module.exports = {
   getAllUsers,
   createUser,
+  createAdmin,
 };

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { BAD_REQ, CONFLICT, UNAUTHORIZED, SECRET } = require('../utils');
+const { BAD_REQ, CONFLICT, UNAUTHORIZED, SECRET, FORBIDDEN, INTERNAL_ERROR } = require('../utils');
 const { getByEmail } = require('../models/UsersModel');
 
 const regexEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/;
@@ -14,7 +14,6 @@ const validateUser = (req, res, next) => {
 
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
-  // console.log('validateEmail');
   const result = await getByEmail(email);
   if (result) {
     return res.status(CONFLICT).json({ message: 'Email already registered' });
@@ -47,7 +46,6 @@ const validateLogin = (req, res, next) => {
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-  console.log('entrou, não é autorizado');
   return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   }
 
@@ -65,10 +63,31 @@ const validateJWT = async (req, res, next) => {
   }
 };
 
+const validateAdmin = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+  return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    const user = await getByEmail(decoded.userData.email);
+ 
+    if (user.role !== 'admin') {
+      return res.status(FORBIDDEN).json({ message: 'Only admins can register new admins' });
+    }
+    req.user = user; 
+    next();
+  } catch (err) {
+    return res.status(INTERNAL_ERROR).json({ message: err.message });
+  }
+};
+
 module.exports = {
   validateUser,
   validateEmail,
   validateLogin,
   validateJWT,
   validateRecipe,
+  validateAdmin,
 };

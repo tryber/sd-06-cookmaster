@@ -1,4 +1,4 @@
-const { getAllUsers, createUser } = require('./UsersService');
+const { getAllUsers, createUser, createAdmin } = require('./UsersService');
 const {
   getAllRecipes, createRecipe, getRecipeById, updateRecipe, removeRecipe, insertRecipeImage,
 } = require('./RecipesService');
@@ -12,4 +12,5 @@ module.exports = {
   updateRecipe,
   removeRecipe,
   insertRecipeImage,
+  createAdmin,
 };

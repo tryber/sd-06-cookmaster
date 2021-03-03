@@ -1,5 +1,5 @@
 const {
-  validateUser, validateEmail, validateLogin, validateJWT, validateRecipe,
+  validateUser, validateEmail, validateLogin, validateJWT, validateRecipe, validateAdmin,
 } = require('./auth');
 
 module.exports = {
@@ -8,4 +8,5 @@ module.exports = {
   validateLogin,
   validateJWT,
   validateRecipe,
+  validateAdmin,
 };
