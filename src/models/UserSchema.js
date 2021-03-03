@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
   },
+  token: {
+    type: String,
+  },
 });
 
 const Users = mongoose.model('users', UserSchema);

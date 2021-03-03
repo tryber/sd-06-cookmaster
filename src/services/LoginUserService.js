@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const authConfig = require('../config/auth.json');
 
-const { loginUserDb } = require('../models/UserModel');
+const { loginUserDb, salvedTokenDb } = require('../models/UserModel');
 
 function generateToken(params = {}) {
   return jwt.sign(params, authConfig.secret, {
@@ -13,11 +13,15 @@ function generateToken(params = {}) {
 
 const LoginUserService = async ({ email }) => {
     const loginUser = await loginUserDb(email);
-
+    
     if (loginUser) {
+      const token = generateToken({ id: loginUser.id });
+
+      await salvedTokenDb(loginUser, token);
+
       return { 
         loginUser,
-        token: generateToken({ id: loginUser.id }), 
+        token, 
       };
     }
 };
