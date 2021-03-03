@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const UserService = require('./src/services/UserService');
 const LoginService = require('./src/services/LoginService');
+const { verifyToken } = require('./src/utils');
+const RecipesService = require('./src/services/RecipesService');
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +21,11 @@ app.post('/users',
   rescue(UserService.insertUser));
 
 app.post('/login', rescue(LoginService.checkEmailAndPassword));
+
+app.post('/recipes', 
+  rescue(verifyToken), 
+  rescue(RecipesService.verifyFields),
+  rescue(RecipesService.insertRecipe));
 
 app.use((err, req, res, _next) => {
   const codeStatus = (err.codeStatus) ? err.codeStatus : 500;
