@@ -36,7 +36,6 @@ const loginUser = async (req, res) => {
   if (!email || !password) {
     return res.status(unauthorized).json({ message: 'All fields must be filled' });
   }
-
   if (typeof password !== 'string') {
   return res.status(unauthorized).json({ message: 'Incorrect username or password' });
   }
@@ -45,7 +44,7 @@ const loginUser = async (req, res) => {
   if (!emailFounded || emailFounded.password !== password) {
     return res.status(unauthorized).json({ message: 'Incorrect username or password' });
   }
-  // o "_" serve para evitar conflito com o password do body
+  // "_" serve para evitar conflito com o password do body
   const { password: _, ...userWithoutPassword } = emailFounded;
   const payload = userWithoutPassword;
   const token = jwt.sign(payload, secret, jwtConfig);
