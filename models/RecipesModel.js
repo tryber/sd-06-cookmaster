@@ -21,14 +21,11 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async (...params) => {
   const [recipeId, name, ingredients, preparation] = params;
-  // console.log('Model:', recipeId, name, ingredients, preparation);
   await connection()
   .then((db) => db.collection('recipes').updateOne(
     { _id: ObjectId(recipeId) },
     { $set: { name, ingredients, preparation } },
   ));
-  // console.log('Id da receita:', recipeId);
-  // console.log('Id do usuario:', userId);
 };
 
 const removeRecipe = async (id) => {
@@ -37,10 +34,17 @@ const removeRecipe = async (id) => {
   ));
 };
 
+const insertRecipeImage = async (id, imagePath) => connection()
+  .then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: imagePath } },
+  ));
+
 module.exports = {
   getAllRecipes,
   createRecipe,
   getRecipeById,
   updateRecipe,
   removeRecipe,
+  insertRecipeImage,
 };

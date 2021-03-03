@@ -8,7 +8,6 @@ const getAllRecipes = async () => {
 
 const createRecipe = async (userId, name, ingredients, preparation) => {
   const { recipeId } = await RecipesModel.createRecipe(userId, name, ingredients, preparation);
-  // console.log(recipeId);
   return ({
     recipe: {
       name,
@@ -28,9 +27,7 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async (...params) => {
   const [recipeId, userId, name, ingredients, preparation] = params;
-  // console.log('Service:', recipeId, userId, name, ingredients, preparation);
   await RecipesModel.updateRecipe(recipeId, name, ingredients, preparation);
-  // console.log('Id do usuario: ', userId); 
   return ({
     name,
     ingredients,
@@ -49,10 +46,15 @@ const removeRecipe = async (id) => {
   return recipe;
 };
 
+const insertRecipeImage = async (id, imagePath) => {
+  await RecipesModel.insertRecipeImage(ObjectId(id), imagePath);
+};
+
 module.exports = {
   getAllRecipes,
   createRecipe,
   getRecipeById,
   updateRecipe,
   removeRecipe,
+  insertRecipeImage,
 };

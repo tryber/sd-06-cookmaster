@@ -1,13 +1,25 @@
 const { Router } = require('express');
+const multer = require('multer');
 
 const { CREATED, SUCCESS, NOT_FOUND, NO_CONTENT } = require('../utils');
 
+const {
+  getAllRecipes, createRecipe, getRecipeById, updateRecipe, removeRecipe, insertRecipeImage,
+} = require('../services');
+
+const { validateJWT, validateRecipe } = require('../middlewares');
+
 const message = 'recipe not found';
 
-const {
-  getAllRecipes, createRecipe, getRecipeById, updateRecipe, removeRecipe,
-} = require('../services');
-const { validateJWT, validateRecipe } = require('../middlewares');
+const storage = multer.diskStorage({
+  destination: './uploads',
+  
+  filename: (req, _file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 const routerRecipes = Router();
 
@@ -47,25 +59,15 @@ routerRecipes.delete('/:id', validateJWT, async (req, res) => {
   res.status(NO_CONTENT).json();
 });
 
-routerRecipes.put('/:id/image', validateJWT, async (req, _res) => {
-  const { id: thisRecipeId } = req.params; 
-  const { user } = req;
-  if (!user.role || user.role === 'user') {
-    const { _id: thisUserId } = user;
-    const idUser = JSON.stringify(thisUserId);
-    const recipe = await getAllRecipes()
-    .filter((e) => JSON.stringify(e.userId) === idUser);
-    console.log(thisRecipeId, recipe);
-    return console.log('usuario logado não é um adm');
-    // funcao que compara o ID do usuario aos userId -> ok
-    // criar e chamar funcao que cadastra a imagem via multer
-    // enviar objeto de receita para funcao que cadastra imagem
-  }
-  if (user.role && user.role === 'admin') {
-    // criar e chamar funcao que cadastra a imagem via multer
-    // enviar objeto de receita para funcao que cadastra imagem (adm não precisa checar id)
-  return console.log('usuario é um adm');
-  }
-});
+routerRecipes.put('/:id/image', validateJWT, upload.single('image'), async (req, res) => {
+  // console.log(req.file);
+  const { id } = req.params;
+  const { filename } = req.file;
+  const path = `localhost:3000/images/${filename}`;
+
+  await insertRecipeImage(id, path);
+  const recipe = await getRecipeById(id);
+  return res.status(SUCCESS).json(recipe);
+  });
 
 module.exports = routerRecipes;
