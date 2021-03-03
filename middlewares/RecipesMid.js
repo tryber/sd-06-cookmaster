@@ -37,23 +37,8 @@ const validateId = async (req, res, next) => {
   next();
 };
 
-// const validateAuth = async (req, res, next) => {
-//   const token = req.headers.authorization;
-//   if (!token) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
-//   next();
-// };
-
-// [Será validado que é possível editar receita estando autenticado]
-
-// const validateEdit = async (req, res, next) => {
-//   const token = req.headers.authorization;
-//   if (!token) return res.status(NOT_FOUND).json({ message: 'missing auth token' });
-//   next();
-// };
-
 module.exports = {
   validateRecipe,
   validateToken,
   validateId,
-  // validateAuth,
 };
