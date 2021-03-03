@@ -19,6 +19,7 @@ class LoginService {
       };
       throw new Err(errorInfo, 401);
     }
+    return userInfo;
   }
 }
 

@@ -18,8 +18,8 @@ class UsersController {
     const loginService = new LoginService(user);
     console.log(this);
     const { email, password } = req.body;
-    await loginService.execute({ email, password });
-    return res.status(200).json(CreateToken({ email }));
+    const { _id, role } = await loginService.execute({ email, password });
+    return res.status(200).json(CreateToken({ _id, email, role }));
   }
 }
 

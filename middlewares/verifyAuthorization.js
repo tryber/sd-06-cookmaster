@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
 
   const payload = validateToken(authorization);
 
-  if (!payload) return res.status(200).json({ message: 'Não autorizado!' });
+  if (!payload) return res.status(401).json({ message: 'jwt malformed' });
 
   next();
 };
