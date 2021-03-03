@@ -3,7 +3,7 @@ const UserModel = require('../models/UserModel');
 
 const secret = 'secretToken'; // .env
 
-const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 const UNAUTHORIZED = 401;
 
 const throwThisError = (code, msg) => {
@@ -14,13 +14,12 @@ const throwThisError = (code, msg) => {
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization;
-  // if (!token) throwThisError(BAD_REQUEST, 'Token not found');
   if (!token) throwThisError(UNAUTHORIZED, 'missing auth token');
 
   try {
     const decoded = jwt.verify(token, secret);
     const user = await UserModel.findByEmail(decoded.data);
-    if (!user) throwThisError(404, 'Token user not found');
+    if (!user) throwThisError(NOT_FOUND, 'Token user not found');
     const { _id } = user;
     req.userId = _id;
   } catch {
