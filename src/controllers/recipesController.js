@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { ObjectId } = require('mongodb');
 const recipeService = require('../services/recipesService');
 
 const recipesEntriesValidation = require('../middlewares/recipesEntriesValidation');
@@ -17,7 +18,7 @@ router.get('/', async (_req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
-  const recipe = await recipeService.findById(id);
+  const recipe = await recipeService.findById(ObjectId(id));
 
   res.status(OK).json(recipe);
 });
@@ -25,7 +26,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', recipesEntriesValidation, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { authorization: token } = req.headers;
-  
+
   const payload = await validateToken(token);
   const { _id: userId } = payload;
 
