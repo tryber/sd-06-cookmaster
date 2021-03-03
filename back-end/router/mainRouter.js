@@ -17,6 +17,4 @@ mainRouter.post('/users', registerUserValidations, usersController.registerUser)
 
 mainRouter.post('/login', loginValidations, usersController.userLogin);
 
-// usersRouter.post('/images/', userLogin);
-
 module.exports = mainRouter;
