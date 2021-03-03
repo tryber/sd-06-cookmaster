@@ -78,7 +78,7 @@ recipes.delete('/:id', validateJWT, async (request, response) => {
 // Requisito 09
 const storage = multer.diskStorage({
   destination: 'uploads',
-  filename: (request, file, callback) => {
+  filename: (request, _file, callback) => {
     const { id } = request.params;
     callback(null, `${id}.jpeg`);
   },
