@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb');
 const errInexistente = 400;
 const errInvalid = 401;
 const notFound = 404;
+const removed = 204;
 const messageInexistente = { message: 'Invalid entries. Try again.' };
 const messageInvalid = { message: 'jwt malformed' };
 const messageNotFound = { message: 'recipe not found' };
@@ -53,8 +54,22 @@ const updateValidation = async (req, res, next) => {
   next();
 };
 
+const removeValidation = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token) {
+    return res.status(removed).send();
+  }
+  try {
+    jwt.verify(token, segredo);
+  } catch (error) {
+    return res.status(errInvalid).json(missToken);
+  }
+  next();
+};
+
 module.exports = {
-  createValidation,
   idValidation,
+  createValidation,
   updateValidation,
+  removeValidation,
 };

@@ -4,6 +4,7 @@ const usersModel = require('../Models/usersModel');
 
 const created = 201;
 const OK = 200;
+const deleted = 204;
 const segredo = 'cabeça';
 
 const getAll = async (req, res) => {
@@ -66,9 +67,20 @@ const create = async (req, res) => {
   res.status(created).json({ recipe: addRecipe });
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  const findRecipe = await recipesModel.getById(id);
+
+  await recipesModel.remove(id);
+
+  res.status(deleted).send();
+};
+
 module.exports = {
   getAll,
   getById,
   update,
   create,
+  remove,
 };
