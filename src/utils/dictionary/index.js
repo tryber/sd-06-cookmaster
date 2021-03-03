@@ -16,6 +16,7 @@ const dictionary = {
     invalidEntries: handleErrorMessage('Invalid entries. Try again.'),
     allFieldsRequired: handleErrorMessage('All fields must be filled', STATUS.unauthorized),
     invalidCredentials: handleErrorMessage('Incorrect username or password', STATUS.unauthorized),
+    noAuthToken: handleErrorMessage('Missing authentication token.', STATUS.unauthorized),
   },
   validations: {
    
