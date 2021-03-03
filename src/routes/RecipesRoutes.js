@@ -5,13 +5,15 @@ const {
   getAllRecipes,
   getRecipeById,
   editRecipeById,
+  deleteRecipe,
 } = require('../controllers/RecipesController');
 
 const RecipesRouter = Router();
 
-RecipesRouter.put('/:id', (editRecipeById));
-RecipesRouter.get('/:id', (getRecipeById));
+RecipesRouter.delete('/:id', Rescue(deleteRecipe));
+RecipesRouter.put('/:id', Rescue(editRecipeById));
+RecipesRouter.get('/:id', Rescue(getRecipeById));
 RecipesRouter.post('/', Rescue(createRecipe));
-RecipesRouter.get('/', (getAllRecipes));
+RecipesRouter.get('/', Rescue(getAllRecipes));
 
 module.exports = RecipesRouter;

@@ -17,7 +17,6 @@ const editRecipeById = async (reqBody, id, token) => {
   const { name, ingredients, preparation } = reqBody;
   const idValidation = await Validation.recipeIdValidation(id);
   const tokenValidation = await Validation.tokenValidation(token);
-  console.log(tokenValidation);
   const recipeValidation = Validation.recipesValidation(name, ingredients, preparation);
 
   if (idValidation.payload) return idValidation;
@@ -27,6 +26,16 @@ const editRecipeById = async (reqBody, id, token) => {
   const { _id: userId } = tokenValidation;
   
   const result = await RecipesModel.editRecipeById(reqBody, userId, ObjectId(id));
+
+  return result;
+};
+
+const deleteRecipe = async (id, token) => {
+  const tokenValidation = await Validation.tokenValidation(token);
+
+  if (tokenValidation.payload) return tokenValidation;
+
+  const result = await RecipesModel.deleteRecipe(ObjectId(id));
 
   return result;
 };
@@ -48,4 +57,5 @@ module.exports = {
   createRecipe,
   getRecipeById,
   editRecipeById,
+  deleteRecipe,
 };
