@@ -4,22 +4,45 @@ const {
   validateToken,
   validateRecipe,
   createNewRecipe,
-  getRecipes,
+  getAllRecipes,
+  getRecipeById,
+  validateId,
 } = require('../services/recipesServices');
 
 const RecipesRouter = new Router();
 
+const code200 = 200;
 const code201 = 201;
+const code404 = 404;
 
 // 4 - Crie um endpoint para a listagem de receitas
+
 // Será validado que é possível listar todas as receitas sem estar autenticado
 // Será validado que é possível listar todas as receitas estando autenticado
 // O resultado retornado para listar receitas com sucesso deverá ser
 // conforme exibido abaixo, com um status http 200
 
 RecipesRouter.get('/', async (req, res) => {
-  const allRecipes = await getRecipes();
+  const allRecipes = await getAllRecipes();
   return res.status(200).json(allRecipes);
+});
+
+// 5 - Crie um endpoint para visualizar uma receita específica
+// A rota deve ser (/recipes/:id).
+
+// Será validado que não é possível listar uma receita que não existe
+// O resultado retornado para listar uma receita que não existe deverá ser
+// conforme exibido abaixo, com um status http 404
+
+RecipesRouter.get('/:id', validateId, async (req, res) => {
+  const { id } = req.params;
+  const recipe = await getRecipeById(id);
+  if (!recipe) {
+    return res.status(code404).json({
+      message: 'recipe not found',
+    });
+  }
+  return res.status(code200).json(recipe);
 });
 
 // 3 - Crie um endpoint para o cadastro de receitas
@@ -33,7 +56,7 @@ RecipesRouter.post('/', validateToken, validateRecipe, async (req, res) => {
     userId: _id,
   };
 
-  await createNewRecipe(req.body);
+  await createNewRecipe(recipe);
 
   return res.status(code201).json({ recipe });
 });

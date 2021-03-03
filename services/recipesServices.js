@@ -1,18 +1,23 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 const { secret } = require('../controller/loginController');
-const { createRecipe, getAllRecipes } = require('../model/recipesModel');
+const { createRecipe, findAllRecipes, findOneRecipe } = require('../model/recipesModel');
 const { findOneUser } = require('../model/usersModel');
 
 const code400 = 400;
 const code401 = 401;
+const code404 = 404;
 
 // 4 - Crie um endpoint para a listagem de receitas
 // Será validado que é possível listar todas as receitas sem estar autenticado
 // Será validado que é possível listar todas as receitas estando autenticado
-
-const getRecipes = async () => getAllRecipes();
 const createNewRecipe = async (data) => createRecipe(data);
+
+// 5 - Crie um endpoint para visualizar uma receita específica
+// A rota pode ser acessada por usuários logados ou não
+const getAllRecipes = async () => findAllRecipes();
+const getRecipeById = async (id) => findOneRecipe(id);
 
 // 3 - Crie um endpoint para o cadastro de receitas
 
@@ -32,6 +37,18 @@ const validateToken = async (req, res, next) => {
     req.user = decoded.data;
   } catch (err) {
     return res.status(code401).json({ message: 'jwt malformed' });
+  }
+
+  next();
+};
+
+// 5 - Crie um endpoint para visualizar uma receita específica
+const validateId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(code404).json({
+    message: 'recipe not found',
+    });
   }
 
   next();
@@ -66,6 +83,8 @@ const validateRecipe = async (req, res, next) => {
 module.exports = {
   createNewRecipe,
   validateRecipe,
-  getRecipes,
+  getAllRecipes,
+  getRecipeById,
   validateToken,
+  validateId,
 };
