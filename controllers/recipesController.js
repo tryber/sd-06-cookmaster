@@ -95,4 +95,5 @@ recipes.put('/:id/image', upload.single('image'), validateJWT, async (request, r
 
   return response.status(200).json(recipeWithImage);
 });
+
 module.exports = recipes;
