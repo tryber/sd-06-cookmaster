@@ -14,4 +14,9 @@ router.get('/', rescue(RecipesService.getAll));
 
 router.get('/:id', rescue(RecipesService.findById));
 
+router.put('/:id', 
+  rescue(verifyToken), 
+  rescue(RecipesService.verifyFields),
+  rescue(RecipesService.updateRecipe));
+
 module.exports = router;

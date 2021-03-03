@@ -15,8 +15,8 @@ const verifyFields = async (req, res, next) => {
 };
 
 const insertRecipe = async (req, res) => {
-  const { name, ingredients, preparation } = req.body;
   const { userId } = req;
+  const { name, ingredients, preparation } = req.body;
   let recipeId;
   try {
     recipeId = await RecipesModel.insertRecipe({ name, ingredients, preparation, userId });
@@ -44,9 +44,18 @@ const findById = async (req, res) => {
   return res.status(OK).json(recipe);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const { value } = await RecipesModel.updateRecipe(id, { name, ingredients, preparation });
+  res.status(OK).json(value);
+};
+
 module.exports = {
   insertRecipe,
   verifyFields,
   getAll,
   findById,
+  updateRecipe,
 };

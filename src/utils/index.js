@@ -14,7 +14,8 @@ const throwThisError = (code, msg) => {
 
 const verifyToken = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) throwThisError(BAD_REQUEST, 'Token not found');
+  // if (!token) throwThisError(BAD_REQUEST, 'Token not found');
+  if (!token) throwThisError(UNAUTHORIZED, 'missing auth token');
 
   try {
     const decoded = jwt.verify(token, secret);
