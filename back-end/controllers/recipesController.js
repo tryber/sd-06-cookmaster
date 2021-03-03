@@ -44,7 +44,10 @@ const deleteRecipeById = async (req, res) => {
 };
 
 const addImageToRecipe = async (req, res) => {
-  const responsePayload = recipesServices.addImageToRecipe();
+  // const { id } = req.params;
+  // const { filename } = req.file;
+  // console.log(filename);
+  const responsePayload = await recipesServices.addImageToRecipe();
   console.log(responsePayload);
   res.status(status.ok).send('Add image to Recipe');
 };
