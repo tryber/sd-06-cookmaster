@@ -3,6 +3,7 @@ const connection = require('../models/connection');
 const CREATED = 201;
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
+const FORBIDDEN = 403;
 
 const uniqueEmail = async (email) => {
   const alreadyExists = await connection()
@@ -16,7 +17,7 @@ const uniqueEmail = async (email) => {
 };
 
 const validEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   return emailRegex.test(email);
 };
@@ -41,6 +42,18 @@ const validateInsertData = async (name, email, role = 'user', password) => {
   throw error;
 };
 
+const validateAdminRole = async (email) => {
+  const { role } = await connection()
+    .then((db) => db.collection('users').findOne({ email }));
+
+  if (role === 'admin') {
+    return true;
+  }
+  const error = [{ message: 'Only admins can register new admins' }, FORBIDDEN];
+  throw error;
+};
+
 module.exports = {
   validateInsertData,
+  validateAdminRole,
 };
