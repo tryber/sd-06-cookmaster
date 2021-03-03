@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const recipesController = require('../controllers/recipesController');
+const { registerRecipeValidator } = require('../middlewares/validations/validations');
 
 const recipesRouter = new Router();
 
-recipesRouter.post('/', recipesController.registerRecipe);
+recipesRouter.post('/', registerRecipeValidator, recipesController.registerRecipe);
 
 recipesRouter.get('/', recipesController.getAllRecipes);
 

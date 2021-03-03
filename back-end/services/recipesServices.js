@@ -1,7 +1,20 @@
 const recipesModels = require('../models/recipesModels');
+const usersModels = require('../models/usersModels');
 
-const registerRecipe = async (req, res) => {
-  const responsePayload = await recipesModels.registerRecipes();
+const registerRecipe = async (requestPayload) => {
+  const { body, user } = requestPayload;
+  const { email } = user;
+  const { insertedId } = await recipesModels.registerRecipe(body);
+  const { _id: userId } = await usersModels.findUserByEmail(email);
+  
+  const responsePayload = {
+    recipe: {
+      ...body,
+      userId,
+      _id: insertedId,
+    },
+  };
+
   return responsePayload;
 };
 

@@ -1,5 +1,5 @@
 const { status } = require('../middlewares/errorHandler/dictionaries');
-const createToken = require('../middlewares/validations/utils/tokenGenerator');
+const {createToken} = require('../middlewares/validations/utils/tokenGenerator');
 const usersServices = require('../services/usersServices');
 
 const registerUser = async (req, res) => {

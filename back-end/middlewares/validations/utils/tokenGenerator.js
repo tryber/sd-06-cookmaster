@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken'); 
+const { ThrowError } = require('../../errorHandler/errorHandler');
+const { status, errorMessages } = require('../../errorHandler/dictionaries');
 
 const secret = 'm@asT3r_Ch3f';
 
@@ -12,4 +14,15 @@ const createToken = (payload) => {
   return token;
 };
 
-module.exports = createToken;
+const validateToken = async (token) => {
+  try {
+    return jwt.verify(token, secret);
+  } catch (_error) {
+    throw new ThrowError(status.unauthorized, errorMessages.invalidToken);
+  }
+};
+  
+module.exports = {
+  createToken,
+  validateToken,
+};

@@ -2,9 +2,12 @@ const { status, errorMessages } = require('../middlewares/errorHandler/dictionar
 const recipesServices = require('../services/recipesServices');
 
 const registerRecipe = async (req, res) => {
-  const responsePayload = recipesServices.registerRecipe();
-  console.log(responsePayload);
-  res.status(status.ok).send('Register Recipes');
+  const requestPayload = {
+    body: { ...req.body },
+    user: { ...req.user },
+  };
+  const responsePayload = await recipesServices.registerRecipe(requestPayload);
+  res.status(status.created).json(responsePayload);
 };
 
 const getAllRecipes = async (req, res) => {
