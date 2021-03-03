@@ -22,6 +22,17 @@ class Recipe {
       throw new Err({ message: 'Something went wrong' });
     }
   }
+
+  async listAll() {
+    const db = connection();
+    console.log(this);
+    try {
+      const recipes = await db.collection(collectionName).find().toArray();
+      return recipes;
+    } catch (err) {
+      throw new Err({ message: 'Something went wrong' });
+    }
+  }
 }
 
 module.exports = Recipe;
