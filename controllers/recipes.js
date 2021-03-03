@@ -46,7 +46,7 @@ routes.route('/')
   .get(rescue(async (_req, res) => {
     const recipesArray = await recipes.getAll();
 
-    res.status(OK).json({ recipes: recipesArray });
+    res.status(OK).json(recipesArray);
   }))
   .post(validateJWT, rescue(async (req, res, next) => {
     const { name, ingredients, preparation } = req.body;

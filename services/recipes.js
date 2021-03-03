@@ -31,11 +31,11 @@ const errorWriter = (code, message) => ({
 //   return true;
 // };
 
-// const getAll = async () => {
-//   const productsArray = await products.getAll();
+const getAll = async () => {
+  const productsArray = await recipes.getAll();
 
-//   return productsArray;
-// };
+  return productsArray;
+};
 
 // const findById = async (id) => {
 //   const errorObject = {
@@ -110,7 +110,7 @@ const create = async ({ name, ingredients, preparation, userId }) => {
 // };
 
 module.exports = {
-//   getAll,
+  getAll,
 //   findById,
   create,
 //   update,
