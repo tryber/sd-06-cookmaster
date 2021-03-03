@@ -90,7 +90,6 @@ router.delete('/:id', verifyToken, async (req, res) => {
 router.put('/:id/image', verifyToken, upload.single('image'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { path } = req.file;
 
     const imagePath = `localhost:3000/images/${id}.jpeg`;
 
