@@ -19,9 +19,15 @@ const editRecipeById = async (id, payload, userId) => {
   const editedRecipe = await model.editRecipeById(id, payload, userId);
   return editedRecipe;
 };
+
+const removeRecipeById = async (id) => {
+  await model.removeRecipeById(id);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
+  removeRecipeById,
 };

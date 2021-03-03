@@ -52,13 +52,26 @@ recipes.put('/:id', validateJWT, async (request, response) => {
 
   const { name, ingredients, preparation } = request.body;
   
-  console.log(request.body);
-
-  const payload = { name, ingredients, preparation };
+  const payload = { 
+    name, 
+    ingredients, 
+    preparation, 
+  };
 
   const editedRecipe = await service.editRecipeById(id, payload, userId);
 
   return response.status(200).json(editedRecipe);
+});
+
+// Requisito 08
+recipes.delete('/:id', validateJWT, async (request, response) => {
+  const { id } = request.params;
+
+  if (!ObjectId.isValid(id)) return response.status(404).json(MESSAGE_ERROR_NOT_FOUND);
+
+  await service.removeRecipeById(id);
+
+  return response.status(204).json({ message: 'deleted' });
 });
 
 module.exports = recipes;

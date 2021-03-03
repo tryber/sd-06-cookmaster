@@ -24,7 +24,7 @@ app.use('/users', checkRequestBody, usersController);
 // Requisito 02
 app.use('/login', loginController);
 
-// Requisito 03
+// Requisito 03 em diante
 app.use('/recipes', recipesController);
 
 app.listen(PORT, () => console.log('Server has been started'));
