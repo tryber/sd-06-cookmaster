@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
 const url = 'http://localhost:3000';
 
-describe('1 - Crie um endpoint para o cadastro de usuários', () => {
+describe.only('1 - Crie um endpoint para o cadastro de usuários', () => {
   let connection;
   let db;
 
@@ -38,7 +38,9 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       .expect('status', 400)
       .then((response) => {
         const { body } = response;
+        console.log(response)
         const result = JSON.parse(body);
+        console.log('tteste' + result)
         expect(result.message).toBe('Invalid entries. Try again.');
       });
   });
