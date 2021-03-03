@@ -12,7 +12,7 @@ const usersSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: 6
+    minlength: 5
   },
   name: {
     type: String,
@@ -50,7 +50,9 @@ export const getById = function(id: string) {
   return new Promise((resolve, reject) => {
     Users.findOne({ _id: id }, function (err, user) {
       if (err) reject(err);
-      else {
+      if (user === null) {
+        resolve({})
+      } else {
         const { name, _id, email, role } = user;
         resolve({ name, _id, email, role });
       }
@@ -61,21 +63,6 @@ export const getById = function(id: string) {
 export const getByEmail = function(email: string) {
   return new Promise((resolve, reject) => {
     Users.findOne({ email: email }, function (err, user) {
-      if (err) {
-        reject(err);
-      } else if (user !== null) {
-        const { name, _id, email, role, password } = user;
-        resolve({ name, _id, email, role, password });
-      } else {
-        resolve({})
-      }
-    });
-  })
-};
-
-export const getByUserName = function(username: string) {
-  return new Promise((resolve, reject) => {
-    Users.findOne({ name: username }, function (err, user) {
       if (err) {
         reject(err);
       } else if (user !== null) {
@@ -101,9 +88,9 @@ export const remove = function(id: string) {
 };
 
 export const create = function(user) {
-  const { name, email, password } = user;
+  const { name, email, password, role } = user;
   return new Promise((resolve, reject) => {
-    Users.create({ name, email, password }, function (err, user) {
+    Users.create({ name, email, password, role }, function (err, user) {
       if (err) {
         const { name, keyPattern } = err;
         const errorMsg = (name === 'MongoError' && keyPattern.email === 1) ?

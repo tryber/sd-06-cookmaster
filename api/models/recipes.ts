@@ -38,8 +38,8 @@ export const getAll = function() {
       else {
         resolve(
           recipes.map(recipe => {
-            const { name, ingredients, preparation, _id, recipeId, userId } = recipe;
-            return ({ name, ingredients, preparation, _id, recipeId, userId })
+            const { name, ingredients, preparation, _id,  userId } = recipe;
+            return ({ name, ingredients, preparation, _id,  userId })
           }));
       }
     });
@@ -50,11 +50,11 @@ export const getById = function(id: string) {
   return new Promise((resolve, reject) => {
     Recipes.findOne({ _id: id }, function (err, recipe) {
       if (err) reject(err);
-      else if (recipe !== {}) {
-        const { name, ingredients, preparation, _id, recipeId, userId } = recipe;
-        resolve({ name, ingredients, preparation, _id, recipeId, userId })
-      } else {
+      if (recipe == null) {
         resolve("recipe not found")
+      } else {
+        const { name, ingredients, preparation, _id, userId } = recipe;
+        resolve({ name, ingredients, preparation, _id, userId })
       }
     });
   })
@@ -66,8 +66,8 @@ export const getByUserId = function(userId: string) {
       if (err) {
         reject(err);
       } else if (recipe !== null) {
-        const { name, ingredients, preparation, _id, recipeId, userId } = recipe;
-        resolve({ name, ingredients, preparation, _id, recipeId, userId })
+        const { name, ingredients, preparation, _id,  userId } = recipe;
+        resolve({ name, ingredients, preparation, _id,  userId })
       } else {
         resolve({})
       }
@@ -80,15 +80,15 @@ export const remove = function(id: string) {
     Recipes.deleteOne({ _id: id }, function (err, recipe) {
       if (err) reject(err);
       else {
-        const { name, ingredients, preparation, _id, recipeId, userId } = recipe;
-        resolve({ name, ingredients, preparation, _id, recipeId, userId })
+        const { name, ingredients, preparation, _id,  userId } = recipe;
+        resolve({ name, ingredients, preparation, _id,  userId })
       }
     });
   })
 };
 
-export const create = function(recipe) {
-  const { name, ingredients, preparation, userId } = recipe;
+export const create = function(recipeInput) {
+  const { name, ingredients, preparation, userId } = recipeInput;
   return new Promise((resolve, reject) => {
     Recipes.create({ name, ingredients, preparation, userId }, function (err, recipe) {
       if (err) {
@@ -101,14 +101,14 @@ export const create = function(recipe) {
   })
 };
 
-export const update = function(recipe) {
-  const { id, name, ingredients, preparation, userId } = recipe;
+export const update = function(recipeInput) {
+  const { id, name, ingredients, preparation } = recipeInput;
   return new Promise((resolve, reject) => {
-    Recipes.findOneAndUpdate({ _id: id },{ name, ingredients, preparation, userId },
+    Recipes.findOneAndUpdate({ _id: id },{ name, ingredients, preparation },
     function (err, recipe) {
       if (err) reject(err);
       else {
-        const { name, ingredients, preparation, _id, userId } = recipe;
+        const { _id, userId } = recipe;
         resolve({ name, ingredients, preparation, _id, userId })
       }
     });

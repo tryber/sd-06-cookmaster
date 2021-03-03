@@ -1,9 +1,14 @@
 import express from 'express';
-import './src/api/models/connection';
+import { connectDB } from './api/connection';
 import { config as dotenvConfig } from 'dotenv'
-import routes from './src/api/routes'
+import routes from './api/routes'
+import { generateAdmin } from './seedReal';
 
 dotenvConfig()
+
+connectDB()
+  .then(() => generateAdmin())
+  .catch(() => process.exit())
 
 const app = express();
 

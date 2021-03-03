@@ -27,7 +27,7 @@ loginController.post('/', async (req, res) => {
       return res.status(401).json(errorMsg)
     }
 
-    const payload = { name: response.name, role: response.role }
+    const payload = { name: response.name, email: response.email, role: response.role }
     const token = await generateToken(payload)
     res.status(200).json({ token })
 });

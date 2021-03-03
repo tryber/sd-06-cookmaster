@@ -13,7 +13,7 @@ export const checkEmailIsValid = (email: string) => {
 
 export const checkPasswordIsValid = (password: string) => {
   const isString = typeof(password) === 'string';
-  const isValid = password.length >= 6;
+  const isValid = password.length >= 5;
 
   return isString && isValid
 };

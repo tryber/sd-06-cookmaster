@@ -23,20 +23,38 @@ recipesController.post('/', checkToken, (req, res) => {
   }
 })
 
-recipesController.put('/:id', checkToken, (req, res) => {
-  const userId =req.body.user['_id'];
+recipesController.put('/:id', checkToken, async (req, res) => {
+  const userRole = req.user.role;
+  const userId = req.user._id;
+
+  if (userRole !== 'user' && userRole !== 'admin') {
+    const errorMsg = { message: 'permission denied' };
+    return res.status(400).json(errorMsg)
+  }
+  
   const { id } = req.params;
+
+  if (userRole === 'user') {
+    const recipe = await getById(id);
+    if (recipe == "not found") return res.status(400).json(recipe);
+
+    if (recipe.userId != userId) {
+      const errorMsg = { message: 'permission denied' };
+      return res.status(400).json(errorMsg)
+    }
+  }
+
   const { name, ingredients, preparation } = req.body;
   const entriesAreValid = checkIfExist(name) && checkIfExist(ingredients) && checkIfExist(preparation) && checkNameIsValid(name);
 
   if (!entriesAreValid) {
     const errorMsg = { message: "Invalid entries. Try again." };
-    res.status(400).json(errorMsg)
-  } else {
-    update({ id, name, ingredients, preparation, userId })
-      .then(r => res.status(200).json(r))
-      .catch(error => res.status(400).json(error))
+    return res.status(400).json(errorMsg)
   }
+
+  update({ id, name, ingredients, preparation })
+    .then(r => res.status(200).json(r))
+    .catch(error => res.status(400).json(error))
 })
 
 recipesController.get('/:id', (req, res) => {
@@ -52,10 +70,27 @@ recipesController.get('/', (_req, res) => {
     .catch(error => res.status(400).json(error))
 })
 
-recipesController.delete('/:id', checkToken, (req, res) => {
+recipesController.delete('/:id', checkToken, async (req, res) => {
+  const userRole = req.user.role;
+  const userId = req.user._id;
+
+  if (userRole !== 'user' && userRole !== 'admin') {
+    const errorMsg = { message: 'permission denied' };
+    return res.status(400).json(errorMsg)
+  }
+  
   const { id } = req.params;
+
+  if (userRole === 'user') {
+    const recipe = await getById(id)
+    if (recipe.userId != userId) {
+      const errorMsg = { message: 'permission denied' };
+      return res.status(400).json(errorMsg)
+    }
+  }
+
   remove(id)
-    .then(r => res.status(200).json(r))
+    .then(r => res.status(204).json())
     .catch(error => res.status(400).json(error))
 })
 
