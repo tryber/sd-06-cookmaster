@@ -10,6 +10,7 @@ const {
   validateId,
 } = require('../Services/recipesService');
 const { validateToken } = require('../Auth/validateToken');
+const { validateRecipeToken } = require('../Auth/validateRecipeToken');
 
 const RecipeRouter = new Router();
 
@@ -44,7 +45,7 @@ RecipeRouter.get('/:id', validateId, async (req, res) => {
   return res.status(RESOLVE).json(recipe);
 });
 
-RecipeRouter.put('/:id', async (req, res) => {
+RecipeRouter.put('/:id', validateRecipeToken, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
 
@@ -55,7 +56,7 @@ RecipeRouter.put('/:id', async (req, res) => {
   return res.status(RESOLVE).json(newRecipe);
 });
 
-RecipeRouter.delete('/:id', validateToken, async (req, res) => {
+RecipeRouter.delete('/:id', validateRecipeToken, async (req, res) => {
   const { id } = req.params;
 
   await delRecipe(id);
