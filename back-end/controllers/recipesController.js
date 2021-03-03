@@ -39,7 +39,7 @@ const updateRecipe = async (req, res) => {
 
 const deleteRecipeById = async (req, res) => {
   const { id } = req.params;
-  const responsePayload = await recipesServices.deleteRecipeById(id);
+  await recipesServices.deleteRecipeById(id);
   res.status(status.noContent).send('');
 };
 
