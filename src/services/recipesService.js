@@ -1,25 +1,33 @@
 const RecipesModel = require('../models/recipesModel');
 
 const getAll = async () => {
-  await RecipesModel.getAll();
+  const getAllRecipes = await RecipesModel.getAll();
+
+  return getAllRecipes;
 };
 
 const findById = async (id) => {
-  await RecipesModel.findById(id);
+  const findRecipeById = await RecipesModel.findById(id);
+
+  return findRecipeById;
 };
 
-const create = async (name, user) => {
-  const newRecipe = await RecipesModel.create(name, user);
+const create = async (name, ingredients, preparation) => {
+  const newRecipe = await RecipesModel.create(name, ingredients, preparation);
 
   return newRecipe;
 };
 
 const update = async (id, user) => {
-  await RecipesModel.update(id, user);
+  const updateRecipe = await RecipesModel.update(id, user);
+
+  return updateRecipe;
 };
 
 const remove = async (id) => {
-  await RecipesModel.remove(id);
+  const removeRecipe = await RecipesModel.remove(id);
+
+  return removeRecipe;
 };
 
 module.exports = {

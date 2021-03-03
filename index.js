@@ -5,6 +5,8 @@ const usersController = require('./src/controllers/usersController');
 const recipesController = require('./src/controllers/recipesController');
 const loginController = require('./src/controllers/loginController');
 
+const verifyAuthorization = require('./src/middlewares/verifyAuthorization');
+
 const app = express();
 
 const PORT = 3000;
@@ -25,6 +27,6 @@ app.use('/users', usersController);
 
 app.use('/login', loginController);
 
-app.use('/recipes', recipesController);
+app.use('/recipes', verifyAuthorization, recipesController);
 
 app.listen(PORT, console.log(`App running on port ${PORT}`));

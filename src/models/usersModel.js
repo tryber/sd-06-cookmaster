@@ -13,9 +13,9 @@ const getAll = async () => {
   return allUsers;
 };
 
-const create = async (name, email, password) => {
+const create = async (name, email, password, role) => {
   const createNewUser = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password }));
+    .then((db) => db.collection('users').insertOne({ name, email, password, role }));
 
   return createNewUser;
 };

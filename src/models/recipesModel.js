@@ -2,37 +2,40 @@ const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const getAll = async () => { 
-  await connection().then((db) => db.collection('recipes').find().toArray());
+  const allRecipes = await connection().then((db) => db.collection('recipes').find().toArray());
+
+  return allRecipes;
 };
 
 const create = async (name, ingredients, preparation) => {
-  const { insertedId } = await connection()
+  const createNewRecipe = await connection()
     .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation }));
 
-  return {
-    id: insertedId,
-    name,
-    ingredients,
-    preparation,
-  };
+  return createNewRecipe;
 };
 
 const findById = async (id) => {
-  await connection()
+  const findRecipeById = await connection()
     .then((db) => db.collection('recipes').findOne(ObjectId(id)));
+
+  return findRecipeById;
 };
 
 const update = async (id, user) => {
-    await connection().then((db) => db.collection('recipes').updateOne(
+  const updateRecipe = await connection().then((db) => db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
     { $set: { user } },
   ));
+
+  return updateRecipe;
 };
 
 const remove = async (id) => {
-  await connection().then((db) => db.collection('recipes').deleteOne(
+  const removeRecipes = await connection().then((db) => db.collection('recipes').deleteOne(
     { _id: ObjectId(id) },
   ));
+
+  return removeRecipes;
 };
 
 module.exports = {

@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const recipeService = require('../services/recipesService');
 
+const recipesEntriesValidation = require('../middlewares/recipesEntriesValidation');
+const { validateToken } = require('../auth/validateToken');
+
 const router = Router();
 
 const OK = 200;
@@ -19,12 +22,24 @@ router.get('/:id', async (req, res) => {
   res.status(OK).json(recipe);
 });
 
-router.post('/', async (req, res) => {
-  const { name, user } = req.body;
+router.post('/', recipesEntriesValidation, async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { authorization: token } = req.headers;
+  
+  const payload = await validateToken(token);
+  const { _id: userId } = payload;
 
-  const task = await recipeService.create(name, user);
+  const { insertedId } = await recipeService.create(name, ingredients, preparation);
 
-  res.status(200).json(task);
+  const recipe = {
+    _id: insertedId,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+
+  res.status(201).json({ recipe });
 });
 
 router.put('/:id', async (req, res) => {

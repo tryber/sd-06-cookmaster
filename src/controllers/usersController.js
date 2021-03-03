@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', invalidEntries, emailValidation, async (req, res) => {
   const { name, email, password } = req.body;
 
-  const { insertedId } = await userService.create(name, email, password);
+  const { insertedId } = await userService.create(name, email, password, 'user');
 
   const user = {
     id: insertedId,
