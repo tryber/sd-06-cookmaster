@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const createCooker = async (email, name, password) => 
-  connection().then((db) => db.collection('users').insertOne({ email, name, password }));
+const createCooker = async (name, email, password) => 
+  connection().then((db) => db.collection('users').insertOne({ name, email, password }));
 
 module.exports = { createCooker };
