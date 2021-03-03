@@ -70,8 +70,6 @@ const create = async (req, res) => {
 const remove = async (req, res) => {
   const { id } = req.params;
 
-  const findRecipe = await recipesModel.getById(id);
-
   await recipesModel.remove(id);
 
   res.status(deleted).send();
