@@ -1,10 +1,10 @@
 // const { ObjectId } = require('mongodb');
 const connection = require('../connection/connection');
 
-// Find All Users
+// Find All Recipes
 const getAll = async () => {
-  const users = await connection().then((db) => db.collection('recipes').find().toArray());
-  return users;
+  const recipes = await connection().then((db) => db.collection('recipes').find().toArray());
+  return recipes;
 };
 
 // Add New Recipe

@@ -8,9 +8,9 @@ const OK = 200;
 const CREATED = 201;
 
 // Get All Recipes
-RecipeController.get('/', validateUserToken, async (req, res) => {
+RecipeController.get('/', async (req, res) => {
   const recipes = await service.getAll();
-  res.status(OK).json({ recipes });
+  res.status(OK).json(recipes);
 });
 
 // Create New Recipe
