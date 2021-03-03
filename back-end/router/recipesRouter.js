@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const recipesController = require('../controllers/recipesController');
-const { registerRecipeValidator } = require('../middlewares/validations/validations');
+const { 
+  registerRecipeValidator,
+  updateRecipeValidator,
+} = require('../middlewares/validations/validations');
 
 const recipesRouter = new Router();
 
@@ -9,6 +12,8 @@ recipesRouter.post('/', registerRecipeValidator, recipesController.registerRecip
 recipesRouter.get('/', recipesController.getAllRecipes);
 
 recipesRouter.get('/:id', recipesController.getRecipesById);
+
+recipesRouter.put('/:id', updateRecipeValidator, recipesController.updateRecipe);
 
 recipesRouter.delete('/:id', recipesController.deleteRecipeById);
 

@@ -23,6 +23,7 @@ const errorMessages = {
   invalidLogin: 'Incorrect username or password',
   invalidToken: 'jwt malformed',
   recipeNotFound: 'recipe not found',
+  missingAuth: 'missing auth token',
 };
 
 module.exports = { status, errorMessages };

@@ -28,12 +28,29 @@ const getRecipesById = async (id) => {
   return responsePayload;
 };
 
-const deleteRecipeById = async (req, res) => {
+const updateRecipe = async ({ id, user, body }) => {
+  const { email } = user;
+  await recipesModels.updateRecipe(id, body);
+  const { _id: userId } = await usersModels.findUserByEmail(email);
+
+  const { name, ingredients, preparation } = body;
+  const responsePayload = {
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+
+  return responsePayload;
+};
+
+const deleteRecipeById = async (_req, _res) => {
   const responsePayload = await recipesModels.deleteRecipeById();
   return responsePayload;
 };
 
-const addImageToRecipe = async (req, res) => {
+const addImageToRecipe = async (_req, _res) => {
   const responsePayload = await recipesModels.addImageToRecipe();
   return responsePayload; 
 };
@@ -44,4 +61,5 @@ module.exports = {
   getRecipesById,
   deleteRecipeById,
   addImageToRecipe,
+  updateRecipe,
 };
