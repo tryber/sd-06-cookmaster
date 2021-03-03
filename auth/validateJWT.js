@@ -6,7 +6,7 @@ const secret = 'T1f7C0e8E1p9I8h8M';
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).json({ message: 'jwt malformed' });
+    return res.status(401).json({ message: 'missing auth token' });
   }
   try {
     const decoded = jwt.verify(token, secret);
@@ -18,6 +18,6 @@ module.exports = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };

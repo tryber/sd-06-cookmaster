@@ -15,13 +15,13 @@ const errorWriter = (code, message) => ({
   },
 });
 
-// const isValid = (name, quantity) => {
-//   if (name.length < minNameLength) return nameLengthErrorMessage;
-//   if (!Number.isInteger(quantity)) return quantityTypeErrorMessage;
-//   if (quantity <= nullQuantity) return quantityErrorMessage;
+const userChecker = async (recipeId, user) => {
+  const { userId } = await recipes.findById(recipeId);
+  const { _id } = user;
+  if (JSON.stringify(userId) === JSON.stringify(_id)) return true;
 
-//   return true;
-// };
+  return false;
+};
 
 // const isUnique = async (name) => {
 //   const checkUnique = await products.findByName(name);
@@ -47,11 +47,11 @@ const findById = async (id) => {
   return product;
 };
 
-const create = async ({ name, ingredients, preparation, userId }) => {
+const create = async (name, ingredients, preparation, userId) => {
   if (!name || !ingredients || !preparation) {
     return errorWriter(400, 'Invalid entries. Try again.');
   }
-  const { insertedId } = await recipes.create({ name, ingredients, preparation, userId });
+  const { insertedId } = await recipes.create(name, ingredients, preparation, userId);
   return {
     name,
     ingredients,
@@ -61,29 +61,19 @@ const create = async ({ name, ingredients, preparation, userId }) => {
   };
 };
 
-// const update = async (id, updateProduct) => {
-//   const { name, quantity } = updateProduct;
-//   const validOrErrorMessage = isValid(name, quantity);
-//   const errorObject = {
-//     err: {
-//       code: 'invalid_data',
-//       message: 'Wrong id format',
-//     }
-//   };
+const update = async (id, updateRecipe, loggedUser) => {
+  const { name, ingredients, preparation } = updateRecipe;
+  const checkUser = await userChecker(id, loggedUser);
+  console.log('checking user: ', checkUser);
+  console.log('Is admin? ', loggedUser.role);
+  if (!checkUser && loggedUser.role !== 'admin') {
+    return errorWriter(401, 'User unauthoried to update recipe');
+  }
 
-//   if (validOrErrorMessage !== true) return {
-//     err: {
-//       code: 'invalid_data',
-//       message: validOrErrorMessage,
-//     }
-//   };
-
-//   const updatedProduct = await products.update(id, name, quantity);
-
-//   if (!updatedProduct) return errorObject;
-
-//   return updatedProduct;
-// };
+  const updatedRecipe = await recipes.update(id, name, ingredients, preparation);
+  if (!updatedRecipe) return errorWriter(404, 'Recipe not found');
+  return updatedRecipe;
+};
 
 // const deleteProduct = async (id) => {
 //   const errorObject = {
@@ -106,6 +96,6 @@ module.exports = {
   getAll,
   findById,
   create,
-//   update,
+  update,
 //   deleteProduct,
 };

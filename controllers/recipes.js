@@ -20,16 +20,17 @@ routes.route('/:id')
 
     res.status(OK).json(searchedRecipe);
   }))
-  .put(rescue(async (req, res) => {
+  .put(validateJWT, rescue(async (req, res, next) => {
     const { id } = req.params;
-    const updateProduct = req.body;
-    const productToUpdate = await recipes.update(id, updateProduct);
+    const updateRecipe = req.body;
+    const loggedUser = req.user;
+    const recipeToUpdate = await recipes.update(id, updateRecipe, loggedUser);
 
-    if (productToUpdate.err) {
-      return res.status(UNPROCESSABLE_ENTITY).json(productToUpdate);
+    if (recipeToUpdate.err) {
+      return next({ ...recipeToUpdate.err });
     }
 
-    res.status(OK).json(productToUpdate);
+    res.status(OK).json(recipeToUpdate);
   }))
   .delete(rescue(async (req, res) => {
     const { id } = req.params;
@@ -51,7 +52,7 @@ routes.route('/')
   .post(validateJWT, rescue(async (req, res, next) => {
     const { name, ingredients, preparation } = req.body;
     const { _id } = req.user;
-    const createdRecipe = await recipes.create({ name, ingredients, preparation, _id });
+    const createdRecipe = await recipes.create(name, ingredients, preparation, _id);
     
     if (createdRecipe.err) {
       return next({ ...createdRecipe.err });
