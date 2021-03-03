@@ -3,7 +3,7 @@ const controllers = require('../Controllers/recipeControllers');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, callback) => {
-    callback(null, 'images');
+    callback(null, './images');
   },
   filename: (req, _file, callback) => {
     callback(null, req.params.id);
