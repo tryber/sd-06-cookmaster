@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
 const validateJWT = require('../utils/validateJWT');
 const service = require('../services/recipesService');
 
@@ -74,4 +75,24 @@ recipes.delete('/:id', validateJWT, async (request, response) => {
   return response.status(204).json({ message: 'deleted' });
 });
 
+// Requisito 09
+const storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (request, file, callback) => {
+    const { id } = request.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+recipes.put('/:id/image', upload.single('image'), validateJWT, async (request, response) => {
+  const { id } = request.params;
+
+  if (!ObjectId.isValid(id)) return response.status(404).json(MESSAGE_ERROR_NOT_FOUND);
+
+  const recipeWithImage = await service.uploadImage(id);
+
+  return response.status(200).json(recipeWithImage);
+});
 module.exports = recipes;

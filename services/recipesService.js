@@ -24,10 +24,19 @@ const removeRecipeById = async (id) => {
   await model.removeRecipeById(id);
 };
 
+const uploadImage = async (id) => {
+  const recipe = await getRecipeById(id);
+
+  const recipeWithImage = await model.uploadImage(id, recipe);
+
+  return recipeWithImage;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
   removeRecipeById,
+  uploadImage,
 };

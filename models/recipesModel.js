@@ -53,10 +53,25 @@ const removeRecipeById = async (id) => {
   ));
 };
 
+const uploadImage = async (id, recipe) => {
+  const recipes = await getCollection('recipes');
+
+  const image = await recipes.updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: `localhost:3000/images/${id}.jpeg` } },
+  ).then(() => ({ image: `localhost:3000/images/${id}.jpeg` }));
+
+  console.log(recipe);
+  console.log(image);
+
+  return { ...recipe, ...image };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
   removeRecipeById,
+  uploadImage,
 };

@@ -1,7 +1,7 @@
 const express = require('express');
-
 const bodyParser = require('body-parser');
 
+const path = require('path');
 const usersController = require('./controllers/usersController');
 const loginController = require('./controllers/loginController');
 const recipesController = require('./controllers/recipesController');
@@ -26,5 +26,8 @@ app.use('/login', loginController);
 
 // Requisito 03 em diante
 app.use('/recipes', recipesController);
+
+// Requisito 10
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => console.log('Server has been started'));
