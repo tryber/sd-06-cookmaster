@@ -14,5 +14,10 @@ router.post('/', validateJWT, validateEntries, async (req, res) => {
   
     return res.status(201).json({ recipe: newRecipe });
   });
-   
+ 
+  router.get('/', async (req, res) => {
+    const list = await recipesService.listRecipesService();
+    return res.status(200).json(list);
+  });
+  
 module.exports = router;
