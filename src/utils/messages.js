@@ -7,7 +7,7 @@ const conflict = 409;
 const invalidParams = 422;
 const zero = 0;
 const cinco = 5;
-const vinteQuatro = 24;
+const noContent = 204;
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RecipeNotFound = ({ message: 'recipe not found' });
 
@@ -21,7 +21,7 @@ module.exports = {
   invalidParams,
   zero,
   cinco,
-  vinteQuatro,
+  noContent,
   regexEmail,
   RecipeNotFound,
 };

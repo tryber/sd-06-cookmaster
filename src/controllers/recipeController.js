@@ -1,6 +1,12 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
-const { badRequest, created, OK, notFound, RecipeNotFound } = require('../utils/messages');
+const {
+  badRequest,
+  created,
+  OK,
+  notFound,
+  RecipeNotFound,
+  noContent } = require('../utils/messages');
 const validateToken = require('../auth/validateToken');
 const service = require('../services/serviceRecipe');
 
@@ -38,6 +44,13 @@ recipes.put('/:id', validateToken, async (req, res) => {
   const payload = { name, ingredients, preparation };
   const updatedRecipe = await service.updatedRecipe(id, payload, userId);
   return res.status(OK).json(updatedRecipe);
+});
+
+recipes.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) return res.status(notFound).json(RecipeNotFound);
+  await service.deleteRecipe(id);
+  return res.status(noContent).json({ message: 'deleted' });
 });
 
 module.exports = recipes;
