@@ -1,9 +1,25 @@
-const { Router } = require('express');
+const express = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
+const path = require('path');
 const RecipesService = require('../services/RecipesService');
 const { verifyToken } = require('../utils');
 
-const router = Router();
+const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads/');
+  },
+    filename: (req, file, callback) => {
+      callback(null, 
+        `${JSON.stringify(req.params.id).replace(/"/g, '')}.jpeg`); // path.extname(file.originalname)
+  },
+});
+
+const upload = multer({ storage });
+
+router.use(express.static(`${__dirname}/uploads`));
 
 router.post('/', 
   rescue(verifyToken), 
@@ -22,5 +38,10 @@ router.put('/:id',
 router.delete('/:id', 
   rescue(verifyToken),
   rescue(RecipesService.deleteRecipe));
+
+router.put('/:id/image',
+  rescue(verifyToken),
+  upload.single('image'),
+  RecipesService.insertImageInfo);
 
 module.exports = router;

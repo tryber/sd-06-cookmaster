@@ -19,6 +19,13 @@ const updateRecipe = async (id, recipe) => conn()
     { returnOriginal: false },
 ));
 
+const updateImageRecipe = async (id, imagePath) => conn()
+  .then((db) => db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) }, 
+    { $set: { image: imagePath } },
+    { returnOriginal: false },
+));
+
 const deleteRecipe = async (id) => conn()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
@@ -28,4 +35,5 @@ module.exports = {
   findById,
   updateRecipe,
   deleteRecipe,
+  updateImageRecipe,
 };

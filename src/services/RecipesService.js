@@ -59,11 +59,21 @@ const deleteRecipe = async (req, res) => {
   try {
     await RecipesModel.deleteRecipe(id);
   } catch (error) {
-    console.log(error.message);
     throwThisError(500, error.message);
   }
 
   res.status(NO_CONTENT).send();
+};
+
+const insertImageInfo = async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+
+  const imagePath = `${req.headers.host}/images/${filename}`;
+
+  const { value } = await RecipesModel.updateImageRecipe(id, imagePath);
+  
+  res.status(200).send(value);
 };
 
 module.exports = {
@@ -73,4 +83,5 @@ module.exports = {
   findById,
   updateRecipe,
   deleteRecipe,
+  insertImageInfo,
 };
