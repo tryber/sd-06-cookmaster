@@ -1,25 +1,15 @@
-const { findByEmailAndPassword } = require('../models/mongoDbRequests');
-
-const connectionUsers = 'users';
-const typeError = 401;
-
 const {
   objError,
 } = require('../useful/funcsObjUseful');
+
 const {
   isBlank,
 } = require('../useful/funcsBollQuestions');
 
-const validationLoginKeysExists = (body) => {
-  const { email, password } = body;
+const connectionUsers = 'users';
+const typeError = 401;
 
-  switch (true) {
-    case isBlank(email):
-    case isBlank(password):
-      return objError('All fields must be filled', typeError);
-    default: return null;
-  }  
-};
+const { findByEmailAndPassword } = require('../models/mongoDbRequests');
 
 const validationLoginUserExists = async (body, res) => {
   const { email, password } = body;
@@ -34,6 +24,17 @@ const validationLoginUserExists = async (body, res) => {
     return objError('erro interno', 500);
   }  
   return null;
+};
+
+const validationLoginKeysExists = (body) => {
+  const { email, password } = body;
+
+  switch (true) {
+    case isBlank(email):
+    case isBlank(password):
+      return objError('All fields must be filled', typeError);
+    default: return null;
+  }  
 };
 
 module.exports = {

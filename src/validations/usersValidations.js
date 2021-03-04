@@ -1,7 +1,3 @@
-const { findByEmail } = require('../models/mongoDbRequests');
-
-const connectionUsers = 'users';
-
 const {
   objError,
 } = require('../useful/funcsObjUseful');
@@ -11,19 +7,9 @@ const {
   isValidEmail,
 } = require('../useful/funcsBollQuestions');
 
-const validationUsersKeysFormat = (body) => {
-  const { name, email, password } = body;
-  const typeError = 400;
+const { findByEmail } = require('../models/mongoDbRequests');
 
-  switch (true) {
-    case isBlank(name):
-    case isBlank(email):
-    case isBlank(password):
-    case isValidEmail(email):
-      return objError('Invalid entries. Try again.', typeError);
-    default: return null;
-  }  
-};
+const connectionUsers = 'users';
 
 const validationUsersEmailConflict = async (body) => {
   const { email } = body;
@@ -38,6 +24,20 @@ const validationUsersEmailConflict = async (body) => {
     return objError('erro interno', 500);
   }  
   return null;
+};
+
+const validationUsersKeysFormat = (body) => {
+  const { name, email, password } = body;
+  const typeError = 400;
+
+  switch (true) {
+    case isBlank(name):
+    case isBlank(email):
+    case isBlank(password):
+    case isValidEmail(email):
+      return objError('Invalid entries. Try again.', typeError);
+    default: return null;
+  }  
 };
 
 module.exports = {

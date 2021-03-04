@@ -14,6 +14,12 @@ const findByEmail = (collection, email) => connection()
 const findByEmailAndPassword = (collection, email, password) => connection()
   .then((db) => db.collection(collection).findOne({ email, password }));
 
+const findByIdAndIdUser = (collection, idRecipe, userId) => connection()
+  .then((db) => db.collection(collection).findOne({ 
+    _id: ObjectID(idRecipe),
+    userId: { $eq: userId },
+}));
+
 const uploadDB = (collection, product) => connection()
   .then((db) => db.collection(collection).insertOne(product));
 
@@ -37,4 +43,5 @@ module.exports = {
   deleteForId,
   findByEmail,
   findByEmailAndPassword,
+  findByIdAndIdUser,
 };

@@ -4,6 +4,8 @@ const {
   uploadDB,
   getAll,
   findById,
+  updateForId,
+  deleteForId,
 } = require('../models/mongoDbRequests');
 
 const connectionRecipes = 'recipes';
@@ -42,8 +44,28 @@ const registerRecipe = async (body, headers) => {
   }
 };
 
+const updateRecipe = async (id, body) => {
+  try {
+    await updateForId(connectionRecipes, id, body);
+    const recipeUpdate = await findById(connectionRecipes, id);
+    return recipeUpdate;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
+const deleteRecipe = async (id) => {
+  try {
+    await deleteForId(connectionRecipes, id);
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 module.exports = {
   registerRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
+  deleteRecipe,
 };
