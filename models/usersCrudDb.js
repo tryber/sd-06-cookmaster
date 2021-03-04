@@ -7,15 +7,11 @@ const createUser = async (name, email, password) => {
       email, name, password, role: 'user',
     },
   };
-  const { insertedId } = await connection()
-    .then((db) => db.collection('users').insertOne(dataUser));
-  // const id = '_id';
-  // dataUser[id] = insertedId;
+  await connection().then((db) => db.collection('users').insertOne(dataUser));
   return dataUser;
 };
 
 const selectByEmail = async (email) => {
-
   const getAll = await connection()
     .then((db) => db.collection('users').findOne({ 'user.email': email }));
   return getAll;

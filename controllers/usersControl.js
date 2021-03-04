@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const { usersServices, usersValidations } = require('../services');
+const { usersMiddlewares, usersVerify } = require('../middlewares');
 
 const router = Router();
 
-router.post('/', usersValidations.verifyBody, usersServices.create);
+router.post('/', usersVerify.verifyBodyCreate, usersMiddlewares.create);
 
 router.get('/');
 

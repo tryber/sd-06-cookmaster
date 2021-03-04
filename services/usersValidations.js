@@ -1,4 +1,3 @@
-const { dataResponse: err } = require('../utilsData');
 const { usersCrudDb } = require('../models');
 
 const verifyName = (name) => {
@@ -13,26 +12,22 @@ const verifyEmail = (email) => {
 const searchEmail = async (email) => {
     const getEmail = await usersCrudDb.selectByEmail(email);
     if (getEmail) return true;
+    return false;
+};
+
+const selectUser = async (email) => {
+    const getEmail = await usersCrudDb.selectByEmail(email);
+    if (getEmail) return getEmail;
 };
 
 const verifyPassword = (password) => {
     if (!password || password === '') return true;
 };
 
-const verifyBody = async (req, res, next) => {
-    const { name, email, password } = req.body;
-    switch (true) {
-        case verifyName(name):
-            return res.status(400).json(err.objectMenssages.err_body.err1);
-        case verifyEmail(email):
-            return res.status(400).json(err.objectMenssages.err_body.err1);
-        case await searchEmail(email):
-            return res.status(409).json(err.objectMenssages.err_body.err2);
-        case verifyPassword(password):
-            return res.status(400).json(err.objectMenssages.err_body.err1);
-        default: console.log({ ok: true });
-    }
-    next();
+module.exports = {
+    verifyEmail,
+    verifyName,
+    verifyPassword,
+    searchEmail,
+    selectUser,
 };
-
-module.exports = { verifyBody };

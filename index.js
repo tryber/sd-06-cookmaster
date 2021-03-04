@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersControl } = require('./controllers');
+const { usersControl, loginControl, recipesControl } = require('./controllers');
 
 const app = express();
 const DOOR = 3000;
@@ -13,5 +13,9 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', usersControl);
+
+app.use('/login', loginControl);
+
+app.use('/recipes', recipesControl);
 
 app.listen(DOOR, () => console.log(`ON PORTA ${DOOR}`));
