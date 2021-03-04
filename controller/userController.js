@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const servicesUsers = require('../services');
-const validateJWT = require('../auth/validate');
+const { validateToken } = require('../auth/validate');
 
 const userRouter = Router();
 
@@ -11,7 +11,7 @@ userRouter.post('/', rescue(async (req, res) => {
   res.status(201).json({ user: newUser });
 }));
 
-userRouter.post('/admin', validateJWT, rescue(async (req, res) => {
+userRouter.post('/admin', validateToken, rescue(async (req, res) => {
   const { user } = req;
   const { name, email, password } = req.body;
 
