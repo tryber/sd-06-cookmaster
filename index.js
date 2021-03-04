@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 });
 // deixando a imagem disponivel de volta com rota dinamica
 app.use('/images', express.static(`${__dirname}/uploads`));
+
 app.use('/users', rescue(UsersController));
 app.use('/login', rescue(LoginController));
 app.use('/recipes', rescue(RecipesController));
