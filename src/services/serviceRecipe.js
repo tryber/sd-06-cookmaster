@@ -21,10 +21,17 @@ const updatedRecipe = async (id, payload, userId) => {
 
 const deleteRecipe = async (id) => { await model.deleteRecipe(id); };
 
+const upload = async (id) => {
+  const recipe = await getRecipeById(id);
+  const recipeWithImage = await model.upload(id, recipe);
+  return recipeWithImage;
+};
+
 module.exports = {
   recipeCreate,
   getAllRecipes,
   getRecipeById,
   updatedRecipe,
   deleteRecipe,
+  upload,
 };

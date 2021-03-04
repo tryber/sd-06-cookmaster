@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
 const {
   badRequest,
   created,
@@ -51,6 +52,22 @@ recipes.delete('/:id', validateToken, async (req, res) => {
   if (!ObjectId.isValid(id)) return res.status(notFound).json(RecipeNotFound);
   await service.deleteRecipe(id);
   return res.status(noContent).json({ message: 'deleted' });
+});
+
+// Adição de imagem
+const storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+const upload = multer({ storage });
+recipes.put('/:id/image', upload.single('image'), validateToken, async (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) return res.status(notFound).json(RecipeNotFound);
+  const recipeImage = await service.upload(id);
+  return res.status(OK).json(recipeImage);
 });
 
 module.exports = recipes;
