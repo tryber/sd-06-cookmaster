@@ -25,12 +25,12 @@ const insertRecipe = async (req, res) => {
     throwThisError(500, 'Internal Error');
   }
   const recipe = { _id: recipeId, name, ingredients, preparation, userId }; 
-  res.status(CREATED).json({ recipe });
+  return res.status(CREATED).json({ recipe });
 };
 
 const getAll = async (req, res) => {
   const allRecipes = await RecipesModel.getAll();
-  res.status(OK).json(allRecipes);
+  return res.status(OK).json(allRecipes);
 };
 
 const findById = async (req, res) => {
@@ -50,7 +50,7 @@ const updateRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
 
   const recipe = await RecipesModel.updateRecipe(id, { name, ingredients, preparation });
-  res.status(OK).json(recipe);
+  return res.status(OK).json(recipe);
 };
 
 const deleteRecipe = async (req, res) => {
@@ -62,7 +62,7 @@ const deleteRecipe = async (req, res) => {
     throwThisError(500, error.message);
   }
 
-  res.status(NO_CONTENT).send();
+  return res.status(NO_CONTENT).send();
 };
 
 const insertImageInfo = async (req, res) => {
@@ -73,7 +73,7 @@ const insertImageInfo = async (req, res) => {
 
   const recipe = await RecipesModel.updateImageRecipe(id, imagePath);
   
-  res.status(200).send(recipe);
+  return res.status(200).send(recipe);
 };
 
 module.exports = {

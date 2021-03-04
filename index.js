@@ -4,6 +4,7 @@ const rescue = require('express-rescue');
 const UserService = require('./src/services/UserService');
 const LoginService = require('./src/services/LoginService');
 const RecipesController = require('./src/controllers/RecipesController');
+const { verifyToken } = require('./src/utils');
 
 const app = express();
 const PORT = 3000;
@@ -28,6 +29,10 @@ app.get('/images/:id', (req, res) => {
   const { id } = req.params;
   res.sendFile(`${__dirname}/uploads/${id}`);
 });
+
+app.post('/users/admin', 
+  rescue(verifyToken),
+  UserService.insertADM);
 
 app.use('/recipes', RecipesController);
 

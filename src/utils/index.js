@@ -22,7 +22,7 @@ const verifyToken = async (req, res, next) => {
     if (!user) throwThisError(NOT_FOUND, 'Token user not found');
     const { _id, role } = user;
     req.userId = _id;
-    req.userRole = role;
+    req.userRole = (role === 'admin') ? 'admin' : 'user';
   } catch {
     throwThisError(UNAUTHORIZED, 'jwt malformed');
   }

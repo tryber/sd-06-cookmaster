@@ -30,7 +30,24 @@ const insertUser = async (req, res) => {
     const insertedId = await UserModel.insertUser({ name, email, password, role });
 
     const user = { _id: insertedId, name, email, role };
-    res.status(201).json({ user });
+    return res.status(201).json({ user });
+  } catch {
+    throwThisError(500, 'Internal Error');
+  }
+};
+
+const insertADM = async (req, res) => {
+  const role = 'admin';
+
+  try {
+    const { name, email, password } = req.body;
+    const message = 'Only admins can register new admins';
+    if (req.userRole !== role) return res.status(403).json({ message });
+
+    const insertedId = await UserModel.insertUser({ name, email, password, role });
+
+    const user = { _id: insertedId, name, email, role };
+    return res.status(201).json({ user });
   } catch {
     throwThisError(500, 'Internal Error');
   }
@@ -39,4 +56,5 @@ const insertUser = async (req, res) => {
 module.exports = {
   insertUser,
   validateRequestFields,
+  insertADM,
 };
