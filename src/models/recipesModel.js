@@ -38,10 +38,20 @@ const remove = async (id) => {
   return removeRecipes;
 };
 
+const updateRecipeWithImage = async (id, image) => {
+  const updateWithImage = await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+  ));
+
+  return updateWithImage;
+};
+
 module.exports = {
   getAll,
   create,
   findById,
   update,
   remove,
+  updateRecipeWithImage,
 };
