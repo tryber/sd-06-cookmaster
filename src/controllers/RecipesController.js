@@ -1,7 +1,7 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const multer = require('multer');
-const path = require('path');
+// const path = require('path');
 const RecipesService = require('../services/RecipesService');
 const { verifyToken } = require('../utils');
 
