@@ -4,6 +4,8 @@ const middlewares = require('../middlewares');
 
 const recipes = express.Router();
 
+recipes.delete('/:id', middlewares.auth, controllers.deleteRecipe);
+
 recipes.get('/:id', controllers.getRecipes);
 recipes.get('/', controllers.getRecipes);
 

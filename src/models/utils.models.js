@@ -26,8 +26,14 @@ const updateDb = async (collection, id, data) => {
   )).value;
 };
 
+const deleteFromDb = async (collection, id) => {
+  const db = await connection(collection);
+  return (await db.findOneAndDelete({ _id: ObjectId(id) })).value;
+};
+
 module.exports = {
   insertToDb,
   queryFromDb,
   updateDb,
+  deleteFromDb,
 };

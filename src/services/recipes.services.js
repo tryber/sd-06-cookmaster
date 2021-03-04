@@ -21,8 +21,16 @@ const editRecipe = async (recipeId, userId, data) => {
   return utils.updateDb('recipes', recipeId, updatedRecipe);
 };
 
+const deleteRecipe = async (recipeId, userId) => {
+  const user = await utils.queryFromDb('users', userId);
+  const recipe = await utils.queryFromDb('recipes', recipeId);
+  if (userId !== recipe.userId && user.role !== 'admin') throw new Error(error.notAuthorized);
+  return utils.deleteFromDb('recipes', recipeId);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   editRecipe,
+  deleteRecipe,
 };
