@@ -21,8 +21,39 @@ const postRecipe = async ({ name, ingredients, preparation }, userId) => {
   };
 };
 
+const putRecipe = async (id, { name, ingredients, preparation }, userId) => {
+  await connect().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
+  ));
+  return {
+      _id: ObjectId(id),
+      name,
+      ingredients,
+      preparation,
+      userId,
+  };
+};
+
+// const putImage = async (id, image, userId) => {
+//   await connect().then((db) => db.collection('recipes').updateOne(
+//     { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
+//   ));
+//   return {
+//       _id: ObjectId(id),
+//       name,
+//       ingredients,
+//       preparation,
+//       userId,
+//   };
+// };
+
+const deleteRecipe = async (id) => connect().then((db) => db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   getAll,
   getById,
+  putRecipe,
   postRecipe,
+  deleteRecipe,
 };

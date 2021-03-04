@@ -18,9 +18,9 @@ const LoginValidator = async (req, _res, next) => {
 
 const verifyAuthorization = async (req, _res, next) => {
   const { authorization: token } = req.headers;
+  if (!token) return next(errorMsg(status401, 'missing auth token'));
+  
   const error = errorMsg(status401, 'jwt malformed');
-  if (!token) return next(error);
-
   const payload = validadeToken(token);
   if (!payload) return next(error);
   
