@@ -7,6 +7,7 @@ const { validateRecipe } = require('../middlewares/RecipeMiddleware');
 const RecipeController = new Router();
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 
 // Get All Recipes
@@ -47,6 +48,15 @@ RecipeController.put('/:id', validateUserTokenUpdate, async (req, res) => {
   const recipe = await service.update({ id, userId }, name, ingredients, preparation);
 
   res.status(OK).json(recipe);
+});
+
+// Remove Recipe
+RecipeController.delete('/:id', validateUserTokenUpdate, async (req, res) => {
+  const { id } = req.params;
+
+  await service.remove(id);
+
+  res.status(NO_CONTENT).json();
 });
 
 module.exports = RecipeController;
