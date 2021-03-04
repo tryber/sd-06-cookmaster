@@ -17,7 +17,7 @@ app.get('/', (request, response) => {
 app.use('/users', users);
 app.use('/login', login);
 app.use('/recipes', recipesRouter);
-// app.use(handleErrors);
+app.use(handleErrors);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
