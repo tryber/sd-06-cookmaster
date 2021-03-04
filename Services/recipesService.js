@@ -8,7 +8,11 @@ const listRecipesService = async () => (
   recipes.listRecipes()
 );
 
+const recipeByIdService = async (id) => (
+  recipes.recipeById(id)
+);
 module.exports = {
   createRecipeService,
   listRecipesService,
+  recipeByIdService,
 };

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const recipesService = require('../Services/recipesService');
 const validateJWT = require('../Middlewares/verifyAuthorization');
-const { validateEntries } = require('../Middlewares/recipesValidators');
+const { validateEntries, validateId, recipeExists } = require('../Middlewares/recipesValidators');
 
 const router = Router();
 
@@ -20,4 +20,10 @@ router.post('/', validateJWT, validateEntries, async (req, res) => {
     return res.status(200).json(list);
   });
   
+  router.get('/:id', validateId, recipeExists, async (req, res) => {
+    const { id } = req.params;   
+    const recipe = await recipesService.recipeByIdService(id);  
+    return res.status(200).json(recipe);
+  });
+
 module.exports = router;
