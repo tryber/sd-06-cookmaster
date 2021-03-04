@@ -6,6 +6,7 @@ const checkAuthorization = (req, res, next) => {
   const payload = validateToken(token);
 
   if (!payload) return res.status(unauthorized).json({ message: 'jwt malformed' });
+  req.payload = payload;
   next();
 };
 
