@@ -5,7 +5,6 @@ const getAll = async () => connection().then((db) => db.collection('recipes').fi
 
 const create = async (name, ingredients, preparation) => connection().then((db) => 
   db.collection('recipes').insertOne({ name, ingredients, preparation }));
-//
 
 // 5
 const getById = async (id) => connection().then((db) => 
