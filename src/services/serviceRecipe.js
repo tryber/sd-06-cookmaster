@@ -10,8 +10,8 @@ const getAllRecipes = async () => {
   return recipes;
 };
 
-const getRecipeById = async () => {
-  const recipe = await model.getRecipeById();
+const getRecipeById = async (id) => {
+  const recipe = await model.getRecipeById(id);
   return recipe;
 };
 
