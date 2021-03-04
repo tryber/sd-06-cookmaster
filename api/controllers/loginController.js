@@ -1,10 +1,11 @@
 const loginRouter = require('express').Router();
+const rescue = require('express-rescue'); 
 const jwt = require('jsonwebtoken');
 const Service = require('../services/loginService');
 
 const secret = 'seusecretdetoken';
 
-loginRouter.post('/', async (req, res) => {
+loginRouter.post('/', rescue(async (req, res) => {
   const { email, password } = req.body;
     const jwtConfig = {
     expiresIn: '7d',
@@ -16,6 +17,6 @@ loginRouter.post('/', async (req, res) => {
   console.log(result);
   
   res.status(200).json({ token });
-});
+}));
 
 module.exports = loginRouter;
