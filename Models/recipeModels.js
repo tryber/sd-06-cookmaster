@@ -55,7 +55,7 @@ const deleteById = async (id) => connection().then((db) => db.collection('recipe
 const updatePath = async (id, path) => connection().then((db) => db.collection('recipes')
   .updateOne(
     { _id: ObjectId(id) },
-    { $set: { image: `localhost:3000/${path}.jpeg` } },
+    { $set: { image: `localhost:3000/${path}` } },
   ));
 
 module.exports = {

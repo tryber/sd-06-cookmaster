@@ -14,12 +14,11 @@ app.get('/', (request, response) => {
 });
 
 app.use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/users', userRoutes);
 
 app.use('/login', loginRoute);
-
-app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/recipes', recipeRoutes);
 
