@@ -2,7 +2,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, callback) => {
-    callback(null, 'uploads'); // Se passar './uploads', acaba criando uma pasta e da um erro de EPIPE
+    callback(null, 'uploads');
   },
   filename: (req, _file, callback) => {
     const { id } = req.params;

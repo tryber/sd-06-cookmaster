@@ -1,8 +1,9 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-// const rescue = require('express-rescue'); para recuperar o erro de algum controller
 const { error } = require('./middlewares');
 const { UsersController, LoginController, RecipesController } = require('./controllers');
+// const rescue = require('express-rescue'); para recuperar o erro de algum controller
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ app.get('/', (request, response) => {
 app.use('/users', UsersController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
-app.use('/images', express.static(`../${__dirname}/uploads`));
+app.use('/images', express.static(path.join(__dirname, './uploads')));
 // app.use('/recipes', rescue(RecipesController)); com o rescue
 
 app.use(error);

@@ -51,6 +51,7 @@ RecipeRoute.put('/:id/image',
     const { filename } = req.file;
     const { name, ingredients, preparation, userId } = req.infoRecipe;
     const image = `localhost:3000/images/${filename}`; // Linha copiada do PR do Daniel Madsen após a dúvida tirada durante o plantão.
+    console.log(image);
     const recipeWithImage = await RecipesServices
       .putImage(id, { name, ingredients, preparation, userId }, image);
     res.status(status200).json(recipeWithImage);
