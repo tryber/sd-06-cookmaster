@@ -3,10 +3,12 @@ const CookerActions = require('../models/cookerActions');
 // no Majik NUMBER
 const SUCCESS_CREATED = 201;
 const BAD_REQUEST = 400;
+const CONFLICT = 409;
 
 // codeMessages
 const errMsg = {
   tryAgain: 'Invalid entries. Try again.',
+  alreadyRegist: 'Email already registered',
 };
 
 const creatingValidCooker = async (request, response) => {
@@ -25,6 +27,13 @@ const creatingValidCooker = async (request, response) => {
     .json({ message: errMsg.tryAgain }); 
   }
 
+  const emailReplicant = await CookerActions.findCookerByEmail(email);
+  console.log('email', emailReplicant);
+  if (emailReplicant) {
+    return response.status(CONFLICT)
+    .json({ message: errMsg.alreadyRegist });
+  }
+
   const { insertedId } = await CookerActions.createCooker(name, email, password);
   const newUser = {
     _id: insertedId,
@@ -33,7 +42,7 @@ const creatingValidCooker = async (request, response) => {
     email,
     password,
   };
-  return response.status(SUCCESS_CREATED).send(newUser);
+  return response.status(SUCCESS_CREATED).send({ user: newUser });
 };
 
 module.exports = { creatingValidCooker };
