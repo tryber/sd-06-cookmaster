@@ -21,7 +21,6 @@ const findByEmail = async (email) => {
     return res;
   } catch (err) {
     console.error(err.message);
-    // throw Error(err.message)
   }
 };
 

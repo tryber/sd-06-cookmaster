@@ -4,7 +4,7 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
-const testeController = require('./controllers/testeController');
+
 const log = require('./middlewares/logger');
 const error = require('./middlewares/error');
 
@@ -19,8 +19,6 @@ app.use(log);
 app.get('/', (request, response) => {
   response.send();
 });
-
-app.get('/teste', testeController);
 
 app.use('/users', userController);
 
