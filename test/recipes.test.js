@@ -1111,7 +1111,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
       });
   });
 
-  it('Será validado que não é possível enviar foto sem estar autenticado', async () => {
+  it.only('Será validado que não é possível enviar foto sem estar autenticado', async () => {
     const photoFile = path.resolve(__dirname, '../uploads/jacquinho.jpg');
     const content = fs.createReadStream(photoFile);
     const formData = frisby.formData();

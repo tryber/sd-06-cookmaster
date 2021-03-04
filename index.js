@@ -4,6 +4,8 @@ const app = express();
 const PORT = 3000;
 const ERROR = 500;
 
+const bodyTotal = require('body-parser');
+
 const UsersController = require('./src/controllers/UsersController');
 const LoginController = require('./src/controllers/LoginController');
 const RecipesController = require('./src/controllers/RecipesController');
@@ -14,6 +16,12 @@ app.get('/', (request, response) => {
 });
 // nao remova o endpoint acima
 
+app.use(bodyTotal.json());
+app.use((req, _res, next) => {
+  console.log({ metodo: req.method, original: req.originalUrl, body: req.body });
+  next();
+});
+
 // deixando a imagem disponivel de volta com rota dinamica
 app.use('/images', express.static(`${__dirname}/uploads`));
 
@@ -22,7 +30,7 @@ app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
 
 app.use((error, req, res, _next) => {
-  console.log(error);
+  console.log({ error });
   return res.status(ERROR).json({ message: 'Erro Interno!' });
 });
 

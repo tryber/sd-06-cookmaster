@@ -78,10 +78,11 @@ const uploadImage = async (req, res) => {
 
 RecipesRouter.put(
   '/:id/image/',
+  validateRecipeId,
   verifyToken,
   verfifyAuthorization,
   UploadSingle,
-  uploadImage,
+  rescue(uploadImage),
 );
 // end multer
 
