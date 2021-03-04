@@ -1,9 +1,23 @@
 const users = require('./users');
-const recipes = require('./users');
-const login = require('./login');
+const {
+  login,
+  findUserByEmail,
+} = require('./login');
+const {
+  createRecipes,
+  getAllRecipes,
+  getRecipeById,
+  editRecipeById,
+  deleteRecipe,
+} = require('./recipes');
 
 module.exports = {
   users,
-  recipes,
   login,
+  findUserByEmail,
+  createRecipes,
+  getAllRecipes,
+  getRecipeById,
+  editRecipeById,
+  deleteRecipe,
 };
