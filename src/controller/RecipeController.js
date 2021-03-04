@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
 const service = require('../service/RecipeService');
 const { validateUserToken, validateUserTokenUpdate } = require('../middlewares/TokenMiddleware'); 
 const { validateRecipe } = require('../middlewares/RecipeMiddleware');
@@ -9,6 +10,19 @@ const OK = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
 const NOT_FOUND = 404;
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads/');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    // callback(null, file.originalname);
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 // Get All Recipes
 RecipeController.get('/', async (req, res) => {
@@ -37,6 +51,20 @@ RecipeController.post('/', validateUserToken, validateRecipe, async (req, res) =
   const recipe = await service.create(name, ingredients, preparation, userId);
 
   res.status(CREATED).json(recipe);
+});
+
+// Add Image Recipe
+RecipeController.put('/:id/image', 
+    validateUserToken, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const image = `localhost:3000/images/${id}.jpeg`;
+
+  const recipe = await service.findById(id);
+  if (recipe) {
+    const updatedRecipe = await service.updateImage(recipe, image);
+    return res.status(OK).json(updatedRecipe);
+  }
+  res.status(NOT_FOUND).json({ message: 'recipe not found' });
 });
 
 // Update Recipe

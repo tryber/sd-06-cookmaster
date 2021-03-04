@@ -10,6 +10,8 @@ const app = express();
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 const NOT_FOUND = 404;
 
+app.use(express.static(`${__dirname}uploads/`));
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(log);
 

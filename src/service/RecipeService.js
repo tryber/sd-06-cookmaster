@@ -1,7 +1,7 @@
 // const { ObjectId } = require('mongodb');
 const recipeModel = require('../model/Recipe');
 
-// Return all Users
+// Return all Recipes
 const getAll = async () => {
   const recipes = await recipeModel.getAll();
   
@@ -15,16 +15,23 @@ const findById = async (id) => {
   return recipe;
 };
 
-// Add new User
+// Add new Recipe
 const create = async (name, ingredients, preparation, userId) => {
   const recipe = await recipeModel.create(name, ingredients, preparation, userId);
   
   return recipe;
 };
 
-// Update User
+// Update Recipe
 const update = async (recipe, name, ingredients, preparation) => {
   const updatedRecipe = await recipeModel.update(recipe, name, ingredients, preparation);
+  
+  return updatedRecipe;
+};
+
+// Update Image
+const updateImage = async (recipe, image) => {
+  const updatedRecipe = await recipeModel.updateImage(recipe, image);
   
   return updatedRecipe;
 };
@@ -41,5 +48,6 @@ module.exports = {
   findById,
   create,
   update,
+  updateImage,
   remove,
 };
