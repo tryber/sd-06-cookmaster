@@ -2,6 +2,7 @@ const connection = require('./connection');
 const Err = require('../errors/Err');
 
 const collectionName = 'users';
+const errorMessage = 'Something went wrong';
 
 class Users {
   async create({ name, email, password, role }) {
@@ -21,18 +22,18 @@ class Users {
         role,
       };
     } catch (err) {
-      throw new Err();
+      throw new Err({ message: errorMessage });
     }
   }
 
   async findByEmail(email) {
     try {
-      const db = connection();
+      const db = await connection();
       console.log(this);
-      const user = await db.collection(collectionName).findOne({ email });
+      const [user] = await db.collection(collectionName).find({ email }).toArray();
       return user;
     } catch (err) {
-      throw new Err();
+      throw new Err({ message: errorMessage });
     } 
   }
 }

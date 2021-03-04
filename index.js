@@ -1,7 +1,9 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+require('express-async-errors');
 const usersRouter = require('./routes/UsersRoutes');
 const handleError = require('./middlewares/handleError');
+const loginRouter = require('./routes/LoginRouter');
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', usersRouter);
+
+app.use('/login', loginRouter);
 
 app.use(handleError);
 

@@ -5,9 +5,14 @@ class CreateUsersService {
     this.User = User;
   }
 
-  async execute({ name, email, password, role }) {
+  async execute(userInfo) {
+    const { name, email, password } = userInfo;
+    let { role } = userInfo;
+    if (!role) {
+      role = 'user';
+    }
     const isRegistered = await this.User.findByEmail(email);
-    if (!isRegistered) {
+    if (isRegistered) {
       const errorInfo = {
         message: 'Email already registered',
       };
