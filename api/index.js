@@ -4,6 +4,7 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
+const loginConroller = require('./controllers/loginController');
 
 const log = require('./middlewares/logger');
 const error = require('./middlewares/error');
@@ -21,6 +22,8 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', userController);
+
+app.use('/login', loginConroller);
 
 app.all('*', (_req, res) => res.status(404).json({ message: 'Endpoint não existe' }));
 

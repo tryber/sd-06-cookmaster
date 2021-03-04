@@ -5,7 +5,7 @@ const createUser = async (name, email, password) => {
   const emailMask = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
   
   if (!name || !email || !password) throw Error('Invalid entries. Try again.');
-  if (emailMask.test(email) === false) throw new Error('Invalid entries. Try again.');
+  if (emailMask.test(email) === false) throw Error('Invalid entries. Try again.');
   
   const checkEmail = await Model.findByEmail(email);
   if (checkEmail.length > 0) throw Error('Email already registered'); 
