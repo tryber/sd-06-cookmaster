@@ -8,6 +8,7 @@ const STATUS = {
   ok: 200,
   unpEntity: 422,
   unauthorized: 401,
+  forbidden: 403,
 };
 
 const dictionary = {
@@ -19,6 +20,7 @@ const dictionary = {
     noAuthToken: handleErrorMessage('missing auth token', STATUS.unauthorized),
     recipeNotFound: handleErrorMessage('recipe not found', STATUS.notFound),
     notAuthorized: handleErrorMessage('Not authorized to edit this recipe', STATUS.unauthorized),
+    failedCreateAdmin: handleErrorMessage('Only admins can register new admins', STATUS.forbidden),
   },
   validations: {
    
