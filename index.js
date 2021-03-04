@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const path = require('path');
 const { users, login, recipesRouter } = require('./controller');
-// const { handleErrors } = require('./middlewares');
+const { handleErrors } = require('./middlewares');
 require('dotenv').config();
 
 const app = express();
