@@ -1,8 +1,12 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const { IS_LOCAL, TOKEN_SECRET } = process.env;
+const secret = (IS_LOCAL)
+  ? TOKEN_SECRET
+  : 'mySecretToken';
 
 const userLogin = async (email, password) => {
-  const secret = 'mySecretToken';
-
   const user = {
     email,
     password,

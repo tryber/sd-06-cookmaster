@@ -1,10 +1,10 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const { IS_LOCAL } = process.env;
+const { IS_LOCAL, LOCALHOST } = process.env;
 
 const MONGO_DB_URL = (IS_LOCAL)
-  ? 'mongodb://localhost:27017/Cookmaster'
+  ? LOCALHOST
   : 'mongodb://mongodb:27017/Cookmaster';
 
 const DB_NAME = 'Cookmaster';

@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const { RecipesController } = require('../controllers');
-const { validateRecipeFields } = require('../middlewares');
+const { validateRecipeFields, authorization } = require('../middlewares');
 
 const RecipeRouter = Router();
 
 RecipeRouter.post('/',
   validateRecipeFields,
+  authorization,
   RecipesController.registerNewRecipe);
 RecipeRouter.get('/', RecipesController.listAllRecipes);
 RecipeRouter.get('/:id', RecipesController.listRecipeById);
