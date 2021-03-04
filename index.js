@@ -23,7 +23,7 @@ app.get('/', (request, response) => {
 app.use('/users', UsersController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
-app.use('/images', express.static(`${__dirname}/uploads`));
+app.use('/images', express.static(`../${__dirname}/uploads`));
 // app.use('/recipes', rescue(RecipesController)); com o rescue
 
 app.use(error);
