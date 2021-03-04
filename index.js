@@ -1,11 +1,11 @@
 const express = require('express');
 
 const bodyParser = require('body-parser');
-const userController = require('./controllers/userController');
-const loginConroller = require('./controllers/loginController');
+const userController = require('./api/controllers/userController');
+const loginConroller = require('./api/controllers/loginController');
 
-const log = require('./middlewares/logger');
-const error = require('./middlewares/error');
+const log = require('./api/middlewares/logger');
+const error = require('./api/middlewares/error');
 
 const app = express();
 
