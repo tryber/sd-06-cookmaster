@@ -15,7 +15,7 @@ app.get('/', (request, response) => {
 // nao remova o endpoint acima
 
 // deixando a imagem disponivel de volta com rota dinamica
-app.use('/images', express.static(__dirname + '/uploads'));
+app.use('/images', express.static(`${__dirname}/uploads`));
 
 app.use('/users', UsersController);
 app.use('/login', LoginController);
