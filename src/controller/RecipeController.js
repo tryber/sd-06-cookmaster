@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { ObjectId } = require('mongodb');
 const service = require('../service/RecipeService');
-const { validateUserToken } = require('../middlewares/TokenMiddleware'); 
+const { validateUserToken, validateUserTokenUpdate } = require('../middlewares/TokenMiddleware'); 
 const { validateRecipe } = require('../middlewares/RecipeMiddleware');
 
 const RecipeController = new Router();
@@ -36,6 +36,17 @@ RecipeController.post('/', validateUserToken, validateRecipe, async (req, res) =
   const recipe = await service.create(name, ingredients, preparation, userId);
 
   res.status(CREATED).json(recipe);
+});
+
+// Update Recipe
+RecipeController.put('/:id', validateUserTokenUpdate, async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  const { id } = req.params;
+
+  const recipe = await service.update({ id, userId }, name, ingredients, preparation);
+
+  res.status(OK).json(recipe);
 });
 
 module.exports = RecipeController;

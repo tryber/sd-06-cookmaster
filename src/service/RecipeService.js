@@ -13,14 +13,21 @@ const findById = async (id) => {
   return recipe;
 };
 
-// Add new Users
+// Add new User
 const create = async (name, ingredients, preparation, userId) => {
   const recipe = await recipeModel.create(name, ingredients, preparation, userId);
   return recipe;
+};
+
+// Update User
+const update = async (recipe, name, ingredients, preparation) => {
+  const updatedRecipe = await recipeModel.update(recipe, name, ingredients, preparation);
+  return updatedRecipe;
 };
 
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };
