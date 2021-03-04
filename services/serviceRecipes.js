@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 const model = require('../models/modelRecipes');
 
 const getAllRecipes = async () => model.getAllRecipes();
@@ -15,8 +16,7 @@ const createRecipe = async ({ name, ingredients, preparation }) => {
 };
 
 const updateRecipe = async ({ id, ingredients, preparation }) => {
-  // eslint-disable-next-line no-restricted-globals
-  const update = await model.updateRecipe({ id, ingredients, preparation });
+  const update = await model.updateRecipe({ name, id, ingredients, preparation });
 
   return update;
 };

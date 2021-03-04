@@ -14,6 +14,9 @@ const getUserById = async (id) => {
 const getByEmail = async ({ email }) => getCollection('users')
 .then((mail) => mail.findOne({ email }));
 
+const getByEmailPassword = async (email, password) => getCollection('users')
+.then((mp) => mp.findOne({ email, password }));
+
 const createUser = async ({ name, email, password, role }) => {
   const User = await getCollection('users').then((user) =>
     user.insertOne({ name, email, password, role }));
@@ -39,6 +42,7 @@ module.exports = {
   getAllUsers,
   getUserById,
   getByEmail,
+  getByEmailPassword,
   createUser,
   updateUser,
   excludeUser,

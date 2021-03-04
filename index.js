@@ -18,10 +18,10 @@ app.use('/users', controllerUser);
 app.use('/login', controllerLogin);
 app.use('/recipes', controllerRecipe);
 
-// app.use((err, req, res) => {
-//   console.error(err.stack);
-//   res.status(500).send('Something broke!');
-// });
+app.use((err, _req, res, next) => {
+  next(err);
+  res.status(500).json({ message: 'error' });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}`));

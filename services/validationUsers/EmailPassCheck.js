@@ -1,13 +1,11 @@
-// const model = require('../../models/modelUsers');
-
-const checkLogin = async (req, res, next) => {
+const EmailPassCheck = (req, res, next) => {
   const UNAUTHORIZED = 401;
   const { email, password } = req.body;
-  
+
   if (!email || !password) {
     return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
-  } 
-   next();
- };
+  }
+  next();
+};
 
-module.exports = checkLogin;
+module.exports = EmailPassCheck;
