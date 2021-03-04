@@ -2,12 +2,14 @@ const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
 const { SECRET } = require('../controllers/loginController');
 
-const { allRecipes, createRecipe, oneRecipe } = require('../models/recipesMoldel');
+const { allRecipes, createRecipe, oneRecipe, updateRecipe } = require('../models/recipesMoldel');
 const { findOneUser } = require('../models/usersModel');
 
 const getAllRecipes = async () => allRecipes();
 const recipeCreate = async (data) => createRecipe(data);
 const getRecipeById = async (id) => oneRecipe(id);
+const recipeUpdate = async (id, name, ingredients, preparation) =>
+  updateRecipe(id, name, ingredients, preparation);
 
 const validateToken = async (req, res, next) => {
   if (!req.headers.authorization) {
@@ -47,6 +49,18 @@ const validateId = (req, res, next) => {
   next();
 };
 
+const canUserEdit = async (id, email) => {
+  const recipe = await getRecipeById(id);
+  const user = await findOneUser(email);
+  const { _id } = user;
+
+  if (_id.toString() !== recipe.userId.toString() && user.role !== 'admin') {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   validateId,
   validateRecipe,
@@ -54,4 +68,6 @@ module.exports = {
   getRecipeById,
   recipeCreate,
   getAllRecipes,
+  recipeUpdate,
+  canUserEdit,
 };

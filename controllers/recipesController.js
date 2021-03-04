@@ -6,6 +6,8 @@ const {
   getAllRecipes,
   getRecipeById,
   validateId,
+  recipeUpdate,
+  canUserEdit,
 } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
 
@@ -36,6 +38,23 @@ recipesRouter.get('/:id', validateId, async (req, res) => {
   if (!recipe) return res.status(404).json({ message: 'recipe not found' });
 
   res.status(200).json(recipe);
+});
+
+recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { email } = req.user;
+
+  const userAuthorization = await canUserEdit(id, email);
+
+  if (!userAuthorization) {
+    return res.status(401).json({ message: `${email} can't edit this recipe` });
+  }
+
+  await recipeUpdate(id, name, ingredients, preparation);
+  const recipeUpdated = await getRecipeById(id);
+
+  res.status(200).json(recipeUpdated);
 });
 
 module.exports = { recipesRouter };
