@@ -1,10 +1,9 @@
 import { Router } from 'express'
 import { getAll, getById, create, remove, update } from '../models/recipes'
-import {
-  checkIfExist,
-  checkNameIsValid,
-} from '../services/basicChecks'
+import { checkIfExist, checkNameIsValid } from '../services/basicChecks'
 import { checkToken } from '../auth/checkToken'
+import multer from 'multer'
+import path from 'path'
 
 const recipesController = Router();
 
@@ -21,6 +20,42 @@ recipesController.post('/', checkToken, (req, res) => {
       .then(r => res.status(201).json({ recipe: r }))
       .catch(error => res.status(409).json(error))
   }
+})
+
+recipesController.put('/:id/image', checkToken, async (req, res) => {
+  const userRole = req.user.role;
+  const userId = req.user._id;
+
+  if (userRole !== 'user' && userRole !== 'admin') {
+    const errorMsg = { message: 'permission denied' };
+    return res.status(400).json(errorMsg)
+  }
+  
+  const { id } = req.params;
+  const recipe = await getById(id);
+  if (recipe.message) return res.status(400).json(recipe);
+
+  if (userRole === 'user' && recipe.userId != userId) {
+    const errorMsg = { message: 'permission denied' };
+    return res.status(400).json(errorMsg)
+  }
+
+  const storage = multer.diskStorage({
+    destination: (req, file, callback) => callback(null, 'uploads'),
+    filename: (req, file, callback) => callback(null, `${id}.${path.extname(file.originalname)}`),
+  });
+
+  const upload = multer({ storage })
+
+  upload.single('image')(req, res, () => {
+  
+  const image = process.env.BASE_URL + '/images/' + id + path.extname(req.file.filename);
+  const { name, ingredients, preparation } = recipe;
+
+  update({ id, name, ingredients, preparation, image })
+    .then(r => res.status(200).json(r))
+    .catch(error => res.status(400).json(error))
+  })
 })
 
 recipesController.put('/:id', checkToken, async (req, res) => {

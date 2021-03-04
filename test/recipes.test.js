@@ -1039,7 +1039,6 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
             resultRecipes = JSON.parse(body);
           });
       });
-
     await frisby
       .setup({
         request: {
