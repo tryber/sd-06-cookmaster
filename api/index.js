@@ -1,4 +1,3 @@
-require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 
@@ -11,7 +10,7 @@ const error = require('./middlewares/error');
 
 const app = express();
 
-const { PORT } = process.env || 3000;
+const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(log);
