@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { checkEmail, create, validateUser, getUsers } = require('../services/userServices');
+const { checkEmail, userCreate, validateUser, getUsers } = require('../services/userServices');
 
 const usersRouter = new Router();
 
@@ -11,7 +11,7 @@ usersRouter.post('/', checkEmail, validateUser, async (req, res) => {
     user = req.body;
   }
 
-  await create(user);
+  await userCreate(user);
 
   res.status(201).json({ user });
 });

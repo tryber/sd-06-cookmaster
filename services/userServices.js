@@ -1,12 +1,15 @@
 const usersModel = require('../models/usersModel');
 
-const getUsers = async () => {
-  usersModel.getAllUsers();
-};
+// const getUsers = async () => {
+//   usersModel.getAllUsers();
+// };
 
-const create = async (data) => {
-  usersModel.createUser(data);
-};
+// const create = async (data) => {
+//   usersModel.createUser(data);
+// };
+
+const getUsers = async () => usersModel.getAllUsers();
+const userCreate = async (data) => usersModel.createUser(data);
 
 const validateUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -36,7 +39,7 @@ const checkEmail = async (req, res, next) => {
 };
 
 module.exports = {
-  create,
+  userCreate,
   validateUser,
   checkEmail,
   getUsers,
