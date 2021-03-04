@@ -10,7 +10,7 @@ const error = require('./middlewares/error');
 
 const app = express();
 
-const { PORT } = process.env;
+const { PORT } = process.env || 3000;
 
 app.use(bodyParser.json());
 app.use(log);
