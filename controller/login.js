@@ -1,35 +1,27 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-// const rescue = require('express-rescue');
-const modelLogin = require('../models');
+const { verifyUser, validateLogin, getUserByEmail } = require('../services/login');
 
-const login = Router();
-const secretPassword = 'Root2021';
+const secret = 'Root2021';
 
-const jwtConfig = {
-  expiresIn: '15d',
-  algorithm: 'HS256',
-};
+const loginRouter = Router();
 
-login.post('/', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(401).json({ message: 'All fields must be filled' });
-    }
-    const usersByEmail = await modelLogin.login.findUserByEmail({ email });
-    if (!usersByEmail || usersByEmail.password !== password) {
-      return res.status(401).json({ message: 'Incorrect username or password' });
-    }
-    delete usersByEmail.password;
-    const payload = {
-      iss: 'post_api', aud: 'identify', usersByEmail,
-    };
-    const token = jwt.sign(payload, secretPassword, jwtConfig);
-    res.status(200).json({ token });
-  } catch (err) {
-    return res.status(500).json({ message: `Intern Error: ${err}` });
-  }
+loginRouter.get('/', async (req, res) => res.status(200).json('login router'));
+
+loginRouter.post('/', validateLogin, verifyUser, async (req, res) => {
+  const { email } = req.body;
+  const user = await getUserByEmail(email);
+  const data = {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  };
+  const token = jwt.sign({ data }, secret);
+
+  res.status(200).json({ token });
 });
 
-module.exports = login;
+module.exports = {
+  loginRouter,
+  secret,
+};

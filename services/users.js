@@ -17,6 +17,12 @@ const create = async (name, email, password, role = 'user') => {
   return modelsUsers.users.create(name, email, password, role);
 };
 
+const validateEmail = (email) => {
+  const pattern = /\S+@\S+.\S+/;
+  return pattern.test(email);
+};
+
 module.exports = {
   create,
+  validateEmail,
 };
