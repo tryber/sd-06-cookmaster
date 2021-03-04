@@ -76,6 +76,15 @@ const insertImageInfo = async (req, res) => {
   res.status(200).send(value);
 };
 
+const getRecipeImage = async (req, res) => {
+  // const { id } = req.params;
+  // const { filename, size } = req.file;
+  // const img = `${req.headers.host}/uploads/${id}`;
+  
+  // // res.status(200).send(img);
+  // return res.render('avatar', { image: `/uploads/${filename}`, size });
+};
+
 module.exports = {
   insertRecipe,
   verifyFields,
@@ -84,4 +93,5 @@ module.exports = {
   updateRecipe,
   deleteRecipe,
   insertImageInfo,
+  getRecipeImage,
 };

@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
+const path = require('path');
 const UserService = require('./src/services/UserService');
 const LoginService = require('./src/services/LoginService');
 const RecipesController = require('./src/controllers/RecipesController');
+const RecipesService = require('./src/services/RecipesService');
 
 const app = express();
 const PORT = 3000;
@@ -21,6 +23,13 @@ app.post('/users',
 
 app.post('/login', 
   rescue(LoginService.checkEmailAndPassword));
+
+app.use(express.static(`${__dirname}/uploads`));
+
+app.get('/images/:id', (req, res) => {
+  const { id } = req.params;
+  res.sendFile(`${__dirname}/uploads/${id}`);
+});
 
 app.use('/recipes', RecipesController);
 
