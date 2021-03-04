@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const UsersController = require('./controllers/UsersController');
 const LoginController = require('./controllers/LoginController');
+const RecipesController = require('./controllers/RecipesController');
 
 const app = express();
 const LOCALHOST_PORT = 3000;
@@ -20,6 +21,7 @@ app.use('/ping', (request, response) => {
 
 app.use('/users', UsersController);
 app.use('/login', LoginController);
+app.use('/recipes', RecipesController);
 
 app.use((error, request, response, _next) => {
   response.status(error.code).json(error.errorMessage);

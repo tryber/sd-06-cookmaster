@@ -16,8 +16,9 @@ async function findById(id) {
 }
 
 async function findByEmail(email) {
-  const retirevedEmail = await User.findByEmail(email);
-  return retirevedEmail;
+  const user = await User.findByEmail(email);
+  if (!user) return { error: { message: 'user not found!' } };
+  return user;
 }
 
 async function update(id, newDataFromUser) {
