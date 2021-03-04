@@ -16,9 +16,14 @@ const findById = async (id) => {
     return null;
   }
 };
+const updateRecipes = async (id, recipe) => {
+  const upload = await Recipes.createRecipes(id, recipe);
+  return upload;
+};
 
 module.exports = {
   createRecipes,
   listRecipes,
   findById,
+  updateRecipes,
 };
