@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -15,5 +16,13 @@ app.get('/', (request, response) => {
 app.post('/users', controller.createUser);
 app.post('/login', controller.loginUser);
 app.use('/recipes', recipeController);
+
+// app.use(express.static(__dirname + '/uploads'));
+// dirname resolve o caminho
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
+
+app.post('/users/admin', (_req, res) => {
+  res.send('Bônus');
+});
 
 app.listen(PORT, () => console.log(`Example app listening on PORT ${PORT}!`));
