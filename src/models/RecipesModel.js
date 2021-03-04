@@ -12,19 +12,25 @@ const getAll = async () => conn()
 const findById = async (id) => conn()
   .then((db) => db.collection('recipes').findOne(ObjectId(id)));
 
-const updateRecipe = async (id, recipe) => conn()
-  .then((db) => db.collection('recipes').findOneAndUpdate(
-    { _id: ObjectId(id) }, 
-    { $set: { ...recipe } },
-    { returnOriginal: false },
-));
+const updateRecipe = async (id, recipe) => {
+  const { value } = await conn()
+    .then((db) => db.collection('recipes').findOneAndUpdate(
+      { _id: ObjectId(id) }, 
+      { $set: { ...recipe } },
+      { returnOriginal: false },
+  ));
+  return value;
+};
 
-const updateImageRecipe = async (id, imagePath) => conn()
-  .then((db) => db.collection('recipes').findOneAndUpdate(
-    { _id: ObjectId(id) }, 
-    { $set: { image: imagePath } },
-    { returnOriginal: false },
-));
+const updateImageRecipe = async (id, imagePath) => {
+  const { value } = await conn()
+    .then((db) => db.collection('recipes').findOneAndUpdate(
+      { _id: ObjectId(id) }, 
+      { $set: { image: imagePath } },
+      { returnOriginal: false },
+    ));
+  return value;
+};
 
 const deleteRecipe = async (id) => conn()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));

@@ -49,8 +49,8 @@ const updateRecipe = async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
 
-  const { value } = await RecipesModel.updateRecipe(id, { name, ingredients, preparation });
-  res.status(OK).json(value);
+  const recipe = await RecipesModel.updateRecipe(id, { name, ingredients, preparation });
+  res.status(OK).json(recipe);
 };
 
 const deleteRecipe = async (req, res) => {
@@ -71,9 +71,9 @@ const insertImageInfo = async (req, res) => {
 
   const imagePath = `${req.headers.host}/images/${filename}`;
 
-  const { value } = await RecipesModel.updateImageRecipe(id, imagePath);
+  const recipe = await RecipesModel.updateImageRecipe(id, imagePath);
   
-  res.status(200).send(value);
+  res.status(200).send(recipe);
 };
 
 module.exports = {
