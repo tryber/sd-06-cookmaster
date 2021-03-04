@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'reactmedeixalouco';
+const secret = 'segredo';
 const headers = {
   algorithm: 'HS256',
   expiresIn: '7d',

@@ -40,7 +40,6 @@ const loginUser = async (req, res) => {
   return res.status(unauthorized).json({ message: 'Incorrect username or password' });
   }
   const emailFounded = await service.findByEmail(email);
-  console.log(emailFounded);
   if (!emailFounded || emailFounded.password !== password) {
     return res.status(unauthorized).json({ message: 'Incorrect username or password' });
   }
