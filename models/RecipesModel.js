@@ -34,18 +34,19 @@ const putRecipe = async (id, { name, ingredients, preparation }, userId) => {
   };
 };
 
-// const putImage = async (id, image, userId) => {
-//   await connect().then((db) => db.collection('recipes').updateOne(
-//     { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
-//   ));
-//   return {
-//       _id: ObjectId(id),
-//       name,
-//       ingredients,
-//       preparation,
-//       userId,
-//   };
-// };
+const putImage = async (id, { name, ingredients, preparation, userId }, image) => {
+  await connect().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { image } },
+  ));
+  return {
+      _id: ObjectId(id),
+      name,
+      ingredients,
+      preparation,
+      userId,
+      image,
+  };
+};
 
 const deleteRecipe = async (id) => connect().then((db) => db.collection('recipes')
     .deleteOne({ _id: ObjectId(id) }));
@@ -53,6 +54,7 @@ const deleteRecipe = async (id) => connect().then((db) => db.collection('recipes
 module.exports = {
   getAll,
   getById,
+  putImage,
   putRecipe,
   postRecipe,
   deleteRecipe,

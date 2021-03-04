@@ -21,10 +21,6 @@ const GetByIdValidator = async (req, _res, next) => {
   next();
 };
 
-// const EditValidator = async (req, _res, next) => {
-
-// }
-
 module.exports = {
   RecipeValidator,
   GetByIdValidator,

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const { RecipesServices } = require('../services');
-const { LoginValidator, RecipeValidator } = require('../middlewares');
+const { LoginValidator, RecipeValidator, Multer } = require('../middlewares');
 
 const RecipeRoute = new Router();
 const status200 = 200;
@@ -40,6 +40,20 @@ RecipeRoute.put('/:id',
     const editedRecipe = await RecipesServices
       .putRecipe(id, { name, ingredients, preparation }, _id);
     res.status(status200).json(editedRecipe);
+}));
+
+RecipeRoute.put('/:id/image',
+  LoginValidator.verifyAuthorization,
+  RecipeValidator.GetByIdValidator,
+  Multer.single('image'),
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const { name, ingredients, preparation, userId } = req.infoRecipe;
+    const image = `localhost:3000/images/${filename}`; // Linha copiada do PR do Daniel Madsen após a dúvida tirada durante o plantão.
+    const recipeWithImage = await RecipesServices
+      .putImage(id, { name, ingredients, preparation, userId }, image);
+    res.status(status200).json(recipeWithImage);
 }));
 
 RecipeRoute.delete('/:id',
