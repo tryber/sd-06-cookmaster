@@ -14,6 +14,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 // nao remova o endpoint acima
+// rota de impressao
 app.use((req, res, next) => {
   res.on('finish', () => console.log({
     date: new Date(),
@@ -34,14 +35,17 @@ app.use((req, res, next) => {
   }));
   next();
 });
+// end rota de impressao
 // deixando a imagem disponivel de volta com rota dinamica
 app.use('/images', express.static(`${__dirname}/uploads`));
 
 app.use('/users', rescue(UsersController));
 app.use('/login', rescue(LoginController));
 app.use('/recipes', rescue(RecipesController));
+
 app.use((error, req, res, _next) => {
   console.log({ error });
   return res.status(ERROR).json({ message: 'Erro Interno!' });
 });
+
 app.listen(PORT, () => console.log('Example app listening on port port!'));
