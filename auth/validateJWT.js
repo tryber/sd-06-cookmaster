@@ -5,20 +5,28 @@ const UNAUTHORIZED = 401;
 
 const secret = 'mysectrettoken';
 
+const errorObject = {
+  code: UNAUTHORIZED,
+  errorMessage: { message: 'jwt malformed' },
+};
+
 async function validateJWT(request, response, next) {
   const token = request.headers.authorization;
-  console.log('Header token', token);
   if (!token) {
-    return response.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+    next(errorObject);
   }
 
-  const decoded = jwt.verify(token, secret);
+  try {
+    const decoded = jwt.verify(token, secret);
     const user = await UsersService.findByEmail(decoded.email);
     if (!user) {
-      return response.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+      next(errorObject);
     }
     request.user = user;
     next();
+  } catch (err) {
+    next(errorObject);
+  }
 }
 
 module.exports = validateJWT;
