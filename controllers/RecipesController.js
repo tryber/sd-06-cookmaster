@@ -88,10 +88,18 @@ router.delete('/:id', verifyAuthorization, async (req, res) => {
 });
 // 8
 
-// 9
-const upload = multer({
-  dest: 'images',
+// 9 e 10
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'images');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
 });
+
+const upload = multer({ storage });
 
 router.put('/:id/image', verifyAuthorization, upload.single('image'), async (req, res) => {
   const { id } = req.params;
@@ -107,6 +115,6 @@ router.put('/:id/image', verifyAuthorization, upload.single('image'), async (req
   };
   res.status(SUCCESS).json(recipe);
 });
-// 9 
+// 9 e 10
 
 module.exports = router;

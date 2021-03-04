@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const UsersController = require('./controllers/UsersController');
 const LoginsController = require('./controllers/LoginsController');
 const RecipesController = require('./controllers/RecipesController');
@@ -28,10 +27,7 @@ app.use('/recipes', RecipesController);
 // 3 
 
 // 10
-// app.use('/images', ImagesController);
-// app.use(express.static(__dirname + '/images'));
-app.use('/images', express.static(path.join(__dirname, 'uploads')));
-// app.use('/images', express.static(`${__dirname}/images`));
+app.use('/images', express.static(`${__dirname}/images`));
 // 10
 
 app.listen(port, () => console.log(`Start http://localhost:${port}`));
