@@ -10,8 +10,7 @@ const recipeController = new Router();
 recipeController.post('/', checkAuthorization, async (req, res) => {
   const okay = 201;
   const { _id } = req.payload;
-  const recipes = req.body; // não estou conseguindo pegar o valor do insominia, esta vindo vazio.
-  console.log(recipes);
+  const recipes = req.body;
   const create = await createRecipes(recipes);
   const { ops } = create;
   ops[0].userId = _id;
