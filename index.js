@@ -18,9 +18,8 @@ app.use('/users', controllerUser);
 app.use('/login', controllerLogin);
 app.use('/recipes', controllerRecipe);
 
-app.use((err, _req, res, next) => {
-  next(err);
-  res.status(500).json({ message: 'error' });
+app.use((err, _req, res, _next) => {
+  res.status(err.status || 500).json(err.message);
 });
 
 const port = process.env.PORT || 3000;

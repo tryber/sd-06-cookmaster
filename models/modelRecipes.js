@@ -11,11 +11,11 @@ const getRecipeById = async (id) => {
   return getCollection('recipes').then((recipe) => recipe.findOne(ObjectId(id)));
 };
 
-const createRecipe = async ({ name, ingredients, preparation }) => {
-  const Recipe = await getCollection('recipes').then((recipe) =>
-    recipe.insertOne({ name, ingredients, preparation }));
+const createRecipe = async ({ name, ingredients, preparation }, userId) => {
+  const { insertedId } = await getCollection('recipes').then((recipe) =>
+    recipe.insertOne({ name, ingredients, preparation, userId }));
 
-  return { _id: Recipe.insertedId, name, ingredients, preparation };
+  return { recipe: { name, ingredients, preparation, userId, _id: insertedId } };
 };
 
 const updateRecipe = async ({ id, name, ingredients, preparation }) => {

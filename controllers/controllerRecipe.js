@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const service = require('../services/serviceRecipes');
-const checkRecipe = require('../services/validationRecipes/checkRecipe');
+const checkRecipe = require('../validationRecipes/checkRecipe');
 // const existRecipe = require('../services/validationRecipes/existRecipe');
 const auth = require('../services/validationLogin/auth');
 
@@ -11,11 +11,11 @@ const NOT_FOUND = 404;
 
 const router = Router();
 
-router.post('/', checkRecipe, rescue(async (req, res) => {
+router.post('/', checkRecipe, auth, rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-    const createdRecipe = await service.createRecipe({ name, ingredients, preparation });
-    console.log('createdRecipe', createdRecipe);
-    return res.status(CREATED).json({ recipe: createdRecipe });
+  const { _id } = req.infoUser;
+    const createdRecipe = await service.createRecipe({ name, ingredients, preparation }, _id);
+    res.status(CREATED).json(createdRecipe);
 }));
 
 // router.post('/:id/image/', rescue(async (req, res) => {

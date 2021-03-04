@@ -5,7 +5,7 @@ const checkLogin = async (req, res, next) => {
   const { email, password } = req.body;
   
   if (!email || !password) {
-    return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
+    return next(UNAUTHORIZED, { message: 'All fields must be filled' });
   } 
    next();
  };

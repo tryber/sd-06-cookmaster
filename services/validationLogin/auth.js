@@ -1,15 +1,14 @@
-const jwt = require('jsonwebtoken');
+const validateToken = require('./validateToken');
 
-const secret = 'secretToken';
-
-const auth = (req, res, next) => {
+const errorMsg = (status, mess) => ({ status, message: { message: mess } });
+const auth = (req, _res, next) => {
   const UNAUTHORIZED = 401;
-  const { token } = req.header.authorization;
-
-  const checkToken = jwt.verify(token, secret);
-  if (!checkToken) {
-    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
-  }
+  const { authorization: token } = req.headers;
+  if (!token) return next(errorMsg(UNAUTHORIZED, 'missing auth token'));
+  const checkToken = validateToken(token);
+  console.log('depois validation', checkToken);
+  if (!checkToken) return next(errorMsg(UNAUTHORIZED, 'jwt malformed'));
+  req.infoUser = checkToken;
   next();
 };
 
