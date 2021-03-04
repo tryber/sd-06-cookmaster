@@ -10,6 +10,8 @@ const secret = (IS_LOCAL)
 module.exports = (req, _res, next) => {
   const token = req.headers.authorization;
 
+  if (!token) return next(Boom.unauthorized('missing auth token'));
+  
   try {
     jwt.verify(token, secret, (err, email) => {
       if (err) return next(Boom.unauthorized('jwt malformed'));
