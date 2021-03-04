@@ -4,7 +4,6 @@ const path = require('path');
 const UsersController = require('./controllers/UsersController');
 const LoginsController = require('./controllers/LoginsController');
 const RecipesController = require('./controllers/RecipesController');
-const ImagesController = require('./controllers/ImagesController');
 
 const app = express();
 const port = 3000;
