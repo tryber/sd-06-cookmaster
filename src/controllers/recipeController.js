@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { badRequest, created, OK } = require('../utils/messages');
+const { ObjectId } = require('mongodb');
+const { badRequest, created, OK, notFound } = require('../utils/messages');
 const validateToken = require('../auth/validateToken');
 const service = require('../services/serviceRecipe');
 
@@ -18,6 +19,16 @@ recipes.post('/', validateToken, async (req, res) => {
 recipes.get('/', async (_req, res) => {
   const getAllRecipes = await service.getAllRecipes();
   return res.status(OK).json(getAllRecipes);
+});
+
+// https://stackoverflow.com/questions/11985228/mongodb-node-check-if-objectid-is-valid
+recipes.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) return res.status(notFound).json({ message: 'recipe not found' });
+  const recipe = await service.getRecipeById(id);
+  console.log(recipe);
+  if (!recipe) return res.status(notFound).json({ message: 'recipe not found' });
+  return res.status(OK).json(recipe);
 });
 
 module.exports = recipes;
