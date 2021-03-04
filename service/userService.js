@@ -7,7 +7,6 @@ const getAll = async () => {
 
 const createUser = async (userInfo) => {
   const newUser = await user.createUser(userInfo);
-  console.log('newUser', newUser);
   return newUser;
 };
 

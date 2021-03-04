@@ -9,7 +9,7 @@ const getAll = async () => {
 const createUser = async (userInfo) => {
   const { name, email, password } = userInfo;
   const db = await connection();
-  const { insertedId } = db.collection('users').insertOne({ 
+  const { insertedId } = await db.collection('users').insertOne({ 
     name,
     email,
     password,
