@@ -4,8 +4,12 @@ const secret = 'mysecret';
 
 module.exports = (token) => {
   try {
-    return jwt.verify(token, secret);
+    // console.log(token);
+    // const decoded = await jwt.verify(token, secret);
+    // console.log(await jwt.decode(token));
+    const decoded = jwt.verify(token, secret);
+    // console.log(decoded);
   } catch (err) {
-    return null;
+    console.log(err);
   }
 };

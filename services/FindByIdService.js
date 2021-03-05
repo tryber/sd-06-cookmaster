@@ -7,6 +7,7 @@ class FindByIdService {
 
   async execute(id) {
     const recipe = await this.Recipe.findById(id);
+    console.log(recipe)
     if (!recipe) {
       const errorInfo = {
         message: 'recipe not found',

@@ -3,7 +3,8 @@ const express = require('express');
 require('express-async-errors');
 const usersRouter = require('./routes/UsersRoutes');
 const handleError = require('./middlewares/handleError');
-const loginRouter = require('./routes/LoginRouter');
+const loginRouter = require('./routes/LoginRoutes');
+const recipesRouter = require('./routes/RecipesRoutes');
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.get('/', (request, response) => {
 app.use('/users', usersRouter);
 
 app.use('/login', loginRouter);
+
+app.use('/recipes', recipesRouter);
 
 app.use(handleError);
 

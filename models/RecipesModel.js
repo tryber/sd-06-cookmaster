@@ -6,7 +6,7 @@ const collectionName = 'recipes';
 const errorMessage = 'Something went wrong';
 class Recipe {
   async create({ name, ingredients, preparation, userId }) {
-    const db = connection();
+    const db = await connection();
     console.log(this);
     try {
       const { insertedId } = await db.collection(collectionName).insertOne({
@@ -25,7 +25,7 @@ class Recipe {
   }
 
   async listAll() {
-    const db = connection();
+    const db = await connection();
     console.log(this);
     try {
       const recipes = await db.collection(collectionName).find().toArray();
@@ -36,7 +36,7 @@ class Recipe {
   }
 
   async findById(id) {
-    const db = connection();
+    const db = await connection();
     console.log(this);
     try {
       const recipe = await db.collection(collectionName).findOne(ObjectId(id));
