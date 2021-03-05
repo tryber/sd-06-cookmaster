@@ -16,6 +16,6 @@ appRouters.post('/recipes', validateCreateRecipe, RecipesController.createRecipe
 appRouters.get('/recipes', RecipesController.searchAllRecipes);
 appRouters.get('/recipes/:id', RecipesController.searchRecipeById);
 appRouters.put('/recipes/:id', RecipesController.updateRecipeById);
-appRouters.delete('/recipes/:id', RecipesController.deleteRecipeById);
+appRouters.delete('/recipes/:id/', RecipesController.deleteRecipeById);
 
 module.exports = appRouters;
