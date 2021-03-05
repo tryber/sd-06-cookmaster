@@ -18,8 +18,14 @@ const findByEmail = async (email) => {
   return emailFound;
 };
 
+const createADM = async (name, email, password, role) => {
+  const admin = await model.createUser(name, email, password, role);
+  return admin;
+};
+
 module.exports = {
   userCreate,
   emailExist,
   findByEmail,
+  createADM,
 };

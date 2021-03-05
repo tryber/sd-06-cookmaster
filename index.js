@@ -21,8 +21,6 @@ app.use('/recipes', recipeController);
 // dirname resolve o caminho
 app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
-app.post('/users/admin', (_req, res) => {
-  res.send('Bônus');
-});
+app.post('/users/admin', controller.createADM);
 
 app.listen(PORT, () => console.log(`Example app listening on PORT ${PORT}!`));

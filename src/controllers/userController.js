@@ -1,10 +1,4 @@
-const jwt = require('jsonwebtoken');
-
-const secret = 'segredo';
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
+const createToken = require('../auth/createToken');
 const service = require('../services/serviceUser');
 const {
   created,
@@ -13,6 +7,7 @@ const {
   regexEmail,
   unauthorized,
   OK,
+  forbidden,
 } = require('../utils/messages');
 
 const createUser = async (req, res) => {
@@ -46,11 +41,25 @@ const loginUser = async (req, res) => {
   // "_" serve para evitar conflito com o password do body
   const { password: _, ...userWithoutPassword } = emailFounded;
   const payload = userWithoutPassword;
-  const token = jwt.sign(payload, secret, jwtConfig);
+  const token = createToken.createToken(payload);
   return res.status(OK).json({ token });
+};
+
+const createADM = async (req, res) => {
+  const { name, email, password } = req.body;
+  const role = 'admin';
+  // preciso resgatar aqui o role de quem está logado
+  if (req.role !== role) {
+    return res.status(forbidden)
+  .json({ message: 'Only admins can register new admins' });
+}
+  const newADM = await service.createADM(name, email, password, role);
+  console.log(newADM);
+  res.status(created).json(newADM);
 };
 
 module.exports = {
   createUser,
   loginUser,
+  createADM,
 };
