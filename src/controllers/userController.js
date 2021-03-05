@@ -48,7 +48,7 @@ const loginUser = async (req, res) => {
 const createADM = async (req, res) => {
   const { name, email, password } = req.body;
   const role = 'admin';
-  // preciso resgatar aqui o role de quem está logado
+  // preciso resgatar aqui o role de quem está logado, mas como?
   if (req.role !== role) {
     return res.status(forbidden)
   .json({ message: 'Only admins can register new admins' });
