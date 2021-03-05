@@ -1,9 +1,12 @@
 const CreateRecipeService = require('../services/CreateRecipeService');
 const SearchAllRecipesService = require('../services/SearchAllRecipesService');
 const SearchRecipeByIdService = require('../services/SearchRecipeByIdService');
+const UpdateRecipeByIdService = require('../services/UpdateRecipeByIdService');
+const DeleteRecipeByIdService = require('../services/DeleteRecipeByIdService');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 const createRecipe = async (req, res) => {
   const newRecipe = await CreateRecipeService(req.body, req.headers, res); 
@@ -27,8 +30,26 @@ const searchRecipeById = async (req, res) => {
   res.status(OK).json(recipesById);
 }; 
 
+const updateRecipeById = async (req, res) => {
+  const { id } = req.params;
+
+  const updateRecipe = await UpdateRecipeByIdService(id, req, res); 
+
+  res.status(OK).json(updateRecipe);
+}; 
+
+const deleteRecipeById = async (req, res) => {
+  const { id } = req.params;
+
+  const recipesById = await DeleteRecipeByIdService(id, req, res); 
+
+  res.status(NO_CONTENT).json(recipesById);
+}; 
+
 module.exports = {
   createRecipe,
   searchAllRecipes,
   searchRecipeById,
+  updateRecipeById,
+  deleteRecipeById,
 };

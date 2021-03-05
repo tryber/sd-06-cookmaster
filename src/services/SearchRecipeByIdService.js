@@ -9,8 +9,6 @@ const SearchRecipeByIdService = async (id, res) => {
 
     const recipeById = await SearchRecipeByIdDb(id);
 
-    // console.log(recipeById);
-
     if (recipeById === null) {
         return res.status(NOT_FOUND).json({ message: 'recipe not found' });
     }
