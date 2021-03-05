@@ -1,5 +1,5 @@
 const yup = require('yup');
-const { validationError, notFoundError } = require('../../utils/error');
+const { validationError, notFoundError, authorizationError } = require('../../utils/error');
 const Recipes = require('../../models/Recipes');
 
 const invalidEntries = 'Invalid entries. Try again.';
@@ -32,6 +32,26 @@ const RecipesValdiations = {
     } catch (err) {
       next(notFoundError('recipe not found'));
     }
+  },
+  async checkValidId(req, res, next) {
+    const { id } = req.params;
+    console.log(id, 'check validid update');
+    try {
+      const recipe = await Recipes.findOne(id);
+      console.log(recipe, 'returned recipe update');
+      if (!recipe) throw validationError();
+      res.locals.recipeId = id;
+      next();
+    } catch (err) {
+      next(validationError('invalid entries'));
+    }
+  },
+  async checkToken(req, res, next) {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return next(authorizationError('missing auth token'));
+    } 
+      next();
   },
 };
 

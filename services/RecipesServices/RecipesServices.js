@@ -12,9 +12,7 @@ const findOneById = async (id) => {
 
 const findAll = async () => Recipes.findAll();
 
-const updateOne = async (id, recipe) => {
-  Recipes.updateOne(id, recipe);
-};
+const updateOne = async (id, recipe) => Recipes.updateOne(id, recipe);
 
 const deleteOne = async (id) => Recipes.deleteOne(id);
 

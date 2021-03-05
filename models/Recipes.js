@@ -24,7 +24,12 @@ const deleteOne = async (id) => {
 
 const updateOne = async (id, recipe) => {
   const db = await connection();
-  return db.collection('recipes').insertOne({ _id: ObjectId(id), ...recipe });
+  await db.collection('recipes').insertOne({ _id: id, ...recipe });
+  return {
+    name: recipe.name,
+    ingredients: recipe.ingredients,
+    preparation: recipe.preparation,
+  };
 };
 
 module.exports = {

@@ -30,6 +30,20 @@ route.post('/',
     return res.status(status.CREATED).json({ recipe: { ...recipe, authorId } }); 
 });
 
+route.put('/:id',
+  RecipesValidations.checkSchema,
+  RecipesValidations.checkValidId,
+  RecipesValidations.checkToken,
+  VerifyUserToken,
+  async (req, res) => {
+    console.log(res.locals);
+    const { id } = res.locals.recipeId;
+    const { name, ingredients, preparation } = req.body;
+    const recipe = await RecipesServices.updateOne(id, { name, ingredients, preparation });
+    console.log(recipe);
+    return res.status(status.OK).json(recipe);
+  });
+
 route.use('/', async (err, _req, res, _next) => {
  console.log(err);
  return res.status(err.status).json({ message: err.message });
