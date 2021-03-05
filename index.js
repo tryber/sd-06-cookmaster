@@ -1,5 +1,5 @@
 const express = require('express');
-
+require('express-async-errors');
 const bodyParser = require('body-parser');
 const userController = require('./api/controllers/userController');
 const loginConroller = require('./api/controllers/loginController');
