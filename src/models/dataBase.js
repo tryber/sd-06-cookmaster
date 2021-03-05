@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // const SERVIDOR = 'localhost';
-const SERVIDOR = 'mongodb';
+// const SERVIDOR = 'mongodb';
 
 // 'mongodb://mongodb:27017/Cookmaster';
 
