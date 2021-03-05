@@ -2,6 +2,7 @@ const { Router } = require('express');
 const recipes = require('../models/recipes');
 const service = require('../services/RecipeService');
 const verifyAuthorization = require('../middlewares/verifyAuthorization');
+const upload = require('../multer/upload');
 
 const RecipesController = new Router();
 const status201 = 201;
@@ -65,6 +66,14 @@ async (request, response) => {
   await recipes.removeRecipe(id);
 
   return response.status(status204).end();
+});
+
+RecipesController.post('/:id/image',
+verifyAuthorization.verifyAuthorizationEditar,
+service.userRole,
+upload.single('image'),
+(request, response) => {
+  response.status(200).json({ file: request.file });
 });
 
 RecipesController.get('/', async (_request, response) => response

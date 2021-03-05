@@ -22,7 +22,8 @@ const verifyAuthorizationEditar = (request, response, next) => {
   const { authorization: token } = request.headers;
 
   const payload = validateToken(token);
-  
+  // console.log(`usuario obtido pelo token: ${payload}`);
+  console.log(payload);  
   if (!token) {
     return returnedStatusAndMessage(response,
     status401,

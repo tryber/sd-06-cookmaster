@@ -8,10 +8,13 @@ const RecipesController = require('./controllers/RecipesController');
 const app = express();
 const PORT = 3000;
 
+app.use(express.static(__dirname.concat('/images')));
 app.use(bodyParser.json());
 app.use('/users', UsersController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
+
+app.use((err, _request, response, _next) => response.status(500).json({ err }));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
