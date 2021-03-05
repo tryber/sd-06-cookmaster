@@ -22,6 +22,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+const url = '/recipes/:id';
+
 // user
 app.post('/login', login.login);
 app.get('/users', userController.getAll);
@@ -29,9 +31,9 @@ app.post('/users', userController.create);
 
 // recipes
 app.get('/recipes', recipesController.getAll);
-app.get('/recipes/:id', recipesController.getById);
+app.get(url, recipesController.getById);
 app.post('/recipes', verifyAuthorization, recipesController.create);
-app.put('/recipes/:id', verifyAuthorization, recipesController.edit);
-app.delete('/recipes/:id', verifyAuthorization, recipesController.exclude);
+app.put(url, verifyAuthorization, recipesController.edit);
+app.delete(url, verifyAuthorization, recipesController.exclude);
 
 app.use(error);

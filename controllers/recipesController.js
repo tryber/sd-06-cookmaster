@@ -1,6 +1,8 @@
 const rescue = require('express-rescue');
 const recipesService = require('../services/recipesService');
-const { badRequest, created, ok, conflict, notFound, noContent } = require('../utilities/variables');
+const {
+  badRequest, created, ok, conflict, notFound, noContent,
+} = require('../utilities/variables');
 const { getByEmail } = require('./userController');
 
 const getAll = rescue(async (_req, res) => {
