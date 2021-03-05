@@ -16,7 +16,6 @@ const create = rescue(async (req, res, _next) => {
   const { name, email, password } = req.body;
   const role = 'user';
   const emailExists = await getByEmail(email);
-  console.log(emailExists)
   if (emailExists !== null) {
     return res.status(conflict).json(
       { error: true, code: 'conflict', message: 'Email already registered' },

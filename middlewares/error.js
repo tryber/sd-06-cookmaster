@@ -5,4 +5,4 @@ module.exports = (err, req, res, _next) => {
     details: err.message,
     endpoint: `${req.method} ${req.path}`,
   });
-}
+};

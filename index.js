@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { login, userController } = require('./controllers');
-const middlewares = require('./middlewares');
+const { login, userController, recipesController } = require('./controllers');
+const { error } = require('./middlewares');
 const { verifyAuthorization } = require('./middlewares/verifyAuthorization');
 
 const app = express();
@@ -22,8 +22,13 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+// user
 app.post('/login', login.login);
 app.get('/users', userController.getAll);
 app.post('/users', userController.create);
 
-app.use(middlewares.error);
+// recipes
+app.get('/recipes', recipesController.getAll);
+app.post('/recipes', verifyAuthorization, recipesController.create);
+
+app.use(error);
