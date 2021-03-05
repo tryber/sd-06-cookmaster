@@ -28,25 +28,17 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     return res.status(NOT_FOUND).json({ message: 'recipe not found' });
   }
-
-
 });
 
-router.post(
-  '/',
-  validateJWT,
-  recipeValidationRules(),
-  validateRecipe,
-  async (req, res) => {
-    const { name, ingredients, preparation } = req.body;
-    const { _id } = await req.user;
-    const data = { name, ingredients, preparation, userId: _id };
+router.post('/', validateJWT, recipeValidationRules(), validateRecipe, async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = await req.user;
+  const data = { name, ingredients, preparation, userId: _id };
 
-    const recipe = await RecipesServices.create(data);
-    console.log(recipe.name);
+  const recipe = await RecipesServices.create(data);
+  console.log(recipe.name);
 
-    res.status(CREATED).json({ recipe });
-  }
-);
+  res.status(CREATED).json({ recipe });
+});
 
 module.exports = router;

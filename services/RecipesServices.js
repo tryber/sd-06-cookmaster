@@ -1,8 +1,6 @@
 const RecipesModels = require('../models/RecipesModels');
 
-const getAll = async () => {
-  return await RecipesModels.getAll();
-};
+const getAll = async () => RecipesModels.getAll();
 
 const findById = async (id) => {
   const recipe = await RecipesModels.findById(id);
