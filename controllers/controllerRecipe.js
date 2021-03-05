@@ -48,8 +48,9 @@ router.put('/:id', auth, rescue(async (req, res) => {
    return res.status(SUCCESS).json({ update });
  }));
 
-// router.delete('/:id', rescue(async (req, res) => {
-//   const erase = await service.excludeRecipe(id);
-// }));
+router.delete('/:id', auth, rescue(async (_req, _res) => {
+   // const { id } = req.params;
+   // const erase = await service.excludeRecipe(id);
+ }));
 
 module.exports = router;

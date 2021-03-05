@@ -5,7 +5,10 @@ const authMailPass = async (req, res, next) => {
   const { email, password } = req.body;
   const searcher = await mail.getByEmail({ email, password });
   
-  if (!searcher) return next(UNAUTHORIZED, { message: 'Incorrect username or password' });
+  // if (!searcher) return next(UNAUTHORIZED, { message: 'Incorrect username or password' });
+  if (!searcher) {
+    return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
+  }
   req.infoUser = searcher;
   next();
 };

@@ -11,8 +11,9 @@ const router = Router();
 router.post('/', verifyUser, rescue(async (req, res) => {
   const { name, email, password } = req.body;
   const CONFLICT = 409;
+  console.log('antes searcher');
   const searcher = await mail.getByEmail({ email });
-  console.log(searcher);
+  console.log('depois searcher');
  if (!searcher) {
    const createdUser = await service.createUser({ name, email, password, role: 'user' });
    
