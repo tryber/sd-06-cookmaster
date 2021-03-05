@@ -38,4 +38,10 @@ router.post('/', validateJWT, validateEntries, async (req, res) => {
     return res.status(200).json(updatedRecipe);  
   });
 
+  // Requisito-8
+  router.delete('/:id', validateJWT, async (req, res) => {
+    const { id } = req.params;  
+    await recipesService.deleteRecipeService(id);  
+    return res.status(204).end();
+  });
 module.exports = router;
