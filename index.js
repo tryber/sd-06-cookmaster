@@ -3,6 +3,8 @@ require('express-async-errors');
 const bodyParser = require('body-parser');
 const userController = require('./api/controllers/userController');
 const loginConroller = require('./api/controllers/loginController');
+const recipeController = require('./api/controllers/recipeController');
+const validateJWT = require('./api/auth/validateJWT');
 
 const log = require('./api/middlewares/logger');
 const error = require('./api/middlewares/error');
@@ -22,6 +24,8 @@ app.get('/', (request, response) => {
 app.use('/users', userController);
 
 app.use('/login', loginConroller);
+
+app.use('/recipes', validateJWT, recipeController);
 
 app.all('*', (_req, res) => res.status(404).json({ message: 'Endpoint não existe' }));
 
