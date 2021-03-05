@@ -18,4 +18,7 @@ const edit = async (name, ingredients, preparation, id) =>
     { _id: ObjectId(id) }, { $set: { name, ingredients, preparation } },
   ));
   
-module.exports = { create, getAll, getByRecipeName, getById, edit };
+const exclude = async (id) => 
+  getCollection('recipes').then((db) => db.deleteOne({ _id: ObjectId(id) }));
+
+module.exports = { create, getAll, getByRecipeName, getById, edit, exclude };

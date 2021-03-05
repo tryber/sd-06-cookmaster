@@ -1,5 +1,6 @@
 const ok = 200;
 const created = 201;
+const noContent = 204;
 const badRequest = 400;
 const unauthorized = 401;
 const internalError = 500;
@@ -18,4 +19,5 @@ module.exports = {
   conflict,
   unauthorized,
   internalError,
+  noContent,
 };

@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
 const recipesService = require('../services/recipesService');
-const { badRequest, created, ok, conflict, notFound } = require('../utilities/variables');
+const { badRequest, created, ok, conflict, notFound, noContent } = require('../utilities/variables');
 const { getByEmail } = require('./userController');
 
 const getAll = rescue(async (_req, res) => {
@@ -61,4 +61,12 @@ const edit = rescue(async (req, res, _next) => {
   return res.status(ok).json({ name, ingredients, preparation, _id: recipe.insertedId });
 });
 
-module.exports = { create, getAll, getByRecipeName, getById, edit };
+const exclude = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const recipes = await recipesService.exclude(id);
+  console.log(recipes);
+  if (!recipes) res.status(notFound).json({ message: 'recipe not found' });
+  res.status(noContent).json();
+});
+
+module.exports = { create, getAll, getByRecipeName, getById, edit, exclude };
