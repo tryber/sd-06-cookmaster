@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+// const path = require('path');
 
 const controllerUser = require('./controllers/controllerUser');
 const controllerRecipe = require('./controllers/controllerRecipe');
@@ -17,6 +18,8 @@ app.get('/', (request, response) => {
 app.use('/users', controllerUser);
 app.use('/login', controllerLogin);
 app.use('/recipes', controllerRecipe);
+
+// app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500).json(err.message);
