@@ -16,13 +16,17 @@ const findById = async (id) => {
     return null;
   }
 };
-const updateRecipes = async (id, { name, ingredients, preparation, userId }) => {
-  const upload = await Recipes.updateRecipe(id, { name, ingredients, preparation, userId });
+const updateRecipes = async (id, recipe) => {
+  const upload = await Recipes.updateRecipe(id, recipe);
   return upload;
 };
 const removeRecipe = async (id) => {
   const remove = await Recipes.removeRecipe(id);
   return remove;
+};
+const addImageRecipe = async (id, image) => {
+  const add = await Recipes.addImageRecipe(id, image);
+  return add;
 };
 
 module.exports = {
@@ -31,4 +35,5 @@ module.exports = {
   findById,
   updateRecipes,
   removeRecipe,
+  addImageRecipe,
 };

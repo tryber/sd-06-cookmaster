@@ -1,11 +1,23 @@
 const Router = require('express');
+const multer = require('multer');
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+const upload = multer({ storage });
 const {
   createRecipes,
   listRecipes,
   findById,
   updateRecipes,
   removeRecipe,
+  addImageRecipe,
 } = require('../service/recipeService');
 
 const { checkAuthorization } = require('../midddleware/checkAutorization');
@@ -37,11 +49,11 @@ recipeController.get('/:id', checkId, async (req, res) => {
 recipeController.put('/:id', checkId, checkAuthorization, async (req, res) => {
   const okay = 200;
   const { id } = req.params;
-  const { name, ingredients, preparation } = req.body;
+  const recipes = req.body;
   const find = await findById(id);
   const { userId } = find;
-  console.log();
-  const recipe = await updateRecipes(id, { name, ingredients, preparation, userId });
+  recipes.userId = userId;
+  const recipe = await updateRecipes(id, recipes);
 
   res.status(okay).json(recipe);
 });
@@ -51,5 +63,14 @@ recipeController.delete('/:id', checkAuthorization, async (req, res) => {
   await removeRecipe(id);
   res.status(NoContent).end();
 });
+recipeController.put('/:id/image/',
+  checkId, checkAuthorization, upload.single('image'), async (req, res) => {
+    const { id } = req.params;
+    const find = await findById(id);
+    find.image = `localhost:3000/images/${id}.jpeg`;
+    console.log(find);
+    await addImageRecipe(id, find);
+    res.status(200).json(find);
+  });
 
 module.exports = recipeController;
