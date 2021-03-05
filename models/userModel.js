@@ -1,4 +1,4 @@
-const getCollection = require('./connection');
+const { getCollection } = require('./connection');
 
 const getAll = async () => 
   getCollection('users').then((db) => db.find({}).toArray());

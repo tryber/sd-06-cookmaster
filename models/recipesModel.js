@@ -1,5 +1,5 @@
 // const { ObjectId } = require('mongodb');
-const getCollection = require('./connection');
+const { getCollection } = require('./connection');
 
 const getAll = async () => 
   getCollection('recipes').then((db) => db.find({}).toArray());
