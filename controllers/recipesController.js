@@ -8,6 +8,7 @@ const {
   validateId,
   recipeUpdate,
   canUserEdit,
+  recipeDelete,
 } = require('../services/recipesServices');
 const { findOneUser } = require('../models/usersModel');
 
@@ -55,6 +56,25 @@ recipesRouter.put('/:id', validateToken, validateId, async (req, res) => {
   const recipeUpdated = await getRecipeById(id);
 
   res.status(200).json(recipeUpdated);
+});
+
+recipesRouter.delete('/:id', validateToken, validateId, async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  const recipe = await getRecipeById(id);
+
+  const userAuthorization = await canUserEdit(id, email);
+
+  if (!userAuthorization) {
+    return res.status(401).json({ message: `${email} can't edit this recipe` });
+  }
+
+  if (recipe) {
+    await recipeDelete(id);
+    res.status(204).send();
+  } else {
+    res.status(404).json({ message: 'recipe not found' });
+  }
 });
 
 module.exports = { recipesRouter };
