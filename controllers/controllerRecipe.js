@@ -8,6 +8,7 @@ const auth = require('../services/validationLogin/auth');
 const CREATED = 201;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+const NO_CONTENT = 204;
 
 const router = Router();
 
@@ -44,13 +45,15 @@ router.get('/', rescue(async (_req, res) => {
 router.put('/:id', auth, rescue(async (req, res) => {
   const { id } = req.params;
    const update = await service.updateRecipe(id);
+   console.log('update', update);
 
    return res.status(SUCCESS).json({ update });
  }));
 
-router.delete('/:id', auth, rescue(async (_req, _res) => {
-   // const { id } = req.params;
-   // const erase = await service.excludeRecipe(id);
+router.delete('/:id', auth, rescue(async (req, res) => {
+   const { id } = req.params;
+    const erase = await service.excludeRecipe(id);
+    res.status(NO_CONTENT).json(erase);
  }));
 
 module.exports = router;
