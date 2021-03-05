@@ -8,12 +8,12 @@ const findAll = async () => {
 
 const findOne = async (id) => {
   const db = await connection();
-  return db.collection('recipes').findOne({ _id: Object(id) });
+  return db.collection('recipes').findOne({ _id: ObjectId(id) });
 };
 
 const createOne = async (recipe) => {
   const db = await connection();
-  const { insertedId } = await db.collection('recipes').insertOne({ ...recipe });
+  const { insertedId } = await db.collection('recipes').insertOne(recipe);
   return { insertedId, ...recipe };
 };
 

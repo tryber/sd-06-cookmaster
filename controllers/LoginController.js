@@ -11,7 +11,6 @@ route.post('/',
  GenerateUserToken,
  async (_req, res) => {
    const { token } = res.locals;
-   console.log(token);
    return res.status(status.OK).json({ token });
  });
 

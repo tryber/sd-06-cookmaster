@@ -11,6 +11,15 @@ route.get('/', async (_req, res) => {
   res.status(status.OK).json(allRecipes);
 });
 
+route.get('/:id',
+  RecipesValidations.checkExistentRecipeById,
+  async (req, res) => {
+    const { id } = req.params;
+    const recipe = await RecipesServices.findOneById(id);
+    console.log(recipe, '**** recipe ****');
+    res.status(status.OK).json(recipe);
+});
+
 route.post('/', 
   RecipesValidations.checkSchema,
   VerifyUserToken,
@@ -18,7 +27,6 @@ route.post('/',
     const { name, ingredients, preparation } = req.body;
     const recipe = await RecipesServices.createOne({ name, ingredients, preparation });  
     const { id: authorId } = res.locals.decoded;
-    console.log(authorId);
     return res.status(status.CREATED).json({ recipe: { ...recipe, authorId } }); 
 });
 

@@ -9,7 +9,8 @@ const SignIn = async (req, res, next) => {
     const invalidData = 'Incorrect username or password';
     if (!user) throw generateError(status.NOT_AUTHORIZED, 'Not_Authorized', invalidData);
     const { password: dbPass, _id: id, role } = user;
-    console.log('dbpass', dbPass, 'password', password, id);
+
+    console.log('dbpass', dbPass, 'password', password, id, 'userid');
     if (dbPass !== password) {
       throw generateError(status.NOT_AUTHORIZED, 'Not_Authorized', invalidData);
     }

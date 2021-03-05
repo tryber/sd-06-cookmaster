@@ -8,6 +8,7 @@ const VerifyUserToken = async (req, res, next) => {
   }  
   jwt.verify(authHeader, 'aroldinho', (err, decoded) => {
     if (err) {
+      console.log(err);
       return next(authorizationError('jwt malformed'));
     } 
       const { email, id, role } = decoded;
