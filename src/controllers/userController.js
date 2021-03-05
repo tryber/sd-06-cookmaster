@@ -47,13 +47,13 @@ const loginUser = async (req, res) => {
 
 const createADM = async (req, res) => {
   const { name, email, password } = req.body;
-  const role = 'admin';
-  // preciso resgatar aqui o role de quem está logado, mas como?
-  if (req.role !== role) {
+  const userRole = req.user.role;
+  // userRole vem do validateTokenS
+  if (userRole !== 'admin') {
     return res.status(forbidden)
   .json({ message: 'Only admins can register new admins' });
 }
-  const newADM = await service.createADM(name, email, password, role);
+  const newADM = await service.createADM(name, email, password, userRole);
   console.log(newADM);
   res.status(created).json(newADM);
 };
