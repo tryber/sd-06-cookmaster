@@ -16,8 +16,8 @@ const findById = async (id) => {
     return null;
   }
 };
-const updateRecipes = async (id, recipe) => {
-  const upload = await Recipes.createRecipes(id, recipe);
+const updateRecipes = async (id, { name, ingredients, preparation, userId }) => {
+  const upload = await Recipes.updateRecipe(id, { name, ingredients, preparation, userId });
   return upload;
 };
 

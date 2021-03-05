@@ -12,9 +12,9 @@ recipeController.post('/', checkItens, checkAuthorization, async (req, res) => {
   const okay = 201;
   const { _id } = req.payload;
   const recipes = req.body;
+  recipes.userId = _id;
   const create = await createRecipes(recipes);
   const { ops } = create;
-  ops[0].userId = _id;
   res.status(okay).json({ recipe: ops[0] });
 });
 recipeController.get('/', async (_req, res) => {
@@ -28,13 +28,16 @@ recipeController.get('/:id', checkId, async (req, res) => {
   const find = await findById(id);
   res.status(okay).json(find);
 });
-recipeController.put('/:id', async (req, res) => {
+recipeController.put('/:id', checkId, checkAuthorization, async (req, res) => {
   const okay = 200;
   const { id } = req.params;
-  const recipes = req.body;
-  await updateRecipes(id, recipes);
-  console.log(recipes);
-  res.status(okay).json(recipes);
+  const { name, ingredients, preparation } = req.body;
+  const find = await findById(id);
+  const { userId } = find;
+  console.log();
+  const recipe = await updateRecipes(id, { name, ingredients, preparation, userId });
+
+  res.status(okay).json(recipe);
 });
 
 module.exports = recipeController;

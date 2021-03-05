@@ -16,11 +16,13 @@ const findById = async (id) => {
     db.collection('recipes').findOne(ObjectId(id)));
   return find;
 };
-const updateRecipe = async (id, recipe) => {
-  const update = await connection().then((db) =>
+const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
+  await connection().then((db) => {
     db.collection('recipes')
-      .updateOne({ _id: ObjectId(id) }, { $set: { recipe } }));
-  return update;
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } });
+  });
+
+  return { id, name, ingredients, preparation, userId };
 };
 module.exports = {
   createRecipes,
