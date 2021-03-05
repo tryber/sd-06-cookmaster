@@ -22,6 +22,7 @@ const validateToken = require('../auth/validateToken');
 const validateIngredients = require('../middlewares/validateIngredients');
 const validatePreparation = require('../middlewares/validatePreparation');
 const validateRecipeId = require('../middlewares/validateRecipeId');
+const resolveProblem = require('../middlewares/resolveProblem');
 
 const CreateRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -59,13 +60,6 @@ const deleteRecipesById = async (req, res) => {
   return res.status(resp.status).json();
 };
 
-RecipesRouter.post(
-  '/', validateName, validateIngredients, validatePreparation, verfifyAuthorization, rescue(
-    CreateRecipes,
-    ),
-);
-RecipesRouter.get('/', rescue(getAllRecipes));
-
 // multer
 const UploadSingle = require('../middlewares/uploadSingle');
 
@@ -75,9 +69,18 @@ const uploadImage = async (req, res) => {
   const resp = await UpdateRecipesWithImageService(id);
   return res.status(resp.status).json(resp.recipesResponse);
 };
+// end multer
+
+RecipesRouter.post(
+  '/', validateName, validateIngredients, validatePreparation, verfifyAuthorization, rescue(
+    CreateRecipes,
+    ),
+);
+RecipesRouter.get('/', rescue(getAllRecipes));
 
 RecipesRouter.put(
   '/:id/image/',
+  resolveProblem,
   validateRecipeId,
   verifyToken,
   verfifyAuthorization,
@@ -86,8 +89,18 @@ RecipesRouter.put(
 );
 // end multer
 
-RecipesRouter.get('/:id', validateRecipeId, rescue(getRecipesById));
-RecipesRouter.put('/:id', verifyToken, verfifyAuthorization, rescue(updateRecipesById));
-RecipesRouter.delete('/:id', verifyToken, verfifyAuthorization, rescue(deleteRecipesById));
+RecipesRouter.get('/:id', resolveProblem, validateRecipeId, rescue(getRecipesById));
+RecipesRouter.put(
+  '/:id',
+  resolveProblem,
+  verifyToken,
+  verfifyAuthorization,
+  rescue(updateRecipesById),
+);
+RecipesRouter.delete(
+  '/:id', resolveProblem,
+  verifyToken, verfifyAuthorization,
+  rescue(deleteRecipesById),
+);
 
 module.exports = RecipesRouter;
