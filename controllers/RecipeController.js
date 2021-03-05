@@ -1,8 +1,10 @@
 const { Router } = require('express');
 const validatedToken = require('../authorization/validate');
+const { findRecipe } = require('../assets');
 const RecipeService = require('../services/RecipeServices');
 const verifiedEmptyFields = require('../middlewares/verifyFieldsRecipe');
 const verifyToken = require('../middlewares/verifyToken');
+const verifyExistedRecipe = require('../middlewares/verifyExistedRecipe');
 
 const RecipeController = Router();
 const STATUS_201 = 201;
@@ -11,6 +13,12 @@ const STATUS_200 = 200;
 RecipeController.get('/', async (request, response) => {
   const allRecipes = await RecipeService.getRecipes();
   return response.status(STATUS_200).json(allRecipes);
+});
+
+RecipeController.get('/:id', verifyExistedRecipe, async (request, response) => {
+  const { id } = request.params;
+  const recipeFound = await findRecipe(id);
+  return response.status(STATUS_200).json(recipeFound);
 });
 
 RecipeController.post('/', verifiedEmptyFields, verifyToken, async (request, response) => {
