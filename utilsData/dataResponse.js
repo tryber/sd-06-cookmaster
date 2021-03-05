@@ -5,6 +5,8 @@ const objAnswer = {
         err3: { message: 'All fields must be filled' },
         err4: { message: 'Incorrect username or password' },
     },
+    err_token: { message: 'jwt malformed' },
+    err_search: { message: 'recipe not found' },
 };
 
 const status = {
@@ -13,6 +15,7 @@ const status = {
     created: 201,
     ok: 200,
     unauthorized: 401,
+    notFound: 404,
 };
 
 module.exports = { objAnswer, status };

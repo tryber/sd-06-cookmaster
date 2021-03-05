@@ -1,4 +1,11 @@
 const usersValidations = require('./usersValidations');
-const usersService = require('./usersService');
+const usersServices = require('./usersService');
+const recipesServices = require('./recipesServices');
+const recipesValidations = require('./recipesValidations');
 
-module.exports = { usersValidations, usersService };
+module.exports = {
+    usersValidations,
+    usersServices,
+    recipesServices,
+    recipesValidations,
+};

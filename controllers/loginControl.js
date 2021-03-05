@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const { usersMiddlewares: auth, usersVerify: valid } = require('../middlewares');
+const { loginVefiry: valid } = require('../middlewares');
 
 const router = Router();
 
-router.post('/', valid.verifyBodyLogin, auth.generateToken);
+router.post('/', valid.verifyBodyLogin, valid.generateToken);
 
 router.get('/');
 

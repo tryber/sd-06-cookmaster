@@ -5,7 +5,13 @@ const create = async (name, email, password) => usersCrudDb.createUser(name, ema
 
 const createToken = async (dataBody) => auth.createToken(dataBody);
 
+const selectUser = async (email) => {
+    const user = await usersCrudDb.selectByEmail(email);
+    return user;
+};
+
 module.exports = {
     create,
     createToken,
+    selectUser,
 };
