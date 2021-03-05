@@ -22,7 +22,6 @@ class UsersController {
     const { _id, role, name } = await loginService.execute({ email, password });
     return res.status(200).json(CreateToken({ _id, name, email, role }));
   }
-
 }
 
 module.exports = UsersController;
