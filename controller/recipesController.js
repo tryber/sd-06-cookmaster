@@ -1,19 +1,25 @@
 const { Router } = require('express');
 const recipesService = require('../service/recipesService');
-const validation = require('../service/validations/recipeValidation');
-const tValidation = require('../service/validations/tokenValidation');
+const valid = require('../service/validations/recipeValidation');
+const validTkn = require('../service/validations/tokenValidation');
 
 const routerRecipes = new Router();
 
-routerRecipes.post('/', validation.recipeValidation, tValidation.tokenValidation,
+routerRecipes.post('/', valid.createRecipeValidation, validTkn.tokenValidation,
 async (req, res) => {
   const recipe = req.body;
-  const { userId } = req.res.locals;
+  const { userId } = res.locals;
+  console.log('userId', userId)
   const newRecipe = await recipesService.createRecipe(recipe, userId);
   return res.status(201).json(newRecipe);
 });
 
-routerRecipes.get('/', async (req, res) => {
+routerRecipes.get('/:id', valid.recipeByIdValidation, async (req, res) => {
+  const { recipe } = res.locals;
+  return res.status(200).json(recipe);
+});
+
+routerRecipes.get('/', async (_req, res) => {
   const recipes = await recipesService.getAll();
   return res.status(200).json(recipes);
 });

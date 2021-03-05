@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 // falta url da imagem
@@ -26,7 +27,13 @@ const getAll = async () => {
   return db.collection('recipes').find().toArray();
 };
 
+const getRecipeById = async (id) => {
+  const db = await connection();
+  return db.collection('recipes').findOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  getRecipeById,
 };
