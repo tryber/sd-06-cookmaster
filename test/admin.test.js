@@ -70,7 +70,7 @@ describe('11 - Cadastramento de admin', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível cadastrar um usuário admin, sem estar autenticado como um usuário admin', async () => {
+  it('Será validado que não é possível cadastrar um usuário admin, sem estar autenticado como um usuário admin', async () => {
     let result;
 
     await frisby
@@ -106,7 +106,7 @@ describe('11 - Cadastramento de admin', () => {
       });
   });
 
-  it.skip('Será validado que é possível cadastrar um usuário admin', async () => {
+  it('Será validado que é possível cadastrar um usuário admin', async () => {
     let result;
 
     await frisby

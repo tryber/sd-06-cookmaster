@@ -4,7 +4,7 @@ const userController = require('./controller/userController');
 const loginController = require('./controller/loginController');
 const recipesController = require('./controller/recipeController');
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 const app = express();
 app.use(bodyParser.json());
