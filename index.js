@@ -9,7 +9,7 @@ const PORT = 3000;
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/uploads'));
+app.use(express.static(`${__dirname}+/uploads`));
 
 app.use('/users', userController);
 app.use('/login', loginController);
