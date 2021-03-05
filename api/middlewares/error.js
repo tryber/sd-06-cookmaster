@@ -10,6 +10,8 @@ module.exports = (err, _req, res, _next) => {
       return res.status(401).json({ message: err.message });
     case err.message === 'jwt malformed':
       return res.status(401).json({ message: err.message });
+    case err.message === 'Incorrect username or password':
+      return res.status(401).json({ message: err.message });
     default: res.status(500).json({ message: 'Erro interno' });
       break;
   }
