@@ -1,11 +1,15 @@
 const recipeRouter = require('express').Router();
 const Service = require('../services/recipeService');
+const validateToken = require('../auth/validateJWT');
 
-recipeRouter.get('/', (req, res) => res.status(200).json({ message: 'Recipes' }));
+recipeRouter.get('/', async (_req, res) => {
+  const recipes = await Service.getAllRecipes();
+  res.status(200).json(recipes);
+});
 
-recipeRouter.post('/', async (req, res) => {
+recipeRouter.post('/', validateToken, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-   const recipe = await Service.createRecipe(name, ingredients, preparation);
+  const recipe = await Service.createRecipe(name, ingredients, preparation);
   res.status(201).json({ recipe });
 });
 
