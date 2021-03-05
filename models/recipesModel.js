@@ -13,4 +13,9 @@ const getById = async (id) =>
 const create = async ({ name, ingredients, preparation }) => 
   getCollection('recipes').then((db) => db.insertOne({ name, ingredients, preparation }));
 
-module.exports = { create, getAll, getByRecipeName, getById };
+const edit = async (name, ingredients, preparation, id) => 
+  getCollection('recipes').then((db) => db.updateOne(
+    { _id: ObjectId(id) }, { $set: { name, ingredients, preparation } },
+  ));
+  
+module.exports = { create, getAll, getByRecipeName, getById, edit };

@@ -21,4 +21,12 @@ const create = async ({ name, ingredients, preparation }) => {
   return user;
 };
 
-module.exports = { create, getAll, getByRecipeName, getById };
+const edit = async (name, ingredients, preparation, id) => {
+  if (!name || !ingredients || !preparation) {
+    return { error: true, code: 'bad_request', message: 'Invalid entries. Try again.' };
+  }
+  const user = await recipesModel.edit(name, ingredients, preparation, id);
+  return user;
+};
+
+module.exports = { create, getAll, getByRecipeName, getById, edit };

@@ -31,5 +31,6 @@ app.post('/users', userController.create);
 app.get('/recipes', recipesController.getAll);
 app.get('/recipes/:id', recipesController.getById);
 app.post('/recipes', verifyAuthorization, recipesController.create);
+app.put('/recipes/:id', verifyAuthorization, recipesController.edit);
 
 app.use(error);
