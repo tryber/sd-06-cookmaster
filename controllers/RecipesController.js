@@ -8,7 +8,7 @@ const route = Router();
 
 route.get('/', async (_req, res) => {
   const allRecipes = await RecipesServices.findAll();
-  res.status(status.OK).json({ recipes: allRecipes });
+  res.status(status.OK).json(allRecipes);
 });
 
 route.post('/', 

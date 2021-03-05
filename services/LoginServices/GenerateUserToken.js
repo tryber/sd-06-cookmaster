@@ -7,10 +7,7 @@ const GenerateUserToken = async (_req, res, next) => {
     expiresIn: '7m',
   };
   const { email, id, role } = res.locals.user;
-  console.log(
-    'generate token *************',
-    email, id, role,
-    );
+  
   const token = jwt.sign({ email, id, role }, usersSecret, headers);  
   res.locals.token = token;
   next();

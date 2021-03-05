@@ -13,7 +13,6 @@ const findOne = async (id) => {
 
 const findOneByEmail = async (email) => {
   const db = await connection();
-  console.log('model email', email);
   const user = await db.collection('users').findOne({ email: { $eq: email } });
   console.log(user);
   return user;
