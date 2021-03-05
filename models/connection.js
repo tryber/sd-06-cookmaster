@@ -7,8 +7,7 @@ const DB_NAME = 'Cookmaster';
 const connection = () => MongoClient.connect(MONGO_DB_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
-}).then((con) => con.db(DB_NAME)).catch((err) => {
-  console.log(err);
+}).then((con) => con.db(DB_NAME)).catch((_err) => {
   process.exit();
 });
 
