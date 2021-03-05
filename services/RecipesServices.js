@@ -1,5 +1,15 @@
 const RecipesModels = require('../models/RecipesModels');
 
+const getAll = async () => {
+  return await RecipesModels.getAll();
+};
+
+const findById = async (id) => {
+  const recipe = await RecipesModels.findById(id);
+
+  return recipe;
+};
+
 const create = async (data) => {
   const recipe = await RecipesModels.create(data);
 
@@ -7,5 +17,7 @@ const create = async (data) => {
 };
 
 module.exports = {
+  getAll,
+  findById,
   create,
 };
