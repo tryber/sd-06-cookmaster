@@ -5,7 +5,7 @@ const {
   usersRouter,
   loginRouter,
   recipesRouter,
-} = require('./controllers');
+} = require('./src/controllers');
 
 const app = express();
 
