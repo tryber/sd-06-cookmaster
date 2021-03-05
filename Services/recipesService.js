@@ -11,8 +11,14 @@ const listRecipesService = async () => (
 const recipeByIdService = async (id) => (
   recipes.recipeById(id)
 );
+
+const updateRecipeService = async (id, name, ingredients, preparation) => (
+  recipes.updateRecipe(id, name, ingredients, preparation)
+);
+
 module.exports = {
   createRecipeService,
   listRecipesService,
   recipeByIdService,
+  updateRecipeService,
 };
