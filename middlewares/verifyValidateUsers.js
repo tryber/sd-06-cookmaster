@@ -7,7 +7,6 @@ const code = 400;
 async function verifyEmailExists(request, response, next) {
   const { email } = request.body;
   const existNameReturn = await usersServices.findEmailExist(email);
-  console.log('userValidate', existNameReturn);
   if (existNameReturn) {
     return response.status(409)
       .json({ message: 'Email already registered' }); 
@@ -31,10 +30,9 @@ function verifyUsers(request, response, next) {
     return response.status(code)
     .json({ message: msg });
   }
-  
   next(); 
-  // esta passando quando é quando coloco qualquer coisa e não passa se não existir o ccmpo role
 }
+
 module.exports = {
   verifyEmailExists,
   verifyEmail,
