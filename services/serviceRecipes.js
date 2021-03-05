@@ -15,8 +15,8 @@ const createRecipe = async ({ name, ingredients, preparation }, userId) => {
   return newRecipe;
 };
 
-const updateRecipe = async ({ id, name, ingredients, preparation }) => {
-  const update = await model.updateRecipe({ name, id, ingredients, preparation });
+const updateRecipe = async ({ id, name, ingredients, preparation }, userId) => {
+  const update = await model.updateRecipe({ name, id, ingredients, preparation }, userId);
 
   return update;
 };

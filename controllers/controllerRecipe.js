@@ -19,13 +19,6 @@ router.post('/', checkRecipe, auth, rescue(async (req, res) => {
     res.status(CREATED).json(createdRecipe);
 }));
 
-// router.post('/:id/image/', rescue(async (req, res) => {
-//   const { name, ingredients, preparation } = req.body;
- 
-//     const createdRecipe = await service.createRecipe({ name, ingredients, preparation });
-//     return res.status(CREATED).json(createdRecipe);
-// }));
-
 router.get('/:id', rescue(async (req, res) => {
   const { id } = req.params;
 
@@ -44,10 +37,13 @@ router.get('/', rescue(async (_req, res) => {
 
 router.put('/:id', auth, rescue(async (req, res) => {
   const { id } = req.params;
-   const update = await service.updateRecipe(id);
+  const { _id } = req.infoUser;
+  
+  const { name, ingredients, preparation } = req.body;
+   const update = await service.updateRecipe({ id, name, ingredients, preparation }, _id);
    console.log('update', update);
 
-   return res.status(SUCCESS).json({ update });
+   return res.status(SUCCESS).json(update);
  }));
 
 router.delete('/:id', auth, rescue(async (req, res) => {

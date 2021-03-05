@@ -18,12 +18,12 @@ const createRecipe = async ({ name, ingredients, preparation }, userId) => {
   return { recipe: { name, ingredients, preparation, userId, _id: insertedId } };
 };
 
-const updateRecipe = async ({ id, name, ingredients, preparation }) => {
+const updateRecipe = async ({ id, name, ingredients, preparation }, userId) => {
   if (!ObjectId.isValid(id)) return null;
-  const Recipe = await getCollection('recipes').then((recipe) =>
-    recipe.updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }));
+  await getCollection('recipes').then((recipe) =>
+    recipe.updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } }));
 
-  return Recipe;
+  return { _id: id, name, ingredients, preparation, userId };
 };
 
 const excludeRecipe = async (id) => {
