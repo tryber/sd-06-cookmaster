@@ -1,6 +1,12 @@
 const Router = require('express');
 
-const { createRecipes, listRecipes, findById, updateRecipes } = require('../service/recipeService');
+const {
+  createRecipes,
+  listRecipes,
+  findById,
+  updateRecipes,
+  removeRecipe,
+} = require('../service/recipeService');
 
 const { checkAuthorization } = require('../midddleware/checkAutorization');
 const checkId = require('../midddleware/chechId');
@@ -38,6 +44,12 @@ recipeController.put('/:id', checkId, checkAuthorization, async (req, res) => {
   const recipe = await updateRecipes(id, { name, ingredients, preparation, userId });
 
   res.status(okay).json(recipe);
+});
+recipeController.delete('/:id', checkAuthorization, async (req, res) => {
+  const NoContent = 204;
+  const { id } = req.params;
+  await removeRecipe(id);
+  res.status(NoContent).end();
 });
 
 module.exports = recipeController;
