@@ -3,6 +3,7 @@ const checkEmailRepetition = require('./checkEmailRepetition');
 const validateEmail = require('./validateEmail');
 const checkLoginFields = require('./checkLoginFields');
 const checkRecipeFields = require('./checkRecipeFields');
+const validateRecipeId = require('./validateRecipeId');
 
 module.exports = {
   checkNewUserFields,
@@ -10,4 +11,5 @@ module.exports = {
   validateEmail,
   checkLoginFields,
   checkRecipeFields,
+  validateRecipeId,
 };
