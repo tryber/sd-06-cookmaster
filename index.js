@@ -29,6 +29,7 @@ app.post('/users', userController.create);
 
 // recipes
 app.get('/recipes', recipesController.getAll);
+app.get('/recipes/:id', recipesController.getById);
 app.post('/recipes', verifyAuthorization, recipesController.create);
 
 app.use(error);

@@ -12,6 +12,6 @@ async function getCollection(collection) {
       useUnifiedTopology: true,
     }));
   return connection.db(DB_NAME).collection(collection);
-};
+}
 
 module.exports = { getCollection };
