@@ -2,7 +2,7 @@
 const connection = require('./connection');
 
 const getAll = async () =>
-  connection().then((db) => db.collection('users')
+    connection().then((db) => db.collection('users')
     .find().toArray());
     
 const findByEmail = async (email) => 

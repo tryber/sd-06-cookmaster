@@ -27,7 +27,7 @@ router.post('/', validateLogin, rescue(async (req, res) => {
   const { email } = req.body;
   
   const jwtConfig = {
-    expiresIn: '1m',
+    expiresIn: '7d',
     algorithm: 'HS256',
   };
   
