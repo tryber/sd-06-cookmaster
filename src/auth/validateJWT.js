@@ -12,11 +12,14 @@ module.exports = async (req, res, next) => {
     return result;
   });
   
-  const user = await User.findByEmail(decoded.data.email);
-  if (!user) {
-    return res.status(401).json({ message: 'No user found' });
+  if (decoded) {
+    const user = await User.findByEmail(decoded.data.email);
+    if (!user) {
+      return res.status(401).json({ message: 'No user found' });
+    }
+    req.user = user;
+    next(); 
+  } else {
+    return res.status(401).json({ message: 'bad jwt' });
   }
-  
-  req.user = user;
-  next();
 };
