@@ -5,7 +5,7 @@ const Recipes = require('../models/Recipes');
 
 const router = Router();
 
-function validateRecipe (req, res, next) {
+function validateRecipe(req, res, next) {
   const { name, ingredients, preparation } = req.body;
   
   if (!name || !ingredients || !preparation) {
