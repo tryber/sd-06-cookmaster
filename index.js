@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const UsersController = require('./src/controllers/UsersController');
+const LoginController = require('./src/controllers/LoginController');
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use('/users', UsersController);
+app.use('/login', LoginController);
 
 app.use((err, req, res, _next) => 
   res.status(500).json({ message: 'Erro interno' }));
