@@ -19,4 +19,12 @@ recipeRouter.get('/:id', async (req, res) => {
   res.status(200).json(recipe);
 });
 
+recipeRouter.put('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const recipe = await Service.updateRecipe(id, name, ingredients, preparation);
+    
+  res.status(200).json(recipe);
+});
+
 module.exports = recipeRouter;
