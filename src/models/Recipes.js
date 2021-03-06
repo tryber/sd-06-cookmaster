@@ -2,6 +2,9 @@ const connection = require('./connection');
 
 const getAll = async () =>
   connection().then((db) => db.collection('recipes').find().toArray());
+  
+const findById = async (id) =>
+  connection().then((db) => db.collection('recipes').findOne({}, { _id: id }));
 
 const create = async (name, ingredients, preparation, userId) => {
   const { insertedId } = await connection().then((db) => db.collection('recipes')
@@ -18,5 +21,6 @@ const create = async (name, ingredients, preparation, userId) => {
 
 module.exports = {
   getAll,
+  findById,
   create,
 };

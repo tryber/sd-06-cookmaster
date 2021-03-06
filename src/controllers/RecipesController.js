@@ -22,6 +22,13 @@ router.get('/', rescue(async (req, res) => {
   return res.status(200).json(recipes);
 }));
 
+router.get('/:id', rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.findById(id);
+  
+  return res.status(200).json(recipe);
+}));
+
 router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
     const { name, ingredients, preparation } = req.body;
   const { _id } = req.user;
