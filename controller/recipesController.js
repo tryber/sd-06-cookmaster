@@ -9,7 +9,6 @@ routerRecipes.post('/', valid.createRecipeValidation, validTkn.tokenValidation,
 async (req, res) => {
   const recipe = req.body;
   const { userId } = res.locals;
-  console.log('userId', userId)
   const newRecipe = await recipesService.createRecipe(recipe, userId);
   return res.status(201).json(newRecipe);
 });
@@ -22,6 +21,18 @@ routerRecipes.get('/:id', valid.recipeByIdValidation, async (req, res) => {
 routerRecipes.get('/', async (_req, res) => {
   const recipes = await recipesService.getAll();
   return res.status(200).json(recipes);
+});
+
+//
+
+routerRecipes.put('/:id', valid.editRecipeValidation, validTkn.tokenValidation,
+async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = res.locals;
+  const recipeInfo = req.body;
+  const editedRecipe = await recipesService.editRecipeById(id, recipeInfo, userId);
+  console.log(editedRecipe);
+  return res.status(200).json(editedRecipe);
 });
 
 routerRecipes.use('/', async (error, req, res, _next) => {

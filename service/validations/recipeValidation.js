@@ -2,6 +2,7 @@ const recipes = require('../../models/recipes');
 
 const messageError400 = 'Invalid entries. Try again.';
 const messageError404 = 'recipe not found';
+const messageError401 = 'missing auth token';
 
 const createError = (message, status) => ({ message, status });
 
@@ -17,7 +18,6 @@ const recipeByIdValidation = async (req, res, next) => {
   try {
     const { id } = req.params;
     const recipe = await recipes.getRecipeById(id);
-    console.log('recipe ', recipe);
     res.locals.recipe = recipe;
     next();
   } catch {
@@ -25,7 +25,17 @@ const recipeByIdValidation = async (req, res, next) => {
   }
 };
 
+const editRecipeValidation = async (req, res, next) => {
+  const token = req.headers.authorization;
+  
+  if (!token) {
+    return next(createError(messageError401, 401));
+  }
+  next();
+};
+
 module.exports = {
   createRecipeValidation,
   recipeByIdValidation,
+  editRecipeValidation,
 };

@@ -7,7 +7,13 @@ const createRecipe = async (recipeInfo, userId) => {
 
 const getAll = async () => recipes.getAll();
 
+const editRecipeById = async (id, recipeInfo, userId) =>{
+  const editedRecipe = await recipes.editRecipeById(id, recipeInfo, userId);
+  return editedRecipe;
+};
+
 module.exports = {
   createRecipe,
   getAll,
+  editRecipeById,
 };
