@@ -18,11 +18,16 @@ const getAllRecipes = async () => {
   return allRecipes;
 };
 
-const getRecipeById = async (id) => {
+const getRecipeById = async (recId) => {
   const recipeId = await connection().then((db) => db.collection('recipes').findOne({
-    _id: ObjectId(id),
+    _id: ObjectId(recId),
   }));
-  return recipeId;
+  if (recipeId) {
+    const { _id: id, name, ingredients, preparation, userId } = recipeId;
+    const recipe = { id, name, ingredients, preparation, userId };
+    return recipe;
+  }
+  return null;
 };
 
 module.exports = {
