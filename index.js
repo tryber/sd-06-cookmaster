@@ -22,7 +22,6 @@ app.use('/ping', (request, response) => {
 app.use('/users', UsersController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
-app.use('/recipes/:id', RecipesController);
 
 app.use((error, request, response, _next) => {
   response.status(error.code).json(error.errorMessage);
