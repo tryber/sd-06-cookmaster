@@ -27,4 +27,10 @@ recipeRouter.put('/:id', validateToken, async (req, res) => {
   res.status(200).json(recipe);
 });
 
+recipeRouter.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.body;
+  await Service.deleteRecipe(id);
+  res.sendStatus(204);
+});
+
 module.exports = recipeRouter;
