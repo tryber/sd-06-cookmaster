@@ -2,6 +2,7 @@ const { Router } = require('express');
 const rescue = require('express-rescue');
 // const Users = require('../models/Users');
 const Recipes = require('../models/Recipes');
+const validateJWT = require('../auth/validateJWT');
 
 const router = Router();
 
@@ -15,7 +16,13 @@ function validateRecipe(req, res, next) {
   next();
 }
 
-router.post('/', validateRecipe, rescue(async (req, res) => {
+router.get('/', rescue(async (req, res) => {
+  const recipes = await Recipes.getAll();
+  
+  return res.status(200).json(recipes);
+}));
+
+router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
     const { name, ingredients, preparation } = req.body;
   const { _id } = req.user;
   
