@@ -25,9 +25,8 @@ const recipeByIdValidation = async (req, res, next) => {
   }
 };
 
-const editRecipeValidation = async (req, res, next) => {
+const recipeValidation = async (req, res, next) => {
   const token = req.headers.authorization;
-  
   if (!token) {
     return next(createError(messageError401, 401));
   }
@@ -37,5 +36,5 @@ const editRecipeValidation = async (req, res, next) => {
 module.exports = {
   createRecipeValidation,
   recipeByIdValidation,
-  editRecipeValidation,
+  recipeValidation,
 };

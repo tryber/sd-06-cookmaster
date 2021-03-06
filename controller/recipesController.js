@@ -25,7 +25,7 @@ routerRecipes.get('/', async (_req, res) => {
 
 //
 
-routerRecipes.put('/:id', valid.editRecipeValidation, validTkn.tokenValidation,
+routerRecipes.put('/:id', valid.recipeValidation, validTkn.tokenValidation,
 async (req, res) => {
   const { id } = req.params;
   const { _id: userId } = res.locals;
@@ -33,6 +33,13 @@ async (req, res) => {
   const editedRecipe = await recipesService.editRecipeById(id, recipeInfo, userId);
   console.log(editedRecipe);
   return res.status(200).json(editedRecipe);
+});
+
+routerRecipes.delete('/:id', valid.recipeValidation,
+async (req, res) => {
+  const { id } = req.params;
+  await recipesService.deleteRecipe(id);
+  return res.status(204).end();
 });
 
 routerRecipes.use('/', async (error, req, res, _next) => {
