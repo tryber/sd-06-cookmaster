@@ -24,7 +24,10 @@ router.get('/', rescue(async (req, res) => {
 
 router.get('/:id', rescue(async (req, res) => {
   const { id } = req.params;
+  if (id.length !== 24) return res.status(404).json({ message: 'recipe not found' });
+  
   const recipe = await Recipes.findById(id);
+  if (!recipe || id.length !== 24) return res.status(404).json({ message: 'recipe not found' });
   
   return res.status(200).json(recipe);
 }));
