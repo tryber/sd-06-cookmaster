@@ -26,8 +26,23 @@ async function findById(id) {
   return recipe;
 }
 
+async function update(newDataFromRecipe) {
+  const updatedRecipe = await Recipe.update(newDataFromRecipe);
+  if (!updatedRecipe) {
+    return {
+      error: {
+        message: 'Recipe not updated',
+        code: NOT_FOUND,
+      },
+    };
+  }
+
+  return updatedRecipe;
+}
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };

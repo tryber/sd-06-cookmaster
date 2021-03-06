@@ -2,6 +2,7 @@ const { Router } = require('express');
 const {
   checkRecipeFields,
   validateRecipeId,
+  checkPermissions,
 } = require('../middlewares');
 
 const validateJWT = require('../auth/validateJWT');
@@ -38,5 +39,21 @@ router.post('/',
     }
     response.status(OK).json(requestedRecipe);
   });
+
+  router.put('/:id',
+    checkRecipeFields,
+    validateJWT,
+    checkPermissions,
+    async (request, response) => {
+      const { id: recipeId } = request.params;
+      const { name, ingredients, preparation } = request.body;
+      const newDataFromRecipe = { recipeId, name, ingredients, preparation };
+      const updatedRecipe = await RecipesService.update(newDataFromRecipe);
+
+      if (updatedRecipe.error) {
+        return response.status(updatedRecipe.error.code).json(updatedRecipe.error.message);
+      }
+      response.status(OK).json(updatedRecipe);
+    });
 
 module.exports = router;

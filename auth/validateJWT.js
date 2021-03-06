@@ -5,7 +5,12 @@ const UNAUTHORIZED = 401;
 
 const secret = 'mysectrettoken';
 
-const errorObject = {
+const missingTokenErrorObject = {
+  code: UNAUTHORIZED,
+  errorMessage: { message: 'missing auth token' },
+};
+
+const invalidTokenErrorObject = {
   code: UNAUTHORIZED,
   errorMessage: { message: 'jwt malformed' },
 };
@@ -13,19 +18,21 @@ const errorObject = {
 async function validateJWT(request, response, next) {
   const token = request.headers.authorization;
   if (!token) {
-    next(errorObject);
+    next(missingTokenErrorObject);
   }
 
   try {
     const decoded = jwt.verify(token, secret);
     const user = await UsersService.findByEmail(decoded.email);
+
     if (!user) {
-      next(errorObject);
+      next(invalidTokenErrorObject);
     }
+    
     request.user = user;
     next();
   } catch (err) {
-    next(errorObject);
+    next(invalidTokenErrorObject);
   }
 }
 
