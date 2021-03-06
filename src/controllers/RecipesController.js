@@ -57,10 +57,20 @@ const deleteRecipe = rescue(async (req, res) => {
     .json(await RecipesService.deleteRecipe(id));
 });
 
+const addNewImage = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+
+  return res
+    .status(SUCCESS)
+    .json(await RecipesService.addNewImage(id, filename));
+});
+
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
   listRecipeById,
   editRecipe,
   deleteRecipe,
+  addNewImage,
 };

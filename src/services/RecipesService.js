@@ -26,10 +26,14 @@ const editRecipe = async (id, name, ingredients, preparation) => RecipesModel
 const deleteRecipe = async (id) => RecipesModel
   .deleteRecipe(id);
 
+const addNewImage = async (id, filename) => RecipesModel
+  .addNewImage(id, filename);
+
 module.exports = {
   registerNewRecipe,
   listAllRecipes,
   listRecipeById,
   editRecipe,
   deleteRecipe,
+  addNewImage,
 };
