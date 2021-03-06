@@ -16,12 +16,12 @@ const createUser = async (req, res) => {
   if (!name || !email || !password) {
     return res.status(badRequest).json({ message: 'Invalid entries. Try again.' });
    }
-  const emailNoExist = await service.emailExist(name, email, password);
+  const emailNotExist = await service.emailExist(name, email, password);
   if (!regexEmail.test(email)) {
     return res.status(badRequest)
     .json({ message: 'Invalid entries. Try again.' });
   }
-  if (!emailNoExist) return res.status(conflict).json({ message: 'Email already registered' });
+  if (!emailNotExist) return res.status(conflict).json({ message: 'Email already registered' });
   const newUser = await service.userCreate(name, email, password, role);
   res.status(created).json(newUser);
 };
@@ -53,8 +53,7 @@ const createADM = async (req, res) => {
     return res.status(forbidden)
   .json({ message: 'Only admins can register new admins' });
 }
-  const newADM = await service.createADM(name, email, password, userRole);
-  console.log(newADM);
+  const newADM = await service.userCreate(name, email, password, userRole);
   res.status(created).json(newADM);
 };
 

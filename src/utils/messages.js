@@ -8,7 +8,6 @@ const notFound = 404;
 const conflict = 409;
 const invalidParams = 422;
 const zero = 0;
-
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RecipeNotFound = ({ message: 'recipe not found' });
 
