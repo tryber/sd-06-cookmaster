@@ -11,18 +11,18 @@ const getAllRecipes = async () => Recipes.getAllRecipes();
 
 const getRecipeById = async (id) => {
   const recipeNotFound = { statusCode: 404, customMessage: 'recipe not found' };
-  const isIdValid = ObjectID.isValid(id);
-
-  if (!isIdValid) return recipeNotFound;
-
   const recipe = await Recipes.getRecipeById(id);
+
   if (!recipe) return recipeNotFound;
 
   return recipe;
 };
 
+const updateRecipe = async (recipe) => Recipes.updateRecipe(recipe);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

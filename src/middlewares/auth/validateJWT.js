@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(400).json({ error: 'Token não encontrado ou informado' });
+    return next({ statusCode: 401, customMessage: 'missing auth token' });
   }
 
   try {
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
     const user = await usersService.findUserByEmail(decoded.data.email);
 
     if (!user) {
-      return res.status(401).json({ message: 'Erro ao procurar usuário do token.' });
+      return next({ statusCode: 401, customMessage: 'token user not found' });
     }
 
     req.user = user;
