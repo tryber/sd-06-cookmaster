@@ -22,4 +22,11 @@ recipesRouter.post(
   },
 );
 
+recipesRouter.get('/',
+  async (req, res) => {
+    const allRecipes = await recipeService.getAllRecipes();
+
+    res.status(200).json(allRecipes);
+  });
+
 module.exports = { recipesRouter };

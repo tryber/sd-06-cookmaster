@@ -15,14 +15,17 @@ const verifyFields = async (request, response, next) => {
     });
   }
 
-  // const exists = await usersModel.getUserByEmail(email);
-
-  // if (exists) return response.status(409).json({ message: 'Email already registered' });
-
   next();
+};
+
+const getAllRecipes = async () => {
+  const allRecipes = await recipeModel.getAllRecipes();
+
+  return allRecipes;
 };
 
 module.exports = {
   createRecipe,
   verifyFields,
+  getAllRecipes,
 };
