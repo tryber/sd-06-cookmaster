@@ -7,6 +7,17 @@ const errorObj = {
   message: 'Invalid entries. Try again.',
 };
 
+async function formateResponse(insertedRecipe, id) {
+  const formatedRecipeResponse = { recipe: { name: insertedRecipe.recipe.name,
+    ingredients: insertedRecipe.recipe.ingredients,
+    preparation: insertedRecipe.recipe.preparation,
+    userId: insertedRecipe.recipe.userId,
+    id,
+    },
+  };
+  return formatedRecipeResponse;
+}
+
 async function createRecipe(req, res, _next) {
   const {
     name,
@@ -17,15 +28,9 @@ async function createRecipe(req, res, _next) {
     return res.status(BADREQUEST).json(errorObj);
   }
   const [insertedRecipe] = await insertNewRecipe(name, ingredients, preparation, res.locals.userId);
-  const formatedRecipeResponse = { recipe: { name: insertedRecipe.recipe.name,
-    ingredients: insertedRecipe.recipe.ingredients,
-    preparation: insertedRecipe.recipe.preparation,
-    userId: insertedRecipe.recipe.userId,
-    // eslint-disable-next-line no-underscore-dangle
-    id: insertedRecipe._id,
-    },
-  };
-  res.status(CREATED).json(formatedRecipeResponse);
+  const { _id: id } = insertedRecipe;
+  const response = await formateResponse(insertedRecipe, id);
+  res.status(CREATED).json(response);
 }
 
 // console.log(res.locals.userId);
