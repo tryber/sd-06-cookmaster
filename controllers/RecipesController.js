@@ -8,6 +8,7 @@ const router = Router();
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 
 router.get('/:id', async (req, res) => {
@@ -47,6 +48,14 @@ router.put('/:id', validateJWT, idValidationRules(), validateId, async (req, res
   if (!recipe) return res.status(NOT_FOUND).json({ message: 'recipe not found' });
 
   res.status(OK).json({ _id: id, ...data, userId: _id });
+});
+
+router.delete('/:id', validateJWT, idValidationRules(), validateId, async (req, res) => {
+  const { id } = req.params;
+
+  await RecipesServices.remove(id);
+
+  return res.status(NO_CONTENT).json();
 });
 
 module.exports = router;
