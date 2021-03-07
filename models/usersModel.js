@@ -26,9 +26,17 @@ const insertNewUser = async (name, email, password) => {
   return addUser.ops;
 };
 
+const checkIfUserExists = async (email, password) => {
+  const userFound = await connection('users').then((db) => db.findOne(
+    { email, password },
+  ));
+  return userFound;
+};
+
 module.exports = {
   getAllUsers,
   getUserByName,
   getUserByEmail,
   insertNewUser,
+  checkIfUserExists,
 };

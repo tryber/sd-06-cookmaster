@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./controllers/userRoutes');
+const loginRoute = require('./controllers/loginRoute');
 
 const PORT = 3000;
 const app = express();
@@ -10,5 +11,7 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', userRoutes);
+
+app.use('/login', loginRoute);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
