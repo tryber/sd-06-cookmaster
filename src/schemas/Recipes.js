@@ -23,7 +23,18 @@ const validateRecipeId = (id) => {
   return {};
 };
 
+const validateUserAndRole = (id, userId, role) => {
+  const invalidUserOrRole = { statusCode: 401, customMessage: 'invalid user or role' };
+  const isUserValid = String(id) === String(userId);
+  const isRoleAdmin = role === 'admin';
+
+  if (!isUserValid && !isRoleAdmin) return invalidUserOrRole;
+
+  return {};
+};
+
 module.exports = {
   validateRecipe,
   validateRecipeId,
+  validateUserAndRole,
 };

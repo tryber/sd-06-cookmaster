@@ -19,9 +19,12 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async (recipe) => Recipes.updateRecipe(recipe);
 
+const removeRecipe = async (id) => Recipes.removeRecipe(id);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  removeRecipe
 };

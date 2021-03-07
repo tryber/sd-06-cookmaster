@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { createUser, userValidation, getAllUsers } = require('../middlewares/Users');
+const { createUser, getAllUsers } = require('../middlewares/Users');
+const userValidation = require('../middlewares/validations/UserValidations');
 
 const usersRouter = new Router();
 
