@@ -46,6 +46,8 @@ router.post('/:id', validateJWT, rescue(async (req, res) => {
   if (!req.headers.authorization) return res.status(401).json({ message: 'missing auth token' });
   
   const recipe = await Recipes.findById(req.params.id);
+  if (!recipe) return res.status(404).json({ message: 'recipe doesn\'t exist' });
+  
   const { name, ingredients, preparation } = req.body;
   const { _id } = req.user; // usuário autenticado
   const { userId } = recipe; // usuário que criou a receita
@@ -59,6 +61,23 @@ router.post('/:id', validateJWT, rescue(async (req, res) => {
     return res.status(200).json(updatedRecipe);
   }
   res.status(401).json({ message: 'missing auth token' });
+}));
+
+router.delete('/:id', validateJWT, rescue(async (req, res) => {
+  const recipe = await Recipes.findById(req.params.id);
+  const { _id } = req.user; // usuário autenticado
+  const { userId } = recipe; // usuário que criou a receita
+
+  // o usuário que está autenticado no sistema é o mesmo que criou a receita?
+  const userIsValid = (userId.toString() === _id.toString()) || req.user.role === 'admin';
+  
+  if (userIsValid) {
+    const { _id: recipeId } = recipe;
+    await Recipes.remove(recipeId);
+    
+    return res.status(204).json();
+  }
+  res.status(500).json({ message: 'wrong user' });
 }));
 
 module.exports = router;

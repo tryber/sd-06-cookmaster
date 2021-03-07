@@ -39,9 +39,14 @@ const update = async (name, ingredients, preparation, recipe) => {
   };
 };
 
+const remove = async (id) => {
+  await connection().then((db) => db.collection('recipes').deleteOne({ _id: id }));
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  remove,
 };
