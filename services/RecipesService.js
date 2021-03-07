@@ -40,9 +40,23 @@ async function update(newDataFromRecipe) {
   return updatedRecipe;
 }
 
+async function remove(id) {
+  const removedRecipe = await Recipe.remove(id);
+  if (!removedRecipe) {
+    return {
+      error: {
+        message: 'Recipe not removed',
+        code: 404,
+      },
+    };
+  }
+  return removedRecipe;
+}
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  remove,
 };

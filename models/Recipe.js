@@ -51,9 +51,23 @@ async function update(recipeData) {
     return queryResult.value;
 }
 
+async function remove(id) {
+  const db = await connection();
+  const queryResult = await db
+    .collection('recipes')
+    .findOneAndDelete(
+      { _id: ObjectId(id) },
+    );
+  
+  if (!queryResult.value) return null;
+  console.log('Deletado:', queryResult.value);
+  return queryResult.value;
+}
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  remove,
 };

@@ -12,6 +12,7 @@ const router = Router();
 
 const CREATED = 201;
 const OK = 200;
+const NO_CONTENT = 204;
 
 router.post('/',
   checkRecipeFields,
@@ -55,5 +56,19 @@ router.post('/',
       }
       response.status(OK).json(updatedRecipe);
     });
+
+    router.delete('/:id',
+      validateJWT,
+      checkPermissions,
+      async (request, response) => {
+        const { id } = request.params;
+        const removedRecipe = await RecipesService.remove(id);
+        if (removedRecipe.error) {
+          return response
+            .status(removedRecipe.error.code)
+            .json(removedRecipe.error.message);
+        }
+        response.status(NO_CONTENT).end();
+      });
 
 module.exports = router;
