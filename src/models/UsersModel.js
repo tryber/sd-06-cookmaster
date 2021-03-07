@@ -7,7 +7,8 @@ const create = async (name, email, password) => {
   return ({ _id: insertedId, name, email, role });
 };
 
-const getUserByEmail = async (email) => await connection().then((db) => db.collection('users').findOne({ email }));
+const getUserByEmail = async (email) => connection().then((db) => db.collection('users')
+.findOne({ email }));
 
 module.exports = {
   create,
