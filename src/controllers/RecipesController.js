@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { Router } = require('express');
 const rescue = require('express-rescue');
 // const Users = require('../models/Users');
@@ -40,6 +41,25 @@ router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
     
   // Não coloquei URL da imagem!
   res.status(201).json({ recipe });
+}));
+
+router.post('/:id', validateJWT, rescue(async (req, res) => {
+  if (!req.headers.authorization) return res.status(401).json({ message: 'missing auth token' });
+  
+  const recipe = await Recipes.findById(req.params.id);
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = req.user; // usuário autenticado
+  const { userId } = recipe; // usuário que criou a receita
+  
+  // o usuário que está autenticado no sistema é o mesmo que criou a receita?
+  const userIsValid = (userId.toString() === _id.toString()) || req.user.role === 'admin';
+  
+  if (userIsValid) {
+    const updatedRecipe = await Recipes.update(name, ingredients, preparation, recipe);
+    
+    return res.status(200).json(updatedRecipe);
+  }
+  res.status(401).json({ message: 'missing auth token' });
 }));
 
 module.exports = router;
