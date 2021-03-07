@@ -21,10 +21,13 @@ const updateRecipe = async (recipe) => Recipes.updateRecipe(recipe);
 
 const removeRecipe = async (id) => Recipes.removeRecipe(id);
 
+const addImage = async (recipe, image) => Recipes.addImage(recipe, image);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   removeRecipe,
+  addImage,
 };

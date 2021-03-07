@@ -1,3 +1,4 @@
+const multer = require('multer');
 const { Router } = require('express');
 const {
   createRecipe,
@@ -5,7 +6,7 @@ const {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
-  
+  addImage,
 } = require('../middlewares/Recipes');
 const {
   recipeValidation,
@@ -15,11 +16,26 @@ const {
 const validateJWT = require('../middlewares/auth/validateJWT');
 
 const recipesRouter = new Router();
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/images');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    const imageType = file.mimetype.replace('image/', '.');
+    callback(null, `${id}${imageType}`);
+  },
+});
 
-recipesRouter.post('/', validateJWT, recipeValidation, createRecipe);
+const upload = multer({ storage });
+
 recipesRouter.get('/', getAllRecipes);
 recipesRouter.get('/:id', idValidation, getRecipeById);
-recipesRouter.put('/:id', validateJWT, idValidation, userAndRoleValidation, updateRecipe);
-recipesRouter.delete('/:id', validateJWT, idValidation, userAndRoleValidation, deleteRecipe);
+recipesRouter.use(validateJWT);
+recipesRouter.post('/', recipeValidation, createRecipe);
+recipesRouter.put('/:id', idValidation, userAndRoleValidation, updateRecipe);
+recipesRouter.put('/:id/image', idValidation, userAndRoleValidation,
+upload.single('image'), addImage);
+recipesRouter.delete('/:id', idValidation, userAndRoleValidation, deleteRecipe);
 
 module.exports = recipesRouter;
