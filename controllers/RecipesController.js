@@ -79,10 +79,25 @@ route.put('/:id',
      const formData = req.file;
      const { recipeId } = res.locals;
      const imagePath = `localhost:3000/images/${formData.filename}`;
-     console.log(recipeId, formData.filename, imagePath, express.application.path());
      await RecipesServices.addField(recipeId, imagePath);
      res.status(status.OK).json({ image: imagePath });
    });
+
+  route.get('/images/:filename', 
+    RecipesValidations.checkToken,
+    VerifyUserToken,
+    CheckCredentials,
+    async (req, res, next) => {
+      const { filename } = req.params;
+      try {
+      const id = filename.split('.')[0];
+      
+        const { image } = RecipesServices.findOneById(id);
+        res.status(status.OK).json({ image });
+      } catch (err) {
+        next(err);
+      }
+    });
   
   route.use('/', async (err, _req, res, _next) => {
     console.log(err);

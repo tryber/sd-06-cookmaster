@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const UsersController = require('./controllers/UsersController');
 const LoginController = require('./controllers/LoginController');
 const RecipesController = require('./controllers/RecipesController');
+const ImagesController = require('./controllers/ImagesController');
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +20,8 @@ app.get('/', (request, response) => {
 app.use('/recipes', RecipesController);
 
 app.use('/users', UsersController);
+
+app.use('/images', ImagesController);
 
 app.use('/login', LoginController);
 
