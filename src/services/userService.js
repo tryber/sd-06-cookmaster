@@ -25,6 +25,24 @@ const createToken = async (user) => {
   return token;
 };
 
+const decodeToken = async (token) => {
+  const decoded = jwt.decode(token);
+
+  return decoded;
+};
+
+const verifyToken = async (req, res, next) => {
+  const { authorization } = req.headers;
+
+  if (!authorization) return res.status(401).json({ message: 'jwt malformed' });
+
+  jwt.verify(authorization, 'secret', (err, _decoded) => {
+    if (err) return res.status(401).json({ message: 'jwt malformed' });
+
+    next();
+  });
+};
+
 const verifyFields = async (request, response, next) => {
   const { email, name, password } = request.body;
   const regex = /\S+@\S+.\S+/;
@@ -59,4 +77,12 @@ const verifyLogin = async (request, response, next) => {
   next();
 };
 
-module.exports = { createUser, verifyFields, verifyLogin, loginUser, createToken };
+module.exports = {
+  createUser,
+  verifyFields,
+  verifyLogin,
+  loginUser,
+  createToken,
+  verifyToken,
+  decodeToken,
+};
