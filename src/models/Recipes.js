@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
@@ -22,15 +21,17 @@ const create = async (name, ingredients, preparation, userId) => {
 };
 
 const update = async (name, ingredients, preparation, recipe) => {
+  const { _id } = recipe;
+  
   await connection().then((db) => db.collection('recipes')
     .updateOne(
-      { _id: recipe._id },
-      { $set: { name, ingredients, preparation }},
+      { _id },
+      { $set: { name, ingredients, preparation } },
       { upsert: false },
     ));
   
   return {
-    _id: recipe._id,
+    _id,
     name,
     ingredients,
     preparation,

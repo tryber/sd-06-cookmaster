@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { Router } = require('express');
 const rescue = require('express-rescue');
 // const Users = require('../models/Users');
