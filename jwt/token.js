@@ -12,4 +12,17 @@ const newToken = async (data) => {
   return token;
 };
 
-module.exports = newToken;
+const decodeToken = async (token) => {
+  const decodedToken = jwt.verify(token, secret, (err, decoded) => {
+  if (err) {
+    return 'jwt malformed';
+  }
+    return decoded;
+  });
+  return decodedToken;
+};
+
+module.exports = {
+  newToken,
+  decodeToken,
+};

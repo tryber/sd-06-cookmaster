@@ -1,6 +1,6 @@
 const { checkIfUserExists } = require('../models/usersModel');
 
-const newToken = require('../jwt/token');
+const { newToken } = require('../jwt/token');
 
 const MinMaxLength = 2;
 
