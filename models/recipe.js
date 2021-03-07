@@ -23,15 +23,23 @@ const getRecipeById = async (recId) => {
     _id: ObjectId(recId),
   }));
   if (recipeId) {
-    const { _id: id, name, ingredients, preparation, userId } = recipeId;
-    const recipe = { id, name, ingredients, preparation, userId };
-    return recipe;
+    return recipeId;
   }
   return null;
 };
+
+const editRecipe = async (id, name, ingredients, preparation) => {
+  await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+  ));
+};
+
+// db.recipes.updateOne({ _id: ObjectId("6043eee2d527f02a96dedd4d") }, { $set: { name: 'feijão', ingredients: 'sal', preparation: 'do seu jeito'}});
 
 module.exports = {
   addRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipe,
 };

@@ -36,4 +36,12 @@ RecipeController.post('/', verifiedEmptyFields, verifyToken, async (request, res
   });
 });
 
+RecipeController.put('/:id', verifyToken, async (request, response) => {
+  const { id } = request.params;
+  const { name, ingredients, preparation } = request.body;
+  await RecipeService.editRecipeId(id, name, ingredients, preparation);
+  const recipeEdited = await RecipeService.getRecipeId(id);
+  return response.status(STATUS_200).json(recipeEdited);
+});
+
 module.exports = RecipeController;
