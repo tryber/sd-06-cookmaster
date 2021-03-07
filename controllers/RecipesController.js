@@ -28,7 +28,6 @@ router.get('/', async (req, res) => {
   res.status(OK).json(recipes);
 });
 
-
 router.post('/', validateJWT, recipeValidationRules(), validateRecipe, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id } = await req.user;
