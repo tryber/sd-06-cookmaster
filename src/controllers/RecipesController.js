@@ -6,6 +6,10 @@ const validateJWT = require('../auth/validateJWT');
 
 const router = Router();
 
+router.post('/:id/image', rescue(async (req, res) => {
+  
+}));
+
 router.get('/', rescue(async (req, res) => {
   const recipes = await Recipes.getAll();
   
@@ -35,7 +39,7 @@ router.post('/', validateJWT, rescue(async (req, res) => {
   res.status(201).json({ recipe });
 }));
 
-router.post('/:id', validateJWT, rescue(async (req, res) => {
+router.put('/:id', validateJWT, rescue(async (req, res) => {
   if (!req.headers.authorization) return res.status(401).json({ message: 'missing auth token' });
   
   const recipe = await Recipes.findById(req.params.id);
