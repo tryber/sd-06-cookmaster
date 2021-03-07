@@ -36,9 +36,9 @@ const RecipesValdiations = {
     try {
       const recipe = await Recipes.findOne(id);
       if (!recipe) throw validationError();
-      console.log(recipe, 'checking valid id');
       res.locals.recipeId = id;
       res.locals.authorId = recipe.authorId;
+      res.locals.image = recipe.image;
       next();
     } catch (err) {
       next(validationError('invalid entries'));

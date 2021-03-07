@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const express = require('express');
-const multer = require('multer');
+const path = require('path');
 const RecipesValidations = require('../services/RecipesServices/RecipesValidations');
 const RecipesServices = require('../services/RecipesServices/RecipesServices');
 const VerifyUserToken = require('../services/Authorization/VerifyUserToken');
 const CheckCredentials = require('../services/Authorization/CheckUserCredential');
 const status = require('../utils/status');
+const { UploadConfig, upload } = require('../services/UploadConfig');
 
 const route = Router();
 
@@ -56,29 +57,19 @@ route.put('/:id',
     return res.status(status.DELETED).json({ message: 'recipe deleted' });
   });
 
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'images/');
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${req.params.id}.jpeg`);
-    },
-  });
-
-  route.use(express.static(`${__dirname}/images`));
-
-  const upload = multer({ storage });
+  route.use(express.static(path.join(__dirname, '../images')));
   
   route.put('/:id/image',
    RecipesValidations.checkValidId,
    RecipesValidations.checkToken,
    VerifyUserToken,
    CheckCredentials,
-   upload.single('image'),
+   UploadConfig.deleteImage,
+   upload.single('image'),   
    async (req, res) => {
-     const formData = req.file;
      const { recipeId } = res.locals;
-     const imagePath = `localhost:3000/images/${formData.filename}`;
+     console.log(req.file.path, 'recipes controller image');
+     const imagePath = path.join(UploadConfig.baseURL, req.file.path);
      await RecipesServices.addField(recipeId, imagePath);
      res.status(status.OK).json({ image: imagePath });
    });
