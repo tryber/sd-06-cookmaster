@@ -6,9 +6,9 @@ const validateJWT = require('../auth/validateJWT');
 
 const router = Router();
 
-router.post('/:id/image', rescue(async (req, res) => {
+// router.post('/:id/image', rescue(async (req, res) => {
   
-}));
+// }));
 
 router.get('/', rescue(async (req, res) => {
   const recipes = await Recipes.getAll();
