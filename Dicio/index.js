@@ -3,6 +3,7 @@ const statusMsgs = {
   alreadyRegist: 'Email already registered',
   emptyFields: 'All fields must be filled',
   loginError: 'Incorrect username or password',
+  invalidToken: 'jwt malformed',
 };
 
 const statusCode = {
@@ -13,7 +14,16 @@ const statusCode = {
  SUCCESS: 200,
 };
 
+const jwtSecret = 'ofFrenchCuisineIsButterAndButter';
+
+const jwtHeaders = {
+  algorithm: 'HS256',
+  expiresIn: '5d',
+};
+
 module.exports = {
   statusMsgs,
   statusCode,
+  jwtSecret,
+  jwtHeaders,
 };
