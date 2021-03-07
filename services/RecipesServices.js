@@ -14,8 +14,15 @@ const create = async (data) => {
   return recipe;
 };
 
+const update = async (id, data) => {
+  const updatedRecipe = await RecipesModels.update(id, data);
+
+  return updatedRecipe;
+};
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };
