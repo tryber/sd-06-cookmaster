@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
 
 const createUser = async (user) => {
@@ -6,6 +7,22 @@ const createUser = async (user) => {
   const createdUser = usersModel.createUser({ email, name, password, role });
 
   return createdUser;
+};
+
+const loginUser = async (user) => {
+  const { email, password } = user;
+
+  const loggedUser = await usersModel.getUserByEmailPassword(email, password);
+
+  return loggedUser;
+};
+
+const createToken = async (user) => {
+  const { _id, email, role } = user;
+
+  const token = jwt.sign({ _id, email, role }, 'secret');
+
+  return token;
 };
 
 const verifyFields = async (request, response, next) => {
@@ -25,4 +42,21 @@ const verifyFields = async (request, response, next) => {
   next();
 };
 
-module.exports = { createUser, verifyFields };
+const verifyLogin = async (request, response, next) => {
+  const { email, password } = request.body;
+  const regex = /\S+@\S+.\S+/;
+
+  if (!regex.test(email) || !password) {
+    return response.status(401).json({
+      message: 'All fields must be filled',
+    });
+  }
+
+  const exists = await usersModel.getUserByEmailPassword(email, password);
+
+  if (!exists) return response.status(401).json({ message: 'Incorrect username or password' });
+
+  next();
+};
+
+module.exports = { createUser, verifyFields, verifyLogin, loginUser, createToken };
