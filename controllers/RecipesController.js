@@ -3,6 +3,7 @@ const RecipesServices = require('../services/RecipesServices');
 const validateJWT = require('../middlewares/validateJWT');
 const { recipeValidationRules, validateRecipe } = require('../middlewares/RecipesValidators');
 const { idValidationRules, validateId } = require('../middlewares/IdValidators');
+const Upload = require('../middlewares/Upload');
 
 const router = Router();
 
@@ -56,6 +57,22 @@ router.delete('/:id', validateJWT, idValidationRules(), validateId, async (req, 
   await RecipesServices.remove(id);
 
   return res.status(NO_CONTENT).json();
+});
+
+router.put('/:id/image',
+validateJWT, idValidationRules(), validateId,
+Upload.single('image'),
+async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+
+  const data = { image: `localhost:3000/images/${filename}` };
+
+  await RecipesServices.update(id, data);
+
+  const recipe = await RecipesServices.findById(id);
+  console.log(req.file, recipe, filename, id);
+  res.status(OK).json(recipe);
 });
 
 module.exports = router;
