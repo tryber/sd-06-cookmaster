@@ -6,8 +6,9 @@ const verifyToken = require('../middlewares/verifyToken');
 const verifyExistedRecipe = require('../middlewares/verifyExistedRecipe');
 
 const RecipeController = Router();
-const STATUS_201 = 201;
 const STATUS_200 = 200;
+const STATUS_201 = 201;
+const STATUS_204 = 204;
 
 RecipeController.get('/', async (request, response) => {
   const allRecipes = await RecipeService.getRecipes();
@@ -42,6 +43,12 @@ RecipeController.put('/:id', verifyToken, async (request, response) => {
   await RecipeService.editRecipeId(id, name, ingredients, preparation);
   const recipeEdited = await RecipeService.getRecipeId(id);
   return response.status(STATUS_200).json(recipeEdited);
+});
+
+RecipeController.delete('/:id', verifyToken, async (request, response) => {
+  const { id } = request.params;
+  await RecipeService.delRecipe(id);
+  return response.status(STATUS_204).end();
 });
 
 module.exports = RecipeController;
