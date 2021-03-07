@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
     return result;
   });
   
-  if (decoded.data === undefined) return res.status(401).json({ message: 'Invalid token' });
+  if (decoded.data === undefined) return res.status(401).json({ message: 'jwt malformed' });
   
   const user = await User.findByEmail(decoded.data.email);
   
