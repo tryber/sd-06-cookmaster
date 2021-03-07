@@ -14,6 +14,9 @@ const messages = {
     JWTMalformed: {
         message: 'jwt malformed',      
     },
+    recipeNotFound: {
+        message: 'recipe not found',      
+    },
 };
 
 const status = {
@@ -22,6 +25,7 @@ const status = {
     created: 201,
     unauthorized: 401,
     OK: 200,
+    NotFound: 404,
 };
 
 module.exports = {
