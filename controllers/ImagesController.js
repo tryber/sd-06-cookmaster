@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const RecipesValidations = require('../services/RecipesServices/RecipesValidations');
 const VerifyUserToken = require('../services/Authorization/VerifyUserToken');
-const CheckCredentials = require('../services/Authorization/CheckCredentials');
+const CheckCredentials = require('../services/Authorization/CheckUserCredential');
 const ImagesValidation = require('../services/imagesServices/ImagesValidation');
 const status = require('../utils/status');
 

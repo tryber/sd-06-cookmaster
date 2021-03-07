@@ -3,6 +3,8 @@ const { Router } = require('express');
 const UsersServices = require('../services/UserServices/UsersServices');
 const { signUpValidation } = require('../services/UserServices/SignUpValidations');
 const status = require('../utils/status');
+const CheckAdminCredential = require('../services/Authorization/CheckAdminCredential');
+const VerifyUserToken = require('../services/Authorization/VerifyUserToken');
 
 const route = Router();
 
@@ -19,6 +21,19 @@ route.get('/:id',
     const user = await UsersServices.findOneById(id);
     return res.status(status.OK).json({ user });
 });
+
+route.post('/admin', 
+  signUpValidation.checkDuplicateEmail,
+  signUpValidation.checkUserData,
+  VerifyUserToken,
+  CheckAdminCredential,
+  async (req, res) => {
+    const { name, email, password } = req.body;
+    const adminRole = 'admin';
+    const insertedId = await UsersServices.createOne({ name, email, password, role: adminRole });
+    console.log('admin no error');
+    res.status(status.CREATED).json({ user: { _id: insertedId, name, email, role: adminRole } });
+  });
 
 route.post('/',
   signUpValidation.checkDuplicateEmail,

@@ -4,7 +4,7 @@ const multer = require('multer');
 const RecipesValidations = require('../services/RecipesServices/RecipesValidations');
 const RecipesServices = require('../services/RecipesServices/RecipesServices');
 const VerifyUserToken = require('../services/Authorization/VerifyUserToken');
-const CheckCredentials = require('../services/Authorization/CheckCredentials');
+const CheckCredentials = require('../services/Authorization/CheckUserCredential');
 const status = require('../utils/status');
 
 const route = Router();
@@ -82,22 +82,6 @@ route.put('/:id',
      await RecipesServices.addField(recipeId, imagePath);
      res.status(status.OK).json({ image: imagePath });
    });
-
-  route.get('/images/:filename', 
-    RecipesValidations.checkToken,
-    VerifyUserToken,
-    CheckCredentials,
-    async (req, res, next) => {
-      const { filename } = req.params;
-      try {
-      const id = filename.split('.')[0];
-      
-        const { image } = RecipesServices.findOneById(id);
-        res.status(status.OK).json({ image });
-      } catch (err) {
-        next(err);
-      }
-    });
   
   route.use('/', async (err, _req, res, _next) => {
     console.log(err);
