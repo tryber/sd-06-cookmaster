@@ -19,10 +19,8 @@ const create = async (recipe) => {
 const update = async (id, data) => connection()
   .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { ...data } }));
 
-const remove = async (id) => {
-  return await connection().then((db) =>
-    db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
-};
+const remove = async (id) => connection()
+  .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
 module.exports = {
   getAll,

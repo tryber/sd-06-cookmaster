@@ -24,7 +24,7 @@ const remove = async (id) => {
   const removed = await RecipesModels.remove(id);
 
   return removed;
-}
+};
 
 module.exports = {
   getAll,
