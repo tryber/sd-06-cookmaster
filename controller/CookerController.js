@@ -10,6 +10,6 @@ const dataValidation = [
   checkData.emailReplicant,
 ];
 
-routes.post('/', dataValidation, CookerServices.creatingValidCooker);
+routes.post('/', dataValidation, CookerServices.creatingCooker);
 
 module.exports = routes;

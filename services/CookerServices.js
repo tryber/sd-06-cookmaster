@@ -2,7 +2,7 @@ const CookerActions = require('../models/cookerActions');
 
 const { statusCode } = require('../Dicio');
 
-const creatingValidCooker = async (request, response) => {
+const creatingCooker = async (request, response) => {
   const { name, email, password } = request.body;
 
   const { insertedId } = await CookerActions.createCooker(name, email, password);
@@ -10,4 +10,4 @@ const creatingValidCooker = async (request, response) => {
   return response.status(statusCode.SUCCESS_CREATED).send({ user: newUser });
 };
 
-module.exports = { creatingValidCooker };
+module.exports = { creatingCooker };
