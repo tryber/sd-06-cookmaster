@@ -6,20 +6,17 @@ const secret = 'tokensecreto';
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) return res.status(401).json({ message: 'jwt malformed' });
-
+  
   const decoded = jwt.verify(token, secret, (err, result) => {
-    if (err) return res.status(401).json({ message: 'jwt malformed' });
+    if (err) return err;
     return result;
   });
   
-  if (decoded) {
-    const user = await User.findByEmail(decoded.data.email);
-    if (!user) {
-      return res.status(401).json({ message: 'No user found' });
-    }
-    req.user = user;
-    next(); 
-  } else {
-    return res.status(401).json({ message: 'bad jwt' });
-  }
+  if (decoded.data === undefined) return res.status(401).json({ message: 'Invalid token' });
+  
+  const user = await User.findByEmail(decoded.data.email);
+  
+  if (!user) return res.status(401).json({ message: 'No user found' });
+  req.user = user;
+  return next();  
 };
