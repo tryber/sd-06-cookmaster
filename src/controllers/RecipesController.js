@@ -6,16 +6,6 @@ const validateJWT = require('../auth/validateJWT');
 
 const router = Router();
 
-function validateRecipe(req, res, next) {
-  const { name, ingredients, preparation } = req.body;
-  
-  if (!name || !ingredients || !preparation) {
-    return res.status(400).json({ message: 'Invalid entries. Try again.' });
-  }
-  
-  next();
-}
-
 router.get('/', rescue(async (req, res) => {
   const recipes = await Recipes.getAll();
   
@@ -32,8 +22,11 @@ router.get('/:id', rescue(async (req, res) => {
   return res.status(200).json(recipe);
 }));
 
-router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
-    const { name, ingredients, preparation } = req.body;
+router.post('/', validateJWT, rescue(async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  if (!name || !ingredients || !preparation) {
+    return res.status(400).json({ message: 'Invalid entries. Try again.' });
+  }
   const { _id } = req.user;
   
   const recipe = await Recipes.create(name, ingredients, preparation, _id);
