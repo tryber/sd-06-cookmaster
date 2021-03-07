@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 const DB_NAME = 'Cookmaster';
-const MONGODB_URL = 'mongodb://localhost:27017/Cookmaster';
+const MONGODB_URL = 'mongodb://mongodb:27017/Cookmaster';
 const connection = () => MongoClient.connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
