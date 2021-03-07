@@ -26,5 +26,5 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  removeRecipe
+  removeRecipe,
 };
