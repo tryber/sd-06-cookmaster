@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const findRegisterByEmail = async (email) => await connection()
+const findRegisterByEmail = async (email) => connection()
         .then((mongodb) => mongodb.collection('users').findOne({ email }));
 
 const createUserInServer = async (name, email, password) => {

@@ -37,6 +37,14 @@ function validPreparation(preparation) {
   return true;
 }
 
+// VALID TOKEN LOGIN DATABASE
+function ValidEmailAndPasswordInServer(resultEmailInServer, email, password) {
+  if (resultEmailInServer.email !== email
+    || resultEmailInServer.password !== password 
+    ) return false;
+  return true; 
+}
+
 module.exports = {
   validateEmail,
   validUsername,
@@ -44,4 +52,5 @@ module.exports = {
   validateEmailExist,
   validIngredients,
   validPreparation,
+  ValidEmailAndPasswordInServer,
 };
