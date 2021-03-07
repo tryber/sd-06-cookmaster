@@ -10,10 +10,10 @@ const VerifyUserToken = async (req, res, next) => {
     if (err) {
       console.log(err);
       return next(authorizationError('jwt malformed'));
-    } 
-      const { email, id, role } = decoded;
+    }
+    const { email, id, role } = decoded;
       res.locals.decoded = { email, id, role };
-        next();
+      return next();
   });
 };
 

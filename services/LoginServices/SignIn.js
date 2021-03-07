@@ -10,7 +10,6 @@ const SignIn = async (req, res, next) => {
     if (!user) throw generateError(status.NOT_AUTHORIZED, 'Not_Authorized', invalidData);
     const { password: dbPass, _id: id, role } = user;
 
-    console.log('dbpass', dbPass, 'password', password, id, 'userid');
     if (dbPass !== password) {
       throw generateError(status.NOT_AUTHORIZED, 'Not_Authorized', invalidData);
     }

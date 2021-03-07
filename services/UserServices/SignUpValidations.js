@@ -30,7 +30,6 @@ const signUpValidation = {
       await signUpSchema.validate({ name, email, password });
       next();
     } catch (err) {
-      console.log('schema error');
       next(generateError(status.BAD_REQUEST, 'Bad_request', err.message));
     }
   },

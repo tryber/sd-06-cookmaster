@@ -14,8 +14,10 @@ const findAll = async () => Recipes.findAll();
 
 const updateOne = async (id, recipe) => Recipes.updateOne(id, recipe);
 
+const addField = async (id, field) => Recipes.addField(id, field);
+
 const deleteOne = async (id) => Recipes.deleteOne(id);
 
 module.exports = {
-  createOne, findOneById, findAll, updateOne, deleteOne,
+  createOne, findOneById, findAll, updateOne, deleteOne, addField,
 };

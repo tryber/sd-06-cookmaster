@@ -23,10 +23,8 @@ const RecipesValdiations = {
   },
   async checkExistentRecipeById(req, _res, next) {
     const { id } = req.params;
-    console.log(id, 'check id');
     try {
       const recipe = await Recipes.findOne(id);
-      console.log(recipe, 'recipe return');
       if (!recipe) throw notFoundError('not found recipe');
       next();
     } catch (err) {
@@ -35,18 +33,18 @@ const RecipesValdiations = {
   },
   async checkValidId(req, res, next) {
     const { id } = req.params;
-    console.log(id, 'check validid update');
     try {
       const recipe = await Recipes.findOne(id);
-      console.log(recipe, 'returned recipe update');
       if (!recipe) throw validationError();
+      console.log(recipe, 'checking valid id');
       res.locals.recipeId = id;
+      res.locals.authorId = recipe.authorId;
       next();
     } catch (err) {
       next(validationError('invalid entries'));
     }
   },
-  async checkToken(req, res, next) {
+  async checkToken(req, _res, next) {
     const { authorization } = req.headers;
     if (!authorization) {
       return next(authorizationError('missing auth token'));
