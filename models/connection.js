@@ -8,7 +8,7 @@ const MONGODB_URL = process.env.IS_LOCAL
   : 'mongodb://mongodb:27017';
 const DATABASE = 'Cookmaster';
 
-const connection = async () => MongoClient.connect(MONGODB_URL, {
+const connection = () => MongoClient.connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

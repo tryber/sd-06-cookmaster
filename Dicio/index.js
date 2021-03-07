@@ -1,4 +1,4 @@
-const errMsgs = {
+const statusMsgs = {
   tryAgain: 'Invalid entries. Try again.',
   alreadyRegist: 'Email already registered',
 };
@@ -10,6 +10,6 @@ const statusCode = {
 };
 
 module.exports = {
-  errMsgs,
+  statusMsgs,
   statusCode,
 };
