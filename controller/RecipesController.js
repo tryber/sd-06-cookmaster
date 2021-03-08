@@ -12,5 +12,6 @@ const dataValidation = [
 ];
 
 routes.post('/', dataValidation, RecipesService.creatingRecipe);
+routes.get('/', RecipesService.displayAllRecipes);
 
 module.exports = routes;

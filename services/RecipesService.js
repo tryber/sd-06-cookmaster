@@ -16,6 +16,12 @@ const creatingRecipe = async (request, response) => {
   return response.status(statusCode.SUCCESS_CREATED).send({ recipe: newRecipe });
 };
 
+const displayAllRecipes = async (_request, response) => {
+  const allRecipes = await RecipesActions.getAllRecipes();
+  return response.status(statusCode.SUCCESS).send(allRecipes);
+};
+
 module.exports = {
   creatingRecipe,
+  displayAllRecipes,
 };
