@@ -1,6 +1,5 @@
 const { ObjectID } = require('mongodb');
 const connection = require('../connection');
-// const AppError = require('../utils/AppError');
 
 class Crud {
   constructor(model) {
