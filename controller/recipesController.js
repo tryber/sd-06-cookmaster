@@ -3,6 +3,7 @@ const { AuthorizationLoginRecipes, validateId } = require('../middlewares/verify
 const { verifyItensRecipes } = require('../middlewares/verifyRecipes');
 const validateToken = require('../services/auth/validateToken');
 const recipesService = require('../services/recipesService');
+const resolveProblem = require('../middlewares/validateIdMode');
 
 const recipesController = new Router();
 const code = 201;
@@ -31,7 +32,7 @@ recipesController.post(
   },
 );
 
-recipesController.get('/:id', validateId, async (request, response) => {
+recipesController.get('/:id', resolveProblem, validateId, async (request, response) => {
   const { id } = request.params;
   const returnRecipesId = await recipesService.getRecipesId(id);
   if (!returnRecipesId) {
@@ -45,7 +46,7 @@ recipesController.get('/', async (_request, response) => {
   return response.status(code200).json(returnAllRecipes);
 });
 
-recipesController.delete('/:id', async (request, response) => {
+recipesController.delete('/:id', resolveProblem, async (request, response) => {
   const { id } = request.params;
   const { name, ingredients, preparation } = request.body;
   const recipesDel = {
@@ -54,11 +55,11 @@ recipesController.delete('/:id', async (request, response) => {
     ingredients,
     preparation,
   };
-  await recipesService.deleteOnerecipes(id);
+  await recipesService.deleteOneRecipes(id);
   return response.status(code200).json(recipesDel);
 });
 
-recipesController.put('/:id', AuthorizationLoginRecipes, validateId,
+recipesController.put('/:id', resolveProblem, AuthorizationLoginRecipes, validateId,
 async (request, response) => {
   const { id } = request.params;
   const { name, ingredients, preparation } = request.body;
