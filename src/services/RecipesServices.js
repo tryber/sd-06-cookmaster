@@ -28,11 +28,12 @@ const GetAllRecipes = async (_req, res) => {
 
 const GetRecipeById = async (req, res) => {
   const { id } = req.params;
-  if (ObjectId.isValid(id)) {
+  try {
     const recipe = await recipeById(id);
     return res.status(status.OK).json(recipe);
-  }  
-  return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
+  } catch (err) {
+    return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
+  }
 };
 
 module.exports = {
