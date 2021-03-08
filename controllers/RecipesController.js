@@ -1,14 +1,25 @@
 const { Router } = require('express');
+const multer = require('multer');
+const validateJWT = require('../auth/validateJWT');
+const RecipesService = require('../services/RecipesService');
+
 const {
   checkRecipeFields,
   validateRecipeId,
   checkPermissions,
 } = require('../middlewares');
 
-const validateJWT = require('../auth/validateJWT');
-const RecipesService = require('../services/RecipesService');
-
 const router = Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+const upload = multer({ storage });
 
 const CREATED = 201;
 const OK = 200;
@@ -55,6 +66,20 @@ router.post('/',
         return response.status(updatedRecipe.error.code).json(updatedRecipe.error.message);
       }
       response.status(OK).json(updatedRecipe);
+    });
+
+    router.put('/:id/image',
+      validateJWT,
+      checkPermissions,
+      upload.single('image'),
+      async (request, response) => {
+        const { id } = request.params;
+        const imageUrl = `localhost:3000/images/${id}.jpeg`;
+        const updatedRecipe = await RecipesService.insertRecipeImage(id, imageUrl);
+        if (updatedRecipe.error) {
+          return response.status(updatedRecipe.error.code).json(updatedRecipe.error.message);
+        }
+        response.status(OK).json(updatedRecipe);
     });
 
     router.delete('/:id',

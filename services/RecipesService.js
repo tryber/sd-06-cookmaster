@@ -40,6 +40,20 @@ async function update(newDataFromRecipe) {
   return updatedRecipe;
 }
 
+async function insertRecipeImage(recipeId, imageUrl) {
+  const updatedRecipe = await Recipe.insertRecipeImage(recipeId, imageUrl);
+  if (!updatedRecipe) {
+    return {
+      error: {
+        message: 'Recipe not updated',
+        code: NOT_FOUND,
+      },
+    };
+  }
+
+  return updatedRecipe;
+}
+
 async function remove(id) {
   const removedRecipe = await Recipe.remove(id);
   if (!removedRecipe) {
@@ -58,5 +72,6 @@ module.exports = {
   getAll,
   findById,
   update,
+  insertRecipeImage,
   remove,
 };

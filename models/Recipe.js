@@ -51,6 +51,20 @@ async function update(recipeData) {
     return queryResult.value;
 }
 
+async function insertRecipeImage(recipeId, imageUrl) {
+  const db = await connection();
+  const queryResult = await db
+    .collection('recipes')
+    .findOneAndUpdate(
+      { _id: ObjectId(recipeId) },
+      { $set: { image: imageUrl } },
+      { returnOriginal: false },
+    );
+
+    if (!queryResult.value) return null;
+    return queryResult.value;
+}
+
 async function remove(id) {
   const db = await connection();
   const queryResult = await db
@@ -60,7 +74,6 @@ async function remove(id) {
     );
   
   if (!queryResult.value) return null;
-  console.log('Deletado:', queryResult.value);
   return queryResult.value;
 }
 
@@ -70,4 +83,5 @@ module.exports = {
   findById,
   update,
   remove,
+  insertRecipeImage,
 };
