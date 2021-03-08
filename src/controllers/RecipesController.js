@@ -1,6 +1,11 @@
 const { Router } = require('express');
-const { CreateRecipe, GetAllRecipes, GetRecipeById, UpdateRecipe } = require('../services/RecipesServices');
 const VerifyAuthotization = require('../middlewares/VerifyAuthotization');
+const { 
+  CreateRecipe,
+  GetAllRecipes,
+  GetRecipeById,
+  UpdateRecipe, 
+  } = require('../services/RecipesServices');
 
 const RecipesController = new Router();
 
