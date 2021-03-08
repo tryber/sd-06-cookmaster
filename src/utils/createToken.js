@@ -9,4 +9,7 @@ const headers = {
 
 const createToken = (payload) => jwt.sign(payload, secret, headers);
 
-module.exports = createToken;
+module.exports = { 
+  createToken,
+  secret,
+};
