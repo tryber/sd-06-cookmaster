@@ -23,7 +23,7 @@ const create = async (req, res) => {
 const findAll = async (_req, res) => {
   const users = await User.findAll();
 
-  if (!users) return res.status(statusBadRequest).json({ message: 'Couldn\t find any user!' });
+  if (!users) return res.status(statusBadRequest).json({ message: 'Couldn\'t find any user!' });
 
   return res.status(statusSuccess).json(users);
 };
