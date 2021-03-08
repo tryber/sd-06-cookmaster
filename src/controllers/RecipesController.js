@@ -15,6 +15,6 @@ RecipesController.get('/', GetAllRecipes);
 
 RecipesController.get('/:id', GetRecipeById);
 
-RecipesController.put('/', VerifyAuthotization, UpdateRecipe);
+RecipesController.put('/:id', VerifyAuthotization, UpdateRecipe);
 
 module.exports = RecipesController;
