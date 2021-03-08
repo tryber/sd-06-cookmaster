@@ -22,4 +22,9 @@ router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
   return res.status(CREATED).json(newRecipe);
 }));
 
+router.get('/', rescue(async (_req, res) => {
+  const allRecipes = await Recipes.getAll();
+   res.status(SUCCESS).json(allRecipes);
+}));
+
 module.exports = router;
