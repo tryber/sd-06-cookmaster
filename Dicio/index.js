@@ -4,12 +4,14 @@ const statusMsgs = {
   emptyFields: 'All fields must be filled',
   loginError: 'Incorrect username or password',
   invalidToken: 'jwt malformed',
+  recipeNotFound: 'recipe not found',
 };
 
 const statusCode = {
  SUCCESS_CREATED: 201,
  UNAUTHORIZED: 401,
  BAD_REQUEST: 400,
+ NOT_FOUND: 404,
  CONFLICT: 409,
  SUCCESS: 200,
 };

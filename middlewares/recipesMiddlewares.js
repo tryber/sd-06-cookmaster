@@ -1,3 +1,4 @@
+const { ObjectID } = require('bson');
 const jwt = require('jsonwebtoken');
 const { statusCode, statusMsgs, jwtSecret } = require('../Dicio');
 
@@ -21,7 +22,17 @@ function validateAuthorization(request, response, next) {
   }
 }
 
+function isIdValid(request, response, next) {
+  const { id } = request.params;
+
+  if (!ObjectID.isValid(id)) {
+    return response.status(statusCode.NOT_FOUND).send({ message: statusMsgs.recipeNotFound });
+  }
+  next();
+}
+
 module.exports = {
   fieldExists,
   validateAuthorization,
+  isIdValid,
 };

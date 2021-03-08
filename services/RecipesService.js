@@ -21,7 +21,14 @@ const displayAllRecipes = async (_request, response) => {
   return response.status(statusCode.SUCCESS).send(allRecipes);
 };
 
+const displaySpecificRecipe = async (request, response) => {
+  const { id } = request.params;
+  const specificRecipe = await RecipesActions.getRecipeById(id);
+  return response.status(statusCode.SUCCESS).send(specificRecipe);
+};
+
 module.exports = {
   creatingRecipe,
   displayAllRecipes,
+  displaySpecificRecipe,
 };
