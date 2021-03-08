@@ -3,8 +3,10 @@ const status = require('../utils/allStatusCode');
 
 const VerifyAuthotization = (req, res, next) => {
   const { authorization } = req.headers;
+  
   const payload = tokenValidation(authorization);
-
+  req.user = payload;
+  
   if (!payload) return res.status(status.UNAUTHORIZED).json({ message: 'jwt malformed' }); 
 
   next();

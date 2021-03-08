@@ -4,9 +4,6 @@ const status = require('../utils/allStatusCode');
 
 const RecipesServices = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-
-  console.log(req.body);
-  console.log(req.headers);
   
   if (!name || !ingredients || !preparation) {
     return res.status(status.BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
