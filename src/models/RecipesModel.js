@@ -1,21 +1,23 @@
-// const { ObjectId } = require('mongodb');
 const { ObjectId } = require('mongodb');
-const Recipes = require('./RecipesSchema');
+const connection = require('../database');
 
 const createRecipeDb = async (name, ingredients, preparation) => {
-  const newRecipe = await Recipes.create({ name, ingredients, preparation });
+  const newRecipe = connection().then((db) =>
+    db.collection('recipes').insertOne({ name, ingredients, preparation }));
 
   return newRecipe;
 };
 
 const searchAllRecipesDb = async () => {
-  const allRecipes = await Recipes.find();
+  const allRecipes = connection().then((db) =>
+    db.collection('recipes').find());
 
   return allRecipes;
 };
 
 const SearchRecipeByIdDb = async (id) => {
-  const recipeById = await Recipes.findOne({ _id: ObjectId(id) });
+  const recipeById = connection().then((db) =>
+    db.collection('recipes').findOne({ _id: ObjectId(id) }));
 
   return recipeById;
 };
@@ -23,10 +25,10 @@ const SearchRecipeByIdDb = async (id) => {
 const UpdateRecipeByIdDb = async (id, body) => {
   const { name, ingredients, preparation } = body;
 
-  await Recipes.updateOne(
-    { _id: ObjectId(id) }, 
-    { $set: { name, ingredients, preparation } },
-  );
+  connection().then((db) =>
+    db.collection('recipes').updateOne(
+      { _id: ObjectId(id) }, { $set: { name, ingredients, preparation } },
+  ));
 
   const updateRecipe = await SearchRecipeByIdDb(id);
 
@@ -34,7 +36,8 @@ const UpdateRecipeByIdDb = async (id, body) => {
 };
 
 const DeleteRecipeByIdDb = async (id) => {
-  const recipeById = await Recipes.deleteOne({ _id: ObjectId(id) });
+  const recipeById = connection().then((db) =>
+    db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
   return recipeById;
 };

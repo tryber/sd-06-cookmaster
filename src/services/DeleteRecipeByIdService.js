@@ -1,4 +1,4 @@
-const { DeleteRecipeByIdDb } = require('../models/recipesModel');
+const { DeleteRecipeByIdDb } = require('../models/RecipesModel');
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;

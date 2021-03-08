@@ -12,7 +12,7 @@ const createRecipe = async (req, res) => {
   const newRecipe = await CreateRecipeService(req.body, req.headers, res); 
 
   res.status(CREATED).json({
-    recipe: newRecipe,
+    recipe: newRecipe.ops[0],
   });
 }; 
 

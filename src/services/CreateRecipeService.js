@@ -1,4 +1,4 @@
-const { createRecipeDb } = require('../models/recipesModel');
+const { createRecipeDb } = require('../models/RecipesModel');
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;

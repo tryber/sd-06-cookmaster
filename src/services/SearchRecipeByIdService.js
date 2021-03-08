@@ -1,4 +1,4 @@
-const { SearchRecipeByIdDb } = require('../models/recipesModel');
+const { SearchRecipeByIdDb } = require('../models/RecipesModel');
 
 const NOT_FOUND = 404;
 

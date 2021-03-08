@@ -10,7 +10,7 @@ const createUser = async (req, res) => {
     const newUser = await CreateUserService(req.body); 
   
     res.status(CREATED).json({
-      user: newUser,
+      user: newUser.ops[0],
     });
   } catch (error) {
     return res.status(CONFLICT).json({ message: 'Email already registered' });

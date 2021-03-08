@@ -1,4 +1,4 @@
-const { searchAllRecipesDb } = require('../models/recipesModel');
+const { searchAllRecipesDb } = require('../models/RecipesModel');
 
 const SearchAllRecipesService = async (_res) => {
     const newRecipe = await searchAllRecipesDb();

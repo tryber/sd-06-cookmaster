@@ -1,14 +1,16 @@
 const { ObjectId } = require('mongodb');
-const Users = require('./UserSchema');
+const connection = require('../database');
 
 const createUserDb = async (name, email, password) => {
-  const newUser = await Users.create({ name, email, password, role: 'user' });
+  const newUser = connection().then((db) =>
+    db.collection('users').insertOne({ name, email, password, role: 'user' }));
 
   return newUser;
 };
 
 const loginUserDb = async (email) => {
-  const newUser = await Users.findOne({ email });
+  const newUser = connection().then((db) =>
+    db.collection('users').findOne({ email }));
 
   return newUser;
 };
@@ -16,16 +18,15 @@ const loginUserDb = async (email) => {
 const salvedTokenDb = async (loginUser, token) => {
   const { _id } = loginUser;
 
-  const tokenUser = await Users.updateOne(
-    { _id: ObjectId(_id) }, 
-    { $set: { token } },
-  );
+  const tokenUser = connection().then((db) =>
+    db.collection('users').updateOne({ _id: ObjectId(_id) }, { $set: { token } }));
 
   return tokenUser;
 };
 
 const searchUserByTokenDb = async (token) => {
-  const user = await Users.findOne({ token });
+  const user = connection().then((db) =>
+    db.collection('users').findOne({ token }));
 
   return user;
 };
