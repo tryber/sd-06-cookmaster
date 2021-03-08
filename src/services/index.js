@@ -6,6 +6,7 @@ const GetRecipeByIdService = require('./GetRecipeByIdService');
 const UpdateRecipeService = require('./UpdateRecipeService');
 const DeleteRecipeService = require('./DeleteRecipeService');
 const UpdateRecipeImageService = require('./UpdateRecipeImageService');
+const CreateAdminUserService = require('./CreateAdminUserService');
 
 module.exports = {
   CreateUserService,
@@ -16,4 +17,5 @@ module.exports = {
   UpdateRecipeService,
   DeleteRecipeService,
   UpdateRecipeImageService,
+  CreateAdminUserService,
 };
