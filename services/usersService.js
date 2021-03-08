@@ -1,7 +1,7 @@
 const { usersCrudDb } = require('../models');
 const { generateToken: auth } = require('../authentication');
 
-const create = async (name, email, password) => usersCrudDb.createUser(name, email, password);
+const create = async (dataUser) => usersCrudDb.createUser(dataUser);
 
 const createToken = async (dataBody) => auth.createToken(dataBody);
 

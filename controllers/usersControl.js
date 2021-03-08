@@ -1,10 +1,12 @@
 const { Router } = require('express');
-const { usersMiddlewares, usersVerify } = require('../middlewares');
+const { usersMiddlewares } = require('../middlewares');
 
 const router = Router();
 
-router.post('/', usersVerify.verifyBodyCreate, usersMiddlewares.create);
+router.post('/', usersMiddlewares.verifyBodyCreate, usersMiddlewares.create);
 
-router.get('/');
+router.post('/admin', (req, res) => {
+    res.send('teste');
+});
 
 module.exports = router;

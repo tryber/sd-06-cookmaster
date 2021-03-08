@@ -47,9 +47,23 @@ const listForId = async (req, res) => {
   return res.status(data.status.notFound).json(data.objAnswer.err_search);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const value = await recipesServices.update(id, req.body);
+  return res.status(200).json(value);
+};
+
+const delRecipe = async (req, res) => {
+  const { id } = req.params;
+  await recipesServices.delRecipe(id);
+  return res.status(data.status.okNoContent).json();
+};
+
 module.exports = {
   createRecipe,
   verifyBodyRecipe,
   listRecipes,
   listForId,
+  updateRecipe,
+  delRecipe,
 };
