@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { create, listRecipes, recipeById } = require('../models/RecipesModel');
 
 const status = require('../utils/allStatusCode'); 
@@ -27,11 +28,11 @@ const GetAllRecipes = async (_req, res) => {
 
 const GetRecipeById = async (req, res) => {
   const { id } = req.params;
-  const recipe = await recipeById(id);
-  if (!recipe) {
-    return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
-  }
-  return res.status(status.OK).json(recipe);
+  if (ObjectId.isValid(id)) {
+    const recipe = await recipeById(id);
+    return res.status(status.OK).json(recipe);
+  }  
+  return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
 };
 
 module.exports = {
