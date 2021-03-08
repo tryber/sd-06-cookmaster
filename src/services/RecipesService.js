@@ -7,8 +7,14 @@ const getAll = async () => Recipes.getAllRecipes();
 
 const getById = async (id) => Recipes.getByIdRecipes(id);
 
+const update = async (id, name, ingredients, preparation) => {
+  await Recipes.updateRecipes(id, name, ingredients, preparation);
+  return Recipes.getByIdRecipes(id);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-};
+  update,
+ };

@@ -38,4 +38,13 @@ router.get('/:id', validateIdRecipe, rescue(async (req, res) => {
   res.status(SUCCESS).json(recipe);
 }));
 
+router.put('/:id', validateJWT, rescue(async (req, res) => {
+  const { id } = req.params;
+  const arrayRecipes = req.body;
+  const { name, ingredients, preparation } = arrayRecipes;
+  const updateRecipes = await Recipes.update(id, name, ingredients, preparation);
+
+  res.status(SUCCESS).json(updateRecipes);
+}));
+
 module.exports = router;
