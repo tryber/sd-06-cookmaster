@@ -10,6 +10,7 @@ const objAnswer = {
         err2: { message: 'missing auth token' },
     },
     err_search: { message: 'recipe not found' },
+    err_admin: { message: 'Only admins can register new admins' },
 };
 
 const status = {
@@ -20,6 +21,7 @@ const status = {
     unauthorized: 401,
     notFound: 404,
     okNoContent: 204,
+    forbidden: 403,
 };
 
 module.exports = { objAnswer, status };

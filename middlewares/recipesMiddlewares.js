@@ -20,7 +20,7 @@ const createRecipe = async (req, res) => {
     userId: user[id],
   };
   const recipe = await recipesServices.create(dataRec);
-  res.status(201).json({ recipe });
+  return res.status(201).json({ recipe });
 };
 
 const verifyBodyRecipe = async (req, res, next) => {
