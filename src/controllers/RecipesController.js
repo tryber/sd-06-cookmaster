@@ -8,6 +8,7 @@ const { validateRecipe } = require('../middlewares');
 const router = new Router();
 router.use(bodyParser.json());
 
+const SUCCESS = 200;
 const CREATED = 201;
 
 router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
@@ -17,6 +18,11 @@ router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
   const newRecipe = await Recipes.create(name, ingredients, preparation, _id);
 
   return res.status(CREATED).json(newRecipe);
+}));
+
+router.get('/', rescue(async (_req, res) => {
+  const allRecipes = await Recipes.getAll();
+   res.status(SUCCESS).json(allRecipes);
 }));
 
 module.exports = router;
