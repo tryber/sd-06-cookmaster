@@ -1,5 +1,5 @@
 // const { ObjectId } = require('mongodb');
-const { create, listRecipes, recipeById } = require('../models/RecipesModel');
+const { create, listRecipes, recipeById, updateRecipe } = require('../models/RecipesModel');
 
 const status = require('../utils/allStatusCode'); 
 
@@ -36,8 +36,19 @@ const GetRecipeById = async (req, res) => {
   }
 };
 
+const UpdateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const image = 'no image yet';
+
+  await updateRecipe({ id, name, ingredients, preparation, image });
+  const updatedRecipe = await recipeById(id);
+  return res.status(status.OK).json(updatedRecipe);
+};
+
 module.exports = {
   CreateRecipe,
   GetAllRecipes,
   GetRecipeById,
+  UpdateRecipe,
 };
