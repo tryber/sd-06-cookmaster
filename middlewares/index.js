@@ -5,6 +5,7 @@ const checkLoginFields = require('./checkLoginFields');
 const checkRecipeFields = require('./checkRecipeFields');
 const validateRecipeId = require('./validateRecipeId');
 const checkPermissions = require('./checkPermissions');
+const validateAdmin = require('./validateAdmin');
 
 module.exports = {
   checkNewUserFields,
@@ -14,4 +15,5 @@ module.exports = {
   checkRecipeFields,
   validateRecipeId,
   checkPermissions,
+  validateAdmin,
 };

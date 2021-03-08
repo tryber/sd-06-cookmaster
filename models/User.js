@@ -49,7 +49,7 @@ async function update(id, newDataFromUser) {
     return queryResult.value;
 }
 
-async function create(name, email, password, role = 'user') {
+async function create(name, email, password, role) {
   const db = await connection();
   const { insertedId } = await db
     .collection('users')
