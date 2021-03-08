@@ -10,6 +10,7 @@ router.use(bodyParser.json());
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 
 router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
@@ -44,6 +45,12 @@ router.put('/:id', validateJWT, rescue(async (req, res) => {
   const updateRecipes = await Recipes.update(id, name, ingredients, preparation);
 
   res.status(SUCCESS).json(updateRecipes);
+}));
+
+router.delete('/:id', validateJWT, rescue(async (req, res) => {
+  const { id } = req.params;
+  await Recipes.remove(id);
+  return res.status(NO_CONTENT).end();
 }));
 
 module.exports = router;
