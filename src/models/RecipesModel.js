@@ -1,9 +1,9 @@
 const { ObjectId } = require('mongodb');
 const connection = require('../database/connection');
 
-const create = async (name, ingredients, preparation) => {
+const create = async (name, ingredients, preparation, userId) => {
   const { insertedId } = await connection()
-    .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation }));
+    .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation, userId }));
   return insertedId;
 };
 

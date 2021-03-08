@@ -11,7 +11,7 @@ const CreateRecipe = async (req, res) => {
   }
 
   const { _id } = req.user;
-  const { insertedId } = await create(name, ingredients, preparation);
+  const { insertedId } = await create(name, ingredients, preparation, _id);
   return res.status(status.CREATED).json({ recipe: {
     name, 
     ingredients, 
