@@ -37,7 +37,7 @@ function validPreparation(preparation) {
   return true;
 }
 
-// VALID TOKEN LOGIN DATABASE
+// VALID EMAIL AND PASSWORD LOGIN DATABASE
 function ValidEmailAndPasswordInServer(resultEmailInServer, email, password) {
   if (resultEmailInServer.email !== email
     || resultEmailInServer.password !== password 

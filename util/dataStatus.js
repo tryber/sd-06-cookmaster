@@ -17,6 +17,9 @@ const messages = {
     recipeNotFound: {
         message: 'recipe not found',      
     },
+    MissingAuthToken: {
+        message: 'missing auth token',
+    },
 };
 
 const status = {
@@ -26,6 +29,7 @@ const status = {
     unauthorized: 401,
     OK: 200,
     NotFound: 404,
+    NoContent: 204,
 };
 
 module.exports = {

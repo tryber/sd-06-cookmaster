@@ -5,7 +5,9 @@ const findRegisterByEmail = async (email) => connection()
 
 const createUserInServer = async (name, email, password) => {
     const { insertedId } = await connection()
-        .then((mongodb) => mongodb.collection('users').insertOne({ name, email, password }));
+        .then((mongodb) => mongodb
+        .collection('users')
+        .insertOne({ name, email, password, role: 'user' }));
 
     return {
         user: {

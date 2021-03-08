@@ -31,8 +31,27 @@ const getUnitRecipeInServer = async (id) => {
     return UnitRecipe;
 };
 
+const editRecipesInServer = async (id, name, ingredients, preparation) => connection()
+    .then((mongoDB) => mongoDB.collection('recipes').updateOne(
+        { _id: ObjectId(id) },
+        { $set: {
+            name, ingredients, preparation,
+        } },
+    ));
+
+const deletRecipeInServer = async (id) => {
+    await connection()
+    .then((mongoDB) => mongoDB.collection('recipes').findOneAndDelete(
+        { _id: ObjectId(id) },
+        { returnOriginal: false },
+      ));
+};
+
 module.exports = {
+    editRecipesInServer,
     createRecipes,
     getRecipesInServer,
     getUnitRecipeInServer,
+    deletRecipeInServer,
+    
   };

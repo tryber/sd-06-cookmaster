@@ -8,7 +8,7 @@ const { OK } = status;
 const LoginUserAndCreateToken = async (req, res) => {
     const { email } = req.body;
     const { password: passwordDB, ...userWithoutPassword } = await findRegisterByEmail(email);
-    
+
     const { token } = createToken(userWithoutPassword);
     
     return res.status(OK).json({ token });
