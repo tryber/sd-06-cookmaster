@@ -1,4 +1,3 @@
-// const { ObjectId } = require('mongodb');
 const getConnection = require('./connection');
 
 const getAll = async () => {
@@ -17,7 +16,7 @@ const createUsers = async (name, email, password, role = 'user') => {
     role,
     _id: insertedId,
     };
-    console.log(usersRegister);
+
     return ({ user: usersRegister });
 };
 

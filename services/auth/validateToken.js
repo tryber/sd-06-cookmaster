@@ -4,7 +4,8 @@ const secret = 'umgato';
 
 module.exports = (token) => {
   try {
-    return jwt.verify(token, secret);
+    const newtoken = jwt.decode(token, secret);
+    return newtoken;
   } catch (e) {
     return null;
   }
