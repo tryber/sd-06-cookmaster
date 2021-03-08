@@ -17,8 +17,6 @@ const UploadConfig = {
   
   async deleteImage(req, res, next) {
     const { image } = res.locals;
-    console.log(req.file, 'FILE after save');
-    console.log(image, 'before delete');
     if (image) await asyncDelete(image);
     next();
   },

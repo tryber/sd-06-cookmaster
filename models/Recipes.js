@@ -27,13 +27,22 @@ const addField = async (id, field) => {
   const recipe = await db.collection('recipes').updateOne({ _id: ObjectId(id) }, [{
     $set: { image: field },
   }]);
-  console.log(field, recipe);
   return recipe;
 };
 
 const updateOne = async (id, recipe) => {
   const db = await connection();
-  await db.collection('recipes').insertOne({ _id: id, ...recipe });
+  console.log(id, 'updateOne id', recipe, 'recipe');
+  const response = await db.collection('recipes').aggregate([{
+    $addField: {
+      _id: Object(id),
+      name: recipe.name,
+      ingredients: recipe.ingredients,
+      preparation: recipe.preparation,
+      authorId: recipe.authorId,
+    },
+  }]);
+    console.log(response.matchedCount);
   return {
     name: recipe.name,
     ingredients: recipe.ingredients,

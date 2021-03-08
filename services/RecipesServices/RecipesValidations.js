@@ -39,9 +39,9 @@ const RecipesValdiations = {
       res.locals.recipeId = id;
       res.locals.authorId = recipe.authorId;
       res.locals.image = recipe.image;
-      next();
+      return next();
     } catch (err) {
-      next(validationError('invalid entries'));
+      return next(validationError('invalid entries'));
     }
   },
   async checkToken(req, _res, next) {

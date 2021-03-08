@@ -38,6 +38,7 @@ route.put('/:id',
   RecipesValidations.checkValidId,
   RecipesValidations.checkToken,
   VerifyUserToken,
+  CheckCredentials,
   async (req, res) => {
     const { authorId, recipeId } = res.locals;
     const { name, ingredients, preparation } = req.body;
@@ -68,14 +69,13 @@ route.put('/:id',
    upload.single('image'),   
    async (req, res) => {
      const { recipeId } = res.locals;
-     console.log(req.file.path, 'recipes controller image');
      const imagePath = path.join(UploadConfig.baseURL, req.file.path);
      await RecipesServices.addField(recipeId, imagePath);
      res.status(status.OK).json({ image: imagePath });
    });
   
   route.use('/', async (err, _req, res, _next) => {
-    console.log(err);
+    console.log(err, 'err');
     return res.status(err.status).json({ message: err.message });
   });
   

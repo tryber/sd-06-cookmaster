@@ -7,7 +7,6 @@ const createOne = async (User) => {
 
 const findOneById = async (id) => {
   const UserData = await Users.findOne(id);
-  console.log(UserData);
   return UserData;
 };
 

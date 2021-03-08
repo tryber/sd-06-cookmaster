@@ -31,7 +31,6 @@ route.post('/admin',
     const { name, email, password } = req.body;
     const adminRole = 'admin';
     const insertedId = await UsersServices.createOne({ name, email, password, role: adminRole });
-    console.log('admin no error');
     res.status(status.CREATED).json({ user: { _id: insertedId, name, email, role: adminRole } });
   });
 
@@ -42,7 +41,6 @@ route.post('/',
     const { name, email, password } = req.body;
     const userRole = 'user';
     const insertedId = await UsersServices.createOne({ name, email, password, role: userRole });
-    console.log('no error');
     res.status(status.CREATED).json({ user: { _id: insertedId, name, email, role: userRole } });
   });
 
