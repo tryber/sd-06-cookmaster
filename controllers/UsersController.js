@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
   if (answer.err) return res.status(answer.code).json(answer.err);
 
   return res.status(statusCreate)
-    .json({ user: { name, email, password, role: 'user', _id: answer.insertedId } });
+    .json({ user: { name, email, role: 'user', _id: answer.insertedId } });
 });
 
 module.exports = router;

@@ -10,7 +10,7 @@ const statusRegistered = 409;
 
 const validation = async (obj) => {
   const emailExists = await Users.findUserByEmail(obj.email);
-  if (!obj.name || !obj.email || obj.senha || !validateEmail(obj.email)) {
+  if (!obj.name || !obj.email || !obj.password || !validateEmail(obj.email)) {
     const error = { err: { message: 'Invalid entries. Try again.' }, code: statusError };
     return error;
   }
