@@ -16,6 +16,18 @@ const createNewUser = async (name, email, password) => {
   };
 };
 
+const getEmailUser = async (email) =>
+  connection().then((db) => db.collection(DB_COLECTION).findOne({ email }));
+
+const emailAndPassword = async (email, password) =>
+  connection().then((db) => db.collection(DB_COLECTION).findOne({ email, password }));
+
+const getIdUser = async (id) =>
+  connection().then((db) => db.collection(DB_COLECTION).findOne({ _id: ObjectId(id) }));
+
 module.exports = {
   createNewUser,
+  getEmailUser,
+  emailAndPassword,
+  getIdUser,
 };
