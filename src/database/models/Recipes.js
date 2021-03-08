@@ -30,6 +30,18 @@ class Recipes extends Crud {
 
     return updatedProduct;
   }
+
+  async updateImage(recipeId, image) {
+    const updateFields = {
+      $set: {
+        image,
+      },
+    };
+    
+    const updatedProduct = await super.update(recipeId, updateFields);
+
+    return updatedProduct;
+  }
 }
 
 module.exports = Recipes;

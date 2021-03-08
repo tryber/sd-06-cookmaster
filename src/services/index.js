@@ -3,12 +3,9 @@ const CreateSessionService = require('./CreateSessionService');
 const CreateRecipeService = require('./CreateRecipeService');
 const ListRecipesService = require('./ListRecipesService');
 const GetRecipeByIdService = require('./GetRecipeByIdService');
-
 const UpdateRecipeService = require('./UpdateRecipeService');
 const DeleteRecipeService = require('./DeleteRecipeService');
-// const GetSalesByIdService = require('./GetSalesByIdService');
-// const UpdateSaleService = require('./UpdateSaleService');
-// const DeleteSaleService = require('./DeleteSaleService');
+const UpdateRecipeImageService = require('./UpdateRecipeImageService');
 
 module.exports = {
   CreateUserService,
@@ -18,7 +15,5 @@ module.exports = {
   GetRecipeByIdService,
   UpdateRecipeService,
   DeleteRecipeService,
-  // GetSalesByIdService,
-  // UpdateSaleService,
-  // DeleteSaleService
+  UpdateRecipeImageService,
 };

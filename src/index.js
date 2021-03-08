@@ -1,9 +1,9 @@
 const express = require('express');
 require('express-async-errors');
 
-const path = require('path');
-
 const routes = require('./routes/index.js');
+
+const uploadConfig = require('./config/upload');
 const errorHandling = require('./middlewares/errorHandling');
 const { auditInitialRequest } = require('./utils/audit.js'); 
 
@@ -12,7 +12,7 @@ const port = 3000;
 
 app.use(express.json());
 
-app.use('/images', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(uploadConfig.directory));
 
 app.use(auditInitialRequest);
 

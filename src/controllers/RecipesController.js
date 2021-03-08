@@ -4,6 +4,7 @@ const {
   GetRecipeByIdService,
   UpdateRecipeService,
   DeleteRecipeService,
+  UpdateRecipeImageService,
 } = require('../services/index');
 
 class RecipesController {
@@ -65,6 +66,22 @@ class RecipesController {
       userId,
       role,
     });
+
+    const RECIPE_UPDATED = 200;
+    return res.status(RECIPE_UPDATED).json(updatedRecipe);
+  }
+
+  async updateImage(req, res) {
+    this.count += 1;
+
+    const { id: recipeId } = req.params;
+    const { filename: image } = req.file;
+    const { id: userId, role } = req.user;
+
+    const updateRecipeImage = { recipeId, userId, role, image };
+
+    const updateRecipeImageService = new UpdateRecipeImageService();
+    const updatedRecipe = await updateRecipeImageService.execute(updateRecipeImage);
 
     const RECIPE_UPDATED = 200;
     return res.status(RECIPE_UPDATED).json(updatedRecipe);
