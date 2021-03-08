@@ -15,7 +15,7 @@ if (!user || email !== user.email || password !== user.password) {
    return res.status(status.UNAUTHORIZED).json({ message: 'Incorrect username or password' }); 
   }
   const token = createToken(user);
-  if (token) return res.status(status.OK).json({ token });
+  return res.status(status.OK).json({ token });
 };
 
 module.exports = LoginServices;
