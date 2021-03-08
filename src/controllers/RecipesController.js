@@ -27,4 +27,15 @@ router.get('/', rescue(async (_req, res) => {
    res.status(SUCCESS).json(allRecipes);
 }));
 
+router.get('/:id', validateIdRecipe, rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.getById(id);
+
+  if (!recipe) {
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  }
+
+  res.status(SUCCESS).json(recipe);
+}));
+
 module.exports = router;
