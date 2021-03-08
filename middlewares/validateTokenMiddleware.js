@@ -10,16 +10,18 @@ const UNAUTHORIZED = 401;
 
 async function validateToken(req, res, next) {
   const { authorization } = req.headers;
-  
-  const decoded = await decodeToken(authorization);
-
-  if (decoded === 'jwt malformed') {
+  if (!authorization) {
+    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+  }
+  try {
+    const decoded = await decodeToken(authorization);
+    const foundUser = await getUserByEmail(decoded.data.email);
+    const { _id } = foundUser;
+    res.locals.userId = _id;
+    next();
+  } catch (error) {
     res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
-
-  const { _id } = await getUserByEmail(decoded.data.email);
-  res.locals.userId = _id;
-  next();
 }
 
 module.exports = validateToken;
