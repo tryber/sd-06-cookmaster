@@ -3,13 +3,14 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const Recipes = require('../services/RecipesService');
 const validateJWT = require('../auth/validateJWT');
-const { validateRecipe } = require('../middlewares');
+const { validateRecipe, validateIdRecipe } = require('../middlewares');
 
 const router = new Router();
 router.use(bodyParser.json());
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NOT_FOUND = 404;
 
 router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -23,6 +24,17 @@ router.post('/', validateJWT, validateRecipe, rescue(async (req, res) => {
 router.get('/', rescue(async (_req, res) => {
   const allRecipes = await Recipes.getAll();
    res.status(SUCCESS).json(allRecipes);
+}));
+
+router.get('/:id', validateIdRecipe, rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.getById(id);
+
+  if (!recipe) {
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  }
+
+  res.status(SUCCESS).json(recipe);
 }));
 
 module.exports = router;
