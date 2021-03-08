@@ -3,10 +3,11 @@ const msgB = 'Incorrect username or password';
 
 function verifyPassWord(request, response, next) {
   const { email, password } = request.body;
+  console.log(email, password);
   if (!password) {
     return response.status(401).json({ message: msgC });
   }
-   if (password.length < 6) {
+   if (password.length < 5) {
     return response.status(401).json({ message: msgB });
   }
   if (!email) {

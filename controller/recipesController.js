@@ -10,6 +10,7 @@ const code = 201;
 const codeErr = 401;
 const code200 = 200;
 const codeError2 = 404;
+const code204 = 204;
 // const msg = 'missing auth token';
 
 recipesController.post(
@@ -46,7 +47,10 @@ recipesController.get('/', async (_request, response) => {
   return response.status(code200).json(returnAllRecipes);
 });
 
-recipesController.delete('/:id', resolveProblem, async (request, response) => {
+recipesController.delete('/:id', resolveProblem,
+AuthorizationLoginRecipes,
+validateId,
+async (request, response) => {
   const { id } = request.params;
   const { name, ingredients, preparation } = request.body;
   const recipesDel = {
@@ -55,8 +59,8 @@ recipesController.delete('/:id', resolveProblem, async (request, response) => {
     ingredients,
     preparation,
   };
-  await recipesService.deleteOneRecipes(id);
-  return response.status(code200).json(recipesDel);
+  await recipesService.deleteOneRecipes(id, recipesDel);
+  return response.status(code204).json();
 });
 
 recipesController.put('/:id', resolveProblem, AuthorizationLoginRecipes, validateId,

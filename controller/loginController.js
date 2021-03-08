@@ -14,7 +14,9 @@ const code = 200;
 
 loginController.post('/', verifyPassWord, async (request, response) => {
   const { email, password } = request.body;
+ 
   const createLogin = await loginServices.login(email, password);
+  console.log(createLogin);
   if (!createLogin.user) return response.status(401).json({ message: msg });
   const { _id, email: EM, role } = createLogin.user;
   const token = createToken({ _id, email: EM, role }); // renomeado o email porque ja existe
