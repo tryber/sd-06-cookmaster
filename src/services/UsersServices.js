@@ -1,13 +1,13 @@
 const { create, getUserByEmail } = require('../models/UsersModel');
+const validateEmail = require('../utils/validateEmail');
 const status = require('../utils/allStatusCode'); 
 
 const UsersServices = async (req, res) => {
   const { name, email, password } = req.body;
-
-  const mailRegex = /^\S+@\S+$/;
-  const validateEmail = mailRegex.test(email);
+  
+  const validEmail = validateEmail(email);
  
-  if (!name || !email || !validateEmail || !password) {
+  if (!name || !email || !validEmail || !password) {
     return res.status(status.BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
   }
 
@@ -19,6 +19,4 @@ const UsersServices = async (req, res) => {
   return res.status(status.CREATED).json({ user });
 };
 
-module.exports = {
-  UsersServices,
-};
+module.exports = UsersServices;
