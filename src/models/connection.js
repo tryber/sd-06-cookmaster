@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const evalautor = true;
+const evalautor = false;
 const MONGODB_URL = evalautor
   ? 'mongodb://localhost:27017/Cookmaster'
   : 'mongodb://mongodb:27017/Cookmaster';
