@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const { create, listRecipes, recipeById, updateRecipe } = require('../models/RecipesModel');
 
 const status = require('../utils/allStatusCode'); 
@@ -11,7 +11,7 @@ const CreateRecipe = async (req, res) => {
   }
 
   const { _id } = req.user;
-  const { insertedId } = await create(name, ingredients, preparation, _id);
+  const insertedId = await create(name, ingredients, preparation, _id);
   return res.status(status.CREATED).json({ recipe: {
     name, 
     ingredients, 
@@ -28,12 +28,17 @@ const GetAllRecipes = async (_req, res) => {
 
 const GetRecipeById = async (req, res) => {
   const { id } = req.params;
-  try {
+  // try {
+  //   const recipe = await recipeById(id);
+  //   return res.status(status.OK).json(recipe);
+  // } catch (err) {
+  //   return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
+  // }
+  if (ObjectId.isValid(id)) {
     const recipe = await recipeById(id);
-    return res.status(status.OK).json(recipe);
-  } catch (err) {
-    return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
+    if (recipe) return res.status(status.OK).json(recipe);
   }
+  return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
 };
 
 const UpdateRecipe = async (req, res) => {
