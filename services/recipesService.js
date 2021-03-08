@@ -1,12 +1,9 @@
 const recipesModel = require('../model/recipesModel');
-const validateToken = require('./auth/validateToken');
 
 const registerRecipes = async (name, ingredients, preparation, authorization) => {
-  const payload = await validateToken(authorization);
-  const userId = payload._id;
   // const role = payload.role;
   const newRecipes = await recipesModel.createRecipes(
-    name, ingredients, preparation, userId,
+    name, ingredients, preparation, authorization,
     );
   
   return newRecipes;

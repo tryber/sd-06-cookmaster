@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { AuthorizationLoginRecipes, validateId } = require('../middlewares/verifyAuthorization');
 const { verifyItensRecipes } = require('../middlewares/verifyRecipes');
+const validateToken = require('../services/auth/validateToken');
 const recipesService = require('../services/recipesService');
 
 const recipesController = new Router();
@@ -17,12 +18,14 @@ recipesController.post(
   async (request, response) => {
     const { authorization } = request.headers;
     const { name, ingredients, preparation } = request.body;
+    const payload = await validateToken(authorization);
+    const { _id } = payload;
     if (!authorization) return response(codeErr).json({ message: 'jwt malformed' });
     const createRecipes = await recipesService.registerRecipes(
       name,
       ingredients,
       preparation,
-      authorization,
+      _id,
     );
     return response.status(code).json(createRecipes);
   },
@@ -51,7 +54,7 @@ recipesController.delete('/:id', async (request, response) => {
     ingredients,
     preparation,
   };
-  const recipesDeleted = await recipesService.deleteOnerecipes(id);
+  await recipesService.deleteOnerecipes(id);
   return response.status(code200).json(recipesDel);
 });
 
@@ -65,7 +68,7 @@ async (request, response) => {
     ingredients,
     preparation,
   };
-  const returnEditRecipes = await recipesService.putEditListId(id, name, ingredients, preparation);
+  await recipesService.putEditListId(id, name, ingredients, preparation);
   return response.status(code200).json(recipesEdit);
 });
 
