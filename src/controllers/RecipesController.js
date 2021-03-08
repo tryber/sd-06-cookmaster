@@ -47,4 +47,10 @@ router.put('/:id', validateJWT, rescue(async (req, res) => {
   res.status(SUCCESS).json(updateRecipes);
 }));
 
+router.delete('/:id', validateJWT, rescue(async (req, res) => {
+  const { id } = req.params;
+  await Recipes.remove(id);
+  return res.status(NO_CONTENT).end();
+}));
+
 module.exports = router;

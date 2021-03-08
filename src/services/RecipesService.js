@@ -12,9 +12,15 @@ const update = async (id, name, ingredients, preparation) => {
   return Recipes.getByIdRecipes(id);
 };
 
+const remove = async (id) => {
+  await Recipes.deleteRecipes(id);
+  return Recipes.getByIdRecipes(id);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
- };
+  remove,
+};
