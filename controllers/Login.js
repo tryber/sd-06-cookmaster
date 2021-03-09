@@ -17,7 +17,8 @@ const login = async (req, res) => {
     return res.status(statusUnauthorized).json({ message: 'Incorrect username or password' });
   }
 
-  const payload = { _id: user._id, email: user.email, role: user.role };
+  const { password: userPassword, ...payload } = user;
+
   const token = createToken(payload);
 
   return res.status(statusSuccess).json({ token });
