@@ -3,6 +3,7 @@ const Recipe = require('../services/Recipe');
 const statusBadRequest = 400;
 const statusCreated = 201;
 const statusSuccess = 200;
+const statusNotFound = 404;
 
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -21,7 +22,18 @@ const findAll = async (_req, res) => {
   return res.status(statusSuccess).json(recipes);
 };
 
+const findOne = async (req, res) => {
+  const { id } = req.params;
+
+  const recipe = await Recipe.findOne(id);
+
+  if (!recipe) return res.status(statusNotFound).json({ message: 'recipe not found' });
+
+  return res.status(statusSuccess).json(recipe);
+};
+
 module.exports = {
   create,
   findAll,
+  findOne,
 };
