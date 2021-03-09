@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/User');
 const loginRoutes = require('./routes/Login');
+const recipeRoutes = require('./routes/Recipe');
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.get('/', (request, response) => {
 app.use('/users', userRoutes);
 
 app.use('/login', loginRoutes);
+
+app.use('/recipes', recipeRoutes);
 
 const port = 3000;
 
