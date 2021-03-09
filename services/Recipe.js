@@ -9,16 +9,25 @@ const create = async (name, ingredients, preparation) => {
 
 const findAll = async () => Recipe.findAll();
 
-const findOne = async (id) => {
+const find = async (id) => {
   const validId = ObjectId.isValid(id);
 
   if (!validId) return false;
 
-  return Recipe.findOne(id);
+  return Recipe.find(id);
+};
+
+const edit = async (id, name, ingredients, preparation) => {
+  const validId = ObjectId.isValid(id);
+
+  if (!validId) return false;
+
+  return Recipe.edit(id, name, ingredients, preparation);
 };
 
 module.exports = {
   create,
   findAll,
-  findOne,
+  find,
+  edit,
 };

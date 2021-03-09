@@ -22,18 +22,29 @@ const findAll = async (_req, res) => {
   return res.status(statusSuccess).json(recipes);
 };
 
-const findOne = async (req, res) => {
+const find = async (req, res) => {
   const { id } = req.params;
 
-  const recipe = await Recipe.findOne(id);
+  const recipe = await Recipe.find(id);
 
   if (!recipe) return res.status(statusNotFound).json({ message: 'recipe not found' });
 
   return res.status(statusSuccess).json(recipe);
 };
 
+const edit = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  await Recipe.edit(id, name, ingredients, preparation);
+  const recipe1 = await Recipe.find(id);
+
+  return res.status(statusSuccess).json(recipe1);
+};
+
 module.exports = {
   create,
   findAll,
-  findOne,
+  find,
+  edit,
 };

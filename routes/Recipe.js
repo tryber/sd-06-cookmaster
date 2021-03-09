@@ -5,7 +5,11 @@ const verifyAuthorization = require('../middlewares/verifyAuthorization');
 const recipeRoutes = express.Router();
 
 recipeRoutes.post('/', verifyAuthorization, Recipe.create);
-recipeRoutes.get('/:id', Recipe.findOne);
+
+recipeRoutes.put('/:id', verifyAuthorization, Recipe.edit);
+
+recipeRoutes.get('/:id', Recipe.find);
+
 recipeRoutes.get('/', Recipe.findAll);
 
 module.exports = recipeRoutes;
