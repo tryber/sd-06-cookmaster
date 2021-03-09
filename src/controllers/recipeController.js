@@ -32,4 +32,6 @@ recipesRouter.get('/:id', recipeService.getRecipeById);
 
 recipesRouter.put('/:id', userService.verifyToken, recipeService.updateRecipe);
 
+recipesRouter.delete('/:id', userService.verifyToken, recipeService.deleteRecipe);
+
 module.exports = { recipesRouter };

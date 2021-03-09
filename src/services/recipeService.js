@@ -69,6 +69,23 @@ const updateRecipe = async (req, res, next) => {
   next();
 };
 
+const deleteRecipe = async (req, res, next) => {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+
+  if (!ObjectId.isValid(id)) return res.status(404).json({ message: RECIPE_NOT_FOUND });
+
+  const userData = await userService.decodeToken(authorization);
+
+  if (userAuthorized(id, userData.email)) {
+    await recipeModel.deleteRecipe(id);
+
+    res.status(204).send();
+  }
+
+  next();
+};
+
 module.exports = {
   createRecipe,
   verifyFields,
@@ -76,4 +93,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   userAuthorized,
+  deleteRecipe,
 };
