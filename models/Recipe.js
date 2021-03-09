@@ -16,7 +16,7 @@ const edit = (id, name, ingredients, preparation) => connection()
   ));
 
 const remove = (id) => connection()
-  .then((db) => db.collection('recipe').deleteOne({ _id: ObjectId(id) }));
+  .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
 module.exports = {
   create,

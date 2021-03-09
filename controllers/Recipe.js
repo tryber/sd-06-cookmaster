@@ -48,7 +48,7 @@ const remove = async (req, res) => {
 
   await Recipe.remove(id);
 
-  return res.status(statusNoContent);
+  return res.status(statusNoContent).send();
 };
 
 module.exports = {
