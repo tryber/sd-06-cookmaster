@@ -19,7 +19,7 @@ recipesRouter.post(
     const createdRecipe = await recipeService.createRecipe(recipe);
 
     res.status(201).json({ recipe: createdRecipe });
-  }
+  },
 );
 
 recipesRouter.get('/', async (req, res) => {
