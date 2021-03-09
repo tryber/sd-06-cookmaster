@@ -1,4 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const { usersRouter } = require('./controller/userController');
+const { loginRouter } = require('./controller/loginController');
 
 const app = express();
 
@@ -6,3 +9,13 @@ const app = express();
 app.get('/', (request, response) => {
   response.send();
 });
+
+const PORT = 3000;
+
+app.use(bodyParser.json());
+
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+
+app.listen(PORT, () => console.log(`${PORT} running fine
+!`));
