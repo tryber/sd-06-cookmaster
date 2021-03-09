@@ -19,8 +19,17 @@ const findById = async (id) => {
   return answer;
 };
 
+const editById = async (id, obj) => {
+  const { name, ingredients, preparation } = obj;
+  const answer = await connection()
+    .then((db) => db.collection('recipes')
+    .updateOne({ _id: (ObjectId(id)) }, { $set: { name, ingredients, preparation } }));
+  return answer;
+};
+
 module.exports = {
   createRecipes,
   listRecipes,
   findById,
+  editById,
 };

@@ -36,9 +36,15 @@ const findById = async (id) => {
   }
 };
 
+const editById = async (id, obj) => {
+  const answer = await Recipes.editById(id, obj);
+  return answer;
+};
+
 module.exports = {
   createRecipes,
   validateRecipe,
   listRecipes,
   findById,
+  editById,
 };
