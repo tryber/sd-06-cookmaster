@@ -21,7 +21,13 @@ const validateRecipe = async (req, res, next) => {
   next();
 };
 
+const listRecipes = async () => {
+  const answer = await Recipes.listRecipes();
+  return answer;
+};
+
 module.exports = {
   createRecipes,
   validateRecipe,
+  listRecipes,
 };
