@@ -20,5 +20,6 @@ routes.post('/', createValidations, RecipesService.creatingRecipe);
 routes.get('/', RecipesService.displayAllRecipes);
 routes.get('/:id', checkData.isIdValid, RecipesService.displaySpecificRecipe);
 routes.put('/:id', updateValidations, RecipesService.updatingRecipe);
+routes.delete('/:id', checkData.validateToken, RecipesService.removingRecipe);
 
 module.exports = routes;
