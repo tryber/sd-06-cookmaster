@@ -19,13 +19,7 @@ const validateUser = async (req, res, next) => {
   const { name, email, password } = req.body;
   const emailVerify = await findByEmail(email);  
   switch (true) {
-    case isBlank(name):
-      return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
-    case isBlank(email):
-      return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
-    case validateEmail(email):
-      return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
-    case isBlank(password):
+    case (isBlank(name) || isBlank(email) || validateEmail(email) || isBlank(password)):
       return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
     case emailVerify:
       return res.status(CONFLICT).json({ message: 'Email already registered' });
