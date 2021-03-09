@@ -5,6 +5,7 @@ const {
   GetAllRecipes,
   GetRecipeById,
   UpdateRecipe, 
+  DeleteRecipe, 
   } = require('../services/RecipesServices');
 
 const RecipesController = new Router();
@@ -14,6 +15,8 @@ RecipesController.post('/', VerifyAuthotization, CreateRecipe);
 RecipesController.get('/', GetAllRecipes);
 
 RecipesController.get('/:id', GetRecipeById);
+
+RecipesController.delete('/:id', VerifyAuthotization, DeleteRecipe);
 
 RecipesController.put('/:id', VerifyAuthotization, UpdateRecipe);
 
