@@ -17,6 +17,12 @@ const loginUser = async (user) => {
   return loggedUser;
 };
 
+const getUserByEmail = async (email) => {
+  const user = await usersModel.getUserByEmail(email);
+
+  return user;
+};
+
 const createToken = async (user) => {
   const { _id, email, role } = user;
 
@@ -34,7 +40,7 @@ const decodeToken = async (token) => {
 const verifyToken = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization) return res.status(401).json({ message: 'jwt malformed' });
+  if (!authorization) return res.status(401).json({ message: 'missing auth token' });
 
   jwt.verify(authorization, 'secret', (err, _decoded) => {
     if (err) return res.status(401).json({ message: 'jwt malformed' });
@@ -85,4 +91,5 @@ module.exports = {
   createToken,
   verifyToken,
   decodeToken,
+  getUserByEmail,
 };

@@ -30,4 +30,6 @@ recipesRouter.get('/', async (req, res) => {
 
 recipesRouter.get('/:id', recipeService.getRecipeById);
 
+recipesRouter.put('/:id', userService.verifyToken, recipeService.updateRecipe);
+
 module.exports = { recipesRouter };
