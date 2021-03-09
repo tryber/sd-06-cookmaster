@@ -16,7 +16,7 @@ const create = async (req, res) => {
 };
 
 const findAll = async (_req, res) => {
-  const recipes = Recipe.findAll();
+  const recipes = await Recipe.findAll();
 
   return res.status(statusSuccess).json(recipes);
 };
