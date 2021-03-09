@@ -1,6 +1,5 @@
 const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/recipeModel');
-const { ThrowError, sendError } = require('./handleErrors');
 
 const createRecipe = async (recipe) => {
   const createdRecipe = recipeModel.createRecipe(recipe);

@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const rescue = require('express-rescue');
 const userService = require('../services/userService');
 const recipeService = require('../services/recipeService');
 
@@ -20,19 +19,15 @@ recipesRouter.post(
     const createdRecipe = await recipeService.createRecipe(recipe);
 
     res.status(201).json({ recipe: createdRecipe });
-  },
+  }
 );
 
-recipesRouter.get('/',
-  async (req, res) => {
-    const allRecipes = await recipeService.getAllRecipes();
+recipesRouter.get('/', async (req, res) => {
+  const allRecipes = await recipeService.getAllRecipes();
 
-    res.status(200).json(allRecipes);
-  });
+  res.status(200).json(allRecipes);
+});
 
-  recipesRouter.get(
-    '/:id',
-    recipeService.getRecipeById,
-  );
+recipesRouter.get('/:id', recipeService.getRecipeById);
 
 module.exports = { recipesRouter };
