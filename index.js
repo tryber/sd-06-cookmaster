@@ -1,4 +1,5 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const { usersRouter } = require('./src/controllers/userController');
 const { loginRouter } = require('./src/controllers/loginController');
 const { recipesRouter } = require('./src/controllers/recipeController');
@@ -11,8 +12,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);
-app.use('/recipes', recipesRouter);
+app.use('/users', rescue(usersRouter));
+app.use('/login', rescue(loginRouter));
+app.use('/recipes', rescue(recipesRouter));
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));

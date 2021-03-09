@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const rescue = require('express-rescue');
 const userService = require('../services/userService');
 const recipeService = require('../services/recipeService');
 
@@ -28,5 +29,10 @@ recipesRouter.get('/',
 
     res.status(200).json(allRecipes);
   });
+
+  recipesRouter.get(
+    '/:id',
+    recipeService.getRecipeById,
+  );
 
 module.exports = { recipesRouter };
