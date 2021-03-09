@@ -2,10 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 
-const controllers = require('../controllers/UsersController');
-const validateUser = require('../services/ValidationUser');
+const controllerUser = require('../controllers/UsersController');
+const controllerLogin = require('../controllers/LoginController');
+const validation = require('../services/Validation');
 
-router.get('/users', controllers.getUserAll);
-router.post('/users', validateUser, controllers.createUser);
+router.post('/users', validation, controllerUser.createUser);
+router.post('/login', validation, controllerLogin.login);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const UsersService = require('./UsersService');
 
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 const CONFLICT = 409;
 
 const isBlank = (field) => !field || field === '';
@@ -27,4 +28,23 @@ const validateUser = async (req, res, next) => {
   }
 };
 
-module.exports = validateUser;
+const loginIsCorrect = async (email, password) => {
+  const user = await UsersService.findByEmail(email);
+  return (!user || user.password !== password);
+};
+
+const validateLogin = async (res, email, password) => {
+  const loginNoCorrect = await loginIsCorrect(email, password);
+  switch (true) {
+    case (isBlank(email) || isBlank(password)):
+      return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
+    case (validateEmail(email) || loginNoCorrect):
+    return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
+    default: return {};
+  }
+};
+
+module.exports = {
+  validateUser,
+  validateLogin,
+};
