@@ -10,6 +10,16 @@ router.get('/', async (_req, res) => {
   return res.status(200).json(answer);
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const answer = await Recipes.findById(id);
+  if (answer === null || answer.message) {
+    return res.status(404)
+    .json({ message: 'recipe not found' });
+  }
+  return res.status(200).json(answer);
+});
+
 router.post('/', Recipes.validateRecipe, validateJWT, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { userId } = req;

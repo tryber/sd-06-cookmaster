@@ -26,8 +26,19 @@ const listRecipes = async () => {
   return answer;
 };
 
+const findById = async (id) => {
+  try {
+    const answer = await Recipes.findById(id);
+    return answer;
+  } catch (e) {
+    const error = { message: 'recipe not found' };
+    return error;
+  }
+};
+
 module.exports = {
   createRecipes,
   validateRecipe,
   listRecipes,
+  findById,
 };
