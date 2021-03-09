@@ -51,10 +51,22 @@ const remove = async (req, res) => {
   return res.status(statusNoContent).send();
 };
 
+const image = async (req, res) => {
+  const { id } = req.params;
+
+  const imagePath = `localhost:3000/images/${id}.jpeg`;
+
+  const recipe = await Recipe.find(id);
+  const recipe1 = { ...recipe, image: imagePath };
+
+  return res.status(statusSuccess).json(recipe1);
+};
+
 module.exports = {
   create,
   findAll,
   find,
   edit,
   remove,
+  image,
 };
