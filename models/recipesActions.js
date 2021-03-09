@@ -1,9 +1,9 @@
 const { ObjectID } = require('mongodb');
 const connection = require('./connection');
 
-const createRecipe = async (name, ingredients, preparation, userId) =>
+const createRecipe = async (name, ingredients, preparation, id) =>
   connection().then((db) => db.collection('recipes').insertOne(
-    { name, ingredients, preparation, userId },
+    { name, ingredients, preparation, id },
   ));
 
 const getAllRecipes = async () =>
@@ -15,8 +15,15 @@ const getRecipeById = async (id) => connection().then(
   (db) => db.collection('recipes').findOne(ObjectID.createFromHexString(id)),
 );
 
+const updateRecipe = async (name, ingredients, preparation, id) =>
+  connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectID.createFromHexString(id) },
+    { $set: { name, ingredients, preparation } },
+  ));
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

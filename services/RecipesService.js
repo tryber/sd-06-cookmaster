@@ -27,8 +27,21 @@ const displaySpecificRecipe = async (request, response) => {
   return response.status(statusCode.SUCCESS).send(specificRecipe);
 };
 
+const updatingRecipe = async (request, response) => {
+  const { authorization } = request.headers;
+  const { id } = request.params;
+  const { name, ingredients, preparation } = request.body;
+  const { _id: userId } = jwt.decode(authorization);
+
+  await RecipesActions.updateRecipe(name, ingredients, preparation, id);
+  const updatedRecipe = { id, name, ingredients, preparation, userId };
+
+  return response.status(statusCode.SUCCESS).send(updatedRecipe);
+};
+
 module.exports = {
   creatingRecipe,
   displayAllRecipes,
   displaySpecificRecipe,
+  updatingRecipe,
 };

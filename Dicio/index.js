@@ -3,8 +3,9 @@ const statusMsgs = {
   alreadyRegist: 'Email already registered',
   emptyFields: 'All fields must be filled',
   loginError: 'Incorrect username or password',
-  invalidToken: 'jwt malformed',
   recipeNotFound: 'recipe not found',
+  invalidToken: 'jwt malformed',
+  authToken: 'missing auth token',
 };
 
 const statusCode = {

@@ -31,8 +31,17 @@ function isIdValid(request, response, next) {
   next();
 }
 
+function validateToken(request, response, next) {
+  const { authorization } = request.headers;
+  if (!authorization) {
+    return response.status(statusCode.UNAUTHORIZED).send({ message: statusMsgs.authToken });
+  }
+  next();
+}
+
 module.exports = {
   fieldExists,
   validateAuthorization,
   isIdValid,
+  validateToken,
 };

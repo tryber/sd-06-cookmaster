@@ -6,13 +6,19 @@ const checkData = require('../middlewares/recipesMiddlewares');
 
 const RecipesService = require('../services/RecipesService');
 
-const dataValidation = [
+const createValidations = [
   checkData.validateAuthorization,
   checkData.fieldExists,
 ];
 
-routes.post('/', dataValidation, RecipesService.creatingRecipe);
+const updateValidations = [
+  checkData.validateToken,
+  checkData.validateAuthorization,
+];
+
+routes.post('/', createValidations, RecipesService.creatingRecipe);
 routes.get('/', RecipesService.displayAllRecipes);
 routes.get('/:id', checkData.isIdValid, RecipesService.displaySpecificRecipe);
+routes.put('/:id', updateValidations, RecipesService.updatingRecipe);
 
 module.exports = routes;
