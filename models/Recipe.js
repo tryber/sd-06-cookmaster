@@ -1,23 +1,27 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-const create = async (name, ingredients, preparation) => connection()
+const create = (name, ingredients, preparation) => connection()
   .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation }));
 
-const findAll = async () => connection().then((db) => db.collection('recipes').find({}).toArray());
+const findAll = () => connection().then((db) => db.collection('recipes').find({}).toArray());
 
-const find = async (id) => connection()
+const find = (id) => connection()
   .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
 
-const edit = async (id, name, ingredients, preparation) => connection()
+const edit = (id, name, ingredients, preparation) => connection()
   .then((db) => db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
     { $set: { name, ingredients, preparation } },
   ));
+
+const remove = (id) => connection()
+  .then((db) => db.collection('recipe').deleteOne({ _id: ObjectId(id) }));
 
 module.exports = {
   create,
   findAll,
   find,
   edit,
+  remove,
 };

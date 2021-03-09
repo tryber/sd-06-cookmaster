@@ -1,15 +1,15 @@
 const { ObjectId } = require('mongodb');
 const Recipe = require('../models/Recipe');
 
-const create = async (name, ingredients, preparation) => {
+const create = (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) return false;
 
   return Recipe.create(name, ingredients, preparation);
 };
 
-const findAll = async () => Recipe.findAll();
+const findAll = () => Recipe.findAll();
 
-const find = async (id) => {
+const find = (id) => {
   const validId = ObjectId.isValid(id);
 
   if (!validId) return false;
@@ -17,7 +17,7 @@ const find = async (id) => {
   return Recipe.find(id);
 };
 
-const edit = async (id, name, ingredients, preparation) => {
+const edit = (id, name, ingredients, preparation) => {
   const validId = ObjectId.isValid(id);
 
   if (!validId) return false;
@@ -25,9 +25,18 @@ const edit = async (id, name, ingredients, preparation) => {
   return Recipe.edit(id, name, ingredients, preparation);
 };
 
+const remove = (id) => {
+  const validId = ObjectId.isValid(id);
+
+  if (!validId) return false;
+
+  return Recipe.remove(id);
+};
+
 module.exports = {
   create,
   findAll,
   find,
   edit,
+  remove,
 };

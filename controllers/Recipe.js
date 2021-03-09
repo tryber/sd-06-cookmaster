@@ -4,6 +4,7 @@ const statusBadRequest = 400;
 const statusCreated = 201;
 const statusSuccess = 200;
 const statusNotFound = 404;
+const statusNoContent = 204;
 
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -42,9 +43,18 @@ const edit = async (req, res) => {
   return res.status(statusSuccess).json(recipe1);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  await Recipe.remove(id);
+
+  return res.status(statusNoContent);
+};
+
 module.exports = {
   create,
   findAll,
   find,
   edit,
+  remove,
 };

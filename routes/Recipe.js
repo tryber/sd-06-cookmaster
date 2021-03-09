@@ -8,6 +8,8 @@ recipeRoutes.post('/', verifyAuthorization, Recipe.create);
 
 recipeRoutes.put('/:id', verifyAuthorization, Recipe.edit);
 
+recipeRoutes.delete('/:id', verifyAuthorization, Recipe.remove);
+
 recipeRoutes.get('/:id', Recipe.find);
 
 recipeRoutes.get('/', Recipe.findAll);
