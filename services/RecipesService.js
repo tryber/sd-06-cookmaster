@@ -39,9 +39,16 @@ const updatingRecipe = async (request, response) => {
   return response.status(statusCode.SUCCESS).send(updatedRecipe);
 };
 
+const removingRecipe = async (request, response) => {
+  const { id } = request.params;
+  await RecipesActions.deleteRecipe(id);
+  return response.status(statusCode.NO_CONTENT).end();
+};
+
 module.exports = {
   creatingRecipe,
   displayAllRecipes,
   displaySpecificRecipe,
   updatingRecipe,
+  removingRecipe,
 };
