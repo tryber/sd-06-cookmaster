@@ -68,12 +68,18 @@ async (request, response) => {
   return response.status(status204).end();
 });
 
-RecipesController.post('/:id/image',
+RecipesController.put('/:id/image',
 verifyAuthorization.verifyAuthorizationEditar,
 service.userRole,
 upload.single('image'),
-(request, response) => {
-  response.status(200).json({ file: request.file });
+async (request, response) => {
+  const { id } = request.params;
+
+  await recipes.insertImage(id);
+  const recipe = await recipes.findById(id);
+  console.log(recipe);
+
+  response.status(200).json(recipe);
 });
 
 RecipesController.get('/', async (_request, response) => response

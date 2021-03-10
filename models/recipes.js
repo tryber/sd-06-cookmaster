@@ -19,10 +19,17 @@ const updateRecipe = (id, name, ingredients, preparation) => connection()
 const removeRecipe = (id) => connection()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
+const insertImage = (id) => connection()
+    .then((db) => db.collection('recipes').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { image: `localhost:3000/images/${id}.jpeg` } },
+    ));
+
 module.exports = {
   insertRecipe,
   getAllRecipes,
   findById,
   updateRecipe,
   removeRecipe,
+  insertImage,
 };
