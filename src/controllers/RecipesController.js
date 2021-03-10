@@ -1,14 +1,32 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 // const Users = require('../models/Users');
+const multer = require('multer');
 const Recipes = require('../models/Recipes');
 const validateJWT = require('../auth/validateJWT');
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, './uploads');
+  },
+  filename: (req, file, callback) => {
+    const fileType = file.originalname.split('.')[1];
+    const filename = `${req.params.id}.${fileType}`;
+    callback(null, filename);
+  },
+});
+
+const upload = multer({ storage });
 const router = Router();
 
-// router.post('/:id/image', rescue(async (req, res) => {
+router.post('/:id/image', validateJWT, upload.single('image'), rescue(async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
   
-// }));
+  const recipe = await Recipes.addImage(filename, id);
+  
+  return res.status(200).json(recipe);
+}));
 
 router.get('/', rescue(async (req, res) => {
   const recipes = await Recipes.getAll();

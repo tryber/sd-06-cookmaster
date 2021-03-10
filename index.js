@@ -17,8 +17,10 @@ app.use('/users', UsersController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipesController);
 
-app.use((err, req, res, _next) => 
-  res.status(500).json({ message: 'Erro interno' }));
+app.use((err, req, res, _next) => {
+  if (err) console.log(err);
+  res.status(500).json({ message: 'Erro interno' });
+});
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

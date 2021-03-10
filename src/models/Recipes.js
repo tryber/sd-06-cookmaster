@@ -43,10 +43,24 @@ const remove = async (id) => {
   await connection().then((db) => db.collection('recipes').deleteOne({ _id: id }));
 };
 
+const addImage = async (filename, id) => {
+  await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: `localhost:3000/uploads/${filename}` } },
+    { upsert: false },
+    ));
+    
+  const recipe = await connection().then((db) => db.collection('recipes')
+    .findOne({ _id: ObjectId(id) }));
+    
+  return recipe;
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
   remove,
+  addImage,
 };
