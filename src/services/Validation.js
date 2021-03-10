@@ -1,8 +1,10 @@
+const jwt = require('jsonwebtoken');
 const UsersService = require('./UsersService');
 
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const CONFLICT = 409;
+const secret = 'mySecretToken';
 
 const isBlank = (field) => !field || field === '';
 
@@ -45,7 +47,31 @@ const validateLogin = async (req, res, next) => {
   }
 };
 
+const validateRecipe = async (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  switch (true) {
+    case (isBlank(name) || isBlank(ingredients) || isBlank(preparation)):
+      return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
+      default: next();
+  }
+};
+
+const validateToken = async (res, req, next) => {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, secret);
+  const user = await UsersService.findByOneEmail(decoded.data.email);
+  switch (true) {
+    case (isBlank(user)):
+      return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+    default:
+      req.user = user;
+      next();
+  }
+};
+
 module.exports = {
   validateUser,
   validateLogin,
+  validateRecipe,
+  validateToken,
 };
