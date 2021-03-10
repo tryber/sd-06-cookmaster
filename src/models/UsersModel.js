@@ -9,8 +9,7 @@ const getUserAll = async () => {
 
 const findByOneEmail = async (email) => {
   const user = await connection()
-    .then((db) => db.collection('users').findOne({ email }))
-    .catch((err) => console.error(err));
+    .then((db) => db.collection('users').findOne({ email }));
   return user;  
 };
 

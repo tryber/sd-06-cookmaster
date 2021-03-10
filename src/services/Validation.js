@@ -33,13 +33,14 @@ const loginIsCorrect = async (email, password) => {
   return (!user || user.password !== password);
 };
 
-const validateLogin = async (res, next, email, password) => {
+const validateLogin = async (req, res, next) => {
+  const { email, password } = req.body;
   const loginNoCorrect = await loginIsCorrect(email, password);
   switch (true) {
     case (isBlank(email) || isBlank(password)):
       return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
     case (validateEmail(email) || loginNoCorrect):
-    return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
+      return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
     default: next();
   }
 };
