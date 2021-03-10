@@ -7,7 +7,7 @@ const CONFLICT = 409;
 
 const createUser = async (req, res) => {
   try {
-    const newUser = await CreateUserService(req.body); 
+    const newUser = await CreateUserService(req.body, res); 
   
     res.status(CREATED).json({
       user: newUser.ops[0],

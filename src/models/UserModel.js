@@ -31,9 +31,17 @@ const searchUserByTokenDb = async (token) => {
   return user;
 };
 
+const searchUserByEmailDb = async (email) => {
+  const user = connection().then((db) =>
+    db.collection('users').findOne({ email }));
+
+  return user;
+};
+
 module.exports = {
   createUserDb,
   loginUserDb,
   salvedTokenDb,
   searchUserByTokenDb,
+  searchUserByEmailDb,
 };

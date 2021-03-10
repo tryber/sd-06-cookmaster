@@ -10,7 +10,7 @@ const createRecipeDb = async (name, ingredients, preparation) => {
 
 const searchAllRecipesDb = async () => {
   const allRecipes = connection().then((db) =>
-    db.collection('recipes').find());
+    db.collection('recipes').find().toArray());
 
   return allRecipes;
 };
