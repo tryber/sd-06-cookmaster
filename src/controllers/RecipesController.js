@@ -60,7 +60,7 @@ router.post('/', validateJWT, rescue(async (req, res) => {
   const recipe = await Recipes.create(name, ingredients, preparation, _id);
     
   // Não coloquei URL da imagem!
-  res.status(201).json({ recipe });
+  return res.status(201).json({ recipe });
 }));
 
 router.put('/:id', validateJWT, rescue(async (req, res) => {
