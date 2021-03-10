@@ -13,10 +13,11 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
     .then((db) => db.collection('users').insertOne({ name, ingredients, preparation, userId }));
     return {
       recipe: {
+        _id: ObjectId(insertId),
         name,
         ingredients,
+        preparation,
         userId,
-        _id: ObjectId(insertId),
       },
     };
   };
