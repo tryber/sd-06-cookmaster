@@ -9,9 +9,8 @@ class UsersController {
     console.log(this);
     const createUsersService = new CreateUsersService(user);
     const { name, email, password, role } = req.body;
-    console.log(name, role);
     const newUser = await createUsersService.execute({ name, email, password, role });
-    return res.status(201).json(newUser);
+    return res.status(201).json({ user: newUser });
   }
 
   async login(req, res) {

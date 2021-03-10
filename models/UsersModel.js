@@ -9,14 +9,14 @@ class Users {
     try {
       const db = await connection();
       console.log(this);
-      const { insertedId } = db.collection(collectionName).insertOne({
+      const { insertedId } = await db.collection(collectionName).insertOne({
         name,
         email,
         password,
         role,
       });
       return {
-        id: insertedId,
+        _id: insertedId,
         name,
         email,
         role,
@@ -31,6 +31,7 @@ class Users {
       const db = await connection();
       console.log(this);
       const [user] = await db.collection(collectionName).find({ email }).toArray();
+      console.log(user);
       return user;
     } catch (err) {
       throw new Err({ message: errorMessage });
