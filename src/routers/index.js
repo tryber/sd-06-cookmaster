@@ -6,7 +6,10 @@ const controllerUser = require('../controllers/UsersController');
 const controllerLogin = require('../controllers/LoginController');
 const controllerRecipe = require('../controllers/RecipesController');
 const { 
-  validateUser, validateLogin, validateToken, validateRecipe
+  validateUser,
+  validateLogin,
+  validateToken,
+  validateRecipe,
 } = require('../services/Validation');
 
 // Rotas de Usuario
