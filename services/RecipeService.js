@@ -31,11 +31,6 @@ const userRole = async (request, response, next) => {
   
   const recipe = await recipes.findById(id);
 
-  // console.log(`userRole: ${request.user}`);
-  // console.log(request.user);
-  // console.log(`userRoleRecipe: ${recipe}`);
-  // console.log(recipe);
-
   if (role === 'admin' || (userId === recipe.userId)) return next();
   
   return returnedStatusAndMessage(response, status401, 'missing auth token');
