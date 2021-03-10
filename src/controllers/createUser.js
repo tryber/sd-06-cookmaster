@@ -1,5 +1,5 @@
 const SUCCESS = 201;
-const Users = require('../service/index');
+const Users = require('../service/users');
 
 module.exports = async (req, res) => {
   const { name, email, password } = req.body;

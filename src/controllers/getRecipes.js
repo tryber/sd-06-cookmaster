@@ -1,8 +1,8 @@
 const SUCCESS = 200;
-const Users = require('../service/users');
+const Recipes = require('../service/recipes');
 
 module.exports = async (req, res) => {
-  const result = await Users.getAll();
+  const result = await Recipes.getAll();
 
   return res.status(SUCCESS).json(result);
 };

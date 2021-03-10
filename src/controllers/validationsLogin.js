@@ -1,4 +1,4 @@
-const Users = require('../service/index');
+const Users = require('../service/users');
 
 const ERRO = 401;
 module.exports = async (req, res, next) => {
