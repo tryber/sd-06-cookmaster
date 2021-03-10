@@ -43,6 +43,7 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
       });
   });
 
+
   it('Será validado que o campo "email" é obrigatório', async () => {
     await frisby
       .post(`${url}/users/`,
