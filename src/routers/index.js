@@ -20,6 +20,8 @@ router.post('/users', validateUser, controllerUser.createUser);
 router.post('/login', validateLogin, controllerLogin.login);
 
 // Rota de Receitas
+router.get('/recipes', controllerRecipe.getAllRecipes);
+router.get('/recipes/:id', controllerRecipe.findByIdRecipe);
 router.post('/recipes', validateToken, validateRecipe, controllerRecipe.createRecipe);
 
 module.exports = router;

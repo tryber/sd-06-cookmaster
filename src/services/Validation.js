@@ -79,15 +79,3 @@ module.exports = {
   validateRecipe,
   validateToken,
 };
-
-// const token = req.headers.authorization;
-  // const decoded = jwt.verify(token, secret);
-  // console.log(`Decoded: ${decoded}`);
-  // const user = await UsersService.findByOneEmail(decoded.data.email);
-  // switch (true) {
-  //   case (isBlank(user)):
-  //     return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
-  //   default:
-  //     req.user = user;
-  //     next();
-  // }
