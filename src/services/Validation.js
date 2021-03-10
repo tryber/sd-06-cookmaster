@@ -29,18 +29,18 @@ const validateUser = async (req, res, next) => {
 };
 
 const loginIsCorrect = async (email, password) => {
-  const user = await UsersService.findByEmail(email);
+  const user = await UsersService.findByOneEmail(email);
   return (!user || user.password !== password);
 };
 
-const validateLogin = async (res, email, password) => {
+const validateLogin = async (res, next, email, password) => {
   const loginNoCorrect = await loginIsCorrect(email, password);
   switch (true) {
     case (isBlank(email) || isBlank(password)):
       return res.status(UNAUTHORIZED).json({ message: 'All fields must be filled' });
     case (validateEmail(email) || loginNoCorrect):
     return res.status(UNAUTHORIZED).json({ message: 'Incorrect username or password' });
-    default: return {};
+    default: next();
   }
 };
 
