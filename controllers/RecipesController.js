@@ -40,4 +40,10 @@ router.put('/:id', validateJWT, async (req, res) => {
     .json({ _id: answer.insertedId, name, ingredients, preparation, userId });
 });
 
+router.delete('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  await Recipes.deleteRecipe(id);
+  return res.status(204).send();
+});
+
 module.exports = router;

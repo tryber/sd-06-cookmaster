@@ -41,10 +41,16 @@ const editById = async (id, obj) => {
   return answer;
 };
 
+const deleteRecipe = async (id) => {
+  const answer = await Recipes.deleteRecipe(id);
+  return answer;
+};
+
 module.exports = {
   createRecipes,
   validateRecipe,
   listRecipes,
   findById,
   editById,
+  deleteRecipe,
 };
