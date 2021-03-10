@@ -10,8 +10,8 @@ const storage = multer.diskStorage({
     callback(null, './uploads');
   },
   filename: (req, file, callback) => {
-    const fileType = file.originalname.split('.')[1];
-    const filename = `${req.params.id}.${fileType}`;
+    // const fileType = file.originalname.split('.')[1];
+    const filename = `${req.params.id}.jpeg`;
     callback(null, filename);
   },
 });
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const router = Router();
 
-router.post('/:id/image/', validateJWT, upload.single('image'), rescue(async (req, res) => {
+router.put('/:id/image/', validateJWT, upload.single('image'), rescue(async (req, res) => {
   const { id } = req.params;
   const { filename } = req.file;
   

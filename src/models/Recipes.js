@@ -46,7 +46,7 @@ const remove = async (id) => {
 const addImage = async (filename, id) => {
   await connection().then((db) => db.collection('recipes').updateOne(
     { _id: ObjectId(id) },
-    { $set: { image: `localhost:3000/uploads/${filename}` } },
+    { $set: { image: `localhost:3000/images/${filename}` } },
     { upsert: false },
     ));
     
