@@ -19,13 +19,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const router = Router();
 
-router.post('/:id/image', validateJWT, upload.single('image'), rescue(async (req, res) => {
+router.post('/:id/image/', validateJWT, upload.single('image'), rescue(async (req, res) => {
   const { id } = req.params;
   const { filename } = req.file;
   
   const recipe = await Recipes.addImage(filename, id);
   
   return res.status(200).json(recipe);
+}));
+
+router.get('/images/:id.jpeg', rescue(async (req, res) => {
+  const { id } = req.params;
+  
+  res.sendFile(`uploads/${id}.jpeg`, { root: '.' });
 }));
 
 router.get('/', rescue(async (req, res) => {
