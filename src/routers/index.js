@@ -9,6 +9,7 @@ const {
   validateUser,
   validateLogin,
   validateToken,
+  validateTokenUpdate,
   validateRecipe,
 } = require('../services/Validation');
 
@@ -23,5 +24,6 @@ router.post('/login', validateLogin, controllerLogin.login);
 router.get('/recipes', controllerRecipe.getAllRecipes);
 router.get('/recipes/:id', controllerRecipe.findByIdRecipe);
 router.post('/recipes', validateToken, validateRecipe, controllerRecipe.createRecipe);
+router.put('/recipes/:id', validateTokenUpdate, controllerRecipe.updateIdRecipe);
 
 module.exports = router;

@@ -18,8 +18,15 @@ const findByIdRecipe = async (id) => {
   return recipe;
 };
 
+// Desafio 6- Atualizar pelo id
+const updateIdRecipe = async (recipe, name, ingredients, preparation) => {
+  const updatedRecipe = await Service.updateIdRecipe(recipe, name, ingredients, preparation);
+  return updatedRecipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findByIdRecipe,
+  updateIdRecipe,
 };

@@ -32,8 +32,18 @@ const findByIdRecipe = async (req, res) => {
   res.status(NOT_FOUND).json({ message: 'recipe not found' });
 };
 
+// Desafio 6- Atualizar pelo id
+const updateIdRecipe = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  const { id } = req.params;
+  const recipe = await RecipesServices.update({ id, userId }, name, ingredients, preparation);
+  res.status(SUCCESS).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findByIdRecipe,
+  updateIdRecipe,
 };

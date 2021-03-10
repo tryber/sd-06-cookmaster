@@ -22,8 +22,19 @@ const findByIdRecipe = async (id) => {
   return recipe;
 };
 
+// Desafio 6- Atualizar pelo id
+const updateIdRecipe = async (recipe, name, ingredients, preparation) => {
+  const { id, userId } = recipe;
+  await connection()
+    .then((db) => db.collection('recipes').updateOne(
+      { _id: ObjectId(id) }, { $set: { name, ingredients, preparation } },
+      ));
+  return { _id: id, name, ingredients, preparation, userId };
+};
+
   module.exports = {
     getAllRecipes,
     createRecipe,
     findByIdRecipe,
+    updateIdRecipe,
   };

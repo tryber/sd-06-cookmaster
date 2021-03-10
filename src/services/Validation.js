@@ -73,9 +73,23 @@ const validateToken = async (req, res, next) => {
     }
 };
 
+const validateTokenUpdate = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (isBlank(token)) { return erros.missing_token; }
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user = await UsersService.findByEmail(decoded.data.email);
+    if (isBlank(user)) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+    next();   
+  } catch (error) {
+    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+  }
+};
+
 module.exports = {
   validateUser,
   validateLogin,
   validateRecipe,
   validateToken,
+  validateTokenUpdate,
 };
