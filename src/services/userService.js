@@ -1,97 +1,67 @@
-/* eslint-disable max-lines-per-function */
-const { ObjectId } = require('mongodb');
-const { getAllUsers } = require('../models/userModel');
+const {
+  createUsers,
+  getAllUsers
+} = require('../models/userModel');
 
-const UNPROCESSABLE_ENTITY = 422;
-const NOT_FOUND = 400;
-const invalid = 'Invalid entries. Try again.';
+const BAD_REQUEST = 400;
 const CONFLICT = 409;
-// /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
 
-function validateEmail(email) {
-    const re = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
-    return re.test(String(email).toLowerCase());
-  }
+const createNewUser = async (data) => createUsers(data);
+const getUsers = async () => getAllUsers();
 
-async function setValidation(req, res, next) {
+function validateEmail(email){
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+};
+
+async function setValidation (req, res, next)  {
   const { name, email, password } = req.body;
 
-  if (!name || name === '' || name === null) {
-    return res.status(NOT_FOUND).json(
-        {
-          err: {
-            message: invalid,
-          },
-        },
-      );
-  }
-
-  if (!email || email === '' || email === null) {
-    return res.status(NOT_FOUND).json(
+  if (!name || name === '' || name === null ) {
+    return res.status(BAD_REQUEST).json(
       {
-        err: {
-          message: invalid,
-        },
-      },
+        message: 'Invalid entries. Try again.'
+      }
     );
   }
 
-  if (!validateEmail(email)) {
-    return res.status(400).json(
+  if (!email || email === '' || email === null || !validateEmail(email)) {
+    return res.status(BAD_REQUEST).json(
       {
-        err: {
-          message: invalid,
-        },
-      },
+        message: 'Invalid entries. Try again.'
+      }
     );
   }
 
   if (!password || password === '' || password === null) {
-    return res.status(NOT_FOUND).json(
+    return res.status(BAD_REQUEST).json(
       {
-        err: {
-          message: invalid,
-        },
-      },
+        message: 'Invalid entries. Try again.'
+      }
     );
   }
   next();
-}
+};
 
-async function setValidationID(req, res, next) {
-  const { id } = req.params;
-  if (!ObjectId.isValid(id)) {
- return res.status(UNPROCESSABLE_ENTITY).json(
-    {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    },
-  ); 
-}
-  next();
-}
-
-async function ifExist(req, res, next) {
+const ifExists = async (req, res, next) => {
   const { email } = req.body;
-  const user = await getAllUsers();
-  const finduser = await user.find((item) => item.email === email);
+  const users = await getUsers();
+  const emailExists = await users.find((users) => users.email === email);
 
-  if (finduser) {
+  if (emailExists) {
     return res.status(CONFLICT).json(
       {
-        err: {
-          message: invalid,
-        },
-      },
+        message: 'Email already registered'
+      }
     );
   }
+
   next();
-}
+};
 
 module.exports = {
-  ifExist,
+  getUsers,
+  createNewUser,
   setValidation,
-  setValidationID,
+  ifExists,
 };

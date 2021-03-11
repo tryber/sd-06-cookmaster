@@ -1,18 +1,25 @@
 const { Router } = require('express');
-const { 
-  createUsers,
-   } = require('../models/userModel');
-const { setValidation, ifExist } = require('../services/userService');
+const {
+  createNewUser,
+  ifExists,
+  getUsers,
+  setValidation,
+} = require('../services/userService');
 
 const users = new Router();
 
+const SUCCESS = 200;
 const CREATED = 201;
 
-users.post(
-  '/sales', setValidation, ifExist, async (req, res) => {
-    const newUser = await createUsers(req.body);
-    res.status(CREATED).json(newUser);
-  },
-);
+users.get('/', async (req, res) => {
+  const usersList = await getUsers();
+  res.status(SUCCESS).json(usersList);
+});
 
-module.exports = users;
+users.post('/', setValidation, ifExists, async (req, res) => {
+  const user = { ...req.body, role: 'user' };
+  await createNewUser(user);
+  return res.status(CREATED).json({ user });
+});
+
+module.exports = { users }; 
