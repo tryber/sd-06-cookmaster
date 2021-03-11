@@ -24,7 +24,7 @@ router.post(
         error,
       });
     }
-  }
+  },
 );
 
 module.exports = router;

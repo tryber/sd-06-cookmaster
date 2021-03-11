@@ -51,7 +51,7 @@ router.put(
         error,
       });
     }
-  }
+  },
 );
 
 router.post(
@@ -59,7 +59,7 @@ router.post(
   validateJWTBasic,
   validatePresenceOfNameIngredientsPreparation,
   async (req, res) => {
-    const id = req.data._id;
+    const id = req.data['_id'];
     try {
       const { name, ingredients, preparation } = req.body;
       const recipe = await addRecipe(id, name, ingredients, preparation);
@@ -70,7 +70,7 @@ router.post(
         error,
       });
     }
-  }
+  },
 );
 
 router.get('/', async (_, res) => {
@@ -108,7 +108,7 @@ router.put(
         req.params.id,
         name,
         ingredients,
-        preparation
+        preparation,
       );
       return res.status(200).json(recipeUpdated);
     } catch (error) {
@@ -117,7 +117,7 @@ router.put(
         error,
       });
     }
-  }
+  },
 );
 
 router.delete(
@@ -136,7 +136,7 @@ router.delete(
         error,
       });
     }
-  }
+  },
 );
 
 module.exports = router;

@@ -3,6 +3,11 @@ const { secret } = require('../utils/auth');
 const { findByEmail } = require('../models/userModel');
 const { getRecipeById } = require('../models/recipeModel');
 
+const messages = {
+    invalidEntries: 'Invalid entries. Try again.',
+    jwt: 'jwt malformed',
+}
+
 const validatePresenceOfEmailPassword = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -17,7 +22,7 @@ const validateEmail = (req, res, next) => {
   const regexEmail = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i;
   if (!regexEmail.test(req.body.email)) {
     return res.status(400).json({
-      message: 'Invalid entries. Try again.',
+      message: messages.invalidEntries,
     });
   }
   next();
@@ -27,7 +32,7 @@ const validateLoginEmail = (req, res, next) => {
   const regexEmail = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i;
   if (!regexEmail.test(req.body.email)) {
     return res.status(401).json({
-      message: 'Incorrect username or password',
+      message: messages.invalidEntries,
     });
   }
   next();
@@ -37,7 +42,7 @@ const validatePresenceOfNameIngredientsPreparation = (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
   if (!name || !ingredients || !preparation) {
     return res.status(400).json({
-      message: 'Invalid entries. Try again.',
+      message: messages.invalidEntries,
     });
   }
   next();
@@ -86,13 +91,13 @@ const validateJWTBasic = (req, res, next) => {
     const data = jwt.verify(token, secret);
 
     if (!data) {
-      return res.status(401).json({ message: 'jwt malformed' });
+      return res.status(401).json({ message: messages.jwt });
     }
 
     req.data = data;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'jwt malformed' });
+    return res.status(401).json({ message: messages.jwt });
   }
 };
 
@@ -111,7 +116,7 @@ const validateJWTToUpdate = (req, res, next) => {
     req.data = data;
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'jwt malformed' });
+    return res.status(401).json({ message: messages.jwt });
   }
 };
 
