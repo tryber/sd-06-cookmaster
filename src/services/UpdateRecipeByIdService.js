@@ -2,6 +2,7 @@ const { UpdateRecipeByIdDb } = require('../models/RecipesModel');
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;
+const OK = 200;
 
 // const verifyToken = (token, res) => {
 //     if (!token || token === null || token === undefined) {
@@ -30,9 +31,7 @@ const UpdateRecipeByIdService = async (id, req, res) => {
 
     const recipeById = await UpdateRecipeByIdDb(id, req.body);
     
-    // recipeById.userId = bodyUserDb._id;
-
-    return recipeById;
+    return res.status(OK).json(recipeById);
 };
 
 module.exports = UpdateRecipeByIdService;

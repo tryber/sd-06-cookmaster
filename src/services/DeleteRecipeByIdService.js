@@ -2,6 +2,7 @@ const { DeleteRecipeByIdDb } = require('../models/RecipesModel');
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;
+const NO_CONTENT = 204;
 
 // const verifyToken = (token, res) => {
 //     if (!token || token === null || token === undefined) {
@@ -30,7 +31,7 @@ const DeleteRecipeByIdService = async (id, req, res) => {
 
     const recipeById = await DeleteRecipeByIdDb(id);
 
-    return recipeById;
+    return res.status(NO_CONTENT).json(recipeById);
 };
 
 module.exports = DeleteRecipeByIdService;

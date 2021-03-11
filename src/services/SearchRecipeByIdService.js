@@ -1,6 +1,7 @@
 const { SearchRecipeByIdDb } = require('../models/RecipesModel');
 
 const NOT_FOUND = 404;
+const OK = 200;
 
 const SearchRecipeByIdService = async (id, res) => {
     if (id.length !== 24) {
@@ -13,7 +14,7 @@ const SearchRecipeByIdService = async (id, res) => {
         return res.status(NOT_FOUND).json({ message: 'recipe not found' });
     }
 
-    return recipeById;
+    return res.status(OK).json(recipeById);
 };
 
 module.exports = SearchRecipeByIdService;

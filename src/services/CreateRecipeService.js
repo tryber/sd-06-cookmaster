@@ -2,6 +2,7 @@ const { createRecipeDb, SearchRecipeByNameDb } = require('../models/RecipesModel
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;
+const CREATED = 201;
 
 const CreateRecipeService = async ({ name, ingredients, preparation }, { authorization }, res) => {
     const currentToken = await searchUserByTokenDb(authorization);
@@ -16,9 +17,9 @@ const CreateRecipeService = async ({ name, ingredients, preparation }, { authori
 
     await createRecipeDb(name, ingredients, preparation);
 
-    const newRecipe = await SearchRecipeByNameDb(name);
+    const recipe = await SearchRecipeByNameDb(name);
 
-    return newRecipe;
+    return res.status(CREATED).json({ recipe });
 };
 
 module.exports = CreateRecipeService;
