@@ -59,7 +59,7 @@ router.post(
   validateJWTBasic,
   validatePresenceOfNameIngredientsPreparation,
   async (req, res) => {
-    const id = req.data['_id'];
+    const { _id: id } = req.data;
     try {
       const { name, ingredients, preparation } = req.body;
       const recipe = await addRecipe(id, name, ingredients, preparation);

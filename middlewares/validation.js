@@ -6,7 +6,7 @@ const { getRecipeById } = require('../models/recipeModel');
 const messages = {
     invalidEntries: 'Invalid entries. Try again.',
     jwt: 'jwt malformed',
-}
+};
 
 const validatePresenceOfEmailPassword = (req, res, next) => {
   const { email, password } = req.body;
