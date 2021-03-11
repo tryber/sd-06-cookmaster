@@ -32,7 +32,7 @@ const validateLoginEmail = (req, res, next) => {
   const regexEmail = /[A-Z0-9]{1,}@[A-Z0-9]{2,}\.[A-Z0-9]{2,}/i;
   if (!regexEmail.test(req.body.email)) {
     return res.status(401).json({
-      message: messages.invalidEntries,
+      message: 'Incorrect username or password',
     });
   }
   next();
