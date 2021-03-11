@@ -22,6 +22,13 @@ const SearchRecipeByIdDb = async (id) => {
   return recipeById;
 };
 
+const SearchRecipeByNameDb = async (name) => {
+  const recipeById = connection().then((db) =>
+    db.collection('recipes').findOne({ name }));
+
+  return recipeById;
+};
+
 const UpdateRecipeByIdDb = async (id, body) => {
   const { name, ingredients, preparation } = body;
 
@@ -48,4 +55,5 @@ module.exports = {
   SearchRecipeByIdDb,
   UpdateRecipeByIdDb,
   DeleteRecipeByIdDb,
+  SearchRecipeByNameDb,
 };

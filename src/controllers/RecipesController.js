@@ -7,14 +7,11 @@ const DeleteRecipeByIdService = require('../services/DeleteRecipeByIdService');
 const OK = 200;
 const CREATED = 201;
 const NO_CONTENT = 204;
-const ZERO = 0;
 
 const createRecipe = async (req, res) => {
   if (!req.body || !req.headers) { return; }
 
-  const newRecipe = await CreateRecipeService(req.body, req.headers, res); 
-  
-  const recipe = newRecipe.ops[ZERO];
+  const recipe = await CreateRecipeService(req.body, req.headers, res); 
 
   res.status(CREATED).json({
     recipe,

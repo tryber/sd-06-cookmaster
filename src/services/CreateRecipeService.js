@@ -1,4 +1,4 @@
-const { createRecipeDb } = require('../models/RecipesModel');
+const { createRecipeDb, SearchRecipeByNameDb } = require('../models/RecipesModel');
 const { searchUserByTokenDb } = require('../models/UserModel');
 
 const UNAUTHORIZED = 401;
@@ -14,7 +14,9 @@ const CreateRecipeService = async ({ name, ingredients, preparation }, { authori
         return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
     }
 
-    const newRecipe = await createRecipeDb(name, ingredients, preparation);
+    await createRecipeDb(name, ingredients, preparation);
+
+    const newRecipe = await SearchRecipeByNameDb(name);
 
     return newRecipe;
 };
