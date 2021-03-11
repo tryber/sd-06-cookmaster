@@ -12,6 +12,6 @@ app.get('/', (request, response) => {
 const { users } = require('./src/controller/userController');
 
 app.use(express.json());
-app.use('/users', users)
+app.use('/users', users);
 app.listen(port, () => 
 console.log(`Knocking on the ${port}th door`));
