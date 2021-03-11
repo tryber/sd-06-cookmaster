@@ -32,6 +32,7 @@ const storeImage = [
     next();
   },
 ];
+
 const router = express.Router();
 
 router.put(
@@ -43,7 +44,6 @@ router.put(
     try {
       addImageToRecipe(req.params.id);
       const recipe = await getRecipeById(req.params.id);
-      console.log(recipe)
       return res.status(200).json(recipe);
     } catch (error) {
       return res.status(501).json({
