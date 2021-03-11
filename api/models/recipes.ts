@@ -103,4 +103,18 @@ export const update = function(recipeInput) {
   })
 };
 
+export const updateImg = function(recipeInput) {
+  const { id, image } = recipeInput;
+  return new Promise((resolve, reject) => {
+    Recipes.findOneAndUpdate({ _id: id }, { image },
+    function (err, recipe) {
+      if (err) reject(err);
+      else {
+        const { _id, userId, name, ingredients, preparation } = recipe;
+        resolve({ name, ingredients, preparation, _id, userId, image })
+      }
+    });
+  })
+};
+
 export default Recipes

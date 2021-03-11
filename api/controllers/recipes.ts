@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getAll, getById, create, remove, update } from '../models/recipes'
+import { getAll, getById, create, remove, update, updateImg } from '../models/recipes'
 import { checkIfExist, checkNameIsValid } from '../services/basicChecks'
 import { checkToken } from '../auth/checkToken'
 import multer from 'multer'
@@ -30,11 +30,10 @@ recipesController.put('/:id/image', checkToken, async (req, res) => {
     const errorMsg = { message: 'permission denied' };
     return res.status(400).json(errorMsg)
   }
-  
-  const { id } = req.params;
-  const recipe = await getById(id);
-  if (recipe.message) return res.status(400).json(recipe);
 
+  const { id } = req.params;
+  const recipe = await getById(id)
+  
   if (userRole === 'user' && recipe.userId != userId) {
     const errorMsg = { message: 'permission denied' };
     return res.status(400).json(errorMsg)
@@ -45,16 +44,19 @@ recipesController.put('/:id/image', checkToken, async (req, res) => {
     filename: (req, file, callback) => callback(null, `${id}.${path.extname(file.originalname)}`),
   });
 
-  const upload = multer({ storage })
+  const uploadImg = () => new Promise((resolve) => {
+    const upload = multer({ storage })
 
-  upload.single('image')(req, res, () => {
-  
-  const image = process.env.BASE_URL + '/images/' + id + path.extname(req.file.filename);
-  const { name, ingredients, preparation } = recipe;
+    upload.single('image')(req, res, () => {
+      const image = process.env.BASE_URL + '/images/' + id + path.extname(req.file.filename);
+      resolve(image)
+    })
+  });
 
-  update({ id, name, ingredients, preparation, image })
-    .then(r => res.status(200).json(r))
-    .catch(error => res.status(400).json(error))
+  uploadImg().then(image => {
+    updateImg({ id, image })
+      .then(r => res.status(200).json(r))
+      .catch(error => res.status(400).json(error))
   })
 })
 
