@@ -6,11 +6,11 @@ const UNAUTHORIZED = 401;
 const CreateRecipeService = async ({ name, ingredients, preparation }, { authorization }, res) => {
     const currentToken = await searchUserByTokenDb(authorization);
 
-    if (currentToken === null || authorization !== currentToken.token) {
+    if (!authorization) {
         return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
     }
-    
-    if (!authorization) {
+
+    if (currentToken === null || authorization !== currentToken.token) {
         return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
     }
 

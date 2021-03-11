@@ -6,6 +6,10 @@ const appRoutes = require('./src/routes/UserRoutes');
 const app = express();
 
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log({ method: req.method, endpoint: req.originalUrl });
+  next();
+});
 app.use(appRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar

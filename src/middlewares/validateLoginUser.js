@@ -38,7 +38,7 @@ const validateLoginUser = async (req, res, next) => {
 
   const user = await loginUserDb(email);
 
-  console.log(user);
+  // console.log(user);
 
   if (user === null) {
     return res.status(UNAUTHORIZED).send({ message: INCORRECT_USERNAME });

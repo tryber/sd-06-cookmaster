@@ -17,22 +17,17 @@ const authenticateUser = (bodyUserDb, authorization, res) => {
 
 const UpdateRecipeByIdService = async (id, req, res) => {
     const { authorization } = req.headers;
-
     verifyToken(authorization, res);
-
+    
     const bodyUserDb = await searchUserByTokenDb(authorization);
 
     authenticateUser(bodyUserDb, authorization, res);
 
-    const { _id: idRec, name, ingredients, preparation } = await UpdateRecipeByIdDb(id, req.body);
+    const recipeById = await UpdateRecipeByIdDb(id, req.body);
+    
+    // recipeById.userId = bodyUserDb._id;
 
-    return {
-        _id: idRec,
-        name,
-        ingredients,
-        preparation,
-        userId: bodyUserDb.id,
-    };
+    return recipeById;
 };
 
 module.exports = UpdateRecipeByIdService;
