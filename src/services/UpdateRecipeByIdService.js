@@ -28,9 +28,12 @@ const UpdateRecipeByIdService = async (id, req, res) => {
     if (bodyUserDb === null || bodyUserDb.token !== authorization) {
         return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
     }
-
     const recipeById = await UpdateRecipeByIdDb(id, req.body);
-    
+
+    const { _id } = bodyUserDb;
+
+    recipeById.userId = _id;
+
     return res.status(OK).json(recipeById);
 };
 
