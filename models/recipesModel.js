@@ -1,5 +1,10 @@
 const connection = require('./connection');
 
+const getAllRecipes = async () => {
+  const recipesList = await connection('recipes').then((db) => db.find().toArray());
+  return recipesList;
+};
+
 const insertNewRecipe = async (name, ingredients, preparation, userId) => {
   const newRecipe = await connection('recipes').then((db) => db.insertOne(
     { recipe: { name, ingredients, preparation, userId } },
@@ -11,4 +16,5 @@ const insertNewRecipe = async (name, ingredients, preparation, userId) => {
 
 module.exports = {
   insertNewRecipe,
+  getAllRecipes,
 };
