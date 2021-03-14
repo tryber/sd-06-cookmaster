@@ -11,10 +11,10 @@ const getRecipeByIdMiddleware = async (req, res) => {
   try {
     recipe = await getRecipeById(id);
     if (!recipe) return res.status(NOTFOUND).json(errorObj);
+    return res.status(SUCCESS).json(recipe);
   } catch {
     return res.status(NOTFOUND).json(errorObj);
   }
-  return res.status(SUCCESS).json(recipe);
 };
 
 module.exports = getRecipeByIdMiddleware;

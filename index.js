@@ -1,7 +1,7 @@
 const express = require('express');
-const userRoutes = require('./controllers/userRoute');
-const loginRoute = require('./controllers/loginRoute');
-const recipesRoute = require('./controllers/recipesRoute');
+const userRoutes = require('./src/controllers/userRoute');
+const loginRoute = require('./src/controllers/loginRoute');
+const recipesRoute = require('./src/controllers/recipesRoute');
 
 const PORT = 3000;
 const app = express();
