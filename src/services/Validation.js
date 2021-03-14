@@ -79,15 +79,18 @@ const validateToken = async (req, res, next) => {
 const validateTokenUpdate = async (req, res, next) => {
   const token = req.headers.authorization;
   if (isBlank(token)) {
-    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+    return res.status(UNAUTHORIZED).json(missing_token);
   }
   try {
     const decoded = jwt.verify(token, secret);
-    const user = await UsersService.findByEmail(decoded.data.email);
-    if (isBlank(user)) return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
-    next();   
+    const user = await UsersService.findByOneEmail(decoded.data.email);
+    if (isBlank(user)) {
+      return res.status(UNAUTHORIZED).json(invalid_token);
+    }
+    req.user = user;
+    next();
   } catch (error) {
-    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+      return res.status(UNAUTHORIZED).json(invalid_token);
   }
 };
 

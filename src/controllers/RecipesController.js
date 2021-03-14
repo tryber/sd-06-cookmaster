@@ -37,7 +37,8 @@ const updateIdRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
   const { id } = req.params;
-  const recipe = await RecipesServices.update({ id, userId }, name, ingredients, preparation);
+  const recipe = await RecipesServices
+    .updateIdRecipe({ id, userId }, name, ingredients, preparation);
   res.status(SUCCESS).json(recipe);
 };
 
