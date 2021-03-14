@@ -1,6 +1,6 @@
 const { getAllRecipes } = require('../models/recipesModel');
 
-async function bypassMiddleware(req, res, next) {
+async function getRecipesMiddleware(req, res, next) {
   try {
     const recipes = await getAllRecipes();
     res.status(200).json(recipes);
@@ -10,4 +10,4 @@ async function bypassMiddleware(req, res, next) {
   return next();
 }
 
-module.exports = bypassMiddleware;
+module.exports = getRecipesMiddleware;

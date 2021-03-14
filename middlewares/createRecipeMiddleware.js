@@ -8,12 +8,12 @@ const errorObj = {
 };
 
 async function formateResponse(insertedRecipe, id) {
-  const formatedRecipeResponse = { recipe: { name: insertedRecipe.recipe.name,
-    ingredients: insertedRecipe.recipe.ingredients,
-    preparation: insertedRecipe.recipe.preparation,
-    userId: insertedRecipe.recipe.userId,
+  const formatedRecipeResponse = {
+    name: insertedRecipe.name,
+    ingredients: insertedRecipe.ingredients,
+    preparation: insertedRecipe.preparation,
+    userId: insertedRecipe.userId,
     id,
-    },
   };
   return formatedRecipeResponse;
 }
@@ -30,8 +30,7 @@ async function createRecipe(req, res, _next) {
   const [insertedRecipe] = await insertNewRecipe(name, ingredients, preparation, res.locals.userId);
   const { _id: id } = insertedRecipe;
   const response = await formateResponse(insertedRecipe, id);
-  res.status(CREATED).json(response);
+  return res.status(CREATED).json({ recipe: response });
 }
 
-// console.log(res.locals.userId);
 module.exports = createRecipe;
