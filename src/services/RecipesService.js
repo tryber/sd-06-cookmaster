@@ -18,10 +18,16 @@ const findByIdRecipe = async (id) => {
   return recipe;
 };
 
-// Desafio 6- Atualizar pelo id
+// Desafio 7- Atualizar pelo id
 const updateIdRecipe = async (recipe, name, ingredients, preparation) => {
   const updatedRecipe = await Service.updateIdRecipe(recipe, name, ingredients, preparation);
   return updatedRecipe;
+};
+
+// Desafio 8 - Remover receita pelo id
+const removeIdRecipe = async (id) => {
+  const removedRecipe = await Service.removeIdRecipe(id);  
+  return removedRecipe;
 };
 
 module.exports = {
@@ -29,4 +35,5 @@ module.exports = {
   getAllRecipes,
   findByIdRecipe,
   updateIdRecipe,
+  removeIdRecipe,
 };

@@ -22,7 +22,7 @@ const findByIdRecipe = async (id) => {
   return recipe;
 };
 
-// Desafio 6- Atualizar pelo id
+// Desafio 7- Atualizar pelo id
 const updateIdRecipe = async (recipe, name, ingredients, preparation) => {
   const { id, userId } = recipe;
   await connection()
@@ -32,9 +32,18 @@ const updateIdRecipe = async (recipe, name, ingredients, preparation) => {
   return { _id: id, name, ingredients, preparation, userId };
 };
 
+// Desafio 8 - Remover receita pelo id
+const removeIdRecipe = async (id) => {
+  await connection()
+    .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }))
+    .catch((err) => console.error(err));
+  return true;
+};
+
   module.exports = {
     getAllRecipes,
     createRecipe,
     findByIdRecipe,
     updateIdRecipe,
+    removeIdRecipe,
   };

@@ -3,6 +3,7 @@ const RecipesServices = require('../services/RecipesService');
 
 const SUCCESS = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 
 // Desafio 3 - Cadastrar Recipe
@@ -32,7 +33,7 @@ const findByIdRecipe = async (req, res) => {
   res.status(NOT_FOUND).json({ message: 'recipe not found' });
 };
 
-// Desafio 6- Atualizar pelo id
+// Desafio 7- Atualizar pelo id
 const updateIdRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -42,9 +43,17 @@ const updateIdRecipe = async (req, res) => {
   res.status(SUCCESS).json(recipe);
 };
 
+// Desafio 8 - Remover receita pelo id
+const removeIdRecipe = async (req, res) => {
+  const { id } = req.params;
+  await RecipesServices.removeIdRecipe(id);
+  res.status(NO_CONTENT).json();
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findByIdRecipe,
   updateIdRecipe,
+  removeIdRecipe,
 };

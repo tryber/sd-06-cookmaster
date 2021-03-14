@@ -13,6 +13,8 @@ const {
   validateRecipe,
 } = require('../services/Validation');
 
+const recipeId = '/recipes/:id';
+
 // Rotas de Usuario
 router.get('/users', controllerUser.getUserAll);
 router.post('/users', validateUser, controllerUser.createUser);
@@ -22,8 +24,9 @@ router.post('/login', validateLogin, controllerLogin.login);
 
 // Rota de Receitas
 router.get('/recipes', controllerRecipe.getAllRecipes);
-router.get('/recipes/:id', controllerRecipe.findByIdRecipe);
+router.get(recipeId, controllerRecipe.findByIdRecipe);
 router.post('/recipes', validateToken, validateRecipe, controllerRecipe.createRecipe);
-router.put('/recipes/:id', validateTokenUpdate, controllerRecipe.updateIdRecipe);
+router.put(recipeId, validateTokenUpdate, controllerRecipe.updateIdRecipe);
+router.delete(recipeId, validateTokenUpdate, controllerRecipe.removeIdRecipe);
 
 module.exports = router;
