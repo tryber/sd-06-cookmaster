@@ -6,8 +6,8 @@ const UNAUTHORIZED = 401;
 const CONFLICT = 409;
 const secret = 'mySecretToken';
 
-const invalid_token = { message: 'jwt malformed' };
-const missing_token = { message: 'missing auth token' };
+const InvalidToken = { message: 'jwt malformed' };
+const MissingToken = { message: 'missing auth token' };
 
 const isBlank = (field) => !field || field === '';
 
@@ -66,31 +66,31 @@ const validateToken = async (req, res, next) => {
     const user = await UsersService.findByOneEmail(decoded.data.email);
     switch (true) {
       case (isBlank(user)):
-        return res.status(UNAUTHORIZED).json(invalid_token);
+        return res.status(UNAUTHORIZED).json(InvalidToken);
       default:
         req.user = user;
         next();
     }
   } catch (error) {
-      return res.status(UNAUTHORIZED).json(invalid_token);
+      return res.status(UNAUTHORIZED).json(InvalidToken);
     }
 };
 
 const validateTokenUpdate = async (req, res, next) => {
   const token = req.headers.authorization;
   if (isBlank(token)) {
-    return res.status(UNAUTHORIZED).json(missing_token);
+    return res.status(UNAUTHORIZED).json(MissingToken);
   }
   try {
     const decoded = jwt.verify(token, secret);
     const user = await UsersService.findByOneEmail(decoded.data.email);
     if (isBlank(user)) {
-      return res.status(UNAUTHORIZED).json(invalid_token);
+      return res.status(UNAUTHORIZED).json(InvalidToken);
     }
     req.user = user;
     next();
   } catch (error) {
-      return res.status(UNAUTHORIZED).json(invalid_token);
+      return res.status(UNAUTHORIZED).json(InvalidToken);
   }
 };
 
