@@ -40,10 +40,21 @@ const removeIdRecipe = async (id) => {
   return true;
 };
 
+// Desafio 9 - Adicionar Imagem a receita pelo id
+const updateIdImage = async (recipe, image) => {
+  const { _id, name, ingredients, preparation, userId } = recipe;
+  await connection()
+    .then((db) => db.collection('recipes').updateOne(
+      { _id: ObjectId(_id) }, { $set: { image } },
+      ))
+    .catch((err) => console.error(err));
+  return { _id, name, ingredients, preparation, userId, image };
+};
   module.exports = {
     getAllRecipes,
     createRecipe,
     findByIdRecipe,
     updateIdRecipe,
     removeIdRecipe,
+    updateIdImage,
   };

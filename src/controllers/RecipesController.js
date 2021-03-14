@@ -50,10 +50,23 @@ const removeIdRecipe = async (req, res) => {
   res.status(NO_CONTENT).json();
 };
 
+// Desafio 9 - Adicionar Imagem a receita pelo id
+const updateIdImage = async (req, res) => {
+  const { id } = req.params;
+  const image = `localhost:3000/images/${id}.jpeg`;
+  const recipe = await RecipesServices.findByIdRecipe(id);
+  if (recipe) {
+    const updatedRecipe = await RecipesServices.updateIdImage(recipe, image);
+    return res.status(SUCCESS).json(updatedRecipe);
+  }
+  res.status(NOT_FOUND).json({ message: 'recipe not found' });
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findByIdRecipe,
   updateIdRecipe,
   removeIdRecipe,
+  updateIdImage,
 };

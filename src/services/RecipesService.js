@@ -30,10 +30,17 @@ const removeIdRecipe = async (id) => {
   return removedRecipe;
 };
 
+// Desafio 9 - Adicionar Imagem a receita pelo id
+const updateIdImage = async (recipe, image) => {
+  const updatedRecipe = await Service.updateIdImage(recipe, image);
+  return updatedRecipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findByIdRecipe,
   updateIdRecipe,
   removeIdRecipe,
+  updateIdImage,
 };

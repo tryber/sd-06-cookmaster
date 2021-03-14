@@ -28,5 +28,6 @@ router.get(recipeId, controllerRecipe.findByIdRecipe);
 router.post('/recipes', validateToken, validateRecipe, controllerRecipe.createRecipe);
 router.put(recipeId, validateTokenUpdate, controllerRecipe.updateIdRecipe);
 router.delete(recipeId, validateTokenUpdate, controllerRecipe.removeIdRecipe);
+router.put('/recipes/:id/image', validateToken, controllerRecipe.updateIdImage);
 
 module.exports = router;
