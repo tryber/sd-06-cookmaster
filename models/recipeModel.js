@@ -19,10 +19,21 @@ const editRecipe = (id, name, ingredients, preparation) => connection()
 const deleteRecipe = async (id) => connection()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
+const upload = async (id, recipe) => {
+  const image = await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: {
+      image: `localhost:3000/images/${id}.jpeg`,
+      } },
+  ).then(() => ({ image: `localhost:3000/images/${id}.jpeg` })));
+  return { ...recipe, ...image };
+};
+
 module.exports = { 
   createRecipe,
   findAllRecipes,
   findOneRecipe,
   editRecipe,
   deleteRecipe,
+  upload,
 };

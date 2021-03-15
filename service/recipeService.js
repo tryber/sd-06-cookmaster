@@ -1,4 +1,5 @@
 const { ObjectId } = require('mongodb');
+const model = require('../models/recipeModel');
 
 const {
   createRecipe,
@@ -40,6 +41,12 @@ const putRecipe = async (id, name, ingredients, preparation) => {
   editRecipe(id, name, ingredients, preparation);
 };
 
+const upload = async (id) => {
+  const recipe = await getRecipeById(id);
+  const recipeWithImage = await model.upload(id, recipe);
+  return recipeWithImage;
+};
+
 const delRecipe = async (id) => deleteRecipe(id);
 
 module.exports = {
@@ -50,4 +57,5 @@ module.exports = {
   validateId,
   putRecipe,
   delRecipe,
+  upload,
 };

@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersRouter } = require('./controller/userController');
+const path = require('path');
+const validateToken = require('./auth/validateToken');
+const { usersRouter, createADM } = require('./controller/userController');
 const { loginRouter } = require('./controller/loginController');
 const { RecipesRouter } = require('./controller/recipeController');
 
@@ -18,6 +20,9 @@ app.use(bodyParser.json());
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/recipes', RecipesRouter);
+app.use('/images', express.static(path.join(__dirname, './uploads')));
+
+app.post('/users/admin', validateToken, createADM);
 
 app.listen(PORT, () => console.log(`${PORT} running fine
 !`));

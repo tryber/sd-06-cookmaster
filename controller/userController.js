@@ -19,4 +19,15 @@ usersRouter.post('/', validateUser, checkUniqueEmail, async (req, res) => {
   return res.status(201).json({ user });
 });
 
-module.exports = { usersRouter };
+const createADM = async (req, res) => {
+  const { name, email, password } = req.body;
+  const userRole = req.user.role;
+  if (userRole !== 'admin') {
+    return res.status(403)
+  .json({ message: 'Only admins can register new admins' });
+}
+  const newADM = await createNewUser(name, email, password, userRole);
+  res.status(201).json(newADM);
+};
+
+module.exports = { usersRouter, createADM };
