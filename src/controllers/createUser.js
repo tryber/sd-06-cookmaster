@@ -1,6 +1,5 @@
 const { insertNewUser } = require('../models/usersModel');
 
-const OK = 200;
 const CREATED = 201;
 
 const createUser = async (req, res, next) => {

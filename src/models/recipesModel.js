@@ -12,12 +12,16 @@ const getRecipeById = async (id) => {
 };
 
 const insertNewRecipe = async (name, ingredients, preparation, userId) => {
-  const newRecipe = await connection('recipes').then((db) => db.insertOne(
-    { name, ingredients, preparation, userId },
-    { name: 1, ingredients: 1, preparation: 1, userId: 1, _id: 1 },
-  ));
+  const recipe = await connection('recipes')
+    .then((db) => db.insertOne({ name, ingredients, preparation, userId }));
 
-  return newRecipe.ops;
+  return {
+    name,
+    ingredients,
+    preparation,
+    userId,
+    _id: recipe.insertedId,
+  };
 };
 
 module.exports = {

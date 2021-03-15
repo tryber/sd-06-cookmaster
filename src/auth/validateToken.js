@@ -1,28 +1,26 @@
-const { response } = require('express');
 const jwt = require('jsonwebtoken');
 
 const secret = 'segredo-secreto';
 
 const UNAUTHORIZED = 401;
 
-const validateToken = async (req, res, next) => {
+async function validateToken(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return response.status(UNAUTHORIZED).json({ message: 'missing auth token' });
+    return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
   }
 
   try {
-    const decodeToken = jwt.verify(authorization, secret);
+    const decodedToken = jwt.verify(authorization, secret);
+    req.user = decodedToken.user;
   } catch (error) {
-    console.log(error);
+    return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
   
   next();
-};
-// const newToken = async (data) => {
-//   const token = jwt.sign({ data }, secret, jwtConfig);
-//   return token;
-// };
+}
 
-module.exports = validateToken;
+module.exports = {
+  validateToken,
+};
