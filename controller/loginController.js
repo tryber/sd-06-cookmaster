@@ -2,7 +2,7 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const { checkUser, validateLogin, getUserByEmail } = require('../service/loginService');
 
-const secret = 'bananinha';
+const secret = 'repeat';
 
 const loginRouter = new Router();
 
