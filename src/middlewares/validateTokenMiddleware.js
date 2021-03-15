@@ -1,6 +1,6 @@
 const {
   decodeToken,
-} = require('../jwt/token');
+} = require('jsonwebtoken');
 
 const {
   getUserByEmail,

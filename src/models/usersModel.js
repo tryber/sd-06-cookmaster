@@ -19,11 +19,17 @@ const getUserByEmail = async (email) => {
   return userFound;
 };
 
-const insertNewUser = async (name, email, password) => {
-  const addUser = await connection('users').then((db) => db.insertOne(
-    { name, email, password, role: 'user' }, { password: 0 },
-  ));
-  return addUser.ops;
+const insertNewUser = async (name, email, password, role) => {
+  const newUser = await connection('users')
+    .then((db) => db.insertOne({ name, email, password, role }));
+
+  return { 
+    _id: newUser.insertedId,
+    name,
+    email,
+    password,
+    role,
+  };
 };
 
 const checkIfUserExists = async (email, password) => {
