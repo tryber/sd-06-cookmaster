@@ -1,66 +1,20 @@
-const { ObjectId } = require('mongodb');
-const connection = require('./connection');
+const Users = require('../models/Users');
 
-const getAll = async () =>
-  connection().then((db) => db.collection('recipes').find().toArray());
+async function validateUser(req, res, next) {
+  const { name, email, password } = req.body;
 
-const findById = async (id) =>
-  connection().then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
+  if (!name || !email || !password || (!email.includes('@') && !email.includes('.com'))) {
+    return res.status(400)
+    .json({ message: 'Invalid entries. Try again.' });
+  }
 
-const create = async (name, ingredients, preparation, userId) => {
-  const { insertedId } = await connection().then((db) => db.collection('recipes')
-    .insertOne({ name, ingredients, preparation, userId }));
+  // O campo email deve ser único
+  const emailExists = await Users.findByEmail(email);
 
-  return {
-    name,
-    ingredients,
-    preparation,
-    userId,
-    _id: insertedId,
-  };
-};
-
-const update = async (name, ingredients, preparation, recipe) => {
-  const { _id } = recipe;
-
-  await connection().then((db) => db.collection('recipes')
-    .updateOne(
-      { _id },
-      { $set: { name, ingredients, preparation } },
-      { upsert: false },
-    ));
-
-  return {
-    _id,
-    name,
-    ingredients,
-    preparation,
-    userId: recipe.userId,
-  };
-};
-
-const remove = async (id) => {
-  await connection().then((db) => db.collection('recipes').deleteOne({ _id: id }));
-};
-
-const addImage = async (filename, id) => {
-  await connection().then((db) => db.collection('recipes').updateOne(
-    { _id: ObjectId(id) },
-    { $set: { image: `localhost:3000/images/${filename}` } },
-    { upsert: false },
-    ));
-
-  const recipe = await connection().then((db) => db.collection('recipes')
-    .findOne({ _id: ObjectId(id) }));
-
-  return recipe;
-};
+  if (emailExists) res.status(409).json({ message: 'Email already registered' });
+  else next();
+}
 
 module.exports = {
-  getAll,
-  findById,
-  create,
-  update,
-  remove,
-  addImage,
+  validateUser,
 };
