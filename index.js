@@ -1,28 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const validateToken = require('./auth/validateToken');
-const { usersRouter, createADM } = require('./controller/userController');
-const { loginRouter } = require('./controller/loginController');
-const { RecipesRouter } = require('./controller/recipeController');
+
+const UsersController = require('./controllers/userController');
+const LoginController = require('./controllers/loginController');
+const RecipesController = require('./controllers/recipeController');
+const ImagesController = require('./controllers/ImagesController');
 
 const app = express();
+const PORT = 3000;
+app.use(bodyParser.json());
 
+app.set('port', PORT);
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
 
-const PORT = 3000;
+app.use('/recipes', RecipesController);
 
-app.use(bodyParser.json());
+app.use('/users', UsersController);
 
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);
-app.use('/recipes', RecipesRouter);
-app.use('/images', express.static(path.join(__dirname, './uploads')));
+app.use('/images', ImagesController);
 
-app.post('/users/admin', validateToken, createADM);
+app.use('/login', LoginController);
 
-app.listen(PORT, () => console.log(`${PORT} running fine
-!`));
+app.listen(PORT, () => console.log('listening on 3000'));
