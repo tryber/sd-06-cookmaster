@@ -1,27 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const UsersController = require('./controllers/userController');
-const LoginController = require('./controllers/loginController');
-const RecipesController = require('./controllers/recipeController');
-const ImagesController = require('./controllers/ImagesController');
+const path = require('path');
+const UsersController = require('./src/controllers/UsersController');
+const LoginController = require('./src/controllers/LoginController');
+const RecipesController = require('./src/controllers/RecipesController');
 
 const app = express();
-const PORT = 3000;
+
 app.use(bodyParser.json());
 
-app.set('port', PORT);
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
-  response.send();
-});
-
-app.use('/recipes', RecipesController);
+// /images é o caminho da API onde as imagens estarão disponíveis
+// path.join(__dirname, 'uploads') é o caminho da pasta onde o multer salva suas imagens ao realizar o upload
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/users', UsersController);
-
-app.use('/images', ImagesController);
-
 app.use('/login', LoginController);
+app.use('/recipes', RecipesController);
 
-app.listen(PORT, () => console.log('listening on 3000'));
+app.use((err, req, res, _next) => {
+  if (err) console.log(err);
+  res.status(500).json({ message: 'Erro interno' });
+});
+
+// não remova esse endpoint, e para o avaliador funcionar
+app.get('/', (request, response) => {
+  response.send('ok');
+});
+
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Listening on ${PORT}...`));
