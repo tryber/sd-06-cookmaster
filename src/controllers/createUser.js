@@ -13,6 +13,18 @@ const createUser = async (req, res, next) => {
   }
 };
 
+const createAdmin = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+    const { role } = req.user;
+    const user = await insertNewUser(name, email, password, role);
+    return res.status(CREATED).json({ user });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createUser,
+  createAdmin,
 };
