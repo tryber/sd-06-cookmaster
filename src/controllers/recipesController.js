@@ -4,6 +4,7 @@ const {
   getRecipeById,
   updateRecipeModel,
   removeRecipe,
+  addImage,
 } = require('../models/recipesModel');
 
 const SUCCESS = 200;
@@ -63,10 +64,22 @@ const deleteRecipe = async (request, response, next) => {
   }
 };
 
+const addImageToRecipe = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const image = `localhost:3000/images/${id}.jpeg`;
+    const recipe = await addImage(id, image);
+    return res.status(SUCCESS).send(recipe);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createRecipe,
   listAllRecipes,
   findRecipeById,
   updateRecipe,
   deleteRecipe,
+  addImageToRecipe,
 };

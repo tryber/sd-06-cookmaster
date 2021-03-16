@@ -8,7 +8,9 @@ const {
   listAllRecipes,
   findRecipeById,
   updateRecipe,
-  deleteRecipe } = require('../controllers/recipesController');
+  deleteRecipe,
+  addImageToRecipe } = require('../controllers/recipesController');
+const uploadImage = require('../middlewares/upload_image');
 
 const router = new Router();
 
@@ -24,5 +26,7 @@ router.get('/:id', findRecipeById, async (_req, _res) => {});
 router.put('/:id', validateToken, updateRecipe, async (_req, _res) => {});
 
 router.delete('/:id', validateToken, deleteRecipe, async (_req, _res) => {});
+
+router.put('/:id/image/', validateToken, uploadImage, addImageToRecipe, async (_req, _res) => {});
 
 module.exports = router;

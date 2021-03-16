@@ -42,10 +42,22 @@ const removeRecipe = async (id) => {
   return recipeDeleted.value;
 };
 
+const addImage = async (id, image) => {
+  const recipeUpdated = await connection('recipes')
+    .then((db) => db.findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { image } },
+        { returnOriginal: false },
+      ));
+
+  return recipeUpdated.value;
+};
+
 module.exports = {
   insertNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeModel,
   removeRecipe,
+  addImage,
 };
