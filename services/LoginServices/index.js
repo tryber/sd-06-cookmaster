@@ -1,7 +1,7 @@
 const SignIn = require('./SignIn');
-const SignInValidations = require('./SigninValidations');
+const SingInValidations = require('./SigninValidations');
 
 module.exports = {
   SignIn,
-  SignInValidations,
-}; 
+  SingInValidations,
+};
