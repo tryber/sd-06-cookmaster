@@ -53,4 +53,4 @@ const RecipesValdiations = {
   },
 };
 
-module.exports = RecipesValdiations;
+module.exports = { RecipesValdiations };
