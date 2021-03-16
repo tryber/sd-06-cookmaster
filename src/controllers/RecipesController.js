@@ -1,102 +1,89 @@
-const { Router } = require('express');
-const rescue = require('express-rescue');
-const multer = require('multer');
-const Recipes = require('../models/Recipes');
-const validateJWT = require('../auth/validateJWT');
+const Recipe = require('../database/models/Recipe');
 
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, './uploads');
-  },
-  filename: (req, file, callback) => {
-    // const fileType = file.originalname.split('.')[1];
-    const filename = `${req.params.id}.jpeg`;
-    callback(null, filename);
-  },
-});
+const CreateRecipeService = require('../services/CreateRecipeService');
+const ListRecipesService = require('../services/ListRecipesService');
+const FindRecipeByIDService = require('../services/FindRecipeByIDService');
+const UpdateRecipeService = require('../services/UpdateRecipeService');
+const DeleteRecipeByIDService = require('../services/DeleteRecipeByIDService');
 
-const upload = multer({ storage });
-const router = Router();
+class RecipesController {
+  async create(request, response) {
+    this.count += 1;
+    const { name, preparation, ingredients } = request.body;
+    const { id } = request.user;
 
-router.put('/:id/image/', validateJWT, upload.single('image'), rescue(async (req, res) => {
-  const { id } = req.params;
-  const { filename } = req.file;
+    const recipeModel = new Recipe();
+    const createRecipeService = new CreateRecipeService(recipeModel);
 
-  const recipe = await Recipes.addImage(filename, id);
+    const recipeToCreate = { name, preparation, ingredients, userId: id };
 
-  return res.status(200).json(recipe);
-}));
+    const newRecipe = await createRecipeService.execute(recipeToCreate);
 
-router.get('/images/:id.jpeg', rescue(async (req, res) => {
-  const { id } = req.params;
+    const CREATED = 201;
 
-  res.sendFile(`uploads/${id}.jpeg`, { root: '.' });
-}));
-
-router.get('/', rescue(async (req, res) => {
-  const recipes = await Recipes.getAll();
-
-  return res.status(200).json(recipes);
-}));
-
-router.get('/:id', rescue(async (req, res) => {
-  const { id } = req.params;
-  if (id.length !== 24) return res.status(404).json({ message: 'recipe not found' });
-
-  const recipe = await Recipes.findById(id);
-  if (!recipe || id.length !== 24) return res.status(404).json({ message: 'recipe not found' });
-
-  return res.status(200).json(recipe);
-}));
-
-router.post('/', validateJWT, rescue(async (req, res) => {
-  const { name, ingredients, preparation } = req.body;
-  if (!name || !ingredients || !preparation) {
-    return res.status(400).json({ message: 'Invalid entries. Try again.' });
+    return response.status(CREATED).json({ recipe: newRecipe });
   }
-  const { _id } = req.user;
 
-  const recipe = await Recipes.create(name, ingredients, preparation, _id);
+  async list(_request, response) {
+    this.count += 1;
+    const recipeModel = new Recipe();
+    const listRecipesService = new ListRecipesService(recipeModel);
 
-  return res.status(201).json({ recipe });
-}));
+    const recipes = await listRecipesService.execute();
 
-router.put('/:id', validateJWT, rescue(async (req, res) => {
-  if (!req.headers.authorization) return res.status(401).json({ message: 'missing auth token' });
+    const SUCCESS = 200;
 
-  const recipe = await Recipes.findById(req.params.id);
-  if (!recipe) return res.status(404).json({ message: 'recipe doesn\'t exist' });
-
-  const { name, ingredients, preparation } = req.body;
-  const { _id } = req.user; // usuário autenticado
-  const { userId } = recipe; // usuário que criou a receita
-
-  // o usuário que está autenticado no sistema é o mesmo que criou a receita?
-  const userIsValid = (userId.toString() === _id.toString()) || req.user.role === 'admin';
-
-  if (userIsValid) {
-    const updatedRecipe = await Recipes.update(name, ingredients, preparation, recipe);
-
-    return res.status(200).json(updatedRecipe);
+    return response.status(SUCCESS).json(recipes);
   }
-  res.status(401).json({ message: 'missing auth token' });
-}));
 
-router.delete('/:id', validateJWT, rescue(async (req, res) => {
-  const recipe = await Recipes.findById(req.params.id);
-  const { _id } = req.user; // usuário autenticado
-  const { userId } = recipe; // usuário que criou a receita
+  async show(request, response) {
+    this.count += 1;
+    const { id: recipeId } = request.params;
 
-  // o usuário que está autenticado no sistema é o mesmo que criou a receita?
-  const userIsValid = (userId.toString() === _id.toString()) || req.user.role === 'admin';
+    const recipeModel = new Recipe();
+    const findRecipeByIDService = new FindRecipeByIDService(recipeModel);
 
-  if (userIsValid) {
-    const { _id: recipeId } = recipe;
-    await Recipes.remove(recipeId);
+    const recipe = await findRecipeByIDService.execute(recipeId);
 
-    return res.status(204).json();
+    const SUCCESS = 200;
+
+    return response.status(SUCCESS).json(recipe);
   }
-  res.status(500).json({ message: 'wrong user' });
-}));
 
-module.exports = router;
+  async update(request, response) {
+    this.count += 1;
+    const { id: recipeId } = request.params;
+    const { name, preparation, ingredients } = request.body;
+    const { id: userId, role } = request.user;
+
+    const recipeModel = new Recipe();
+    const updateRecipeService = new UpdateRecipeService(recipeModel);
+
+    const recipeToUpdate = { recipeId, name, preparation, ingredients, role, userId };
+
+    const updatedRecipe = await updateRecipeService.execute(recipeToUpdate);
+
+    const UPDATED = 200;
+
+    return response.status(UPDATED).json(updatedRecipe);
+  }
+
+  async delete(request, response) {
+    this.count += 1;
+    const { id: recipeId } = request.params;
+    const { id: userId, role } = request.user;
+
+    const recipeModel = new Recipe();
+    const deleteRecipeService = new DeleteRecipeByIDService(recipeModel);
+
+    const toDeleteInfo = { recipeId, role, userId };
+
+    await deleteRecipeService.execute(toDeleteInfo);
+
+    const DELETED = 204;
+
+    return response.status(DELETED).send();
+  }
+}
+
+module.exports = RecipesController;
