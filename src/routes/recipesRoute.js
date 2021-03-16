@@ -6,7 +6,9 @@ const { validateToken } = require('../auth/validateToken');
 const {
   createRecipe,
   listAllRecipes,
-  findRecipeById } = require('../controllers/recipesController');
+  findRecipeById,
+  updateRecipe,
+  deleteRecipe } = require('../controllers/recipesController');
 
 const router = new Router();
 
@@ -18,5 +20,9 @@ router.post('/', validateRecipe, validateToken, createRecipe, async (_req, _res)
 router.get('/', listAllRecipes, async (_req, _res) => {});
 
 router.get('/:id', findRecipeById, async (_req, _res) => {});
+
+router.put('/:id', validateToken, updateRecipe, async (_req, _res) => {});
+
+router.delete('/:id', validateToken, deleteRecipe, async (_req, _res) => {});
 
 module.exports = router;
