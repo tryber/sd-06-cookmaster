@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; // Local
-// const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; // Server
+// const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; // Local
+const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; // Server
 const DB_NAME = 'Cookmaster';
 
 const connection = async (collectionName) => {
