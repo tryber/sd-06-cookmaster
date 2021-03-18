@@ -1,4 +1,4 @@
-const connection = require('../service/connection');
+const connection = require('../models/connection');
 const { invalido, jaExiste } = require('../uteis/codeStatus');
 const { entradaInvalida, informacaoInvalida } = require('../uteis/messages');
 
