@@ -1,10 +1,18 @@
-const express = require('express');
-const { tudoCerto } = require('../uteis/codeStatus');
+const { Router } = require('express');
+const loginService = require('../service/loginService');
+const { validingLogin } = require('../middleware');
 
-const loginRouter = express.Router();
+const router = Router();
 
-/** verificando usuario e senha! */
-loginRouter.get('/', async (req, res) => {
-  const result = await console.log('verificando informações do usuario');
-  return res.status(tudoCerto).json(result);
+router.post('/', validingLogin, async (request, response) => {
+  const { email, password } = request.body;
+  const token = await loginService.validingLogin(email, password);
+  if (token.error) {
+    return response
+      .status(token.error.code)
+      .json(token.error.msg);
+  }
+  response.status(200).json({ token });
 });
+
+module.exports = router;

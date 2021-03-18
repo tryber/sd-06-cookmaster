@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'theCoyote';
+const secret = 'segredo';
 
 const headers = {
   algorithm: 'HS264',
