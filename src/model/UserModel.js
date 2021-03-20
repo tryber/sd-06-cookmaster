@@ -10,21 +10,30 @@ const createUser = async (user) => {
   return createdUser;
 };
 
-const findAllEmails = async () => (connection().then((db) => db
-  .collection('users')
-  .find(
-    {},
-    {
-      fields: {
-        _id: 0,
-        email: 1,
+const findAllEmails = async () => (
+  connection().then((db) => db
+    .collection('users')
+    .find(
+      {},
+      {
+        fields: {
+          _id: 0,
+          email: 1,
+        },
       },
-    },
-  )
-  .toArray())
+    )
+    .toArray())
+);
+
+const findUserByCredentials = async (email, password) => (
+  connection().then((db) => db
+    .collection('users')
+    .find({ email, password })
+    .toArray())
 );
 
 module.exports = {
   createUser,
   findAllEmails,
+  findUserByCredentials,
 };
