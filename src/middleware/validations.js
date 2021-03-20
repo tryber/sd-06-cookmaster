@@ -1,6 +1,20 @@
+const jwt = require('jsonwebtoken');
 const UserModel = require('../model/UserModel');
-const errorMessages = require('../dictionary/errorMessages');
-const statusCodes = require('../dictionary/statusCodes');
+const {
+  EMAIL_ALREADY_REGISTERED,
+  FIELDS_MUST_BE_FILLED,
+  INVALID_ENTRIES,
+  JWT_MALFORMED,
+  MISSING_TOKEN,
+  USER_NOT_FOUND,
+} = require('../dictionary/errorMessages');
+const {
+  BAD_REQUEST,
+  CONFLICT,
+  UNAUTHORIZED,
+} = require('../dictionary/statusCodes');
+const { SECRET } = require('../dictionary/constants');
+const { findByEmail } = require('../service/UserService');
 
 const validateEmailForm = async (request, response, next) => {
   const user = request.body;
@@ -9,8 +23,8 @@ const validateEmailForm = async (request, response, next) => {
 
   if (!emailValidator.test(String(email).toLowerCase())) {
     return response
-      .status(statusCodes.BAD_REQUEST)
-      .send({ message: errorMessages.INVALID_ENTRIES });
+      .status(BAD_REQUEST)
+      .send({ message: INVALID_ENTRIES });
   }
 
   next();
@@ -24,8 +38,8 @@ const validateEmailUniqueness = async (request, response, next) => {
   const emailIsNotUnique = typeof queriedEmail === 'object';
 
   if (emailIsNotUnique) {
-    return response.status(statusCodes.CONFLICT).send({
-      message: errorMessages.EMAIL_ALREADY_REGISTERED,
+    return response.status(CONFLICT).send({
+      message: EMAIL_ALREADY_REGISTERED,
     });
   }
 
@@ -38,8 +52,23 @@ const validateMandatoryFields = async (request, response, next) => {
 
   if (nameEmailOrPasswordIsMissing) {
     return response
-      .status(statusCodes.BAD_REQUEST)
-      .json({ message: errorMessages.INVALID_ENTRIES });
+      .status(BAD_REQUEST)
+      .json({ message: INVALID_ENTRIES });
+  }
+
+  next();
+};
+
+const validateRecipeMandatoryFields = async (request, response, next) => {
+  const recipe = request.body;
+  const nameIngredientsOrPreparationMissing = !recipe.name
+    || !recipe.ingredients
+    || !recipe.preparation;
+
+  if (nameIngredientsOrPreparationMissing) {
+    return response
+      .status(BAD_REQUEST)
+      .json({ message: INVALID_ENTRIES });
   }
 
   next();
@@ -51,22 +80,45 @@ const validateEmailAndPassword = async (request, response, next) => {
 
   if (emailOrPasswordIsMissing) {
     return response
-      .status(statusCodes.UNAUTHORIZED)
-      .json({ message: errorMessages.FIELDS_MUST_BE_FILLED });
+      .status(UNAUTHORIZED)
+      .json({ message: FIELDS_MUST_BE_FILLED });
   }
 
   if (!user.email || !user.password) {
     return response
-      .status(statusCodes.BAD_REQUEST)
-      .json({ message: errorMessages.INVALID_ENTRIES });
+      .status(BAD_REQUEST)
+      .json({ message: INVALID_ENTRIES });
   }
 
   next();
 };
 
+const validateToken = async (request, response, next) => {
+  try {
+    const token = request.headers.authorization;
+    if (!token) {
+      return response.status(UNAUTHORIZED).send({ message: MISSING_TOKEN });
+    }
+    
+    const { email } = jwt.verify(token, SECRET);
+    const user = await findByEmail(email);
+
+    if (!user) { 
+      return response
+        .status(UNAUTHORIZED).send({ message: USER_NOT_FOUND });
+    }
+
+    next();
+  } catch (error) {
+    return response.status(UNAUTHORIZED).send({ message: JWT_MALFORMED });
+  }
+};
+
 module.exports = {
+  validateToken,
   validateEmailForm,
   validateEmailUniqueness,
   validateEmailAndPassword,
   validateMandatoryFields,
+  validateRecipeMandatoryFields,
 };

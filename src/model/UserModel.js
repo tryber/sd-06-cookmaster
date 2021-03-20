@@ -25,6 +25,12 @@ const findAllEmails = async () => (
     .toArray())
 );
 
+const findByEmail = async (email) => (
+  connection().then((db) => db
+    .collection('users')
+    .find({ email }))
+);
+
 const findUserByCredentials = async (email, password) => (
   connection().then((db) => db
     .collection('users')
@@ -35,5 +41,6 @@ const findUserByCredentials = async (email, password) => (
 module.exports = {
   createUser,
   findAllEmails,
+  findByEmail,
   findUserByCredentials,
 };

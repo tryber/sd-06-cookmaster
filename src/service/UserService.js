@@ -7,6 +7,9 @@ const createUser = async (user) => {
   return UserModel.createUser(userWithRole);
 };
 
+const findByEmail = async (email) => (UserModel.findByEmail(email));
+
 module.exports = {
   createUser,
+  findByEmail,
 };
