@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { CREATED, OK } = require('../dictionary/statusCodes');
 const RecipeService = require('../service/RecipeService');
 const {
+  validateRecipeExistence,
   validateRecipeMandatoryFields,
   validateToken,
 } = require('../middleware/validations');
@@ -26,6 +27,18 @@ RecipeController.get(
     const foundRecipes = await RecipeService.findAll();
 
     response.status(OK).json(foundRecipes);
+  },
+);
+
+RecipeController.get(
+  '/:id',
+  validateRecipeExistence,
+  async (request, response) => {
+    const { id } = request.params;
+
+    const foundRecipe = await RecipeService.findById(id);
+
+    response.status(OK).json(foundRecipe);
   },
 );
 

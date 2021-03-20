@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 const UserModel = require('../model/UserModel');
 const {
   EMAIL_ALREADY_REGISTERED,
@@ -6,11 +7,13 @@ const {
   INVALID_ENTRIES,
   JWT_MALFORMED,
   MISSING_TOKEN,
+  RECIPE_NOT_FOUND,
   USER_NOT_FOUND,
 } = require('../dictionary/errorMessages');
 const {
   BAD_REQUEST,
   CONFLICT,
+  NOT_FOUND,
   UNAUTHORIZED,
 } = require('../dictionary/statusCodes');
 const { SECRET } = require('../dictionary/constants');
@@ -114,11 +117,22 @@ const validateToken = async (request, response, next) => {
   }
 };
 
+const validateRecipeExistence = async (request, response, next) => {
+  const { id } = request.params;
+
+  if (!ObjectId.isValid(id)) {
+    return response.status(NOT_FOUND).json({ message: RECIPE_NOT_FOUND });
+  }
+
+  next();
+};
+
 module.exports = {
   validateToken,
   validateEmailForm,
   validateEmailUniqueness,
   validateEmailAndPassword,
   validateMandatoryFields,
+  validateRecipeExistence,
   validateRecipeMandatoryFields,
 };

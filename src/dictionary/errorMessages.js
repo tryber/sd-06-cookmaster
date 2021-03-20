@@ -4,6 +4,7 @@ const INCORRECT_PASSWORD_OR_EMAIL = 'Incorrect username or password';
 const INVALID_ENTRIES = 'Invalid entries. Try again.';
 const JWT_MALFORMED = 'jwt malformed';
 const MISSING_TOKEN = 'missing auth token';
+const RECIPE_NOT_FOUND = 'recipe not found';
 const USER_NOT_FOUND = 'User not found';
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   INVALID_ENTRIES,
   JWT_MALFORMED,
   MISSING_TOKEN,
+  RECIPE_NOT_FOUND,
   USER_NOT_FOUND,
 };
