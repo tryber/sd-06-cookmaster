@@ -2,7 +2,7 @@ const UserModel = require('../model/UserModel');
 const errorMessages = require('../dictionary/errorMessages');
 const statusCodes = require('../dictionary/statusCodes');
 
-const validateEmailForm = (request, response, next) => {
+const validateEmailForm = async (request, response, next) => {
   const user = request.body;
   const { email } = user;
   const emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -51,7 +51,7 @@ const mandatoryFieldsResolver = (
   }
 };
 
-const validateMandatoryFields = (request, response, next) => {
+const validateMandatoryFields = async (request, response, next) => {
   const user = request.body;
   const isLoginRequest = request.originalUrl === '/login';
   const emailOrPasswordIsMissing = !user.email || !user.password;
@@ -67,7 +67,7 @@ const validateMandatoryFields = (request, response, next) => {
   next();
 };
 
-const validateEmailAndPassword = (request, response, next) => {
+const validateEmailAndPassword = async (request, response, next) => {
   const user = request.body;
   const emailOrPasswordIsMissing = !user.email || !user.password;
 
