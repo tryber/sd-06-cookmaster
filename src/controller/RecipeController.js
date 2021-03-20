@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const statusCodes = require('../dictionary/statusCodes');
+const { CREATED, OK } = require('../dictionary/statusCodes');
 const RecipeService = require('../service/RecipeService');
 const {
   validateRecipeMandatoryFields,
@@ -16,7 +16,16 @@ RecipeController.post(
     const recipe = request.body;
     const createdRecipe = await RecipeService.createRecipe(recipe);
 
-    response.status(statusCodes.CREATED).json(createdRecipe);
+    response.status(CREATED).json(createdRecipe);
+  },
+);
+
+RecipeController.get(
+  '/',
+  async (_request, response) => {
+    const foundRecipes = await RecipeService.findAll();
+
+    response.status(OK).json(foundRecipes);
   },
 );
 

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const statusCodes = require('../dictionary/statusCodes');
+const { UNAUTHORIZED, OK } = require('../dictionary/statusCodes');
 const errorMessages = require('../dictionary/errorMessages');
 const UserModel = require('../model/UserModel');
 const {
@@ -21,14 +21,14 @@ LoginController.post(
     const result = await UserModel.findUserByCredentials(email, password);
     if (result.length === 0) {
       return response
-        .status(statusCodes.UNAUTHORIZED)
+        .status(UNAUTHORIZED)
         .json({ message: errorMessages.INCORRECT_PASSWORD_OR_EMAIL });
     }
 
     const token = jwt.sign({ email, password }, SECRET, jwtConfig);
     const tokenContent = { token };
 
-    response.status(statusCodes.OK).json(tokenContent);
+    response.status(OK).json(tokenContent);
   },
 );
 

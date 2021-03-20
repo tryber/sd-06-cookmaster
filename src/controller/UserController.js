@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const statusCodes = require('../dictionary/statusCodes');
+const { CREATED } = require('../dictionary/statusCodes');
 const UserService = require('../service/UserService');
 const {
   validateEmailForm,
@@ -18,7 +18,7 @@ UserController.post(
     const user = request.body;
     const createdUser = await UserService.createUser(user);
 
-    response.status(statusCodes.CREATED).json(createdUser);
+    response.status(CREATED).json(createdUser);
   },
 );
 
