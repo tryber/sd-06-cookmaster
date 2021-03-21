@@ -42,4 +42,18 @@ RecipeController.get(
   },
 );
 
+RecipeController.put(
+  '/:id',
+  validateToken,
+  async (request, response) => {
+    const recipe = request.body;
+    const { id } = request.params;
+    recipe.id = id;
+
+    await RecipeService.updateRecipe(recipe);
+
+    response.status(OK).json(recipe);
+  },
+);
+
 module.exports = RecipeController;
