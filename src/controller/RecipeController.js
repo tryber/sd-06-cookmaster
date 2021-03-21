@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { CREATED, OK } = require('../dictionary/statusCodes');
+const { CREATED, NO_CONTENT, OK } = require('../dictionary/statusCodes');
 const RecipeService = require('../service/RecipeService');
 const {
   validateRecipeExistence,
@@ -53,6 +53,20 @@ RecipeController.put(
     await RecipeService.updateRecipe(recipe);
 
     response.status(OK).json(recipe);
+  },
+);
+
+RecipeController.delete(
+  '/:id',
+  validateToken,
+  validateRecipeExistence,
+  async (request, response) => {
+    const { id } = request.params;
+
+    const recoveredRecipe = await RecipeService.findById(id);
+    await RecipeService.removeRecipe(id);
+
+    response.status(NO_CONTENT).json(recoveredRecipe);
   },
 );
 
