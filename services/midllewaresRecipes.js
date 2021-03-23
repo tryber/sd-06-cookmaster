@@ -13,7 +13,7 @@ const msgInvalidEntries = 'Invalid entries. Try again.';
 const nameExists = (req, res, next) => {
   const { name } = req.body;
   if (!name) {
-      return res.status(status400).json({ message: msgTryAgain });
+      return res.status(status400).json({ message: msgInvalidEntries });
   }
   next();
 };
