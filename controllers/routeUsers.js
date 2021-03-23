@@ -7,6 +7,7 @@ const status201 = 201;
 // import querys
 const {
   createUsers,
+  // findByemail,
 } = require('../models/queryUsers');
 // -------------------------------------------
 // import midllewares
