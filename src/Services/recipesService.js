@@ -1,9 +1,11 @@
 const { ObjectId } = require('mongodb');
 const {
+  addImage,
   createRecipe,
+  editRecipe,
+  deleteRecipe,
   findAllRecipes,
   findOneRecipe,
-  editRecipe,
 } = require('../Models/recipesModel');
 
 const BadRequestCode = 400;
@@ -13,9 +15,10 @@ const createNewRecipe = async (data) => createRecipe(data);
 const getAllRecipes = async () => findAllRecipes();
 const getRecipeById = async (id) => findOneRecipe(id);
 
-const putRecipe = async (id, name, ingredients, preparation) => {
-  editRecipe(id, name, ingredients, preparation);
-};
+const putRecipe = async (id, name, ingr, prep) => editRecipe(id, name, ingr, prep);
+const excludeRecipe = async (id) => deleteRecipe(id);
+const fetchImage = async (id, image) => addImage(id, image);
+
 
 const validateRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -40,6 +43,8 @@ const validateId = (req, res, next) => {
 
 module.exports = {
   createNewRecipe,
+  fetchImage,
+  excludeRecipe,
   getAllRecipes,
   getRecipeById,
   putRecipe,
