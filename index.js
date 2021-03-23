@@ -19,8 +19,6 @@ app.get('/', (request, response) => {
 //----------------------------------------------------------
 
 app.use('/users', usersRouter);
-// app.use(app.router);
-// usersRouter.intialize(app);
 
 app.all('*', (_req, res) => {
   res.status(status404).json({ 
