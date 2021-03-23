@@ -19,7 +19,6 @@ const putRecipe = async (id, name, ingr, prep) => editRecipe(id, name, ingr, pre
 const excludeRecipe = async (id) => deleteRecipe(id);
 const fetchImage = async (id, image) => addImage(id, image);
 
-
 const validateRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
 
