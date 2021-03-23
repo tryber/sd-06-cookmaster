@@ -14,7 +14,6 @@ const {
 const { validateToken } = require('../Authentication/validateToken');
 const { validateRecipesHash } = require('../Authentication/validateRecipesHash');
 
-
 const RecipesRouter = new Router();
 
 const SucessCode = 200;
@@ -82,7 +81,6 @@ RecipesRouter.put('/:id/image', validateId, validateRecipesHash,
 
   const imagePath = `localhost:3000/images/${filename}`;
 
-  
   await fetchImage(id, imagePath);
   const result = await getRecipeById(id);
 
