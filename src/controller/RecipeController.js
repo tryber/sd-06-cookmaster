@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const multer = require('multer');
 const { CREATED, NO_CONTENT, OK } = require('../dictionary/statusCodes');
 const RecipeService = require('../service/RecipeService');
 const {
@@ -6,7 +7,17 @@ const {
   validateRecipeMandatoryFields,
   validateToken,
 } = require('../middleware/validations');
+const { getUserId } = require('../service/UserService');
 
+const storage = multer.diskStorage({
+  destination: (request, file, callback) => {
+    callback(null, 'images');
+  },
+  filename: (request, file, callback) => {
+    callback(null, `${request.params.id}.jpeg`);
+  },
+});
+const upload = multer({ storage });
 const RecipeController = new Router();
 
 RecipeController.post(
@@ -67,6 +78,29 @@ RecipeController.delete(
     await RecipeService.removeRecipe(id);
 
     response.status(NO_CONTENT).json(recoveredRecipe);
+  },
+);
+
+RecipeController.put(
+  '/:id/image',
+  validateToken,
+  upload.single('image'),
+  async (request, response) => {
+    const { id } = request.params;
+    const userId = await getUserId(request);
+    const recipe = await RecipeService.findById(id);
+    const updatedRecipe = {
+      _id: id,
+      name: recipe.name,
+      ingredients: recipe.ingredients,
+      preparation: recipe.preparation,
+      userId,
+      image: `localhost:3000/${request.file.path}`,
+    };
+
+    await RecipeService.addImageToRecipe(updatedRecipe);
+
+    response.status(OK).json(updatedRecipe);
   },
 );
 

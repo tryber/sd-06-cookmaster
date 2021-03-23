@@ -28,7 +28,8 @@ const findAllEmails = async () => (
 const findByEmail = async (email) => (
   connection().then((db) => db
     .collection('users')
-    .find({ email }))
+    .find({ email })
+    .toArray())
 );
 
 const findUserByCredentials = async (email, password) => (
