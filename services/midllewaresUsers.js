@@ -47,11 +47,26 @@ const senhalExists = (req, res, next) => {
 const emailAlreadyExists = async (req, res, next) => {
   const { email } = req.body;
   const findEmail = await findByemail(email);
-  if (await findEmail !== null && await findEmail.user.email === email) {
-    return res.status(status409).json({ message: 'Email already registered' });
+  try {
+    console.log(email, findEmail.user.email, findEmail.user.email === email);
+    if (findEmail !== null && findEmail.user.email === email) {
+      return res.status(status409).json({ message: 'Email already registered' });
+    }
+  } catch (error) {
+    console.log(error);
   }
   next();
 };
+
+// const emailAlreadyExists = async (req, res, next) => {
+//   const { email } = req.body;
+//   const findEmail = await findByemail(email);
+//   console.log(email, findEmail.user.email, findEmail.user.email === email);
+//   if (findEmail !== null && findEmail.user.email === email) {
+//     return res.status(status409).json({ message: 'Email already registered' });
+//   }
+//   next();
+// };
 
 module.exports = {
   nameExists,
