@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const {
   checkUser,
   validateLogin,
-  getUserByEmail
+  getUserByEmail,
 } = require('../Services/loginService');
 
 const secret = 'magia2010';
