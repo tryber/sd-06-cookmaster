@@ -1,4 +1,4 @@
-const { createUser, getAllUsers } = require('../Models/usersModel');
+const { createUser, getAllUsers, findOneUser } = require('../Models/usersModel');
 
 /** Status Codes */
 const BadRequestCode = 400;
@@ -6,6 +6,7 @@ const ConflictCode = 409;
 
 const createNewUser = async (data) => createUser(data);
 const getUsers = async () => getAllUsers();
+const findUserByEmail = async (email) => findOneUser(email);
 
 const validateEmail = (email) => {
   const pattern = /\S+@\S+.\S+/;
@@ -37,6 +38,7 @@ const checkUniqueEmail = async (req, res, next) => {
 module.exports = {
   checkUniqueEmail,
   createNewUser,
+  findUserByEmail,
   getUsers,
   validateEmail,
   validateUser,
