@@ -1,9 +1,10 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const { user } = require('./controller/userController');
 
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/user', user);
 

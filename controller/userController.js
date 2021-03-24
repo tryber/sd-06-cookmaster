@@ -1,4 +1,4 @@
-const express = require('express');
+const { Router } = require('express');
 const rescue = require('express-rescue');
 
 const validation = require('../middlewares/userValidation');
@@ -6,7 +6,7 @@ const { validateCreateUSer } = require('../service/userService');
 
 const { CONFLICT, OK } = require('../utils/statusCodeHandler');
 
-const user = express.Router();
+const user = Router();
 
 user.post('/', validation, rescue(async (request, response) => {
   const login = request.body;
