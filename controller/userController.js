@@ -4,7 +4,7 @@ const rescue = require('express-rescue');
 const validation = require('../middlewares/userValidation');
 const { validateCreateUSer } = require('../service/userService');
 
-const { CONFLICT, OK } = require('../utils/statusCodeHandler');
+const { CONFLICT, CREATED } = require('../utils/statusCodeHandler');
 
 const userController = Router();
 
@@ -14,7 +14,7 @@ userController.post('/', validation, rescue(async (request, response) => {
 
   if (!auth) return response.status(CONFLICT.code).json({ message: CONFLICT.message });
 
-  response.status(OK).json(auth);
+  response.status(CREATED).json(auth);
 }));
 
 module.exports = { userController };
