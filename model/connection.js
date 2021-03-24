@@ -1,10 +1,10 @@
 const { MongoClient } = require('mongodb');
 
-const dotenv = require('dotenv').config();
-
-const { DB_NAME } = dotenv.parsed;
+const DB_NAME = 'Cookmaster';
 const MONGO_DB_URI = 'mongodb://mongodb:27017/Cookmaster';
-// const MONGO_DB_URI = 'mongodb://localhost:27017/Cookmaster';
+// const MONGO_DB_URI = 'mongodb+srv://store:macbook@cluster0.m9kzj.mongodb.net/test?'
+//   + 'authSource=admin&replicaSet=atlas-kq29l2-shard-0&readPreference'
+//   + '=primary&appname=MongoDB%20Compass&ssl=true';
 
 let connection;
 
@@ -18,7 +18,7 @@ const getCollection = async (collectionName) => {
   );
 
   connection = connect || connection;
-
+  
   return connection.db(DB_NAME).collection(collectionName);
 };
 

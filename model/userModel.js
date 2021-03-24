@@ -16,7 +16,14 @@ const createUser = async ({ name, email, password }) => {
   return { user: { _id: result.insertedId, name, email, password, role: 'user' } };
 };
 
+const getAllUsers = async () => {
+  const collection = await connection;
+  const result = await collection.find();
+  return result.toArray();
+};
+
 module.exports = {
   getUserByEmail,
   createUser,
+  getAllUsers,
 };
