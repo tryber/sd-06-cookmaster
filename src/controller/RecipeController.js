@@ -11,7 +11,7 @@ const { getUserId } = require('../service/UserService');
 
 const storage = multer.diskStorage({
   destination: (request, file, callback) => {
-    callback(null, 'images');
+    callback(null, 'uploads');
   },
   filename: (request, file, callback) => {
     callback(null, `${request.params.id}.jpeg`);
@@ -95,7 +95,7 @@ RecipeController.put(
       ingredients: recipe.ingredients,
       preparation: recipe.preparation,
       userId,
-      image: `localhost:3000/${request.file.path}`,
+      image: `localhost:3000/images/${request.file.filename}`,
     };
 
     await RecipeService.addImageToRecipe(updatedRecipe);

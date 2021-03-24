@@ -17,6 +17,6 @@ app.get('/', (request, response) => {
 app.use('/users', UserController);
 app.use('/login', LoginController);
 app.use('/recipes', RecipeController);
-app.use('/images', express.static(`${__dirname}/images`));
+app.use('/images', express.static(`${__dirname}/uploads`));
 
 app.listen(PORT, () => console.log('App listening on PORT %s', PORT));
