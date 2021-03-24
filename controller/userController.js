@@ -6,9 +6,9 @@ const { validateCreateUSer } = require('../service/userService');
 
 const { CONFLICT, OK } = require('../utils/statusCodeHandler');
 
-const user = Router();
+const userController = Router();
 
-user.post('/', validation, rescue(async (request, response) => {
+userController.post('/', validation, rescue(async (request, response) => {
   const login = request.body;
   const auth = await validateCreateUSer(login);
 
@@ -17,4 +17,4 @@ user.post('/', validation, rescue(async (request, response) => {
   response.status(OK).json(auth);
 }));
 
-module.exports = { user };
+module.exports = { userController };

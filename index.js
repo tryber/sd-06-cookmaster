@@ -1,12 +1,12 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const { user } = require('./controller/userController');
+const { userController } = require('./controller/userController');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/user', user);
+app.use('/users', userController);
 
 app.get('/', (request, response) => response.send());
 
