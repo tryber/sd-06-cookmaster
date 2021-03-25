@@ -11,11 +11,6 @@ const jwtConfig = {
 
 const secret = 'secret';
 
-// import querys
-// const {
-//   findByemail,
-// } = require('../models/queryLogin');
-// -------------------------------------------
 // import midllewares
 const {
   emailExists,
@@ -27,9 +22,13 @@ const {
 
 loginRouter.post('/', emailExists, emailValid, passwordExists, InvalidPassword,
   async (req, res) => {
+  try {
   const { email, password } = req.body;
   const token = jwt.sign({ email, password }, secret, jwtConfig);
-  return res.status(status200).json({ token });
+  return res.status(status200).json({ token }); 
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = loginRouter;

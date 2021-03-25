@@ -22,12 +22,16 @@ const {
 
 usersRouter.post('/', nameExists, emailExists, emailValid, senhalExists, emailAlreadyExists,
   async (req, res) => {
+  try {
   const { name, email, password } = req.body;
   const role = 'user';
   const { insertedId } = await createUsers({ name, email, password, role });
   return res.status(status201).json(
     { user: { name, email, role, _id: insertedId } },
-  );
+  ); 
+} catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = usersRouter;

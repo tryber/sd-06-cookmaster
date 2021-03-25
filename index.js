@@ -1,7 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+// const multer = require('multer');
 
 const app = express();
+
+// const upload = multer({ dest: 'uploads/' });
 
 const status404 = 404;
 
@@ -25,6 +28,10 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 
 app.use('/recipes', recipesRouter);
+
+// app.post('/upload', upload.single('file'), (req, res) => {
+//   res.send('ok').status(200);
+// });
 
 app.all('*', (_req, res) => {
   res.status(status404).json({ 
