@@ -9,6 +9,8 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
+const secret = 'secret';
+
 // import querys
 // const {
 //   findByemail,
@@ -26,7 +28,7 @@ const {
 loginRouter.post('/', emailExists, emailValid, passwordExists, InvalidPassword,
   async (req, res) => {
   const { email, password } = req.body;
-  const token = jwt.sign({ email, password }, 'secret', jwtConfig);
+  const token = jwt.sign({ email, password }, secret, jwtConfig);
   return res.status(status200).json({ token });
 });
 
