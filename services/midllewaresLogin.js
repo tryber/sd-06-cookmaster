@@ -39,16 +39,13 @@ const passwordExists = async (req, res, next) => {
 const InvalidPassword = async (req, res, next) => {
   const { password, email } = req.body;
   const findUser = await findByemail(email);
-  console.log('passou aqui', findUser.password);
-  if (!findUser) {
-    try {
-      console.log('passou aqui', findUser.password);
-      if (password !== findUser.password) {
-        return res.status(status401).json({ message: msgIcorrect });
-      }
-    } catch (error) {
-      console.log(error);
+  const dbpassword = findUser.map((obj) => obj.password);
+  try {
+    if (password !== dbpassword[0]) {
+      return res.status(status401).json({ message: msgIcorrect });
     }
+  } catch (error) {
+    console.log(error);
   }
   next();
 };

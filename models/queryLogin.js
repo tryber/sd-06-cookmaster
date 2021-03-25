@@ -5,9 +5,9 @@ const connection = require('./connection');
 //   { email },
 // ));
 
-const findByemail = async (email) => connection().then((db) => db.collection('users').findOne(
+const findByemail = async (email) => connection().then((db) => db.collection('users').find(
   { email },
-));
+).toArray());
 
 // db.user.find({ 'user.email': { $exists: 'fulano.silva@gmail.com'  } })
 
