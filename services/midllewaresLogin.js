@@ -41,8 +41,8 @@ const InvalidPassword = async (req, res, next) => {
   const findUser = await findByemail(email);
   if (!findUser) {
     try {
-      console.log('passou aqui', findUser);
-      if (password !== findUser) {
+      console.log('passou aqui', findUser.password);
+      if (password !== findUser.password) {
         return res.status(status401).json({ message: msgIcorrect });
       }
     } catch (error) {
