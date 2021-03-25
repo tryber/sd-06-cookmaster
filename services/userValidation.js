@@ -18,17 +18,14 @@ const validateEmail = (email) => {
 
 const validateUser = async (req, res, next) => {
   const { name, email, password } = req.body;
-  const emailVerify = await findByEmail(email);
-  const emailIsValid = validateEmail(email);
-  console.log(emailVerify);
-  if (!name || name === '' || !email || email === '' || !password || password === ''
-        || !emailIsValid) {
-    return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
+  const emailVerify = await findByEmail(email);  
+  switch (true) {
+    case (isBlank(name) || isBlank(email) || validateEmail(email) || isBlank(password)):
+      return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
+    case emailVerify:
+      return res.status(CONFLICT).json({ message: 'Email already registered' });
+    default: next();
   }
-  if (!emailVerify) {
-    return res.status(CONFLICT).json({ message: 'Email already registered' });
-  }
-  next();
 };
 
 module.exports = validateUser;
