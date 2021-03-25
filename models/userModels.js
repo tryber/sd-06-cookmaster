@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const connection = require('./connection');
+const connection = require('./connection/connection');
 
 const getUserAll = async () => {
   const users = await connection().then((db) => db.collection('users').find().toArray());

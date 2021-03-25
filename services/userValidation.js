@@ -1,4 +1,4 @@
-const connection = require('../connection');
+const connection = require('../connection/connection');
 
 const BAD_REQUEST = 400;
 const CONFLICT = 409;

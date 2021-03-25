@@ -1,5 +1,6 @@
 const UsersService = require('../services/userServices');
 
+const SUCCESS = 200;
 const CREATED = 201;
 
 const getUserAll = async (req, res) => {
