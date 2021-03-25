@@ -22,11 +22,11 @@ const {
 
 usersRouter.post('/', nameExists, emailExists, emailValid, senhalExists, emailAlreadyExists,
   async (req, res) => {
-  const user = req.body;
-  const { name, email } = req.body;
-  const { insertedId } = await createUsers(user);
+  const { name, email, password } = req.body;
+  const role = 'user';
+  const { insertedId } = await createUsers({ name, email, password, role });
   return res.status(status201).json(
-    { user: { name, email, role: 'user', _id: insertedId } },
+    { user: { name, email, role, _id: insertedId } },
   );
 });
 

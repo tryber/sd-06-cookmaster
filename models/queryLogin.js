@@ -1,8 +1,12 @@
 const connection = require('./connection');
 // const { ObjectId } = require('mongodb');
 
-const findByemail = async (email) => connection().then((db) => db.collection('user').findOne(
-  { 'user.email': { $exists: email } },
+// const findByemail = async (email) => connection().then((db) => db.collection('users').findOne(
+//   { email },
+// ));
+
+const findByemail = async (email) => connection().then((db) => db.collection('users').findOne(
+  { email },
 ));
 
 // db.user.find({ 'user.email': { $exists: 'fulano.silva@gmail.com'  } })

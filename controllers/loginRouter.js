@@ -1,27 +1,33 @@
 const express = require('express');
 
 const loginRouter = express.Router();
+const status200 = 200;
+const jwt = require('jsonwebtoken');
 
-const status201 = 201;
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 // import querys
 // const {
-//   createUsers,
-// } = require('../models/queryUsers');
+//   findByemail,
+// } = require('../models/queryLogin');
 // -------------------------------------------
 // import midllewares
 const {
   emailExists,
   emailValid,
-  senhalExists,
+  passwordExists,
+  InvalidPassword,
 } = require('../services/midllewaresLogin');
 // -------------------------------------------
 
-loginRouter.post('/', emailExists, emailValid, senhalExists, async (req, res) => {
+loginRouter.post('/', emailExists, emailValid, passwordExists, InvalidPassword,
+  async (req, res) => {
   const { email, password } = req.body;
-  return res.status(status201).json(
-    { email, password },
-  );
+  const token = jwt.sign({ email, password }, 'secret', jwtConfig);
+  return res.status(status200).json({ token });
 });
 
 module.exports = loginRouter;

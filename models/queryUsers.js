@@ -1,9 +1,9 @@
 const connection = require('./connection');
 // const { ObjectId } = require('mongodb');
 
-const createUsers = async ({ name, email, role, password }) => connection()
+const createUsers = async ({ name, email, password, role }) => connection()
 .then((db) => db.collection('users').insertOne(
-    { name, email, role, password },
+    { name, email, password, role },
   ));
 
 const findByemail = async (email) => connection().then((db) => db.collection('users').findOne(

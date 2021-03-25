@@ -8,7 +8,6 @@ const msgTryAgain = 'Invalid entries. Try again.';
 // import querys
 const {
   findByemail,
-  getUsers,
 } = require('../models/queryUsers');
 // -------------------------------------------
 
@@ -48,8 +47,6 @@ const senhalExists = (req, res, next) => {
 const emailAlreadyExists = async (req, res, next) => {
   const { email } = req.body;
   const findEmail = await findByemail(email);
-  const users = await getUsers();
-  console.log(users);
   if (findEmail) {
     return res.status(status409).json({ message: 'Email already registered' });
   }
