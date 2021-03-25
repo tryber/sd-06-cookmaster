@@ -3,6 +3,8 @@ const connection = require('../connection/connection');
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 
+const isBlank = (field) => !field || field === '';
+
 const findByEmail = async (email) => {
   const emailExists = await connection().then((db) => 
     db.collection('users').findOne({ email }));
