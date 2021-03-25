@@ -13,7 +13,7 @@ const CREATED = 201;
 
 users.get('/', async (req, res) => {
   const usersList = await getUsers();
-  res.status(SUCCESS).json(usersList);
+  res.status(SUCCESS).json({ users: usersList });
 });
 
 users.post('/', setValidation, ifExists, async (req, res) => {

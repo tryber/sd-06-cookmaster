@@ -46,4 +46,5 @@ module.exports = {
   createNewUser,
   setValidation,
   ifExists,
+  validateEmail,
 };
