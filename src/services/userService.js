@@ -1,6 +1,7 @@
 const {
   createUsers,
   getAllUsers,
+  searchUser,
 } = require('../models/userModel');
 
 const BAD_REQUEST = 400;
@@ -9,6 +10,7 @@ const INVALID_ENTRIES = 'Invalid entries. Try again.';
 
 const createNewUser = async (data) => createUsers(data);
 const getUsers = async () => getAllUsers();
+const searchEmail = async (email) => searchUser(email);
 
 function validateEmail(email) {
   const re = /\S+@\S+\.\S+/;
@@ -51,4 +53,5 @@ module.exports = {
   setValidation,
   ifExists,
   validateEmail,
+  searchEmail,
 };

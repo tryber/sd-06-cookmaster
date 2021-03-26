@@ -4,7 +4,7 @@ const { validateUser, validateLogin, searchLogin } = require('../services/loginS
 
 const SUCCESS = 200;
 
-const secret = 'anything';
+const secret = 'they should have use the eagles';
 
 const login = new Router();
 
@@ -25,4 +25,4 @@ login.post('/', validateLogin, validateUser, async (req, res) => {
   res.status(SUCCESS).json({ token });
 });
 
-module.exports = { login };
+module.exports = { login, secret };
