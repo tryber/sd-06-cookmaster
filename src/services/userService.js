@@ -36,7 +36,11 @@ const ifExists = async (req, res, next) => {
   const emailExists = await gotUsers.find((users) => users.email === email);
 
   if (emailExists) {
-    return res.status(CONFLICT).json({ message: 'Email already registered' });
+    return res.status(CONFLICT).json(
+      {
+        message: 'Email already registered',
+      },
+);
   }
   next();
 };

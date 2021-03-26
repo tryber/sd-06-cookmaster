@@ -5,9 +5,7 @@ const invalidCredentials = 'Incorrect username or password';
 const unfilledFields = 'All fields must be filled';
 const UNAUTHORIZED = 401;
 
-async function searchLogin(email) {
-  searchUser(email);
-}
+const searchLogin = async (email) => searchUser(email);
 
 async function validateUser(req, res, next) {
   const { email, password } = req.body;

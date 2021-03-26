@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const { validateUser, validateLogin } = require('../services/loginService');
-const searchUser = require('../services/loginService');
+const { validateUser, validateLogin, searchLogin } = require('../services/loginService');
 
 const SUCCESS = 200;
 
@@ -15,7 +14,7 @@ login.get('/', async (req, res) => {
 
 login.post('/', validateLogin, validateUser, async (req, res) => {
   const { email } = req.body;
-  const user = await searchUser(email);
+  const user = await searchLogin(email);
   const data = {
     id: user.id,
     email: user.email,
