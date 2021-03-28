@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const coll = 'recipes';
@@ -19,7 +20,12 @@ const getAllRecipes = async () => {
   return response;
 };
 
+const getRecipeById = async (recipeId) => (
+  connection().then((db) => db.collection(coll).findOne({ _id: ObjectId(recipeId) }))
+);
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
+  getRecipeById,
 };

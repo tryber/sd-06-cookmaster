@@ -19,4 +19,9 @@ recipesRouter.get(
   controller.getAllRecipes,
 );
 
+recipesRouter.get(
+  '/:id',
+  controller.getRecipeById,
+);
+
 module.exports = { recipesRouter };
