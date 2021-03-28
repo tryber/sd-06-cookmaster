@@ -7,7 +7,11 @@ const createNewRecipe = async (recipeName, ingredients, preparation, userId) => 
 
 const getAllRecipes = async () => model.getAllRecipes();
 
-const getRecipeById = async (recipeId) => model.getRecipeById(recipeId);
+const getRecipeById = async (recipeId) => {
+  if (!ObjectId.isValid(recipeId)) return undefined;
+  
+  return model.getRecipeById(recipeId);
+};
 
 const editRecipe = async (recipeId, name, ingredients, preparation) => {
   if (!ObjectId.isValid(recipeId)) return undefined;
