@@ -14,14 +14,13 @@ recipesRouter.post(
   controller.createNewRecipe,
 );
 
-recipesRouter.get(
-  '/',
-  controller.getAllRecipes,
-);
+recipesRouter.get('/', controller.getAllRecipes);
+recipesRouter.get('/:id', controller.getRecipeById);
 
-recipesRouter.get(
+recipesRouter.put(
   '/:id',
-  controller.getRecipeById,
+  validateToken,
+  controller.editRecipe,
 );
 
 module.exports = { recipesRouter };
