@@ -1,16 +1,22 @@
-const models = require('../models/users');
+const model = require('../models/users');
 
-const getByEmail = async (email) => models.getByEmail(email);
+const getByEmail = async (email) => model.getByEmail(email);
 
 const createNewUser = async (name, email, password) => {
   const emailAlreadyUsed = await getByEmail(email);
 
-  if (emailAlreadyUsed) return 'invalid email';
+  if (emailAlreadyUsed) return 'email already used';
 
-  return models.createNewUser(name, email, password);
+  return model.createNewUser(name, email, password);
 };
 
+const loginUser = async (email, password) => {
+  const user = await getByEmailAndPassword(email, password);
+
+  return user;
+}
+
 module.exports = {
-  getByEmail,
   createNewUser,
+  loginUser,
 };
