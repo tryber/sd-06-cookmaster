@@ -1,5 +1,5 @@
 const services = require('../services/recipes');
-const { CREATED, OK, NOT_FOUND, UNAUTHORIZED } = require('../dictionary/StatusCode');
+const { CREATED, OK, NOT_FOUND, UNAUTHORIZED, NO_CONTENT } = require('../dictionary/StatusCode');
 const { RECIPE_NOT_FOUND, NO_AUTH_TOKEN } = require('../dictionary/ErrorMessage');
 
 const createNewRecipe = async (req, res) => {
@@ -40,9 +40,24 @@ const editRecipe = async (req, res) => {
   return res.status(OK).json(result.value);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { _id: userId, role } = req.user;
+  const { id: recipeId } = req.params;
+  const recipeToDelete = await services.getRecipeById(recipeId);
+
+  if (!recipeToDelete.userId.equals(userId) && role !== 'admin') {
+    return res.status(UNAUTHORIZED).json(NO_AUTH_TOKEN);
+  }
+
+  await services.deleteRecipe(recipeId);
+
+  return res.status(NO_CONTENT).json();
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
+  deleteRecipe,
 };

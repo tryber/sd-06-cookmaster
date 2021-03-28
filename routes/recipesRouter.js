@@ -17,10 +17,8 @@ recipesRouter.post(
 recipesRouter.get('/', controller.getAllRecipes);
 recipesRouter.get('/:id', controller.getRecipeById);
 
-recipesRouter.put(
-  '/:id',
-  validateToken,
-  controller.editRecipe,
-);
+recipesRouter.put('/:id', validateToken, controller.editRecipe);
+
+recipesRouter.delete('/:id', validateToken, controller.deleteRecipe);
 
 module.exports = { recipesRouter };
