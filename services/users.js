@@ -10,13 +10,4 @@ const createNewUser = async (name, email, password) => {
   return model.createNewUser(name, email, password);
 };
 
-const loginUser = async (email, password) => {
-  const user = await getByEmailAndPassword(email, password);
-
-  return user;
-}
-
-module.exports = {
-  createNewUser,
-  loginUser,
-};
+module.exports = { createNewUser };

@@ -1,5 +1,5 @@
 const services = require('../services/users');
-const { CREATED, CONFLICT, OK } = require('../dictionary/StatusCode');
+const { CREATED, CONFLICT } = require('../dictionary/StatusCode');
 const { EMAIL_ALREADY_USED } = require('../dictionary/ErrorMessage');
 
 const createNewUser = async (req, res) => {
