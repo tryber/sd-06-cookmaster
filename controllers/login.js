@@ -1,3 +1,5 @@
+const { INCORRECT_LOGIN_INFO } = require('../dictionary/ErrorMessage');
+const { UNAUTHORIZED, OK } = require('../dictionary/StatusCode');
 const services = require('../services/login');
 
 const loginUser = async (req, res) => {
@@ -5,7 +7,9 @@ const loginUser = async (req, res) => {
 
   const result = await services.loginUser(email, password);
 
-  return res.status(result.status).json({ message: result.message });
+  if (result === 'Invalid login') return res.status(UNAUTHORIZED).json(INCORRECT_LOGIN_INFO);
+
+  return res.status(OK).json({ token: result });
 };
 
 module.exports = { loginUser };

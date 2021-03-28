@@ -8,9 +8,8 @@ const secret = 'secret1234';
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (!token) {
-    return res.status(UNAUTHORIZED).json(NO_AUTH_TOKEN);
-  }
+  if (!token) return res.status(UNAUTHORIZED).json(NO_AUTH_TOKEN);
+
   try {
     const decoded = jwt.verify(token, secret);
     const user = await usersServices.getByEmail(decoded.email);
