@@ -14,4 +14,9 @@ recipesRouter.post(
   controller.createNewRecipe,
 );
 
+recipesRouter.get(
+  '/',
+  controller.getAllRecipes,
+);
+
 module.exports = { recipesRouter };
