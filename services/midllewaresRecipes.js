@@ -9,25 +9,37 @@ const {
 } = require('../models/queryRecipes');
 
 const nameExists = (req, res, next) => {
-  const { name } = req.body;
-  if (!name) {
+  try {
+    const { name } = req.body;
+    if (!name) {
       return res.status(status400).json({ message: msgInvalidEntries });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const ingredientsExists = (req, res, next) => {
-  const { ingredients } = req.body;
-  if (!ingredients) {
-    return res.status(status400).json({ message: msgInvalidEntries });
+  try {
+    const { ingredients } = req.body;
+    if (!ingredients) {
+      return res.status(status400).json({ message: msgInvalidEntries });
+    }    
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const preparationExists = (req, res, next) => {
-  const { preparation } = req.body;
-  if (!preparation) {
-    return res.status(status400).json({ message: msgInvalidEntries });
+  try {
+    const { preparation } = req.body;
+    if (!preparation) {
+      return res.status(status400).json({ message: msgInvalidEntries });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
@@ -37,11 +49,11 @@ const recipeExists = async (req, res, next) => {
   console.log(id);
   try {
     if (!ObjectId.isValid(id)) {
-      res.status(status404).json({ message: 'recipe not found' });
+      return res.status(status404).json({ message: 'recipe not found' });
     }
     const recipeDb = await getRecipeById(id);
     if (!recipeDb) {
-      res.status(status404).json({ message: 'recipe not found' });
+      return res.status(status404).json({ message: 'recipe not found' });
     }
   } catch (err) {
     console.log(err);

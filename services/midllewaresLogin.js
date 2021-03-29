@@ -12,26 +12,38 @@ const {
 // -------------------------------------------
 
 const emailExists = (req, res, next) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(status401).json({ message: msgAllFields });
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(status401).json({ message: msgAllFields });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const emailValid = (req, res, next) => {
-  const { email } = req.body;
-  const isEmailValid = email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z]+\.[a-zA-Z.]+$/);
-  if (!isEmailValid) {
-    return res.status(status401).json({ message: msgIcorrect });
+  try {
+    const { email } = req.body;
+    const isEmailValid = email.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z]+\.[a-zA-Z.]+$/);
+    if (!isEmailValid) {
+      return res.status(status401).json({ message: msgIcorrect });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const passwordExists = async (req, res, next) => {
-  const { password } = req.body;
-  if (!password) {
-    return res.status(status401).json({ message: msgAllFields });
+  try {
+    const { password } = req.body;
+    if (!password) {
+      return res.status(status401).json({ message: msgAllFields });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };

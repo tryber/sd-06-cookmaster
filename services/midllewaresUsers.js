@@ -12,34 +12,50 @@ const {
 // -------------------------------------------
 
 const nameExists = (req, res, next) => {
-  const { name } = req.body;
-  if (!name || name.length < 3) {
-    return res.status(status400).json({ message: msgTryAgain });
+  try {
+    const { name } = req.body;
+    if (!name || name.length < 3) {
+      return res.status(status400).json({ message: msgTryAgain });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const emailExists = (req, res, next) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(status400).json({ message: msgTryAgain });
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(status400).json({ message: msgTryAgain });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const emailValid = (req, res, next) => {
-  const { email } = req.body;
-  const isEmailValid = email.match(/\S+@\S+\.\S+/);
-  if (!isEmailValid) {
-    return res.status(status400).json({ message: msgTryAgain });
+  try {
+    const { email } = req.body;
+    const isEmailValid = email.match(/\S+@\S+\.\S+/);
+    if (!isEmailValid) {
+      return res.status(status400).json({ message: msgTryAgain });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };
 
 const senhalExists = (req, res, next) => {
-  const { password } = req.body;
-  if (!password) {
-    return res.status(status400).json({ message: msgTryAgain });
+  try {
+    const { password } = req.body;
+    if (!password) {
+      return res.status(status400).json({ message: msgTryAgain });
+    }
+  } catch (err) {
+    console.log(err);
   }
   next();
 };

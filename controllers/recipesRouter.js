@@ -30,12 +30,12 @@ const {
 
 recipesRouter.post('/', nameExists, ingredientsExists, preparationExists, tokenValid,
   async (req, res) => {
+  try {
     const { userId } = req;
     const { name, ingredients, preparation } = req.body;
     const { insertedId } = await createRecipes(name, ingredients, preparation, userId);
-  try {
-  return res.status(status201).json(
-    { recipe: { name, ingredients, preparation, userId, _id: insertedId } },
+    return res.status(status201).json(
+      { recipe: { name, ingredients, preparation, userId, _id: insertedId } },
   ); 
 } catch (error) {
     console.log(error);
@@ -44,42 +44,62 @@ recipesRouter.post('/', nameExists, ingredientsExists, preparationExists, tokenV
 
 recipesRouter.get('/',
   async (_req, res) => {
-    const recipes = await getAllRecipes();
-    return res.status(status200).json(recipes);
+    try {
+      const recipes = await getAllRecipes();
+      return res.status(status200).json(recipes);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 recipesRouter.get('/:id', recipeExists,
   async (req, res) => {
-    const { id } = req.params;
-    const recipeDb = await getRecipeById(id);
-    return res.status(status200).json(recipeDb);
+    try {
+      const { id } = req.params;
+      const recipeDb = await getRecipeById(id);
+      return res.status(status200).json(recipeDb);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 recipesRouter.put('/:id', tokenValid,
   async (req, res) => {
-  const { id } = req.params;
-  const { userId } = req;
-  const { name, ingredients, preparation } = req.body;
-  const newRecipe = { id, name, ingredients, preparation, userId };
-  await updateRecipe(newRecipe);
-  return res.status(status200).json(newRecipe);
+    try {
+      const { id } = req.params;
+      const { userId } = req;
+      const { name, ingredients, preparation } = req.body;
+      const newRecipe = { id, name, ingredients, preparation, userId };
+      await updateRecipe(newRecipe);
+      return res.status(status200).json(newRecipe);
+    } catch (err) {
+      console.log(err);
+    }
 });
 
 recipesRouter.delete('/:id', tokenValid,
   async (req, res) => {
-    const { id } = req.params;
-    await deleteRecipe(id);
-    return res.status(status204).end();
+    try {
+      const { id } = req.params;
+      await deleteRecipe(id);
+      return res.status(status204).end();
+    } catch (err) {
+      console.log(err);
+    }
 });
 
 recipesRouter.put('/:id/image', tokenValid,
   async (req, res) => {
-    const { id } = req.params;
-    const { userId } = req;
-    const recipe = await getRecipeById(id);
-    const { name, ingredients, preparation } = recipe;
-    const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image: '' };
-    return res.status(status200).json(resJson);
+    try {
+      const { id } = req.params;
+      const { userId } = req;
+      const recipe = await getRecipeById(id);
+      const { name, ingredients, preparation } = recipe;
+      const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image: '' };
+      return res.status(status200).json(resJson);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 module.exports = recipesRouter;
