@@ -2,14 +2,17 @@ const express = require('express');
 
 const recipesRouter = express.Router();
 
-const status201 = 201;
 const status200 = 200;
+const status201 = 201;
+const status204 = 204;
 
 // import querys
 const {
   createRecipes,
   getRecipeById,
   getAllRecipes,
+  updateRecipe,
+  deleteRecipe,
 } = require('../models/queryRecipes');
 // -------------------------------------------
 // import midllewares
@@ -50,5 +53,22 @@ recipesRouter.get('/:id', recipeExists,
     const recipeDb = await getRecipeById(id);
     res.status(status200).json(recipeDb);
   });
+
+recipesRouter.put('/:id', tokenValid,
+  async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req;
+  const { name, ingredients, preparation } = req.body;
+  const newRecipe = { id, name, ingredients, preparation, userId };
+  await updateRecipe(newRecipe);
+  res.status(status200).json(newRecipe);
+});
+
+recipesRouter.delete('/:id', tokenValid,
+  async (req, res) => {
+    const { id } = req.params;
+    await deleteRecipe(id);
+    res.status(status204).end();
+});
 
 module.exports = recipesRouter;

@@ -9,7 +9,7 @@ const msg = 'jwt malformed';
 const tokenValid = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    return res.status(status401).json({ message: msg });
+    return res.status(status401).json({ message: 'missing auth token' });
   }
 
   jwt.verify(authorization, secret, async (err, decoded) => {

@@ -5,27 +5,36 @@ const createRecipes = async (name, ingredients, preparation, userId) => connecti
 .then((db) => db
   .collection('recipes').insertOne({ name, ingredients, preparation, userId }));
 
-// const findByrecipe = async (recipe) => connection().then((db) => db.collection('user').findOne(
-//   { 'user.recipes': { $exists: recipe } },
-// ));
-
 const findByEmail = async (email) => connection().then((db) => db.collection('users').findOne(
   { email },
 ));
 
 const getAllRecipes = async () => {
-  const recipes = connection().then((db) => db.collection('recipes').find().toArray());
+  const recipes = await connection().then((db) => db.collection('recipes').find().toArray());
   return recipes;
 };
 
-const getRecipeById = async (id) => connection().then((db) => db
-.collection('recipes').findOne(ObjectId(id)));
+const getRecipeById = async (id) => {
+ const recipe = await connection().then((db) => db.collection('recipes').findOne(ObjectId(id)));
+ return recipe;
+};
 
-// db.user.find({ 'user.email': { $exists: 'fulano.silva@gmail.com'  } })
+const updateRecipe = async (newRecipe) => {
+  const { id, name, ingredients, preparation, userId } = newRecipe;
+  await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
+  ));
+};
+
+const deleteRecipe = async (id) => {
+  await connection().then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+};
 
 module.exports = {
   createRecipes,
   getRecipeById,
   findByEmail,
   getAllRecipes,
+  updateRecipe,
+  deleteRecipe,
 };
