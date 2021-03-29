@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 
 const router = express.Router();
 
@@ -15,6 +16,17 @@ const {
 
 const recipeId = '/recipes/:id';
 
+// Adicionando Imagem
+const storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
 // Rotas de Usuario
 router.get('/users', controllerUser.getUserAll);
 router.post('/users', validateUser, controllerUser.createUser);
@@ -28,6 +40,7 @@ router.get(recipeId, controllerRecipe.findByIdRecipe);
 router.post('/recipes', validateToken, validateRecipe, controllerRecipe.createRecipe);
 router.put(recipeId, validateTokenUpdate, controllerRecipe.updateIdRecipe);
 router.delete(recipeId, validateTokenUpdate, controllerRecipe.removeIdRecipe);
-router.put('/recipes/:id/image', validateToken, controllerRecipe.updateIdImage);
+router.put('/recipes/:id/image',
+  upload.single('image'), validateToken, controllerRecipe.updateIdImage);
 
 module.exports = router;

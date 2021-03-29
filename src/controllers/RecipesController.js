@@ -17,7 +17,6 @@ const createRecipe = async (req, res) => {
 // Desafio 4 - Listar Receitas
 const getAllRecipes = async (req, res) => {
   const recipes = await RecipesServices.getAllRecipes();
-  console.log(recipes);
   res.status(SUCCESS).json(recipes);
 };
 
@@ -54,12 +53,20 @@ const removeIdRecipe = async (req, res) => {
 const updateIdImage = async (req, res) => {
   const { id } = req.params;
   const image = `localhost:3000/images/${id}.jpeg`;
+  console.log(req.body, req.file);
   const recipe = await RecipesServices.findByIdRecipe(id);
   if (recipe) {
     const updatedRecipe = await RecipesServices.updateIdImage(recipe, image);
     return res.status(SUCCESS).json(updatedRecipe);
   }
   res.status(NOT_FOUND).json({ message: 'recipe not found' });
+};
+
+// Desafio 10 - Acessando uma imagem
+const getImage = async (req, res) => {
+  const { id } = req.params;
+  console.log('Id de imagem', id);
+  res.sendFile(`uploads/${id}.jpeg`, { root: '.' });
 };
 
 module.exports = {
@@ -69,4 +76,5 @@ module.exports = {
   updateIdRecipe,
   removeIdRecipe,
   updateIdImage,
+  getImage,
 };
