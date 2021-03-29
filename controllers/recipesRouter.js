@@ -1,4 +1,5 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 
 const recipesRouter = express.Router();
 
@@ -8,7 +9,8 @@ const status200 = 200;
 // import querys
 const {
   createRecipes,
-  getRecipes,
+  getRecipeById,
+  getAllRecipes,
 } = require('../models/queryRecipes');
 // -------------------------------------------
 // import midllewares
@@ -16,6 +18,7 @@ const {
   nameExists,
   ingredientsExists,
   preparationExists,
+  recipeExists,
 } = require('../services/midllewaresRecipes');
 const {
   tokenValid,
@@ -24,12 +27,12 @@ const {
 
 recipesRouter.post('/', nameExists, ingredientsExists, preparationExists, tokenValid,
   async (req, res) => {
-    const recipe = req.body;
+    const { userId } = req;
     const { name, ingredients, preparation } = req.body;
-    const { insertedId } = await createRecipes(recipe);
+    const { insertedId } = await createRecipes(name, ingredients, preparation, userId);
   try {
   return res.status(status201).json(
-    { recipe: { name, ingredients, preparation, userId: '?', _id: insertedId } },
+    { recipe: { name, ingredients, preparation, userId, _id: insertedId } },
   ); 
 } catch (error) {
     console.log(error);
@@ -38,8 +41,15 @@ recipesRouter.post('/', nameExists, ingredientsExists, preparationExists, tokenV
 
 recipesRouter.get('/',
   async (_req, res) => {
-    const recipes = await getRecipes();
+    const recipes = await getAllRecipes();
     res.status(status200).json(recipes);
+  });
+
+recipesRouter.get('/:id', recipeExists,
+  async (req, res) => {
+    const { id } = req.params;
+    const recipeDb = await getRecipeById(id);
+    res.status(status200).json(recipeDb);
   });
 
 module.exports = recipesRouter;
