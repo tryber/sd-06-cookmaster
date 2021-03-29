@@ -1,4 +1,5 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 
 const recipesRouter = express.Router();
 
@@ -44,14 +45,14 @@ recipesRouter.post('/', nameExists, ingredientsExists, preparationExists, tokenV
 recipesRouter.get('/',
   async (_req, res) => {
     const recipes = await getAllRecipes();
-    res.status(status200).json(recipes);
+    return res.status(status200).json(recipes);
   });
 
 recipesRouter.get('/:id', recipeExists,
   async (req, res) => {
     const { id } = req.params;
     const recipeDb = await getRecipeById(id);
-    res.status(status200).json(recipeDb);
+    return res.status(status200).json(recipeDb);
   });
 
 recipesRouter.put('/:id', tokenValid,
@@ -61,14 +62,24 @@ recipesRouter.put('/:id', tokenValid,
   const { name, ingredients, preparation } = req.body;
   const newRecipe = { id, name, ingredients, preparation, userId };
   await updateRecipe(newRecipe);
-  res.status(status200).json(newRecipe);
+  return res.status(status200).json(newRecipe);
 });
 
 recipesRouter.delete('/:id', tokenValid,
   async (req, res) => {
     const { id } = req.params;
     await deleteRecipe(id);
-    res.status(status204).end();
+    return res.status(status204).end();
 });
+
+recipesRouter.put('/:id/image', tokenValid,
+  async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req;
+    const recipe = await getRecipeById(id);
+    const { name, ingredients, preparation } = recipe;
+    const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image: '' };
+    return res.status(status200).json(resJson);
+  });
 
 module.exports = recipesRouter;
