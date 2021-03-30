@@ -1,5 +1,8 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+// const multer = require('multer');
+
+// const upload = multer({ dest: './uploads' });
 
 const recipesRouter = express.Router();
 
@@ -91,11 +94,12 @@ recipesRouter.delete('/:id', tokenValid,
 recipesRouter.put('/:id/image', tokenValid,
   async (req, res) => {
     try {
+      const image = `localhost:3000/images/${req.params.id}.jpeg`;
       const { id } = req.params;
       const { userId } = req;
       const recipe = await getRecipeById(id);
       const { name, ingredients, preparation } = recipe;
-      const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image: '' };
+      const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image };
       return res.status(status200).json(resJson);
     } catch (err) {
       console.log(err);
