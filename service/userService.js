@@ -1,9 +1,9 @@
 const { getUserByEmail, createUser } = require('../model/userModel');
 
 const validateCreateUSer = async (query) => {
-  const result = await getUserByEmail(query.email);
+  const isUserAlreadyExists = await getUserByEmail(query.email);
 
-  if (result) return null;
+  if (isUserAlreadyExists) return null;
 
   const userCreated = await createUser(query);
 

@@ -13,7 +13,7 @@ const createUser = async ({ name, email, password }) => {
   const collection = await connection;
   const result = await collection.insertOne({ name, email, password, role: 'user' });
 
-  return { user: { _id: result.insertedId, name, email, password, role: 'user' } };
+  return { _id: result.insertedId, name, email, password, role: 'user' };
 };
 
 const getAllUsers = async () => {
