@@ -10,7 +10,7 @@ const createNewRecipe = async (req, res) => {
   return res.status(CREATED).json({ recipe });
 };
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async (_req, res) => {
   const allRecipes = await services.getAllRecipes();
 
   return res.status(OK).json(allRecipes);
@@ -54,10 +54,20 @@ const deleteRecipe = async (req, res) => {
   return res.status(NO_CONTENT).json();
 };
 
+const uploadFile = async (req, res) => {
+  const { id: recipeId } = req.params;
+  const { host } = req.headers;
+  const imageFilePath = `${host}/images/${recipeId}.jpeg`;
+  const recipe = await services.getRecipeById(recipeId);
+    
+  return res.status(OK).json({ ...recipe, image: imageFilePath });
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
   deleteRecipe,
+  uploadFile,
 };
