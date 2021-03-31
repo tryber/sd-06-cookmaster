@@ -1,6 +1,6 @@
 const { getUserByEmail, createUser } = require('../model/userModel');
 
-const validateCreateUSer = async (query) => {
+const validateCreateUser = async (query) => {
   const isUserAlreadyExists = await getUserByEmail(query.email);
 
   if (isUserAlreadyExists) return null;
@@ -11,5 +11,5 @@ const validateCreateUSer = async (query) => {
 };
 
 module.exports = {
-  validateCreateUSer,
+  validateCreateUser,
 };

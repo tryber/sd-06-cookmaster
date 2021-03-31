@@ -1,15 +1,15 @@
-const { Router } = require('express');
 const rescue = require('express-rescue');
+const { Router } = require('express');
 
-const userController = Router();
-const validation = require('../middlewares/userValidation');
-
-const { validateCreateUSer } = require('../service/userService');
+const { validateUser } = require('../middlewares/validateUser');
+const { validateCreateUser } = require('../service/userService');
 const { CONFLICT, CREATED } = require('../utils/statusCodeHandler');
 
-userController.post('/', validation, rescue(async (request, response) => {
+const userController = Router();
+
+userController.post('/', validateUser, rescue(async (request, response) => {
   const user = request.body;
-  const userRegistered = await validateCreateUSer(user);
+  const userRegistered = await validateCreateUser(user);
 
   if (!userRegistered) return response.status(CONFLICT.code).json({ message: CONFLICT.message });
 

@@ -1,14 +1,14 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 
-const { loginValidation } = require('../middlewares/loginValidation');
+const { validateLogin } = require('../middlewares/validateLogin');
 const { loginAuthentication } = require('../service/loginService');
 
 const loginController = Router();
 
 const { UNAUTHORIZED, OK } = require('../utils/statusCodeHandler');
 
-loginController.post('/', loginValidation, rescue(async (request, response) => {
+loginController.post('/', validateLogin, rescue(async (request, response) => {
   const loginSuccessfully = await loginAuthentication(request.body);
 
   if (!loginSuccessfully) {

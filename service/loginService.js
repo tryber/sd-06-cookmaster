@@ -1,9 +1,9 @@
-const { createToken } = require('../auth/createToken');
+const { createToken } = require('../utils/token');
 const { getUserByEmail } = require('../model/userModel');
 
 const loginAuthentication = async (login) => {
   const userFromDatabase = await getUserByEmail(login.email);
-  
+
   if (!userFromDatabase) return null;
 
   const emailIncorrect = userFromDatabase.email !== login.email;
@@ -16,5 +16,4 @@ const loginAuthentication = async (login) => {
 
   return token;
 };
-
 module.exports = { loginAuthentication };

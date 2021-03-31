@@ -1,7 +1,7 @@
 const rescue = require('express-rescue');
 const { UNAUTHORIZED } = require('../utils/statusCodeHandler');
 
-const loginValidation = rescue(async (request, response, next) => {
+const validateLogin = rescue(async (request, response, next) => {
   const { email, password } = request.body;
   const { requiredField } = UNAUTHORIZED.message;
 
@@ -12,4 +12,4 @@ const loginValidation = rescue(async (request, response, next) => {
   next();
 });
 
-module.exports = { loginValidation };
+module.exports = { validateLogin };
