@@ -1,21 +1,25 @@
 const rescue = require('express-rescue');
+const jwt = require('jsonwebtoken');
 
 const { UNAUTHORIZED } = require('../utils/statusCodeHandler');
-const { validateToken } = require('../utils/token');
+const { secret } = require('../utils/token');
 
 const verifyToken = rescue(async (request, response, next) => {
   const token = request.headers.authorization;
-  const auth = validateToken(token);
 
-  if (auth.err || !token) {
-    return response
-      .status(UNAUTHORIZED.code)
-      .json({ message: 'jwt malformed' });
-  }
+  // try {
+  //   const decoded = jwt.verify(token, secret);
+  //   request.userId = decoded.id;
+  //   next();
+  // } catch (e) {
+  //   return response.status(UNAUTHORIZED.code).json({ message: 'jwt malformed' });
+  // }
 
-  request.auth = auth;
-
-  next();
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) return response.status(UNAUTHORIZED.code).json({ message: 'jwt malformed' });
+    request.userId = decoded.id;
+    return next();
+  });
 });
 
 module.exports = {

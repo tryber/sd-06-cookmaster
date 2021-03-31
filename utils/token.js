@@ -12,16 +12,7 @@ const createToken = (paylod) => {
   return token;
 };
 
-const validateToken = (token) => {
-  const isTokenValid = jwt.verify(token, secret, (err, decoded) => {
-    if (err) return err;
-    return decoded;
-  });
-
-  return isTokenValid;
-};
-
 module.exports = {
   createToken,
-  validateToken,
+  secret,
 };
