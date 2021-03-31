@@ -21,6 +21,7 @@ const tokenValid = (req, res, next) => {
       return res.status(status401).json({ message: msg });
     }
     req.userId = _id;
+    req.emailReq = email;
     next();
   });
 };

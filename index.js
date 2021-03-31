@@ -26,6 +26,8 @@ app.use('/login', loginRouter);
 
 app.use('/recipes', recipesRouter);
 
+app.use('/images', express.static(`${__dirname}/uploads`));
+
 app.all('*', (_req, res) => {
   res.status(status404).json({ 
   message: 'Rota não Encontrada' });

@@ -1,8 +1,18 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
-// const multer = require('multer');
+const multer = require('multer');
 
-// const upload = multer({ dest: './uploads' });
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'uploads/');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 const recipesRouter = express.Router();
 
@@ -17,6 +27,7 @@ const {
   getAllRecipes,
   updateRecipe,
   deleteRecipe,
+  addImage,
 } = require('../models/queryRecipes');
 // -------------------------------------------
 // import midllewares
@@ -91,16 +102,19 @@ recipesRouter.delete('/:id', tokenValid,
     }
 });
 
-recipesRouter.put('/:id/image', tokenValid,
+recipesRouter.put('/:id/image', tokenValid, upload.single('image'),
   async (req, res) => {
     try {
       const image = `localhost:3000/images/${req.params.id}.jpeg`;
       const { id } = req.params;
       const { userId } = req;
       const recipe = await getRecipeById(id);
-      const { name, ingredients, preparation } = recipe;
-      const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image };
-      return res.status(status200).json(resJson);
+      if (recipe) {
+        await addImage(id, image);
+        const { name, ingredients, preparation } = recipe;
+        const resJson = { _id: ObjectId(id), name, ingredients, preparation, userId, image };
+        return res.status(status200).json(resJson);
+      }
     } catch (err) {
       console.log(err);
     }
