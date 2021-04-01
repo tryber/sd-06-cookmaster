@@ -12,7 +12,6 @@ const {
 
 const { getAllRecipes } = require('../model/recipesModel');
 const { CREATED, NOT_FOUND, OK, UNAUTHORIZED } = require('../utils/statusCodeHandler');
-const { invalidToken } = UNAUTHORIZED.message;
 
 const recipesController = Router();
 
@@ -30,6 +29,7 @@ recipesController.put('/:id', verifyToken, rescue(async (request, response) => {
 
   const recipeEdited = await editRecipeById(id, userId, recipe);
 
+  const { invalidToken } = UNAUTHORIZED.message;
   if (!recipeEdited) return response.status(UNAUTHORIZED.code).json({ message: invalidToken });
 
   response.status(OK).json(recipeEdited);
