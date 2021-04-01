@@ -8,8 +8,7 @@ const MONGO_DB_URL = process.env.IS_LOCAL
 
 const DB_NAME = 'Cookmaster';
 
-const connection = () => {
-  MongoClient.connect(
+const connection = () => MongoClient.connect(
     MONGO_DB_URL,
     {
       // userNewUrlParser: true,
@@ -21,6 +20,5 @@ const connection = () => {
       console.log(err);
       process.exit(1);
     });
-};
 
 module.exports = connection;
