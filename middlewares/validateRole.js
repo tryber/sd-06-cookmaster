@@ -7,6 +7,7 @@ const HTTP = require('../utils/statusCodeHandler');
 
 const validateRole = rescue(async (request, response, next) => {
   const { id: userIdAuthenticated } = request.user;
+
   const userFromDB = await getUserById(userIdAuthenticated);
   const recipeFromDB = await getRecipeByUserId(userIdAuthenticated);
 

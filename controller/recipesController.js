@@ -19,7 +19,7 @@ recipesController.delete('/:id', verifyToken, validateRole, rescue(async (reques
   response.status(HTTP.NO_CONTENT).json();
 }));
 
-recipesController.post('/', verifyToken, validateRecipes, validateRole,
+recipesController.post('/', verifyToken, validateRecipes,
   rescue(async (request, response) => {
     const { id } = request.user;
     const recipe = request.body;
@@ -32,8 +32,8 @@ recipesController.put('/:id', verifyToken, validateRecipes, validateRole,
   rescue(async (request, response) => {
     const { id } = request.params;
     const recipe = request.body;
-
-    const recipeEdited = await editRecipeById(id, recipe);
+    const { user } = request;
+    const recipeEdited = await editRecipeById(id, recipe, user);
 
     if (!recipeEdited) {
       return response

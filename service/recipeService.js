@@ -14,8 +14,12 @@ const recipeDetailsById = async (id) => {
   return getRecipe;
 };
 
-const editRecipeById = async (id, recipe) => {
+const editRecipeById = async (id, recipe, user) => {
   const updateRecipe = await updateRecipeById(id, recipe);
+  const recipeFromDB = await getRecipeById(id);
+
+  if (recipeFromDB.userId !== user.id && user.role !== 'admin') return null;
+
   return updateRecipe;
 };
 
