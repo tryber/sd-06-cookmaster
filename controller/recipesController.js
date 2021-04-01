@@ -1,19 +1,25 @@
 const rescue = require('express-rescue');
 const { Router } = require('express');
+
 const { verifyToken } = require('../auth/validateJWT');
+
 const { validateRecipes } = require('../middlewares/validateRecipes');
 const { validateCreateRecipe } = require('../service/recipeService');
 
 const { CREATED } = require('../utils/statusCodeHandler');
+const { getAllRecipes } = require('../model/recipesModel');
 
 const recipesController = Router();
 
-recipesController.use(verifyToken);
-
-recipesController.post('/', validateRecipes, rescue(async (request, response) => {
+recipesController.post('/', verifyToken, validateRecipes, rescue(async (request, response) => {
   const { userId } = request;
   const createdRecipe = await validateCreateRecipe(request.body, userId);
   response.status(CREATED).json({ recipe: createdRecipe });
+}));
+
+recipesController.get('/', rescue(async (_, response) => {
+  const listOfAllRecipes = await getAllRecipes();
+  response.status(200).json(listOfAllRecipes);
 }));
 
 module.exports = { recipesController };
