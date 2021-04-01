@@ -8,6 +8,7 @@ const UNAUTHORIZED = {
   message: {
     requiredField: 'All fields must be filled',
     incorrectField: 'Incorrect username or password',
+    invalidToken: 'Invalid token: not allowed to update this recipe',
   },
 };
 
