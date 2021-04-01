@@ -8,7 +8,9 @@ const { CREATED } = require('../utils/statusCodeHandler');
 
 const recipesController = Router();
 
-recipesController.post('/', verifyToken, validateRecipes, rescue(async (request, response) => {
+recipesController.use(verifyToken);
+
+recipesController.post('/', validateRecipes, rescue(async (request, response) => {
   const { userId } = request;
   const createdRecipe = await validateCreateRecipe(request.body, userId);
   response.status(CREATED).json({ recipe: createdRecipe });

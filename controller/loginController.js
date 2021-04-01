@@ -17,7 +17,7 @@ loginController.post('/', validateLogin, rescue(async (request, response) => {
       .json({ message: UNAUTHORIZED.message.incorrectField });
   }
 
-  response.status(OK).json(loginSuccessfully);
+  response.status(OK).json({ token: loginSuccessfully });
 }));
 
 module.exports = {
