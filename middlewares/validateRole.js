@@ -1,15 +1,15 @@
 const rescue = require('express-rescue');
 
-const { getRecipeByUserId } = require('../model/recipesModel');
+const { getRecipeById } = require('../model/recipesModel');
 const { getUserById } = require('../model/userModel');
 
 const HTTP = require('../utils/statusCodeHandler');
 
 const validateRole = rescue(async (request, response, next) => {
   const { id: userIdAuthenticated } = request.user;
-
+  const { id } = request.params;
   const userFromDB = await getUserById(userIdAuthenticated);
-  const recipeFromDB = await getRecipeByUserId(userIdAuthenticated);
+  const recipeFromDB = await getRecipeById(id);
 
   if (!recipeFromDB && userFromDB.role !== 'admin') {
     return response
@@ -18,7 +18,8 @@ const validateRole = rescue(async (request, response, next) => {
   }
 
   if (recipeFromDB.userId !== userIdAuthenticated && userFromDB.role !== 'admin') {
-    return response.status(HTTP.UNAUTHORIZED.code)
+    return response
+      .status(HTTP.UNAUTHORIZED.code)
       .json({ message: HTTP.UNAUTHORIZED.message.invalidToken });
   }
 

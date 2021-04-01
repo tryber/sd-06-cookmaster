@@ -28,7 +28,7 @@ recipesController.post('/', verifyToken, validateRecipes,
     response.status(HTTP.CREATED).json({ recipe: createdRecipe });
   }));
 
-recipesController.put('/:id', verifyToken, validateRecipes, validateRole,
+recipesController.put('/:id', verifyToken, validateRecipes,
   rescue(async (request, response) => {
     const { id } = request.params;
     const recipe = request.body;
