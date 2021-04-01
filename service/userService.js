@@ -6,8 +6,9 @@ const validateCreateUser = async (query) => {
   if (isUserAlreadyExists) return null;
 
   const userCreated = await createUser(query);
+  const { password, ...user } = userCreated;
 
-  return userCreated;
+  return user;
 };
 
 module.exports = {
