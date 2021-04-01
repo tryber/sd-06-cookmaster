@@ -11,7 +11,7 @@ const validateRole = rescue(async (request, response, next) => {
   const userFromDB = await getUserById(userIdAuthenticated);
   const recipeFromDB = await getRecipeByUserId(userIdAuthenticated);
 
-  if (!recipeFromDB) {
+  if (!recipeFromDB && userFromDB.role !== 'admin') {
     return response
       .status(HTTP.NOT_FOUND.code)
       .json({ message: HTTP.NOT_FOUND.message });
