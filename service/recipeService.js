@@ -1,7 +1,6 @@
 const { createRecipe, getRecipeById, updateRecipeById } = require('../model/recipesModel');
 const { getUserById } = require('../model/userModel');
 
-
 const validateCreateRecipe = async (recipe, id) => {
   const { name, ingredients, preparation } = recipe;
 
