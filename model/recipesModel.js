@@ -18,10 +18,18 @@ const getAllRecipes = async () => {
 };
 
 const getRecipeById = async (id) => {
+  const collection = await connection;
+
   if (!ObjectId.isValid(id)) return null;
 
+  const result = await collection.findOne({ _id: ObjectId(id) });
+
+  return result;
+};
+
+const getRecipeByUserId = async (userId) => {
   const collection = await connection;
-  const result = await collection.findOne(ObjectId(id));
+  const result = await collection.findOne({ userId });
 
   return result;
 };
@@ -39,9 +47,16 @@ const updateRecipeById = async (id, { name, ingredients, preparation }) => {
   return recipe;
 };
 
+const deleteRecipe = async (id) => {
+  const collection = await connection;
+  await collection.deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  getRecipeByUserId,
   updateRecipeById,
+  deleteRecipe,
 };
