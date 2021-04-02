@@ -1,5 +1,5 @@
 const {
-  createRecipe, getRecipeById, updateRecipeById, updateImageById
+  createRecipe, getRecipeById, updateRecipeById, updateImageById,
 } = require('../model/recipesModel');
 
 const validateCreateRecipe = async (recipe, id) => {
