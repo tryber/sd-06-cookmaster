@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     callback(null, 'uploads/');
   },
   filename: (req, file, callback) => {
-    callback(null, `${req.params.id}.jpg`);
+    callback(null, `${req.params.id}.jpeg`);
   },
 });
 
@@ -43,7 +43,7 @@ recipesController.post('/', verifyToken, validateRecipes,
 recipesController.put('/:id/image', verifyToken, validateRole, upload.single('image'),
   rescue(async (request, response) => {
     const { id } = request.params;
-    const updateImage = updateRecipeImage(id);
+    const updateImage = await updateRecipeImage(id);
 
     return response.status(HTTP.OK).json(updateImage);
   }));
@@ -77,12 +77,7 @@ recipesController.get('/:id', rescue(async (request, response) => {
 
 recipesController.get('/', rescue(async (_, response) => {
   const listOfAllRecipes = await getAllRecipes();
-  response.status(200).json(listOfAllRecipes);
-}));
-
-recipesController.get('/images/:id.jpg', rescue(async (request, response) => {
-  const { id } = request.params;
-  response.status(200).sendFile(`uploads/${id}.jpg`, { root: '.' });
+  response.status(HTTP.OK).json(listOfAllRecipes);
 }));
 
 module.exports = { recipesController };

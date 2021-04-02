@@ -28,7 +28,7 @@ const editRecipeById = async (id, recipe, user) => {
 
 const updateRecipeImage = async (id) => {
   const image = `localhost:3000/images/${id}.jpeg`;
-  const updateImage = updateImageById(id, image);
+  const updateImage = await updateImageById(id, image);
 
   if (!updateImage) return null;
 
