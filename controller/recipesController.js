@@ -64,11 +64,6 @@ recipesController.put('/:id', verifyToken, validateRecipes,
     response.status(HTTP.OK).json(recipeEdited);
   }));
 
-recipesController.get('/images/:id.jpg', rescue(async (request, response) => {
-  const { id } = request.params;
-  response.status(200).sendFile(`uploads/${id}.jpg`, { root: '.' });
-}));
-
 recipesController.get('/:id', rescue(async (request, response) => {
   const { id } = request.params;
   const recipeDetail = await recipeDetailsById(id);
@@ -80,9 +75,14 @@ recipesController.get('/:id', rescue(async (request, response) => {
   response.status(200).json(recipeDetail);
 }));
 
-recipesController.get('/:id', rescue(async (_, response) => {
+recipesController.get('/', rescue(async (_, response) => {
   const listOfAllRecipes = await getAllRecipes();
   response.status(200).json(listOfAllRecipes);
+}));
+
+recipesController.get('/images/:id.jpg', rescue(async (request, response) => {
+  const { id } = request.params;
+  response.status(200).sendFile(`uploads/${id}.jpg`, { root: '.' });
 }));
 
 module.exports = { recipesController };
