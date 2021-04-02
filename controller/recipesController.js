@@ -1,5 +1,6 @@
 const rescue = require('express-rescue');
 const { Router } = require('express');
+const multer = require('multer');
 const HTTP = require('../utils/statusCodeHandler');
 
 const { verifyToken } = require('../auth/validateJWT');
@@ -8,8 +9,19 @@ const { validateRole } = require('../middlewares/validateRole');
 const { getAllRecipes, deleteRecipe } = require('../model/recipesModel');
 
 const {
-  validateCreateRecipe, recipeDetailsById, editRecipeById,
+  validateCreateRecipe, recipeDetailsById, editRecipeById, updateRecipeImage,
 } = require('../service/recipeService');
+
+const storage = multer.diskStorage({
+  destination: (_req, file, callback) => {
+    callback(null, 'uploads/');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpg`);
+  },
+});
+
+const upload = multer({ storage });
 
 const recipesController = Router();
 
@@ -28,6 +40,14 @@ recipesController.post('/', verifyToken, validateRecipes,
     response.status(HTTP.CREATED).json({ recipe: createdRecipe });
   }));
 
+recipesController.put('/:id/image', verifyToken, validateRole, upload.single('image'),
+  rescue(async (request, response) => {
+    const { id } = request.params;
+    const updateImage = updateRecipeImage(id);
+
+    return response.status(HTTP.OK).json(updateImage);
+  }));
+
 recipesController.put('/:id', verifyToken, validateRecipes,
   rescue(async (request, response) => {
     const { id } = request.params;
@@ -44,6 +64,11 @@ recipesController.put('/:id', verifyToken, validateRecipes,
     response.status(HTTP.OK).json(recipeEdited);
   }));
 
+recipesController.get('/images/:id.jpg', rescue(async (request, response) => {
+  const { id } = request.params;
+  response.status(200).sendFile(`uploads/${id}.jpg`, { root: '.' });
+}));
+
 recipesController.get('/:id', rescue(async (request, response) => {
   const { id } = request.params;
   const recipeDetail = await recipeDetailsById(id);
@@ -55,7 +80,7 @@ recipesController.get('/:id', rescue(async (request, response) => {
   response.status(200).json(recipeDetail);
 }));
 
-recipesController.get('/', rescue(async (_, response) => {
+recipesController.get('/:id', rescue(async (_, response) => {
   const listOfAllRecipes = await getAllRecipes();
   response.status(200).json(listOfAllRecipes);
 }));

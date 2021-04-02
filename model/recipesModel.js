@@ -52,6 +52,19 @@ const deleteRecipe = async (id) => {
   await collection.deleteOne({ _id: ObjectId(id) });
 };
 
+const updateImageById = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const collection = await connection;
+  await collection.updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+  );
+
+  const recipe = await getRecipeById(id);
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
@@ -59,4 +72,5 @@ module.exports = {
   getRecipeByUserId,
   updateRecipeById,
   deleteRecipe,
+  updateImageById,
 };

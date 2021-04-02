@@ -1,8 +1,11 @@
-const { createRecipe, getRecipeById, updateRecipeById } = require('../model/recipesModel');
+const {
+  createRecipe, getRecipeById, updateRecipeById, updateImageById
+} = require('../model/recipesModel');
 
 const validateCreateRecipe = async (recipe, id) => {
   const { name, ingredients, preparation } = recipe;
   const recipeCreated = await createRecipe(name, ingredients, preparation, id);
+
   return recipeCreated;
 };
 
@@ -23,8 +26,18 @@ const editRecipeById = async (id, recipe, user) => {
   return updateRecipe;
 };
 
+const updateRecipeImage = async (id) => {
+  const image = `localhost:3000/images/${id}.jpeg`;
+  const updateImage = updateImageById(id, image);
+
+  if (!updateImage) return null;
+
+  return updateImage;
+};
+
 module.exports = {
   validateCreateRecipe,
   recipeDetailsById,
   editRecipeById,
+  updateRecipeImage,
 };
