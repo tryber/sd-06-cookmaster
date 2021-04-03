@@ -7,8 +7,6 @@ const loginControler = async (req, res) => {
 
     const userByEmail = await userModel.findUserByEmail(email);
 
-    console.log(userByEmail);
-
     const token = createToken(userByEmail);
 
     return res.status(200).json({ token });
