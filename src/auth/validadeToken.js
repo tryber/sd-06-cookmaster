@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'segredo-aplicacao';
+const secret = 'secret-aplication';
 
 const validateToken = (token) => {
   try {
