@@ -6,7 +6,6 @@ const RecipeController = require('./src/controller/RecipeController');
 
 const app = express();
 const PORT = 3000;
-
 app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -19,4 +18,4 @@ app.use('/login', LoginController);
 app.use('/recipes', RecipeController);
 app.use('/images', express.static(`${__dirname}/uploads`));
 
-app.listen(PORT, () => console.log('listening on PORT ', PORT));
+app.listen(PORT, () => console.log(`Cookmaster is running on port ${PORT}!`));
