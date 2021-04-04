@@ -28,7 +28,20 @@ const getAllRecipes = async (req, res) => {
   return res.status(200).json(recipes);
 };
 
+const findById = async (req, res) => {
+  console.log('FIND BY IS CONTROLLER');
+
+  const { id } = req.params;
+
+  const { recipeById, message } = await recipesService.findById(id);
+
+  if (message) return res.status(404).json({ message });
+
+  res.status(200).json(recipeById);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  findById,
 };

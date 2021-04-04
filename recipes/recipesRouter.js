@@ -10,4 +10,6 @@ recipesRouter.post('/', validateToken, recipesController.createRecipe);
 
 recipesRouter.get('/', recipesController.getAllRecipes);
 
+recipesRouter.get('/:id', recipesController.findById);
+
 module.exports = recipesRouter;

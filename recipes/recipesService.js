@@ -12,6 +12,18 @@ const createRecipe = async (newRecipe) => {
   return { createdRecipe };
 };
 
+const findById = async (id) => {
+  console.log('FIND BY IS SERVICE');
+
+  if (id.length < 24) return { message: 'recipe not found' };
+
+  const recipeById = await recipesModel.findById(id);
+  if (recipeById === null) return { message: 'recipe not found' };
+
+  return { recipeById };
+};
+
 module.exports = {
   createRecipe,
+  findById,
 };
