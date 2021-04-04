@@ -9,5 +9,6 @@ recipeRoutes.post('/', verifyAuthorization, recipesController.createRecipeContro
 recipeRoutes.get('/', recipesController.findAllRecipesController);
 recipeRoutes.get('/:id', recipesController.findRecipeByIdController);
 recipeRoutes.put('/:id', verifyAuthorization, recipesController.updateRecipeController);
+recipeRoutes.delete('/:id', verifyAuthorization, recipesController.deleteRecipeByIdController);
 
 module.exports = recipeRoutes;
