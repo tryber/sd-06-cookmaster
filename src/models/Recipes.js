@@ -49,6 +49,16 @@ const updateRecipeById = async (id, name, ingredients, preparation) => {
   return editRecipe;
 };
 
+const updateImageRecipe = async (id, imagePath) => {
+  const { value } = await connection()
+    .then((db) => db.collection('recipes').findOneAndUpdate(
+      { _id: ObjectId(id) }, 
+      { $set: { image: imagePath } },
+      { returnOriginal: false },
+    ));
+  return value;
+};
+
 const deleteRecipeById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
@@ -66,5 +76,6 @@ module.exports = {
   findAllRecipes,
   findRecipesById,
   updateRecipeById,
+  updateImageRecipe,
   deleteRecipeById,
 };
