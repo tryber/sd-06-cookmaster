@@ -11,6 +11,7 @@ const createUser = async (newUser) => {
 
   const { insertedId } = await connection()
     .then((db) => db.collection('users').insertOne(user));
+  console.log('INSERTED ID', insertedId);
   return {
     user: {
       name: user.name,
@@ -23,7 +24,9 @@ const createUser = async (newUser) => {
 
 const findByEmail = async (email) => {
   const result = await connection()
-    .then((db) => db.collection('users').find({ email }).toArray());
+    .then((db) => db.collection('users').findOne({ email }));
+
+  console.log('USER BY EMAIL MODEL USERS', result);
   return result;
 };
 

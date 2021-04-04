@@ -5,6 +5,8 @@ const createRecipe = async (req, res) => {
   console.log('RECIPES CONTROLLER');
 
   const { userId } = req;
+  console.log('USER ID NO RECIPES CONTROLLER', userId);
+  console.log('TESTE req', userId);
   const { name, ingredients, preparation } = req.body;
 
   const newRecipe = {
@@ -40,8 +42,28 @@ const findById = async (req, res) => {
   res.status(200).json(recipeById);
 };
 
+const updateRecipe = async (req, res) => {
+  console.log('UPDATE RECIPE CONTROLLER');
+  const recipeId = req.params.id;
+  const { name, ingredients, preparation } = req.body;
+  const editedRecipe = {
+    recipeId,
+    name,
+    ingredients,
+    preparation,
+  };
+
+  const { recipe, message } = await recipesService.updateRecipe(editedRecipe);
+  // console.log('RECIPE EDITED', recipe);
+
+  if (message) return res.status(404).json({ message });
+
+  res.status(200).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findById,
+  updateRecipe,
 };

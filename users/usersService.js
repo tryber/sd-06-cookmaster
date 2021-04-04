@@ -5,7 +5,7 @@ const createUser = async (newUser) => {
 
   const verifyExistsEmail = await usersModel.findByEmail(newUser.email);
 
-  if (verifyExistsEmail.length > 0) {
+  if (verifyExistsEmail !== null) {
     return { err: { message: 'Email already registered', statusCode: 409 } };
   }
 

@@ -1,4 +1,5 @@
 const recipesModel = require('./recipesModel');
+const usersModel = require('../users/usersModel');
 
 const validateRecipe = require('../validations/recipesValidations');
 
@@ -23,7 +24,27 @@ const findById = async (id) => {
   return { recipeById };
 };
 
+const updateRecipe = async (editedRecipe) => {
+  console.log('UPDATE RECIPE SERVICE');
+
+  const { _id: id } = await usersModel.findByEmail('erickjacquin@gmail.com');
+  // console.log('USER recipe service', user);
+  console.log('ID DO FIND BY EMAIL', id);
+  const oldRecipe = await recipesModel.findById(editedRecipe.recipeId);
+  console.log('OLD RECIPEE service', oldRecipe);
+  console.log('ID DO USUARIO DA RECEITA');
+
+  console.log(editedRecipe);
+  const validatedRecipe = validateRecipe(editedRecipe);
+  if (!validatedRecipe) return { message: 'Invalid entries. Try again.' };
+
+  const recipe = await recipesModel.updateRecipe(editedRecipe);
+
+  return { recipe };
+};
+
 module.exports = {
   createRecipe,
   findById,
+  updateRecipe,
 };
