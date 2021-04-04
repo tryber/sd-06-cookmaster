@@ -10,7 +10,7 @@ const createUser = async (newUser) => {
   if (!includesRole) user.role = 'user';
 
   const { insertedId } = await connection()
-    .then((db) => db.collection('users').insertOne({ user }));
+    .then((db) => db.collection('users').insertOne(user));
   return {
     user: {
       name: user.name,
@@ -23,7 +23,7 @@ const createUser = async (newUser) => {
 
 const findByEmail = async (email) => {
   const result = await connection()
-    .then((db) => db.collection('users').find({ 'user.email': email }).toArray());
+    .then((db) => db.collection('users').find({ email }).toArray());
   return result;
 };
 

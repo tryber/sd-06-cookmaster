@@ -4,6 +4,8 @@ const usersRouter = require('./users/usersRouter');
 
 const loginController = require('./login/loginController');
 
+const recipesRouter = require('./recipes/recipesRouter');
+
 const app = express();
 
 app.use(express.json());
@@ -13,6 +15,8 @@ const PORT = 3000;
 app.use('/users', usersRouter);
 
 app.use('/login', loginController);
+
+app.use('/recipes', recipesRouter);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
