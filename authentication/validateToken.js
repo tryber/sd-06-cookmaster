@@ -9,7 +9,7 @@ const secret = 'fr4s3d3s3gur4nc4';
 function validateToken(req, res, next) {
   console.log('REQ NO VALIDATE TOKEN', req.userIdLogin);
   console.log('BODY NO VALIDATE TOKEN', req.body);
-  // userIdLogin
+  console.log('USER ID NO VALIDATE TOKEN', req.userIdLogin);
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: 'missing auth token' });

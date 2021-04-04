@@ -7,6 +7,9 @@ const jwtConfig = {
   expiresIn: '10d',
 };
 
-const generateToken = (payload) => jwt.sign(payload, secret, jwtConfig);
+const generateToken = (payload) => {
+  console.log(payload);
+  return jwt.sign(payload, secret, jwtConfig);
+};
 
 module.exports = generateToken;

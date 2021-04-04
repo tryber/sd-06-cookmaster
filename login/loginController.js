@@ -8,8 +8,8 @@ const loginRouter = new Router();
 
 loginRouter.post('/', validateLogin, (async (req, res) => {
   console.log('LOGIN CONTROLLER');
-  const { name, email, password } = req.body;
-  const { message, token, _id } = await loginService.findByEmail(name, email, password);
+  const { email, password } = req.body;
+  const { message, token, _id } = await loginService.findByEmail(email, password);
 
   req.userIdLogin = _id;
 
