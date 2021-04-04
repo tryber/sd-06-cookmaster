@@ -61,9 +61,19 @@ const updateRecipe = async (req, res) => {
   res.status(200).json(recipe);
 };
 
+const removeRecipe = async (req, res) => {
+  console.log('DELETE RECIPE CONROLLER');
+
+  const { id } = req.params;
+
+  const result = await recipesModel.removeRecipe(id);
+  res.status(204).json(result);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findById,
   updateRecipe,
+  removeRecipe,
 };
