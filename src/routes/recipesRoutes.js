@@ -8,5 +8,6 @@ const recipeRoutes = Router();
 recipeRoutes.post('/', verifyAuthorization, recipesController.createRecipeController);
 recipeRoutes.get('/', recipesController.findAllRecipesController);
 recipeRoutes.get('/:id', recipesController.findRecipeByIdController);
+recipeRoutes.put('/:id', verifyAuthorization, recipesController.updateRecipeController);
 
 module.exports = recipeRoutes;
