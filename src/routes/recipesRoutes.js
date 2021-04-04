@@ -7,5 +7,6 @@ const recipeRoutes = Router();
 
 recipeRoutes.post('/', verifyAuthorization, recipesController.createRecipeController);
 recipeRoutes.get('/', recipesController.findAllRecipesController);
+recipeRoutes.get('/:id', recipesController.findRecipeByIdController);
 
 module.exports = recipeRoutes;
