@@ -17,10 +17,14 @@ connection().then((db) => db.collection('recipes')
 const deleteRecipe = (id) => connection()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
+const addImagePath = async (id, image) => connection()
+    .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { image } }));
+
 module.exports = {
   getAllRecipes,
   addRecipe,
   getOneRecipe,
   updateRecipe,
   deleteRecipe,
+  addImagePath,
 };

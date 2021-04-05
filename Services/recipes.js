@@ -9,6 +9,7 @@ const getAllRecipes = async () => recipesModel.getAllRecipes();
 const getOneRecipe = async (id) => recipesModel.getOneRecipe(id);
 const updateRecipe = async (id, recipe) => recipesModel.updateRecipe(id, recipe);
 const deleteRecipe = async (id) => recipesModel.deleteRecipe(id);
+const addImagePath = async (id, image) => recipesModel.addImagePath(id, image);
 
 const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -50,4 +51,5 @@ module.exports = {
   validateToken,
   validRecipe,
   validId,
+  addImagePath,
 };

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const port = 3000;
 const app = express();
@@ -16,5 +17,5 @@ app.use(bodyParser.json());
 app.use('/users', usersRouter);
 app.use('/login', loginsRouter);
 app.use('/recipes', recipesRouter);
-
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 app.listen(port, () => console.log('pai ta on'));
