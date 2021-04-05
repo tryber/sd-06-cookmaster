@@ -1,6 +1,6 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const { usersRouter } = require('./src/controllers/userController');
+const { usersRouter } = require('./controllers/userController');
 
 const PORT = 3000;
 const app = express();
