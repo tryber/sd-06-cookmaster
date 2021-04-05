@@ -9,4 +9,4 @@ const allUsers = () => connection()
 module.exports = {
   addUser,
   allUsers,
-}
+};
