@@ -2,9 +2,10 @@ const { Router } = require('express');
 
 const recipeImage = Router();
 
-recipeImage.get('/:id', (req, res) => {
+recipeImage.get('/:id.jpeg', async (req, res) => {
   const { id } = req.params;
-  res.sendFile(`${__dirname}/uploads/${id}`);
+  
+  res.sendFile(`uploads/${id}.jpeg`, { root: '.' });
 });
 
 module.exports = recipeImage;
