@@ -60,6 +60,21 @@ class Recipe {
     }
   }
 
+  async updateImage(newRecipe) {
+    const db = await connection();
+    const { _id: id } = newRecipe;
+    console.log(this);
+    try {
+      const recipe = await db.collection(collectionName).updateOne(
+        { _id: ObjectId(id) },
+        { $set: newRecipe },
+      );
+      return recipe;
+    } catch (err) {
+      throw new Err({ message: errorMessage });
+    }
+  }
+
   async delete(id) {
     const db = await connection();
     console.log(this);

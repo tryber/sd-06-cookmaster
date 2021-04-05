@@ -5,6 +5,7 @@ const DeleteService = require('../services/DeleteService');
 const FindByIdService = require('../services/FindByIdService');
 const ListAllService = require('../services/ListAllService');
 const UpdateService = require('../services/UpdateService');
+const AddImageService = require('../services/AddImageService');
 
 class RecipesController {
   async create(req, res) {
@@ -58,6 +59,23 @@ class RecipesController {
     console.log(this);
     await deleteService.execute(id);
     return res.status(204).json({ message: 'Ok' });
+  }
+
+  async uploadImage(req, res) {
+    const recipe = new Recipe();
+    const findByIdService = new FindByIdService(recipe);
+    const { id } = req.params;
+    console.log(id);
+    const recipeFound = await findByIdService.execute(id);
+    console.log(recipeFound);
+    console.log(this);
+    const newRecipe = {
+      ...recipeFound,
+      image: `localhost:3000/images/${id}.jpeg`,
+    };
+    const addImageService = new AddImageService(recipe);
+    await addImageService.execute(newRecipe);
+    return res.status(200).json(newRecipe);
   }
 }
 
