@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/recipeModels');
 const userService = require('./userService');
-const usersModel = require('../models/usersModels');
+const usersModel = require('../models/userModels');
 
 const RECIPE_NOT_FOUND = 'recipe not found';
 
