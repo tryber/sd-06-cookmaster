@@ -1,6 +1,9 @@
+const { ObjectId } = require('mongodb');
 const {
-  verifyEmailUnique,
+  verifyUnique,
 } = require('../../models/usersModels');
+
+const { login } = require('../../models/usersModels');
 
 const validateName = (name) => {
   const error = {};
@@ -27,8 +30,7 @@ const validateEmail = (email) => {
 
 const uniqueEmail = async (email) => {
   const error = {};
-  const verify = await verifyEmailUnique(email);
-  console.log(verify);
+  const verify = await verifyUnique(email);
   if (verify) {
     error.status = 409;
     error.message = 'Email already registered';
@@ -39,21 +41,36 @@ const uniqueEmail = async (email) => {
 
 const validateEmailPass = (email, pass) => {
   const error = {};
+  const testEmail = regex.test(email);
   if (!email || !pass) {
     error.status = 401;
     error.message = 'All fields must be filled';
+    throw error;
+  } else if (!testEmail) {
+    error.status = 401;
+    error.message = 'Incorrect username or password';
     throw error;
   }
   return error;
 };
 
-const verifyEmailPass = (email, pass) => {
-  const error = {};
-  const testEmail = regex.test(email);
+// const verifyEmailPass = async (email, pass) => {
+//   const error = {};
+//   const resLogin = await login(email, pass);
+//   console.log(pass, 'resposta do login', resLogin);
+//   if (!resLogin) {
+//     error.status = 401;
+//     error.message = 'Incorrect username or password';
+//     throw error;
+//   }
+//   return error;
+// };
 
-  if (!testEmail || pass.length < 8) {
-    error.status = 401;
-    error.message = 'Incorrect username or password';
+const verifyRecipe = (recipeId) => {
+  const error = {};
+  if (!ObjectId.isValid(recipeId)) {
+    error.status = 404;
+    error.message = 'recipe not found';
     throw error;
   }
   return error;
@@ -64,5 +81,5 @@ module.exports = {
   validateEmail,
   uniqueEmail,
   validateEmailPass,
-  verifyEmailPass,
+  verifyRecipe,
 };

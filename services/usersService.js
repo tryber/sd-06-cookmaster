@@ -8,7 +8,6 @@ const {
   validateEmail,
   uniqueEmail,
   validateEmailPass,
-  verifyEmailPass,
 } = require('../middleware/validates/validate');
 
 const postBar = async (body) => {
@@ -23,8 +22,9 @@ const postBar = async (body) => {
 const postBarLogin = async (body) => {
   const { email, password } = body;
   validateEmailPass(email, password);
-  verifyEmailPass(email, password);
+  // verifyEmailPass(email, password);
   const resLogin = await login(email, password);
+  console.log('error do postBarLogin', resLogin);
   return resLogin;
 };
 

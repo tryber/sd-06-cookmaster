@@ -9,10 +9,12 @@ const {
 routers.post('/', async (req, res) => {
   try {
     const user = await postBarLogin(req.body);
+    if (!user) { return res.status(401).json({ message: 'Incorrect username or password' }); }
     const token = createToken(user);
-    res.status(200).json({ token });
+    return res.status(200).json({ token });
   } catch (error) {
-    res.status(error.status).json(error);
+    console.log(error.message);
+    return res.status(401).json(error);
   }
 });
 

@@ -20,9 +20,11 @@ const login = async (email, password) =>
   connection()
     .then((db) => db
       .collection('users')
-      .findOne({ email, password }));
+      .findOne({ email, password }))
+    .catch((error) => console.log(error.message));
 
-const verifyEmailUnique = async (email) => 
+
+const verifyUnique = async (email) => 
   connection()
     .then((db) => db
       .collection('users')
@@ -30,6 +32,6 @@ const verifyEmailUnique = async (email) =>
 
 module.exports = {
   insertUser,
-  verifyEmailUnique,
+  verifyUnique,
   login,
 };

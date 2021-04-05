@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const connection = require('./connection');
 
 const insertRecipe = (recipe) =>
@@ -12,7 +14,25 @@ const getAllRecipes = () =>
       .collection('recipes')
       .find().toArray());
 
+const getRecipe = (id) =>
+  connection()
+    .then((db) => db
+      .collection('recipes')
+      .findOne(ObjectId(id)));
+
+const putRecipe = (id, { name, ingredients, preparation}) =>
+  connection()
+    .then((db) => db
+      .collection('recipes')
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { name, ingredients, preparation } },
+        { returnOriginal: false },
+    ));
+
 module.exports = {
   insertRecipe,
   getAllRecipes,
+  getRecipe,
+  putRecipe,
 };

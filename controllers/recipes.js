@@ -1,11 +1,14 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/tokenJWT');
+// const { authoAdm } = require('../middleware/AuthoAdm');
 
 const routers = express.Router();
 
 const {
   postBarRecipe,
   getBar,
+  getBarId,
+  putBarId,
 } = require('../services/recipesService');
 
 routers.post('/', verifyToken, async (req, res) => {
@@ -21,10 +24,31 @@ routers.post('/', verifyToken, async (req, res) => {
 });
 
 routers.get('/', async (_req, res) => {
-  console.log(res);
   try {
     const allrecipes = await getBar();
     res.status(200).json(allrecipes);
+  } catch (error) {
+    res.status(error.status).json(error);
+  }
+});
+
+routers.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const recipe = await getBarId(id);
+    res.status(200).json(recipe);
+  } catch (error) {
+    res.status(error.status).json(error);
+  }
+});
+
+routers.put('/:id', verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const upRecipe = req.body;
+  const { role, _id: idUser } = req.payload;
+  try {
+    const recipe = await putBarId(id, upRecipe, role, idUser);
+    res.status(200).json(recipe.value);
   } catch (error) {
     res.status(error.status).json(error);
   }
