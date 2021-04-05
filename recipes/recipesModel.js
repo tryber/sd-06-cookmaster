@@ -48,6 +48,21 @@ const updateRecipe = async (editedRecipe) => {
   return { _id: recipeId, name, ingredients, preparation, userId };
 };
 
+const updateImageRecipe = async (editedRecipe) => {
+  console.log('UPDATE RECIPE MODEL');
+  const { recipeId, name, ingredients, preparation, image } = editedRecipe;
+  // const { userId } = await findById(recipeId);
+
+  await connection()
+    .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(recipeId) }, {
+      $set: {
+        name, ingredients, preparation, image,
+      },
+    }));
+
+  return { _id: recipeId, name, ingredients, preparation, image };
+};
+
 const removeRecipe = async (id) => {
   console.log('DELETE MODEL');
   await connection()
@@ -61,4 +76,5 @@ module.exports = {
   findById,
   updateRecipe,
   removeRecipe,
+  updateImageRecipe,
 };

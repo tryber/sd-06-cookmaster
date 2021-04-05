@@ -1,3 +1,4 @@
+// const multer = require('multer');
 const recipesService = require('./recipesService');
 const recipesModel = require('./recipesModel');
 
@@ -70,10 +71,37 @@ const removeRecipe = async (req, res) => {
   res.status(204).json(result);
 };
 
+/* Tive muita dificuldade com os requisitos 9 e 10 e usei de vários recursos para conseguir
+fazer todo o upload:
+- link do pr Havyner: https://github.com/tryber/sd-06-cookmaster/pull/71/files
+- link pr do Madsen: https://github.com/tryber/sd-06-cookmaster/pull/25/files
+- vídeo youtube: https://www.youtube.com/watch?v=FKnDvu_eODY
+- link sobre multer: https://www.webdevdrops.com/upload-arquivos-node-js-multer/
+e threads do slack */
+
+const includeImage = async (req, res) => {
+  console.log('INCLUDE IMAGE CONTROLLER');
+  console.log('PATH', req.file.path);
+
+  const { id } = req.params;
+  const oldRecipe = recipesModel.findById(id);
+  console.log(oldRecipe);
+  const { _id, name, ingredients, preparation, userId } = oldRecipe;
+
+  const editedRecipe = {
+    _id, name, ingredients, preparation, userId, image: `localhost:3000/images/${id}.jpeg`,
+  };
+
+  const result = await recipesModel.updateImageRecipe(editedRecipe);
+  console.log(result);
+  res.status(200).json(editedRecipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findById,
   updateRecipe,
   removeRecipe,
+  includeImage,
 };
