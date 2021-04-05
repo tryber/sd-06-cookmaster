@@ -1,8 +1,8 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const { usersRouter } = require('./src/controllers/userController');
-const { loginRouter } = require('./src/controllers/loginController');
-const { recipesRouter } = require('./src/controllers/recipeController');
+const { usersRouter } = require('./controllers/userController');
+const { loginRouter } = require('./controllers/loginController');
+const { recipesRouter } = require('./controllers/recipeController');
 
 const PORT = 3000;
 const app = express();
