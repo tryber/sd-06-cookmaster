@@ -1,16 +1,15 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const routers = require('./routers');
+const rescue = require('express-rescue');
+const { usersRouter } = require('./src/controllers/userController');
 
 const PORT = 3000;
 const app = express();
+app.use(express.json());
 
-app.use(bodyParser.json());
-app.use('/', routers);
-
-// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
 
-app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
+app.use('/users', rescue(usersRouter));
+
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));

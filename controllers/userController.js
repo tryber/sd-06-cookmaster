@@ -1,20 +1,14 @@
-const UsersService = require('../services/userServices');
+const { Router } = require('express');
+const userService = require('../services/userService');
 
-const SUCCESS = 200;
-const CREATED = 201;
+const usersRouter = new Router();
 
-const getUserAll = async (req, res) => {
-  const users = await UsersService.getUserAll();
-  res.status(SUCCESS).json({ Users: users });
-};
+usersRouter.post('/', userService.verifyFields, async (request, response) => {
+  const user = request.body;
 
-const createUser = async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await UsersService.createUser(name, email, password);
-  res.status(CREATED).json(user);
-};
+  const createdUser = await userService.createUser(user);
 
-module.exports = {
-  createUser,
-  getUserAll,
-};
+  response.status(201).json({ user: createdUser });
+});
+
+module.exports = { usersRouter };
