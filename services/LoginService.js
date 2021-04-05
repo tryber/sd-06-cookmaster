@@ -13,7 +13,6 @@ class LoginService {
       throw new Err(errorInfo, 401);
     }
     const userInfo = await this.User.findByEmail(email);
-    console.log(userInfo, email);
     if (!userInfo || userInfo.password !== password) {
       const errorInfo = {
         message: 'Incorrect username or password',

@@ -8,7 +8,7 @@ class CreateRecipesService {
   async execute({ name, ingredients, preparation, userId }) {
     if (!name || !ingredients || !preparation) {
       const errorInfo = {
-        message: 'Invalid entries. Try again',
+        message: 'Invalid entries. Try again.',
       };
       throw new Err(errorInfo, 400);
     }

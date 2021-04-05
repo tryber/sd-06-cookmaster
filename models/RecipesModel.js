@@ -13,7 +13,7 @@ class Recipe {
         name, ingredients, preparation, userId,
       });
       return ({
-        id: insertedId,
+        _id: insertedId,
         name,
         ingredients,
         preparation,
@@ -41,6 +41,30 @@ class Recipe {
     try {
       const recipe = await db.collection(collectionName).findOne(ObjectId(id));
       return recipe;
+    } catch (err) {
+      throw new Err({ message: 'recipe not found' }, 404);
+    }
+  }
+
+  async update({ name, ingredients, preparation, id }) {
+    const db = await connection();
+    console.log(this);
+    try {
+      const recipe = await db.collection(collectionName).updateOne(
+        { _id: ObjectId(id) },
+        { $set: { name, ingredients, preparation } },
+      );
+      return recipe;
+    } catch (err) {
+      throw new Err({ message: errorMessage });
+    }
+  }
+
+  async delete(id) {
+    const db = await connection();
+    console.log(this);
+    try {
+      await db.collection(collectionName).deleteOne({ _id: ObjectId(id) });
     } catch (err) {
       throw new Err({ message: errorMessage });
     }
