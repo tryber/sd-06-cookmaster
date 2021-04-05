@@ -11,9 +11,9 @@ const {
 const S201 = 201;
 
 usersRouter.post('/', validateUser, validateUniqueEmail, async (req, res) => {
-  const newUser = { ...req.body, role: 'user' };
-  await addUser(newUser);
-  return res.status(S201).json({ newUser });
+  const user = { ...req.body, role: 'user' };
+  await addUser(user);
+  return res.status(S201).json({ user });
 });
 
 module.exports = usersRouter;
