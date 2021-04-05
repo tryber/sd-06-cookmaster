@@ -26,7 +26,7 @@ const validateUniqueEmail = async (req, res, next) => {
   const userIsRegister = await allValidUsers.find((users) => users.email === email);
 
   if (userIsRegister) {
-    return res.status(Error409).json({ message: 'Invalid entries. Try again.' });
+    return res.status(Error409).json({ message: 'Email already registered' });
   }
   next();
 };
