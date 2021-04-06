@@ -1,3 +1,4 @@
+const validateToken = require('../auth/validateToken');
 const User = require('../services/User');
 
 const statusBadRequest = 400;
@@ -30,6 +31,14 @@ const findAll = async (_req, res) => {
 
 const createAdmin = async (req, res) => {
   const { name, email, password } = req.body;
+  const { authorization: token } = req.headers;
+
+  const payload = validateToken(token);
+  
+  const { role = '' } = payload;
+  if (role !== 'admin') {
+    return res.status(403).json({ message: 'Only admins can register new admins' });
+  }
 
   const newAdmin = await User.createAdmin(name, email, password);
 
