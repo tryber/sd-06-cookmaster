@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
-const { recipesValidation, validateToken } = require('../middlewares/Recipes');
-const { getAllService, createService } = require('../services/recipesService');
+const { recipesValidation, validateToken, validateID } = require('../middlewares/Recipes');
+const { getAllService, createService, getIdService } = require('../services/recipesService');
 
 const routerRecipes = Router();
 
@@ -27,6 +27,12 @@ routerRecipes.post('/', recipesValidation, validateToken, async (req, res) => {
   const { _id: userID } = payload.userData;
   const recipeCreate = await createService(name, ingredients, preparation, userID);
   return res.status(CREATE).json({ recipe: recipeCreate });
+});
+
+routerRecipes.get('/:id', validateID, async (req, res) => {
+  const { id } = req.params;
+  const getId = await getIdService(id);
+  return res.status(SUCCESS).json(getId);
 });
 
 module.exports = routerRecipes;

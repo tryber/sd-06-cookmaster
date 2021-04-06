@@ -4,6 +4,7 @@ const secret = 'senha12345';
 
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 const SERVER_ERROR = 500;
 
 const recipesValidation = async (req, res, next) => {
@@ -35,7 +36,19 @@ const validateToken = async (req, res, next) => {
   next();
 };
 
+const validateID = async (req, res, next) => {
+  const MAX = 24;
+  const { id } = req.params;
+
+  if (id.length < MAX) {
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  }
+
+  next();
+};
+
 module.exports = {
   recipesValidation,
   validateToken,
+  validateID,
 };
