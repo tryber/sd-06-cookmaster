@@ -1,6 +1,6 @@
 const express = require('express');
-const userController = require('./controllers/usersController');
-const userLogin = require('./controllers/loginController');
+const routerUsers = require('./controllers/usersController');
+const routerLogin = require('./controllers/loginController');
 
 const app = express();
 
@@ -10,8 +10,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/users', userController);
-app.use('/login', userLogin);
+app.use('/users', routerUsers);
+app.use('/login', routerLogin);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Em nome de Jesus tá executando na ${PORT}`));

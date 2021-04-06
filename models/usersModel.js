@@ -1,15 +1,22 @@
 const connection = require('./connection');
 
 const getAllUsers = async () => {
-  connection().then((db) => db.collection('users').find().toArray());
+  const getUsers = await connection()
+  .then((db) => db.collection('users').find().toArray());
+  return getUsers;
 };
 
-const createUser = async (name, email) => 
-  connection().then((db) => db.collection('users').insertOne({ name, email }));
+const createUser = async (name, email, password) => {
+  const { insertedId } = await connection()
+  .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }));
+  return ({ _id: insertedId, name, email, password, role: 'user' });
+};
 
 const findEmail = async (email) => {
-    connection().then((db) => db.collection('users').findOne({ email }));
-  };
+  const getEmail = await connection()
+  .then((db) => db.collection('users').findOne({ email }));
+  return getEmail;
+};
 
 module.exports = {
   getAllUsers,  

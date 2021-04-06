@@ -1,21 +1,12 @@
-const { getAllUsers, createUser } = require('../models/usersModel');
+const usersModel = require('../models/usersModel');
 
 const getAllService = async () => {
-  const user = await getAllUsers();
-  console.log(user);
+  const user = await usersModel.getAllUsers();
   return user;
 };
 
-const createService = async (name, email) => {
-  const { insertedId } = await createUser(name, email);
-  const newUser = {
-    user: {
-      _id: insertedId,
-      name,
-      email,
-      role: 'user',
-    },
-  };
+const createService = async (name, email, password) => {
+  const newUser = await usersModel.createUser(name, email, password);
   return newUser;
 };
 
