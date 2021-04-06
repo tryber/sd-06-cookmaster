@@ -20,6 +20,8 @@ app.use('/login', loginRoutes);
 
 app.use('/recipes', recipeRoutes);
 
+app.use('/images', express.static(`${__dirname}/uploads`));
+
 const port = 3000;
 
 app.listen(port, () => console.log(`it's a cookbook! A COOKBOOOK!! Running on port: ${port}`));
