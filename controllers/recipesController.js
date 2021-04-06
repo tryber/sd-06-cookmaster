@@ -26,7 +26,7 @@ routerRecipes.post('/', recipesValidation, validateToken, async (req, res) => {
 
   const { _id: userID } = payload.userData;
   const recipeCreate = await createService(name, ingredients, preparation, userID);
-  return res.status(CREATE).json(recipeCreate);
+  return res.status(CREATE).json({ recipe: recipeCreate });
 });
 
 module.exports = routerRecipes;
