@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const path = require('path');
 require('express-async-errors');
 const usersRouter = require('./routes/UsersRoutes');
 const handleError = require('./middlewares/handleError');
@@ -20,6 +21,8 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 
 app.use('/recipes', recipesRouter);
+
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 app.use(handleError);
 
