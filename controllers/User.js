@@ -28,7 +28,18 @@ const findAll = async (_req, res) => {
   return res.status(statusSuccess).json(users);
 };
 
+const createAdmin = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const newAdmin = await User.createAdmin(name, email, password);
+
+  const admin1 = newAdmin.ops.reduce((acc, e) => ({ ...acc, user: e }), {});
+
+  if (newAdmin) return res.status(statusCreated).json(admin1);
+};
+
 module.exports = {
   create,
   findAll,
+  createAdmin,
 };

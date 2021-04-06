@@ -14,7 +14,10 @@ const create = async (name, email, password) => {
 
 const findAll = async () => User.findAll();
 
+const createAdmin = (name, email, password) => User.createAdmin(name, email, password);
+
 module.exports = {
   create,
   findAll,
+  createAdmin,
 };
