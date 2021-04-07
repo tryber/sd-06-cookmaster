@@ -1,50 +1,45 @@
-const { ObjectId } = require('mongodb');
-const connection = require('../connection/connection');
+const { ObjectId } = require('bson');
+const connection = require('./connection');
 
-const collection = 'recipes';
+const coll = 'recipes';
 
-const createRecipe = async (recipe) => {
-  const createdRecipe = await connection().then((db) =>
-    db.collection(collection).insertOne(recipe));
+const createNewRecipe = async (recipeName, ingredients, preparation, userId) => {
+  const { ops } = await connection().then((db) => db.collection(coll).insertOne({
+    name: recipeName,
+    ingredients,
+    preparation,
+    userId,
+  }));
 
-  return createdRecipe.ops[0];
+  return ops[0];
 };
 
 const getAllRecipes = async () => {
-  const allRecipes = await connection().then((db) =>
-    db.collection(collection).find().toArray());
+  const response = await connection().then((db) => db.collection(coll).find().toArray());
 
-  return allRecipes;
+  return response;
 };
 
-const getRecipeById = async (id) => {
-  const recipe = await connection().then((db) =>
-    db.collection(collection).findOne(ObjectId(id)));
+const getRecipeById = async (recipeId) => (
+  connection().then((db) => db.collection(coll).findOne({ _id: ObjectId(recipeId) }))
+);
 
-  return recipe;
-};
+const editRecipe = async (recipeId, name, ingredients, preparation) => (
+  connection().then((db) => db.collection(coll).findOneAndUpdate(
+    { _id: ObjectId(recipeId) },
+    { $set: { name, ingredients, preparation } },
+    { returnOriginal: false },
+  ))
+);
 
-const updateRecipe = async (id, recipe) => {
-  const { name, ingredients, preparation } = recipe;
-
-  const updatedRecipe = await connection().then((db) =>
-    db.collection(collection).updateOne(
-      { _id: ObjectId(id) },
-      { $set: { name, ingredients, preparation } },
-    ));
-
-  return updatedRecipe;
-};
-
-const deleteRecipe = async (id) => {
-  await connection().then((db) =>
-    db.collection(collection).deleteOne({ _id: ObjectId(id) }));
-};
+const deleteRecipe = async (recipeId) => (
+  connection().then((db) => db.collection(coll).deleteOne({ _id: ObjectId(recipeId) }))
+);
 
 module.exports = {
-  createRecipe,
+  createNewRecipe,
   getAllRecipes,
   getRecipeById,
-  updateRecipe,
+  editRecipe,
   deleteRecipe,
 };

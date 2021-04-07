@@ -1,26 +1,23 @@
-const connection = require('../connection/connection');
+const connection = require('./connection');
 
-const collection = 'users';
+const coll = 'users';
 
-const createUser = async (user) => {
-  const createdUser = await connection().then((db) =>
-    db.collection(collection).insertOne(user));
+const getByEmail = async (email) => (
+  connection().then((db) => db.collection(coll).findOne({ email }))
+);
 
-  return createdUser.ops[0];
+const createNewUser = async (name, email, password) => {
+  const { ops } = await connection().then((db) => db.collection(coll).insertOne({
+    name,
+    email,
+    password,
+    role: 'user',
+  }));
+
+  return ops[0];
 };
 
-const getUserByEmail = async (email) => {
-  const found = await connection().then((db) =>
-    db.collection(collection).findOne({ email }));
-
-  return found;
+module.exports = {
+  getByEmail,
+  createNewUser,
 };
-
-const getUserByEmailPassword = async (email, password) => {
-  const found = await connection().then((db) =>
-    db.collection(collection).findOne({ email, password }));
-
-  return found;
-};
-
-module.exports = { createUser, getUserByEmail, getUserByEmailPassword };

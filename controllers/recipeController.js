@@ -1,37 +1,73 @@
-const { Router } = require('express');
-const userService = require('../services/userService');
-const recipeService = require('../services/recipeService');
+const services = require('../services/recipeService');
+const { CREATED, OK, NOT_FOUND, UNAUTHORIZED, NO_CONTENT } = require('../errors/statusCode');
+const { RECIPE_NOT_FOUND, NO_AUTH_TOKEN } = require('../errors/messageError');
 
-const recipesRouter = new Router();
+const createNewRecipe = async (req, res) => {
+  const { _id: userId } = req.user;
+  const { name: recipeName, ingredients, preparation } = req.body;
+  const recipe = await services.createNewRecipe(recipeName, ingredients, preparation, userId);
 
-recipesRouter.post(
-  '/',
-  userService.verifyToken,
-  recipeService.verifyFields,
-  async (req, res) => {
-    const recipe = req.body;
-    const { authorization } = req.headers;
+  return res.status(CREATED).json({ recipe });
+};
 
-    const { _id } = await userService.decodeToken(authorization);
+const getAllRecipes = async (_req, res) => {
+  const allRecipes = await services.getAllRecipes();
 
-    recipe.userId = _id;
+  return res.status(OK).json(allRecipes);
+};
 
-    const createdRecipe = await recipeService.createRecipe(recipe);
+const getRecipeById = async (req, res) => {
+  const { id: recipeId } = req.params;
+  const recipe = await services.getRecipeById(recipeId);
 
-    res.status(201).json({ recipe: createdRecipe });
-  },
-);
+  if (!recipe) return res.status(NOT_FOUND).json(RECIPE_NOT_FOUND);
 
-recipesRouter.get('/', async (req, res) => {
-  const allRecipes = await recipeService.getAllRecipes();
+  return res.status(OK).json(recipe);
+};
 
-  res.status(200).json(allRecipes);
-});
+const editRecipe = async (req, res) => {
+  const { _id: userId, role } = req.user;
+  const { id: recipeId } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const recipeToEdit = await services.getRecipeById(recipeId);
 
-recipesRouter.get('/:id', recipeService.getRecipeById);
+  if (!recipeToEdit.userId.equals(userId) && role !== 'admin') {
+    return res.status(UNAUTHORIZED).json(NO_AUTH_TOKEN);
+  }
 
-recipesRouter.put('/:id', userService.verifyToken, recipeService.updateRecipe);
+  const result = await services.editRecipe(recipeId, name, ingredients, preparation);
 
-recipesRouter.delete('/:id', userService.verifyToken, recipeService.deleteRecipe);
+  return res.status(OK).json(result.value);
+};
 
-module.exports = { recipesRouter };
+const deleteRecipe = async (req, res) => {
+  const { _id: userId, role } = req.user;
+  const { id: recipeId } = req.params;
+  const recipeToDelete = await services.getRecipeById(recipeId);
+
+  if (!recipeToDelete.userId.equals(userId) && role !== 'admin') {
+    return res.status(UNAUTHORIZED).json(NO_AUTH_TOKEN);
+  }
+
+  await services.deleteRecipe(recipeId);
+
+  return res.status(NO_CONTENT).json();
+};
+
+const uploadFile = async (req, res) => {
+  const { id: recipeId } = req.params;
+  const { host } = req.headers;
+  const imageFilePath = `${host}/images/${recipeId}.jpeg`;
+  const recipe = await services.getRecipeById(recipeId);
+    
+  return res.status(OK).json({ ...recipe, image: imageFilePath });
+};
+
+module.exports = {
+  createNewRecipe,
+  getAllRecipes,
+  getRecipeById,
+  editRecipe,
+  deleteRecipe,
+  uploadFile,
+};

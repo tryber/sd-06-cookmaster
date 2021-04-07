@@ -1,14 +1,16 @@
-const { Router } = require('express');
-const userService = require('../services/userService');
+const services = require('../services/userService');
+const { CREATED, CONFLICT } = require('../errors/statusCode');
+const { EMAIL_ALREADY_USED } = require('../errors/messageError');
 
-const usersRouter = new Router();
+const createNewUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  const newUser = await services.createNewUser(name, email, password);
 
-usersRouter.post('/', userService.verifyFields, async (request, response) => {
-  const user = request.body;
+  if (newUser === 'email already used') return res.status(CONFLICT).json(EMAIL_ALREADY_USED);
 
-  const createdUser = await userService.createUser(user);
+  return res.status(CREATED).json({ user: newUser });
+};
 
-  response.status(201).json({ user: createdUser });
-});
-
-module.exports = { usersRouter };
+module.exports = {
+  createNewUser,
+};

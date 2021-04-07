@@ -1,97 +1,30 @@
-const { ObjectId } = require('mongodb');
-const recipeModel = require('../models/recipeModels');
-const userService = require('./userService');
-const usersModel = require('../models/userModels');
+const { ObjectId } = require('bson');
+const model = require('../models/recipesModels');
 
-const RECIPE_NOT_FOUND = 'recipe not found';
+const createNewRecipe = async (recipeName, ingredients, preparation, userId) => (
+  model.createNewRecipe(recipeName, ingredients, preparation, userId)
+);
 
-const createRecipe = async (recipe) => {
-  const createdRecipe = recipeModel.createRecipe(recipe);
+const getAllRecipes = async () => model.getAllRecipes();
 
-  return createdRecipe;
-};
-
-const verifyFields = async (request, response, next) => {
-  const { name, ingredients, preparation } = request.body;
-
-  if (!name || !ingredients || !preparation) {
-    return response.status(400).json({
-      message: 'Invalid entries. Try again.',
-    });
-  }
-
-  next();
-};
-
-const getAllRecipes = async () => {
-  const allRecipes = await recipeModel.getAllRecipes();
-
-  return allRecipes;
-};
-
-const getRecipeById = async (req, res) => {
-  const { id } = req.params;
-
-  if (!ObjectId.isValid(id)) return res.status(404).json({ message: RECIPE_NOT_FOUND });
-
-  const exists = await recipeModel.getRecipeById(id);
-
-  if (!exists) return res.status(404).json({ message: RECIPE_NOT_FOUND });
-
-  res.status(200).json(exists);
-};
-
-const userAuthorized = async (id, email) => {
-  const recipe = await recipeModel.getRecipeById(id);
-  const { _id, role } = await usersModel.getUserByEmail(email);
-
-  if (_id !== recipe.userId && role !== 'admin') return false;
+const getRecipeById = async (recipeId) => {
+  if (!ObjectId.isValid(recipeId)) return undefined;
   
-  return true;
+  return model.getRecipeById(recipeId);
 };
 
-const updateRecipe = async (req, res, next) => {
-  const { authorization } = req.headers;
-  const { id } = req.params;
+const editRecipe = async (recipeId, name, ingredients, preparation) => {
+  if (!ObjectId.isValid(recipeId)) return undefined;
 
-  if (!ObjectId.isValid(id)) return res.status(404).json({ message: RECIPE_NOT_FOUND });
-
-  const userData = await userService.decodeToken(authorization);
-
-  if (userAuthorized(id, userData.email)) {
-    await recipeModel.updateRecipe(id, req.body);
-
-    const recipeUpdated = await recipeModel.getRecipeById(id);
-
-    res.status(200).json(recipeUpdated);
-  }
-
-  next();
+  return model.editRecipe(recipeId, name, ingredients, preparation);
 };
 
-const deleteRecipe = async (req, res, next) => {
-  const { authorization } = req.headers;
-  const { id } = req.params;
-
-  if (!ObjectId.isValid(id)) return res.status(404).json({ message: RECIPE_NOT_FOUND });
-
-  const userData = await userService.decodeToken(authorization);
-
-  if (userAuthorized(id, userData.email)) {
-    await recipeModel.deleteRecipe(id);
-
-    res.status(204).send();
-  }
-
-  next();
-};
+const deleteRecipe = async (recipeId) => model.deleteRecipe(recipeId);
 
 module.exports = {
-  createRecipe,
-  verifyFields,
+  createNewRecipe,
   getAllRecipes,
   getRecipeById,
-  updateRecipe,
-  userAuthorized,
+  editRecipe,
   deleteRecipe,
 };

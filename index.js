@@ -1,19 +1,20 @@
 const express = require('express');
-const rescue = require('express-rescue');
-const { usersRouter } = require('./controllers/userController');
-const { loginRouter } = require('./controllers/loginController');
-const { recipesRouter } = require('./controllers/recipeController');
+const path = require('path');
+const { json } = require('body-parser');
+const { usersRouter } = require('./router/usersRouter');
+const { loginRouter } = require('./router/loginRouter');
+const { recipesRouter } = require('./router/recipeRouter');
 
-const PORT = 3000;
 const app = express();
-app.use(express.json());
+const port = 3000;
 
-app.get('/', (request, response) => {
-  response.send();
-});
+app.use(json());
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/recipes', recipesRouter);
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
-app.use('/users', rescue(usersRouter));
-app.use('/login', rescue(loginRouter));
-app.use('/recipes', rescue(recipesRouter));
+// não remova esse endpoint, e para o avaliador funcionar
+app.get('/', (_request, response) => response.send({ message: 'ok' }));
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(port, () => console.log(`App listening on port ${port}!`));
