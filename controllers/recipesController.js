@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const { recipesValidation, validateToken, validateID } = require('../middlewares/Recipes');
-const { getAllService, createService,
+const { getAllService, createService, addImgService,
   getIdService, editService, deleteService } = require('../services/recipesService');
 
 const routerRecipes = Router();
@@ -11,6 +12,17 @@ const secret = 'senha12345';
 const SUCCESS = 200;
 const CREATE = 201;
 const NO_CONTENT = 204;
+
+const storage = multer.diskStorage({
+  dest: './uploads',
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({
+  storage,
+});
 
 routerRecipes.get('/', async (_req, res) => {
   const getAll = await getAllService();
@@ -48,6 +60,14 @@ routerRecipes.delete('/:id', validateToken, async (req, res) => {
   const { id } = req.params;
   await deleteService(id);
   return res.status(NO_CONTENT).send();
+});
+
+routerRecipes.put('/:id/image', validateToken, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const pathImage = `localhost:3000/images/${id}.jpeg`;
+  await addImgService(id, pathImage);
+  const recipeID = await getIdService(id);
+  res.status(SUCCESS).json(recipeID);
 });
 
 module.exports = routerRecipes;

@@ -40,10 +40,18 @@ const deleteRecipe = async (id) => {
   return recipe;
 };
 
+const addImg = async (id, imgPath) => {
+  connection().then((db) => db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) },
+      { $set: { image: imgPath } },
+      { upsert: true }));
+};
+
 module.exports = {
   getAllRecipes,
   createRecipe,
   getById,
   update,
   deleteRecipe,
+  addImg,
 };
