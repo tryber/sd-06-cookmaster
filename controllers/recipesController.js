@@ -2,7 +2,7 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const { recipesValidation, validateToken, validateID } = require('../middlewares/Recipes');
 const { getAllService, createService,
-  getIdService, editService } = require('../services/recipesService');
+  getIdService, editService, deleteService } = require('../services/recipesService');
 
 const routerRecipes = Router();
 
@@ -10,6 +10,7 @@ const secret = 'senha12345';
 
 const SUCCESS = 200;
 const CREATE = 201;
+const NO_CONTENT = 204;
 
 routerRecipes.get('/', async (_req, res) => {
   const getAll = await getAllService();
@@ -41,6 +42,12 @@ routerRecipes.put('/:id', validateToken, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const recipeEdited = await editService(id, name, ingredients, preparation);
   return res.status(SUCCESS).json(recipeEdited);
+});
+
+routerRecipes.delete('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteService(id);
+  return res.status(NO_CONTENT).send();
 });
 
 module.exports = routerRecipes;

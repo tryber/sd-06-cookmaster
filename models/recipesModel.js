@@ -34,7 +34,7 @@ const update = async (newId, newName, newIng, newPrep) => {
 };
 
 const deleteRecipe = async (id) => {
-  const recipe = await connection()
+  const { recipe } = await connection()
     .then((db) => db.collection('recipes')
     .deleteOne({ _id: ObjectId(id) }));
   return recipe;

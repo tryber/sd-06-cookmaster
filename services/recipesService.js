@@ -1,5 +1,5 @@
 const { getAllRecipes, createRecipe,
-  getById, update } = require('../models/recipesModel');
+  getById, update, deleteRecipe } = require('../models/recipesModel');
 
 const getAllService = async () => {
   const recipes = await getAllRecipes();
@@ -21,9 +21,14 @@ const editService = async (id, name, ingredients, preparation) => {
   return { name, ingredients, preparation };
 };
 
+const deleteService = async (id) => {
+  await deleteRecipe(id);
+};
+
 module.exports = {
   getAllService,
   createService,
   getIdService,
   editService,
+  deleteService,
 };
