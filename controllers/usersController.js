@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const { getAllService, createService } = require('../services/usersService');
-const { validateUser } = require('../middlewares/Users');
+const { getAllService, createService, createAdminService } = require('../services/usersService');
+const { validateUser, validateAdmin } = require('../middlewares/Users');
 
 const routerUsers = Router();
 
@@ -16,6 +16,12 @@ routerUsers.post('/', validateUser, async (req, res) => {
   const { name, email, password } = req.body;
   const user = await createService(name, email, password);
   return res.status(CREATE).json({ user });
+});
+
+routerUsers.post('/admin', validateAdmin, async (req, res) => {
+  const { name, email } = req.body;
+  const userCreate = await createAdminService(name, email);
+  return res.status(CREATE).json(userCreate);
 });
 
 module.exports = routerUsers;
