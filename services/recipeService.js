@@ -1,5 +1,5 @@
 const { ObjectId } = require('bson');
-const model = require('../models/recipesModels');
+const model = require('../models/recipeModels');
 
 const createNewRecipe = async (recipeName, ingredients, preparation, userId) => (
   model.createNewRecipe(recipeName, ingredients, preparation, userId)

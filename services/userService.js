@@ -1,4 +1,4 @@
-const model = require('../models/users');
+const model = require('../models/userModels');
 
 const getByEmail = async (email) => model.getByEmail(email);
 
@@ -14,4 +14,3 @@ module.exports = {
   createNewUser,
   getByEmail,
  };
- 

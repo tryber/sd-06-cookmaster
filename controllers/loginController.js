@@ -1,6 +1,6 @@
 const { INCORRECT_LOGIN_INFO } = require('../errors/messageError');
 const { UNAUTHORIZED, OK } = require('../errors/statusCode');
-const services = require('../services/login');
+const services = require('../services/loginService');
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
