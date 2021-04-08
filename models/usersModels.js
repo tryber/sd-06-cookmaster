@@ -23,7 +23,6 @@ const login = async (email, password) =>
       .findOne({ email, password }))
     .catch((error) => console.log(error.message));
 
-
 const verifyUnique = async (email) => 
   connection()
     .then((db) => db

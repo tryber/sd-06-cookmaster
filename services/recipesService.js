@@ -12,8 +12,6 @@ const {
 
 } = require('../middleware/validates/validate');
 
-const { authoAdm } = require('../middleware/AuthoAdm');
-
 const postBarRecipe = async (recipe) => {
   validateName(recipe.name);
   validateName(recipe.preparation);
@@ -34,8 +32,7 @@ const getBarId = async (id) => {
   return result;
 };
 
-const putBarId = async (id, upRecipe, role, idUser) => {
-  // authoAdm(role, idUser, id);
+const putBarId = async (id, upRecipe) => {
   const result = await putRecipe(id, upRecipe);
   return result;
 };

@@ -1,4 +1,4 @@
-// const { getBarId } = require('../services/recipesService');
+const { getBarId } = require('../services/recipesService');
 
 const authoAdm = async (req, res, next) => {
   const { idRecipe } = req.params;

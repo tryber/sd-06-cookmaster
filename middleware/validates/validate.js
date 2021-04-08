@@ -3,8 +3,6 @@ const {
   verifyUnique,
 } = require('../../models/usersModels');
 
-const { login } = require('../../models/usersModels');
-
 const validateName = (name) => {
   const error = {};
   if (!name || name === '') {

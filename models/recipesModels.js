@@ -20,7 +20,7 @@ const getRecipe = (id) =>
       .collection('recipes')
       .findOne(ObjectId(id)));
 
-const putRecipe = (id, { name, ingredients, preparation}) =>
+const putRecipe = (id, { name, ingredients, preparation }) =>
   connection()
     .then((db) => db
       .collection('recipes')

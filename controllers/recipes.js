@@ -1,7 +1,6 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/tokenJWT');
 const upload = require('../middleware/uploadImage');
-// const { authoAdm } = require('../middleware/AuthoAdm');
 
 const routers = express.Router();
 
