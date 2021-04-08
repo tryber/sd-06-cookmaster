@@ -30,9 +30,18 @@ const putRecipe = (id, { name, ingredients, preparation}) =>
         { returnOriginal: false },
     ));
 
+const deleteRecipe = (id) =>
+  connection()
+    .then((db) => db
+      .collection('recipes')
+      .deleteOne(
+        { _id: ObjectId(id) },
+      ));
+
 module.exports = {
   insertRecipe,
   getAllRecipes,
   getRecipe,
   putRecipe,
+  deleteRecipe,
 };

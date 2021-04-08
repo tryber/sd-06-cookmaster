@@ -3,6 +3,7 @@ const {
   getAllRecipes,
   getRecipe,
   putRecipe,
+  deleteRecipe,
 } = require('../models/recipesModels');
 
 const {
@@ -29,6 +30,7 @@ const getBar = async () => {
 const getBarId = async (id) => {
   verifyRecipe(id);
   const result = await getRecipe(id);
+  console.log('resultado do service:', result);
   return result;
 };
 
@@ -38,9 +40,15 @@ const putBarId = async (id, upRecipe, role, idUser) => {
   return result;
 };
 
+const deleteBarId = async (id) => {
+  const result = await deleteRecipe(id);
+  return result;
+};
+
 module.exports = {
   getBar,
   getBarId,
   postBarRecipe,
   putBarId,
+  deleteBarId,
 };
