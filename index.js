@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const routerUsers = require('./controllers/usersController');
 const routerLogin = require('./controllers/loginController');
 const routerRecipes = require('./controllers/recipesController');
@@ -14,6 +15,7 @@ app.get('/', (request, response) => {
 app.use('/users', routerUsers);
 app.use('/login', routerLogin);
 app.use('/recipes', routerRecipes);
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Em nome de Jesus tá executando na ${PORT}`));
