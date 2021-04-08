@@ -52,18 +52,6 @@ const validateEmailPass = (email, pass) => {
   return error;
 };
 
-// const verifyEmailPass = async (email, pass) => {
-//   const error = {};
-//   const resLogin = await login(email, pass);
-//   console.log(pass, 'resposta do login', resLogin);
-//   if (!resLogin) {
-//     error.status = 401;
-//     error.message = 'Incorrect username or password';
-//     throw error;
-//   }
-//   return error;
-// };
-
 const verifyRecipe = (recipeId) => {
   const error = {};
   if (!ObjectId.isValid(recipeId)) {

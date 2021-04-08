@@ -23,7 +23,6 @@ const verifyToken = (req, res, next) => {
   try {
     const payload = jwt.verify(authorization, secret);
     req.payload = payload;
-    console.log(req.payload);
     return next();
   } catch (error) {
     return res.status(401).json({ message: 'jwt malformed' }); 

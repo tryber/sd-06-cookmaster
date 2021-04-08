@@ -28,7 +28,6 @@ const getBar = async () => {
 const getBarId = async (id) => {
   verifyRecipe(id);
   const result = await getRecipe(id);
-  console.log('resultado do service:', result);
   return result;
 };
 

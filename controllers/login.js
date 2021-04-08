@@ -13,7 +13,6 @@ routers.post('/', async (req, res) => {
     const token = createToken(user);
     return res.status(200).json({ token });
   } catch (error) {
-    console.log(error.message);
     return res.status(401).json(error);
   }
 });

@@ -18,7 +18,6 @@ routers.put('/:id/image/', verifyToken, upload, async (req, res) => {
   const pathImage = `${host}/images/${id}.jpeg`;
   try {
     const recipe = await getBarId(id);
-    console.log(recipe);
     res.status(200).json({ ...recipe, image: pathImage });
   } catch (error) {
     res.status(error.status).json(error);

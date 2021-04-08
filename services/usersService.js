@@ -24,7 +24,6 @@ const postBarLogin = async (body) => {
   validateEmailPass(email, password);
   // verifyEmailPass(email, password);
   const resLogin = await login(email, password);
-  console.log('error do postBarLogin', resLogin);
   return resLogin;
 };
 
