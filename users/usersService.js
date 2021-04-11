@@ -14,6 +14,20 @@ const createUser = async (newUser) => {
   return { createdUser };
 };
 
+const createAdmin = async (userRole, newAdmin) => {
+  console.log('CREATE ADMIN SERVICE');
+
+  if (userRole !== 'admin') {
+    return { message: 'Only admins can register new admins' };
+  }
+
+  const createdAdmin = await usersModel.createAdmin(newAdmin);
+  console.log('USUARIO CRIADO serice', createdAdmin);
+
+  return { createdAdmin };
+};
+
 module.exports = {
   createUser,
+  createAdmin,
 };

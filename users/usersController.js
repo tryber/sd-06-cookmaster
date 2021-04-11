@@ -14,6 +14,21 @@ const createUser = async (req, res) => {
   res.status(201).json(createdUser);
 };
 
+const createAdmin = async (req, res) => {
+  console.log('CREATE ADMIN CONTROLLER');
+  const { userRole } = req;
+  const { name, email, password } = req.body;
+
+  const newAdmin = { name, email, password };
+
+  const { createdAdmin, message } = await usersService.createAdmin(userRole, newAdmin);
+
+  if (message) return res.status(403).json({ message });
+
+  return res.status(201).json(createdAdmin);
+};
+
 module.exports = {
   createUser,
+  createAdmin,
 };

@@ -1,4 +1,3 @@
-// const multer = require('multer');
 const recipesService = require('./recipesService');
 const recipesModel = require('./recipesModel');
 
@@ -7,7 +6,6 @@ const createRecipe = async (req, res) => {
 
   const { userId } = req;
   console.log('USER ID NO RECIPES CONTROLLER', userId);
-  console.log('TESTE req', userId);
   const { name, ingredients, preparation } = req.body;
 
   const newRecipe = {
@@ -46,6 +44,7 @@ const findById = async (req, res) => {
 const updateRecipe = async (req, res) => {
   console.log('UPDATE RECIPE CONTROLLER');
   const recipeId = req.params.id;
+  const { userId } = req;
   const { name, ingredients, preparation } = req.body;
   const editedRecipe = {
     recipeId,
@@ -54,9 +53,10 @@ const updateRecipe = async (req, res) => {
     preparation,
   };
 
-  const { recipe, message } = await recipesService.updateRecipe(editedRecipe);
-  // console.log('RECIPE EDITED', recipe);
-
+  const { recipe, /* naoAutorizado, */ message } = await recipesService.updateRecipe(
+    editedRecipe, userId,
+  );
+  // if (naoAutorizado) return res.status(naoAutorizado).json({ message });
   if (message) return res.status(404).json({ message });
 
   res.status(200).json(recipe);

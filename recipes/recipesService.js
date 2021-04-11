@@ -1,5 +1,5 @@
 const recipesModel = require('./recipesModel');
-const usersModel = require('../users/usersModel');
+// const usersModel = require('../users/usersModel');
 
 const validateRecipe = require('../validations/recipesValidations');
 
@@ -14,27 +14,30 @@ const createRecipe = async (newRecipe) => {
 };
 
 const findById = async (id) => {
-  console.log('FIND BY IS SERVICE');
+  console.log('FIND BY ID SERVICE');
 
   if (id.length < 24) return { message: 'recipe not found' };
 
   const recipeById = await recipesModel.findById(id);
+  console.log('Na funcao', recipeById);
   if (recipeById === null) return { message: 'recipe not found' };
+  console.log('Na funcao', recipeById);
 
   return { recipeById };
 };
 
-const updateRecipe = async (editedRecipe) => {
+const updateRecipe = async (editedRecipe, _userId) => {
   console.log('UPDATE RECIPE SERVICE');
 
-  const { _id: id } = await usersModel.findByEmail('erickjacquin@gmail.com');
-  // console.log('USER recipe service', user);
-  console.log('ID DO FIND BY EMAIL', id);
-  const oldRecipe = await recipesModel.findById(editedRecipe.recipeId);
-  console.log('OLD RECIPEE service', oldRecipe);
-  console.log('ID DO USUARIO DA RECEITA');
+  // const idConsulta = editedRecipe.recipeId;
+  // const { recipeById } = await findById(idConsulta);
+  // console.log('UNDEFINED', recipeById);
+  // const userById = await usersModel.findById(userId);
 
-  console.log(editedRecipe);
+  // if (recipeById.userId !== userId || userById.role !== 'admin') {
+  //   return { naoAutorizado: 401, message: 'Usuário não autorizado' };
+  // }
+
   const validatedRecipe = validateRecipe(editedRecipe);
   if (!validatedRecipe) return { message: 'Invalid entries. Try again.' };
 
