@@ -32,7 +32,6 @@ const emailValidator = (email) => {
   return emailRegex.test(email);
 };
 
-
 module.exports = {
   fieldFinder,
   isEmailRegistered,

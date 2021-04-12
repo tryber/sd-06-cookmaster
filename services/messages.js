@@ -30,6 +30,10 @@ const notYours = {
   message: 'you cannot edit a recipe that was not created by you',
 };
 
+const adminCreatesAdmin = {
+  message: 'Only admins can register new admins',
+};
+
 module.exports = {
   invalidEntries,
   emailAlreadyExists,
@@ -39,4 +43,5 @@ module.exports = {
   mustFillAllFields,
   notYours,
   wrongNameOrPassword,
+  adminCreatesAdmin,
 };

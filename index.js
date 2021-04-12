@@ -16,7 +16,6 @@ app.use(express.json());
 
 app.use('/users', UserController);
 app.use('/login', LoginController);
-app.use('/recipes', RecipeController)
+app.use('/recipes', RecipeController);
 
 app.listen(PORT);
-

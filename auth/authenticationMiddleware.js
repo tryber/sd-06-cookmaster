@@ -1,6 +1,6 @@
-const { UNATHORIZED } = require("../services/httpStatuses");
-const { invalidToken, noToken } = require("../services/messages");
-const tokenValidator = require("./tokenValidator");
+const { UNATHORIZED } = require('../services/httpStatuses');
+const { invalidToken, noToken } = require('../services/messages');
+const tokenValidator = require('./tokenValidator');
 
 const tokenVerifier = (req, res, next) => {
   const { authorization: token } = req.headers;

@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const { fieldFinder, passwordValidator, emailValidator, } = require('../services/validators');
+const { fieldFinder, passwordValidator, emailValidator } = require('../services/validators');
 const { UNATHORIZED, SUCCESS } = require('../services/httpStatuses');
-const { mustFillAllFields, wrongNameOrPassword } = require ('../services/messages');
+const { mustFillAllFields, wrongNameOrPassword } = require('../services/messages');
 const tokenCreator = require('../auth/tokenCreator');
 const { findUserByEmail } = require('../models/userModel');
 
@@ -11,7 +11,6 @@ LoginController.post('/', async (req, res) => {
   const { email, password } = req.body;
   const requiredFields = ['email', 'password'];
   const doRequiredFieldsExist = fieldFinder(req.body, requiredFields);
-
   if (!doRequiredFieldsExist) {
     return res.status(UNATHORIZED).json(mustFillAllFields);
   }
@@ -26,7 +25,7 @@ LoginController.post('/', async (req, res) => {
   const { _id: id, role } = await findUserByEmail(email);
 
   const token = tokenCreator({ id, role, ...req.body });
-  return res.status(SUCCESS).json({ token })
+  return res.status(SUCCESS).json({ token });
 });
 
 module.exports = LoginController;
