@@ -14,9 +14,14 @@ const wrongNameOrPassword = {
   message: 'Incorrect username or password',
 };
 
+const invalidToken = {
+  message: 'jwt malformed',
+}
+
 module.exports = {
   invalidEntries,
   emailAlreadyExists,
+  invalidToken,
   mustFillAllFields,
   wrongNameOrPassword,
 };

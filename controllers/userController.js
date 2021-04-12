@@ -6,7 +6,6 @@ const { invalidEntries, emailAlreadyExists } = require ('../services/messages');
 
 const UserController = new Router();
 
-
 UserController.post('/', async (req, res) => {
   const { email, password, name } = req.body;
   const requiredFields = ['name', 'password', 'email'];

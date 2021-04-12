@@ -2,9 +2,9 @@ const connection = require('./connection');
 
 const collection = 'users';
 
-const createUser = (name, email, password) => {
+const createUser = (name, email, password, role = 'user') => {
   return connection().then((db) => (
-    db.collection(collection).insertOne({ name, email, password, role: 'user' })
+    db.collection(collection).insertOne({ name, email, password, role })
   ));
 };
 
