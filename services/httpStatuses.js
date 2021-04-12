@@ -2,6 +2,7 @@ const SUCCESS = 200;
 const CREATED = 201;
 const BAD_REQUEST = 400;
 const UNATHORIZED = 401;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 
 module.exports = {
@@ -10,4 +11,5 @@ module.exports = {
   CONFLICT,
   CREATED,
   UNATHORIZED,
+  NOT_FOUND,
 };

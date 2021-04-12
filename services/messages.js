@@ -16,12 +16,27 @@ const wrongNameOrPassword = {
 
 const invalidToken = {
   message: 'jwt malformed',
-}
+};
+
+const recipeNotFound = {
+  message: 'recipe not found',
+};
+
+const noToken = {
+  message: 'missing auth token',
+};
+
+const notYours = {
+  message: 'you cannot edit a recipe that was not created by you',
+};
 
 module.exports = {
   invalidEntries,
   emailAlreadyExists,
   invalidToken,
+  recipeNotFound,
+  noToken,
   mustFillAllFields,
+  notYours,
   wrongNameOrPassword,
 };

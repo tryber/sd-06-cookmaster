@@ -10,7 +10,7 @@ const createUser = (name, email, password, role = 'user') => {
 
 const findUserByEmail = (email) => {
   return connection().then((db) => (
-    db.collection(collection).findOne({ email })
+    db.collection(collection).findOne({ email: email })
   ));
 };
 

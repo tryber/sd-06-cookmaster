@@ -23,9 +23,9 @@ LoginController.post('/', async (req, res) => {
     return res.status(UNATHORIZED).json(wrongNameOrPassword);
   }
 
-  const { _id: id } = await findUserByEmail(email);
+  const { _id: id, role } = await findUserByEmail(email);
 
-  const token = tokenCreator({ id, ...req.body });
+  const token = tokenCreator({ id, role, ...req.body });
   return res.status(SUCCESS).json({ token })
 });
 
