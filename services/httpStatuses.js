@@ -1,0 +1,13 @@
+const SUCCESS = 200;
+const CREATED = 201;
+const BAD_REQUEST = 400;
+const UNATHORIZED = 401;
+const CONFLICT = 409;
+
+module.exports = {
+  BAD_REQUEST,
+  SUCCESS,
+  CONFLICT,
+  CREATED,
+  UNATHORIZED,
+};
