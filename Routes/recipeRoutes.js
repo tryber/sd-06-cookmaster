@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const controllers = require('../Controllers/recipeControllers');
-const validateRecipe = require('../Middlewares/validateRecipe');
+const validateRecipe = require('../Middlewares/validateRecipes');
 const validateToken = require('../Middlewares/validateToken');
 const withOrWithoutToken = require('../Middlewares/withOrWithoutToken');
 const validateRecipeId = require('../Middlewares/validateRecipe');
