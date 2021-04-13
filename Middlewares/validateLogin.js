@@ -1,5 +1,5 @@
 const { validateLoginFields } = require('../Schemas/loginSchema');
-const { findByEmailAndPassword } = require('../Models/UserModel');
+const { findByEmailAndPassword } = require('../Models/userModels');
 const createToken = require('../auth/createToken');
 
 const SUCCESS = 200;
