@@ -36,10 +36,20 @@ const deleteRecipe = (id) => (
   ))
 );
 
+const addRecipeImage = (id, imgURL) => (
+  connection().then((db) => (
+    db.collection(collection).updateOne(
+      { _id: ObjectId(id) },
+      { $set: { image: imgURL } },
+    )
+  ))
+);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
   deleteRecipe,
+  addRecipeImage,
 };

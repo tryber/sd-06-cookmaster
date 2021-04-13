@@ -6,8 +6,9 @@ const { invalidEntries, recipeNotFound, notYours } = require('../services/messag
 const idValidator = require('../services/idValidator');
 const { fieldFinder } = require('../services/validators');
 const { createRecipe, getAllRecipes,
-  getRecipeById, editRecipe, deleteRecipe } = require('../models/recipeModel');
+  getRecipeById, editRecipe, deleteRecipe, addRecipeImage } = require('../models/recipeModel');
 const tokenVerifier = require('../auth/authenticationMiddleware');
+const upload = require('../services/imageUpload');
 
 const RecipeController = new Router();
 
@@ -64,6 +65,20 @@ RecipeController.put('/:id', tokenVerifier, async (req, res) => {
   return res.status(SUCCESS).json(
     { _id: req.params.id, ...req.body, userId: recipeToBeEdited.userId },
   );
+});
+
+RecipeController.put('/:id/image', tokenVerifier, upload, async (req, res) => {
+  const { id } = req.params;
+  const { authorization: token } = req.headers;
+  const recipeToBeEdited = await getRecipeById(id);
+  const { id: loggedUserId, role } = jwt.decode(token);
+  if (loggedUserId !== recipeToBeEdited.userId && role !== 'admin') {
+    return res.status(UNATHORIZED).json(notYours);
+  }
+  const imageURL = `localhost:3000/images/${req.params.id}.jpeg`;
+  await addRecipeImage(req.params.id, imageURL);
+  const recipe = await getRecipeById(req.params.id);
+  return res.status(SUCCESS).json(recipe);
 });
 
 RecipeController.delete('/:id', tokenVerifier, async (req, res) => {
