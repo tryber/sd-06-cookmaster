@@ -5,7 +5,24 @@ const create = async (id, name, ingredients, preparation) => models
 
 const getAll = async () => models.getAll();
 
+const findById = async (id) => {
+  const recipe = await models.findById(id);
+
+  return recipe;
+};
+
+const updateById = async (id, name, ingredients, preparation) => models
+  .updateById(id, name, ingredients, preparation);
+
+const deleteById = async (id) => models.deleteById(id);  
+
+const updatePath = async (id, path) => models.updatePath(id, path);
+
 module.exports = {
   create,
   getAll,
+  findById,
+  updateById,
+  deleteById,
+  updatePath,
 };

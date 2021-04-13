@@ -28,7 +28,41 @@ const getAll = async () => {
   return recipesList;
 };
 
+const findById = async (id) => {
+  const recipe = await connection().then((db) => db.collection('recipes')
+    .findOne({ _id: ObjectId(id) }));
+
+  return recipe;
+};
+
+const updateById = async (id, name, ingredients, preparation) => {
+  await connection().then((db) => db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: {
+      name,
+      ingredients,
+      preparation,
+    } },
+  ));
+
+  return connection().then((db) => db.collection('recipes')
+  .findOne({ _id: ObjectId(id) }));
+};
+
+const deleteById = async (id) => connection().then((db) => db.collection('recipes')
+  .deleteOne({ _id: ObjectId(id) }));
+
+  const updatePath = async (id, path) => connection().then((db) => db.collection('recipes')
+  .updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: `localhost:3000/${path}` } },
+  ));
+
 module.exports = {
   create,
   getAll,
+  findById,
+  updateById,
+  updatePath,
+  deleteById,
 };
