@@ -10,7 +10,6 @@ const getAllUsers = async () => {
 
 const findUserByEmailAndPassword = async (email, password) => {
   const userFound = await Users.findUserByEmail(email);  
-  console.log(userFound);
   if (!userFound || userFound.email !== email || userFound.password !== password) {
     return {
       status: UNAUTHORIZED,

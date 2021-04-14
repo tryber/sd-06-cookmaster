@@ -8,19 +8,18 @@ const router = Router();
 router.post('/', validateEmail, validatePassword, async (req, res) => {
   const { email, password } = req.body;
   const getUser = await userServices.findUserByEmailAndPassword(email, password);
-  
   if (getUser.isError) {
     return res.status(getUser.status).json({ message: getUser.message });
-  }
+  } 
+    const { _id, role } = getUser;
 
   const payload = {
-    name: getUser.name,
-    email: getUser.email,
-    role: getUser.role,
+    id: _id,
+    email,
+    role,
   };
 
   const token = createToken(payload);
-  console.log('Token aqui', token);
 
   return res.status(200).json({ token });
 });

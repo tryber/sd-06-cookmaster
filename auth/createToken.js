@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'projetoCookmaster';
+const SECRET = 'projetoCookmaster';
 
 const headers = {
   algorithm: 'HS256',
@@ -9,7 +9,7 @@ const headers = {
 
 // Payload é o que vem no corpo do nosso login!
 const createToken = (payload) => {
-  const token = jwt.sign(payload, secret, headers);
+  const token = jwt.sign(payload, SECRET, headers);
 
   return token;
 };
